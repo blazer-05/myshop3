@@ -1,5 +1,5 @@
 {% extends 'shop/base.html' %}
-
+{% load thumbnail %}
 {% load staticfiles %}
 
 {% block content %}
@@ -337,9 +337,11 @@
 																</div>
 																<div class="product-img">
 																	<a href="#">
-																		<img class="primary-img" src="{{ prod.images.url }}" alt="Product" style="width: 200px" height="200px">
-																		<img class="secondary-img" src="{{ prod.images.url }}" alt="Product" style="width: 200px" height="200px">
-																	</a>
+																		<img class="primary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
+																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product" >
+{#																		<img class="primary-img" src="{{ prod.images.url }}" alt="Product">#}
+{#																		<img class="secondary-img" src="{{ prod.images.url }}" alt="Product" >#}
+                                                                    </a>
 																</div>
 																<div class="product-description">
 																	<h5><a href="#">{{ prod.title }}</a></h5>

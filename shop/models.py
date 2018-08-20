@@ -1,21 +1,29 @@
+import mptt
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
+from mptt.models import MPTTModel, TreeForeignKey
 
 # Модель категорий
-class Category(models.Model):
+class Category(MPTTModel):
     name = models.CharField(max_length=250, unique=True, verbose_name='Катагория')
-    slug = models.SlugField(max_length=250, unique=True, verbose_name='Транслит')
-    #parent = models.ForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=250, verbose_name='Транслит')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     description = models.TextField(blank=True, verbose_name='Описание')
     is_activ = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        ordering = ['name']
+        ordering = ('tree_id', 'level')
 
     def __str__(self):
         return self.name
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+
+
+mptt.register(Category, order_insertion_by=['name'])
 
 # Модель брендов
 class Brand(models.Model):
@@ -37,7 +45,7 @@ def image_folder(instance, filename):
 
 # Модель товара
 class Product(models.Model):
-    category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+    category = TreeForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, verbose_name='Бренд', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, unique=True, verbose_name='Название товара')
     slug = models.SlugField()
@@ -66,3 +74,5 @@ class Product(models.Model):
             return '(Нет изображения)'
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
+
+    # Сжатие картинок до одного размера 200х200px

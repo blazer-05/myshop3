@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import *
+from shop.context_processors import menucategory
 
 app_name = 'shop'
 
@@ -15,5 +16,5 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
     path('registration/', registration, name='registration'),
     path('about/', about, name='about'),
-    #path('menucat/', menucategory, name='menucat'),
+    #path('menucat/<int:category_id>/', menucategory, name='menucat'),
 ]

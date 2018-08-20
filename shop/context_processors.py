@@ -3,12 +3,12 @@ from shop.models import Category, Brand, Product
 
 def menucategory(request): # Вывод меню в шаблон menu-category.html
     context = {}
-    categories = Category.objects.filter(is_activ=True)
-    products = Product.objects.filter(is_activ=True)
-    brands = Brand.objects.all()
-    context['categories'] = categories
-    context['products'] = products
-    context['brands'] = brands
+    nodes = Category.objects.filter(is_activ=True)
+    # current_category = Category.objects.get(pk=1)
+    # root_category_id = current_category.get_root().id
+    context['nodes'] = nodes
+    # context['current_category'] = current_category
+    # context['root_category_id'] = root_category_id
     return locals()
 
 def filters(request): # Вывод фильтра в шаблон filters.html

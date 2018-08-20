@@ -4,10 +4,8 @@ from shop.models import Category, Brand, Product
 
 def index(request):
     context = {}
-    categories = Category.objects.filter(is_activ=True)
     products = Product.objects.filter(is_activ=True)
     brands = Brand.objects.all()
-    context['categories'] = categories
     context['products'] = products
     context['brands'] = brands
     return render(request, 'shop/index.html', context)
