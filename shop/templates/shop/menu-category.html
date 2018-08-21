@@ -14,23 +14,44 @@
 	                            </div>
 	                            <div class="category-menu-list">
 	                                <ul class="root">
-                                        {% recursetree nodes %}
+                                         {% recursetree nodes %}
 	                                    <!-- Single menu start -->
 	                                    <li class="arrow-plus">
 	                                        <a href="shop.html">{{ node.name }}</a>
 	                                        <!--  MEGA MENU START -->
-                                            {% if not node.is_leaf_node %}
 	                                        <div class="cat-left-drop-menu">
 	                                            <div class="cat-left-drop-menu-left">
 	                                                <a class="menu-item-heading" href="#">Handbags</a>
+                                                {% if node.is_root_node %}
+                                                                {% ifequal node.id root_category_id %}
+                                                                    {% if not node.is_leaf_node %}
+                                                                        <ul class="children">
+                                                                            {{ children }}
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                {% endifequal %}
+                                                            {% else %}
+                                                                {% if not node.is_leaf_node %}
+                                                                    {% if current_category.id == node.id %}
+                                                                        <ul class="children">
+                                                                            {{ children }}
+                                                                        </ul>
+                                                                    {% elif node.level < current_category.level %}
+                                                                        <ul class="children">
+                                                                            {{ children }}
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
 	                                                <ul class="children">
-	                                                    <li><a href="#">{{ children }}</a></li>
+	                                                    <li><a href="#">{{ node }}</a></li>
 	                                                    <li><a href="#">Clutches</a></li>
 	                                                    <li><a href="#">Cross Body</a></li>
 	                                                    <li><a href="#">Satchels</a></li>
 	                                                    <li><a href="#">Sholuder</a></li>
 	                                                    <li><a href="#">Toter</a></li>
 	                                                </ul>
+
 	                                            </div>
 	                                            <div class="cat-left-drop-menu-left">
 	                                                <a class="menu-item-heading" href="#">Tops</a>
@@ -66,7 +87,7 @@
 	                                                </ul>
 	                                            </div>
 	                                        </div>
-                                            {% endif %}
+
 	                                        <!-- MEGA MENU END -->
 	                                    </li>
 	                                    <!-- Single menu end -->
