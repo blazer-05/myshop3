@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
+
 """
 
 import os
@@ -20,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = '*4tn&e7_af55ix$xe##57k@*ksl!7%(kdw!*0gxt&bo25z_5#)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['']
+ALLOWED_HOSTS = []  # myshop3.sharelink.ru
 
 
 # Application definition
@@ -37,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'shop',
+    'mptt',            # https://django-mptt.readthedocs.io/en/latest/index.html
+    'easy_thumbnails', # https://pypi.org/project/easy-thumbnails/
+    'django_cleanup',  # https://github.com/un1t/django-cleanup
+
 ]
 
 MIDDLEWARE = [
@@ -55,6 +61,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'shop/templates'),
 		],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -63,6 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.menucategory', # Сквозной вывод бокового правого меню
+                'shop.context_processors.filters', # Сквозной вывод бокового правого фильтра
+                'shop.context_processors.bestseller', # Сквозной вывод бокового правого блока bestseller
             ],
         },
     },
@@ -125,5 +135,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static_dev'),
+)
+
+
+# Настройки изображений по полю images из модели product https://pypi.org/project/easy-thumbnails/
+THUMBNAIL_ALIASES = {
+    '': {
+        'images': {'size': (200, 200), 'crop': False, 'quality': 99},
+    },
+}
