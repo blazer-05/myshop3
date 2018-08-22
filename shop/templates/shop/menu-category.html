@@ -6,25 +6,7 @@
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
 
-<ul class="root">
-    {% recursetree nodes %}
-        <li>
-            {{ node.name }}
-            {% if not node.is_leaf_node %}
-                <ul class="children">
-                    {{ children }}
-                </ul>
-            {% endif %}
-        </li>
-    {% endrecursetree %}
-    {% if not node %}
-        <li>
-            {% trans 'Нет подкатегории' %}
-        </li>
-    {% endif %}
-</ul>
 
-{% comment %}
 <!-- CATEGORY-MENU-LIST START -->
 	                    <div class="left-category-menu hidden-sm hidden-xs">
 	                        <div class="left-product-cat">
@@ -201,7 +183,7 @@
 	                        </div>
 	                    </div>
 	                    <!-- END CATEGORY-MENU-LIST -->
-{% endcomment %}
+
 
 
 {% comment %}
