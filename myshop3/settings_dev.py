@@ -70,9 +70,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'shop.context_processors.menucategory', # Сквозной вывод бокового правого меню
-                'shop.context_processors.filters', # Сквозной вывод бокового правого фильтра
-                'shop.context_processors.bestseller', # Сквозной вывод бокового правого блока bestseller
+                'shop.context_processors.menucategory', # Сквозной вывод бокового левого меню
+                'shop.context_processors.filters', # Сквозной вывод бокового левого фильтра
+                'shop.context_processors.bestseller', # Сквозной вывод бокового левого блока bestseller
             ],
         },
     },
