@@ -771,7 +771,7 @@ p.welcome-msg {
   top: 0;
   transition: all 0.3s ease 0s;
   visibility: hidden;
-  width: 655px;
+  width: 855px;
   z-index: 999999999;
 }
 .category-menu-list ul li .drop-down-single {

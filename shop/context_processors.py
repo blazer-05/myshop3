@@ -3,14 +3,12 @@ from django.shortcuts import render, render_to_response
 
 from shop.models import Category, Brand, Product
 
-def menucategory(request): # Вывод меню в шаблон menu-category.html
+def menucategory(request):
     context = {}
     nodes = Category.objects.filter(is_activ=True)
-    current_category = Category.objects.get(id=1)
-    #root_category_id = current_category.get_root().id
+    #categories = Category.objects.get(id=category_id)
     context['nodes'] = nodes
-    context['current_category'] = current_category
-    #context['root_category_id'] = root_category_id
+    #context['categories'] = categories
     return locals()
 
 def filters(request): # Вывод фильтра в шаблон filters.html

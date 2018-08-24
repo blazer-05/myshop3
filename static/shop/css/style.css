@@ -771,7 +771,7 @@ p.welcome-msg {
   top: 0;
   transition: all 0.3s ease 0s;
   visibility: hidden;
-  width: 655px;
+  width: 855px;
   z-index: 999999999;
 }
 .category-menu-list ul li .drop-down-single {
@@ -1752,7 +1752,7 @@ ul.footer-content.box-information li a {
   float: right;
 }
 #scrollUp {
-  background: url("../img/icon/back-top.png") no-repeat scroll 0 0;
+  background: #e95668 url("img/icon/back-top.png") no-repeat scroll 0 0;
   bottom: 35px;
   height: 54px;
   right: 20px;
@@ -1760,9 +1760,9 @@ ul.footer-content.box-information li a {
   transition: all 0.3s ease-in-out 0s;
   width: 54px;
 }
-/*#scrollUp:hover {*/
-  /*background: #26acce url("img/icon/back-top.png") no-repeat scroll 0 -56px;*/
-/*}*/
+#scrollUp:hover {
+  background: #26acce url("img/icon/back-top.png") no-repeat scroll 0 -56px;
+}
 /*=========================== 
  15. Product Modal
 ============================= */   
