@@ -39,6 +39,7 @@ admin.site.register(
     list_display=(
         'tree_actions',
         'indented_title',
+        'image_img',
         'slug',
         'is_activ',
         # ...more fields if you feel like it...
@@ -54,6 +55,7 @@ admin.site.register(
         'slug',
         'is_activ',
     ),
+    readonly_fields = ['image_img', ], # Выводит в карточке товара картинку товара!
     prepopulated_fields = {'slug': ('name',)}, # Автозаполнение поля slug
     mptt_level_indent=20 # Эта настройка задает отступ субкатегории от родительской категории
 )

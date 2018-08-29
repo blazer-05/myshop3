@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
 from shop.context_processors import menucategory
 
@@ -6,6 +6,8 @@ app_name = 'shop'
 
 urlpatterns = [
     path('', index, name='index_page'),
+    path('catalog/', catalog, name='catalog'),
+    path('catalog/catlist/<slug>', catlist, name='catlist'),
     path('shop/', shop, name='shop'),
     path('shop-list/', shoplist, name='shop-list'),
     path('product-details/', productdetails, name='product-details'),

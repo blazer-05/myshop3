@@ -9,6 +9,7 @@ class Category(MPTTModel):
     slug = models.SlugField(max_length=250, verbose_name='Транслит')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     description = models.TextField(blank=True, verbose_name='Описание')
+    img = models.ImageField(upload_to='img_category/%y/%m/%d/', blank=True, verbose_name='Изображение категории')
     is_activ = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
@@ -18,6 +19,16 @@ class Category(MPTTModel):
 
     def __str__(self):
         return self.name
+
+    # Вывод картинок в админке!
+    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
+    def image_img(self):
+        if self.img:
+            return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.img.url))
+        else:
+            return '(Нет изображения)'
+    image_img.short_description = 'Картинка'
+    image_img.allow_tags = True
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -75,4 +86,4 @@ class Product(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
-    # Сжатие картинок до одного размера 200х200px
+

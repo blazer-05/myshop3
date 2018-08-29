@@ -1,5 +1,6 @@
 
 {#Этот шаблон обрабатывает функция menucategory() из модуля context_processors.py#}
+{#В этом шаблоне выводится основной блок категорий из django-mptt с тройным уровнем вложенности#}
 
 {% load staticfiles %}
 {% load thumbnail %}
@@ -24,7 +25,7 @@
 											<div class="cat-left-drop-menu">
 												{% for child in node.children.all %}
 												<div class="cat-left-drop-menu-left">
-													<a class="menu-item-heading" href="#">{{ child.name }}</a>
+													<a class="menu-item-heading" href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a>
 													<ul class="children">
 														{% recursetree child.children.all %}
 														<li><a href="#">{{ node.name }}</a></li>

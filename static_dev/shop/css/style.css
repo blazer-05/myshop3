@@ -1752,7 +1752,7 @@ ul.footer-content.box-information li a {
   float: right;
 }
 #scrollUp {
-  background: #e95668 url("img/icon/back-top.png") no-repeat scroll 0 0;
+  background: url("../img/icon/back-top.png") no-repeat scroll 0 0;
   bottom: 35px;
   height: 54px;
   right: 20px;
@@ -1760,9 +1760,9 @@ ul.footer-content.box-information li a {
   transition: all 0.3s ease-in-out 0s;
   width: 54px;
 }
-#scrollUp:hover {
-  background: #26acce url("img/icon/back-top.png") no-repeat scroll 0 -56px;
-}
+/*#scrollUp:hover {*/
+  /*background: #26acce url("../img/icon/back-top.png") no-repeat scroll 0 -56px;*/
+/*}*/
 /*=========================== 
  15. Product Modal
 ============================= */   
@@ -2850,3 +2850,94 @@ blockquote {
   text-transform: uppercase;
 }
 
+
+/* стили блока аккордеон */
+.accordion {
+  width:100%;
+  max-width: 600px;
+  margin: 0 auto
+}
+/* секции аккордеона */
+.accordion .accordion_item {
+  margin-bottom:1px;
+  position:relative
+}
+/* заголовки панелей аккордеона */
+.accordion .title_block {
+  font-weight: 400;
+  font-size: 18px;
+  color: #fefefe;
+  cursor:pointer;
+  background: #26ACCE;
+  padding:10px 55px 10px 15px;
+  -webkit-transition:all .2s linear 0;
+  -webkit-transition-delay:.2s 0;
+  transition:all .2s linear 0
+}
+/* переключатель панелей, положение вниз */
+.accordion .title_block:before {
+  content:'';
+  height:8px;
+  width:8px;
+  display:block;
+  border:2px solid #fefefe;
+  border-right-width:0;
+  border-top-width:0;
+  -ms-transform:rotate(-45deg);
+  -webkit-transform:rotate(-45deg);
+  transform:rotate(-45deg);
+  position:absolute;
+  right:20px;
+  top:18px
+}
+/* активный переключатель, положение вверх */
+.accordion .active_block .title_block:before {
+  border:2px solid #fefefe;
+  border-left-width:0;
+  border-bottom-width:0;
+  top:18px
+}
+.accordion .title_block:hover {
+  background: #26ACCE;
+}
+
+/* заголовок активного блока  */
+.accordion .active_block .title_block {
+  background: #26ACCE;
+  color:#fefefe
+}
+/* блоки с содержанием */
+.accordion .info {
+  display:none;
+  padding:1px 15px;
+  overflow: hidden;
+  background:#f7f7f7;
+  font-size: initial;
+}
+/* параграф внутри блоков с содержанием */
+.accordion .info_item {
+  margin-bottom:10px
+}
+/* картинки внутри аккордеона */
+.accordion .info img {
+    height: auto;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+/* полноразмерная картинка */
+.large-img {
+    width: 100%;
+    margin-bottom: 10px;
+}
+/* миниатюра слева */
+.img-left {
+    width: 25%;
+    float:left;
+    margin:5px 15px 5px 0;
+}
+/* миниатюра справа */
+.img-right {
+    width: 25%;
+    float:right;
+    margin:5px 0 5px 15px;
+}
+/* Конец блока аккордеон */

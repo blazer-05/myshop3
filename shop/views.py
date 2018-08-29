@@ -10,6 +10,20 @@ def index(request):
     context['brands'] = brands
     return render(request, 'shop/index.html', context)
 
+def catalog(request):
+    categories = Category.objects.filter(is_activ=True)
+    return render(request, 'shop/catalog.html', {'categories': categories})
+
+def catlist(request, slug):
+    context = {}
+    #catlist = Category.objects.filter(is_activ=True)
+    thiscat = Category.objects.get(slug=slug)
+    category_list = thiscat.get_descendants(include_self=True)
+    #context['catlist'] = catlist
+    context['thiscat'] = thiscat
+    context['category_list'] = category_list
+    return render(request, 'shop/catlist.html', context )
+
 def shop(request):
     return render(request, 'shop/shop.html')
 
