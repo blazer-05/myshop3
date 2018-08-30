@@ -14,14 +14,16 @@ def catalog(request):
     categories = Category.objects.filter(is_activ=True)
     return render(request, 'shop/catalog.html', {'categories': categories})
 
-def catlist(request, slug):
+def catlist(request, slug, id):
     context = {}
     #catlist = Category.objects.filter(is_activ=True)
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
+    products = Product.objects.get(id=id)
     #context['catlist'] = catlist
     context['thiscat'] = thiscat
     context['category_list'] = category_list
+    context['products'] = products
     return render(request, 'shop/catlist.html', context )
 
 def shop(request):
