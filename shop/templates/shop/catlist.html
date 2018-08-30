@@ -1,0 +1,51 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load mptt_tags %}
+
+{% block content %}
+
+    <!-- START PAGE-CONTENT -->
+    <section class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="page-menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="#">{{ thiscat.name }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+                </div>
+                <div class="">
+                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        <div class="row">
+                            {% recursetree category_list %}
+                                {% if not node.is_leaf_node %}
+                                    {% for child in node.children.all %}
+                                        <div class="category-item-desktop">
+                                            {% if child.img %}
+                                                <img class="image" src="{{ MEDIA_URL }}{{ child.img|thumbnail_url:'images' }}" alt="">
+                                            {% else %}
+                                                <p>Нет изображения</p>
+                                            {% endif %}
+                                            <div class="image">
+                                                <h3>{{ child.name }}</h3>
+                                                <p>Товаров: {{ products.stock }} шт.</p>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endrecursetree %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
