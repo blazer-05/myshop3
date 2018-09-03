@@ -336,7 +336,7 @@
 																	<span class="sale-percent">-55%</span>
 																</div>
 																<div class="product-img">
-																	<a href="#">
+																	<a href="{{ prod.get_absolute_url }}">
 																		<img class="primary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
 																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product" >
 {#																		<img class="primary-img" src="{{ prod.images.url }}" alt="Product">#}
@@ -344,7 +344,7 @@
                                                                     </a>
 																</div>
 																<div class="product-description">
-																	<h5><a href="#">{{ prod.title }}</a></h5>
+																	<h5><a href="{{ product.get_absolute_url }}">{{ prod.title }}</a></h5>
 																	<div class="price-box">
 																		<span class="price">${{ prod.price }}</span>
 																		<span class="old-price">$120.00</span>

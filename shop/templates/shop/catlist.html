@@ -1,7 +1,12 @@
+{#В этом шаблоне выводятся подкатегории, обрабатывает функция catlist#}
 {% extends 'shop/base.html' %}
 {% load staticfiles %}
 {% load thumbnail %}
 {% load mptt_tags %}
+
+{% block title %}
+    {{ thiscat.name }}
+{% endblock %}
 
 {% block content %}
 
@@ -34,7 +39,7 @@
                                             {% endif %}
                                             <div class="image">
                                                 <h3>{{ child.name }}</h3>
-                                                <p>Товаров: {{ products.stock }} шт.</p>
+                                                <p>Товаров:   шт.</p>
                                             </div>
                                         </div>
                                     {% endfor %}

@@ -2942,6 +2942,7 @@ blockquote {
 }
 /* Конец блока аккордеон */
 
+/* Стили для блока с изображениями на странице catlist.html */
 .category-item-desktop {
 	float: left;
 	background: white;
@@ -2961,3 +2962,4 @@ blockquote {
 	line-height: 140px;
 	margin-bottom: 20px;
 }
+/* Конец блока с изображениями на странице catlist.html */

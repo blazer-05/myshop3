@@ -6,9 +6,7 @@ from shop.models import Category, Brand, Product
 def menucategory(request):
     context = {}
     nodes = Category.objects.filter(is_activ=True)
-    #categories = Category.objects.get(id=category_id)
     context['nodes'] = nodes
-    #context['categories'] = categories
     return locals()
 
 def filters(request): # Вывод фильтра в шаблон filters.html

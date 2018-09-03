@@ -1,6 +1,6 @@
 
-from django.shortcuts import render
-from shop.models import Category, Brand, Product
+from django.shortcuts import render, get_object_or_404
+from shop.models import Category, Brand, Product, ProductAlbomImages
 
 def index(request):
     context = {}
@@ -14,26 +14,34 @@ def catalog(request):
     categories = Category.objects.filter(is_activ=True)
     return render(request, 'shop/catalog.html', {'categories': categories})
 
-def catlist(request, slug, id):
+def catlist(request, slug):
     context = {}
-    #catlist = Category.objects.filter(is_activ=True)
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
-    products = Product.objects.get(id=id)
-    #context['catlist'] = catlist
+    #product = Product.objects.filter(is_activ=True)
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-    context['products'] = products
+    #context['product'] = product
     return render(request, 'shop/catlist.html', context )
 
 def shop(request):
-    return render(request, 'shop/shop.html')
+    context = {}
+    products = Product.objects.filter(is_activ=True)
+    brands = Brand.objects.all()
+    context['products'] = products
+    context['brands'] = brands
+    return render(request, 'shop/shop.html', context)
 
 def shoplist(request):
     return render(request, 'shop/shop-list.html')
 
-def productdetails(request):
-    return render(request, 'shop/product-details.html')
+def productdetails(request, product_slug, albom_id):
+    context = {}
+    product = get_object_or_404(Product, slug=product_slug)
+    albom = ProductAlbomImages.objects.filter(product=albom_id)
+    context['product'] = product
+    context['albom'] = albom
+    return render(request, 'shop/product-details.html', context)
 
 def wishlist(request):
     return render(request, 'shop/wishlist.html')

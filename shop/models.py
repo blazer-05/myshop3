@@ -1,6 +1,7 @@
 import mptt
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
+from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 
 # Модель категорий
@@ -86,4 +87,32 @@ class Product(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
+
+    def get_absolute_url(self):
+        return reverse('shop:product-details', kwargs={'product_slug': self.slug, 'albom_id': self.id})
+
+# Модель альбома с изображениями для товаров
+class ProductAlbomImages(models.Model):
+    name = models.CharField(max_length=200, blank=True, verbose_name='Название')
+    product = models.ForeignKey(Product, related_name='image', on_delete=models.CASCADE, verbose_name='Продукт')
+    image = models.ImageField(upload_to='product-albom-images/%y/%m/%d/', blank=True, verbose_name='Фото товара')
+    is_activ = models.BooleanField(default=True, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
+
+    class Meta:
+        verbose_name = 'Фото товара'
+        verbose_name_plural = 'Фото товаров'
+
+    def __str__(self):
+        return self.name
+
+    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
+    def image_img(self):
+        if self.image:
+            return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.image.url))
+        else:
+            return '(Нет изображения)'
+    image_img.short_description = 'Картинка'
+    image_img.allow_tags = True
 

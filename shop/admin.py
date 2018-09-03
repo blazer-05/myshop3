@@ -2,7 +2,7 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
 
-from shop.models import Category, Brand, Product
+from shop.models import Category, Brand, Product, ProductAlbomImages
 
 # class CategoryAdmin(DraggableMPTTAdmin):
 #     prepopulated_fields = {'slug': ('name',)}
@@ -60,3 +60,8 @@ admin.site.register(
     mptt_level_indent=20 # Эта настройка задает отступ субкатегории от родительской категории
 )
 
+class ProductAlbomImagesAdmin(admin.ModelAdmin):
+    list_display = ['name', 'image_img', 'product', 'is_activ', 'created', 'updated']
+    readonly_fields = ['image_img']
+
+admin.site.register(ProductAlbomImages, ProductAlbomImagesAdmin)
