@@ -44,25 +44,59 @@
 									<div class="clear"></div>
 									<div class="tab-content">
 										<!-- Product = display-1-1 -->
-										<div role="tabpanel" class="tab-pane fade in active" >
+										<div role="tabpanel" class="tab-pane fade in active" id="display-1">
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="{{ product.images.url }}" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="{% static 'shop/img/toch/1.jpg' %}" data-imagezoom="true" alt="#" /></a>
 													</div>
 												</div>
 											</div>
 										</div>
 										<!-- End Product = display-1-1 -->
+										<!-- Start Product = display-1-2 -->
+										<div role="tabpanel" class="tab-pane fade" id="display-2">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="toch-photo">
+														<a href="#"><img src="{% static 'shop/img/toch/2.jpg' %}" data-imagezoom="true" alt="#" /></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Product = display-1-2 -->
+										<!-- Start Product = di3play-1-3 -->
+										<div role="tabpanel" class="tab-pane fade" id="display-3">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="toch-photo">
+														<a href="#"><img src="{% static 'shop/img/toch/3.jpg' %}" data-imagezoom="true" alt="#" /></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Product = display-1-3 -->
+										<!-- Start Product = di3play-1-4 -->
+										<div role="tabpanel" class="tab-pane fade" id="display-4">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="toch-photo">
+														<a href="#"><img src="{% static 'shop/img/toch/4.jpg' %}" data-imagezoom="true" alt="#" /></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Product = display-1-4 -->
 									</div>
 									<!-- Start Toch-prond-Menu -->
-                                    {% for albom in albom %}
 									<div class="toch-prond-menu">
 										<ul role="tablist">
-											<li role="presentation" class=" active"><a href="{{ albom.image.url }}"><img src="{{ albom.image|thumbnail_url:'images' }}" alt="#" /></a></li>
+											<li role="presentation" class=" active"><a href="#display-1" role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/1.jpg' %}" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-2" role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/2.jpg' %}" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-3"  role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/3.jpg' %}" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-4"  role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/4.jpg' %}" alt="#" /></a></li>
 										</ul>
 									</div>
-                                    {% endfor %}
 									<!-- End Toch-prond-Menu -->
 								</div>
 								<div class="col-md-7 col-sm-7 col-xs-12">
