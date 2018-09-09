@@ -58,9 +58,9 @@ def productdetails(request, product_slug, albom_id):
     context = {}
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(product=albom_id)
-    category = Category.objects.filter(slug=product_slug)
+    category = product.category
     top_five_products = Product.objects.all().exclude(slug=product_slug)
-    top_five_products_category = Product.objects.filter()
+    top_five_products_category = Product.objects.filter(category=category)
     context['product'] = product
     context['albom'] = albom
     context['category'] = category
