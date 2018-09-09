@@ -3,7 +3,7 @@
 {#Этот шаблон обрабатывает функция bestseller() из модуля context_processors.py#}
 
 <!-- START SMALL-PRODUCT-AREA -->
-						<div class="small-product-area carosel-navigation">
+						<div class="small-product-area carosel-navigation hidden-sm hidden-xs">
 							<div class="row">
 								<div class="col-md-12">
 									<div class="area-title">
@@ -15,7 +15,6 @@
 								<div class="active-bestseller sidebar">
 									<div class="col-xs-12">
 										<!-- Start Single-Product -->
-                                        {% for best in bestsellers %}
 										<div class="single-product">
 											<div class="product-img">
 												<a href="#">
@@ -23,7 +22,7 @@
 												</a>
 											</div>
 											<div class="product-description">
-												<h5><a href="#">{{ best.name }}</a></h5>
+												<h5><a href="#"></a></h5>
 												<div class="price-box">
 													<span class="price">$99.00</span>
 													<span class="old-price">$120.00</span>
@@ -37,7 +36,6 @@
 												</span>
 											</div>
 										</div>
-                                        {% endfor %}
 										<!-- End Single-Product -->
 										<!-- Start Single-Product -->
 										<div class="single-product">

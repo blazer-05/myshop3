@@ -8,8 +8,9 @@ urlpatterns = [
     path('', index, name='index_page'),
     path('catalog/', catalog, name='catalog'),
     path('catalog/catlist/<slug>', catlist, name='catlist'),
+    path('catlinks/<slug>', catlinks, name='catlinks'),
     path('shop/', shop, name='shop'),
-    path('shop-list/', shoplist, name='shop-list'),
+    path('shop-list/<slug>', shoplist, name='shop-list'),
     path('product-details/<albom_id>/<product_slug>', productdetails, name='product-details'),
     #re_path(r'^product-details/(?P<albom_id>\d+)/(?P<product_slug>[-\w]+)/$', productdetails, name='product-details'),
     path('wishlist/', wishlist, name='wishlist'),
@@ -19,5 +20,5 @@ urlpatterns = [
     path('cart/', cart, name='cart'),
     path('registration/', registration, name='registration'),
     path('about/', about, name='about'),
-    #path('menucat/<int:category_id>/', menucategory, name='menucat'),
+
 ]

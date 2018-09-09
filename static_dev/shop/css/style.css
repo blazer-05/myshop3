@@ -2117,7 +2117,7 @@ ul.page-menu li.active a {color: #e95668;}
 ul.page-menu li:hover a {color: #e95668;}
 ul.page-menu > li + li::before {
   color: #ccc;
-  content: "/Â ";
+  content: "/ ";
   padding: 0 5px;	
 }
 /*-------------------------

@@ -13,9 +13,11 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="index.html">Home</a></li>
-							<li><a href="#">cameras & photography</a></li>
-							<li class="active"><a href="#">Toch Prond</a></li>
+							<li><a href="/">Home</a></li>
+                            <li><a href="{% url 'shop:catalog' %}">Catalog</a></li>
+                            <li><a href="{% url 'shop:catlist' product.category.parent.slug %}">Основные</a></li>
+							<li><a href="{% url 'shop:shop-list' product.category.slug %}">{{ product.category }}</a></li>
+							<li class="active"><a href="">{{ product.title }}</a></li>
 						</ul>
 					</div>
 				</div>
@@ -27,10 +29,10 @@
 	                    <div class="sidebar-banner hidden-sm hidden-xs">
 	                    	<div class="active-sidebar-banner">
 	                    		<div class="single-sidebar-banner">
-	                    			<a href="#"><img src="{% static 'shop/img/banner/1.jpg' %}" alt="Product Banner"></a>
+	                    			<a href=""><img src="{% static 'shop/img/banner/1.jpg' %}" alt="Product Banner"></a>
 	                    		</div>
 	                    		<div class="single-sidebar-banner">
-	                    			<a href="#"><img src="{% static 'shop/img/banner/2.jpg' %}" alt="Product Banner"></a>
+	                    			<a href=""><img src="{% static 'shop/img/banner/2.jpg' %}" alt="Product Banner"></a>
 	                    		</div>
 	                    	</div>
 	                    </div>
@@ -48,56 +50,30 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="{% static 'shop/img/toch/1.jpg' %}" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="{{ product.images.url }}" data-imagezoom="true" alt="" /></a>
 													</div>
 												</div>
 											</div>
 										</div>
 										<!-- End Product = display-1-1 -->
-										<!-- Start Product = display-1-2 -->
-										<div role="tabpanel" class="tab-pane fade" id="display-2">
-											<div class="row">
-												<div class="col-xs-12">
-													<div class="toch-photo">
-														<a href="#"><img src="{% static 'shop/img/toch/2.jpg' %}" data-imagezoom="true" alt="#" /></a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Product = display-1-2 -->
-										<!-- Start Product = di3play-1-3 -->
-										<div role="tabpanel" class="tab-pane fade" id="display-3">
-											<div class="row">
-												<div class="col-xs-12">
-													<div class="toch-photo">
-														<a href="#"><img src="{% static 'shop/img/toch/3.jpg' %}" data-imagezoom="true" alt="#" /></a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Product = display-1-3 -->
-										<!-- Start Product = di3play-1-4 -->
-										<div role="tabpanel" class="tab-pane fade" id="display-4">
-											<div class="row">
-												<div class="col-xs-12">
-													<div class="toch-photo">
-														<a href="#"><img src="{% static 'shop/img/toch/4.jpg' %}" data-imagezoom="true" alt="#" /></a>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Product = display-1-4 -->
 									</div>
 									<!-- Start Toch-prond-Menu -->
+                                    {% for alb in albom %}
 									<div class="toch-prond-menu">
 										<ul role="tablist">
-											<li role="presentation" class=" active"><a href="#display-1" role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/1.jpg' %}" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-2" role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/2.jpg' %}" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-3"  role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/3.jpg' %}" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-4"  role="tab" data-toggle="tab"><img src="{% static 'shop/img/toch/4.jpg' %}" alt="#" /></a></li>
+											<li role="presentation" class=" active"><a onclick="changeIMG('{{ alb.image.url }}')" href="{{ alb.image.url }}" role="tab" data-toggle="tab"><img src="{{ alb.image|thumbnail_url:'images' }}" alt="" /></a></li>
 										</ul>
 									</div>
+                                        {% empty %}
+                                            <p>Нет изображения</p>
+                                    {% endfor %}
 									<!-- End Toch-prond-Menu -->
+                                    <script type="text/javascript">
+                                        var img = document.getElementById("display-1").getElementsByTagName("img")[0]; //получаем большую картинку.
+                                        function changeIMG(str){
+                                          img.setAttribute('src', str);
+                                        }
+                                        </script>
 								</div>
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<h2 class="title-product"> {{ product.title }}</h2>
@@ -115,10 +91,10 @@
 											<a href="#">Write a review</a>
 										</p>
 										<hr />
-										<p class="short-description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nul... </p>
+										<p class="short-description">{{ product.descriptions }}</p>
 										<hr />
-										<span class="current-price">$100.00</span>
-										<span class="item-stock">Availability: <span class="text-stock">In Stock</span></span>
+										<span class="current-price">${{ product.price }}</span>
+										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
 									</div>
 									<div class="about-product">
 										<div class="product-select product-color">
@@ -272,7 +248,7 @@
 										<!-- Start Product-Menu -->
 										<div class="product-menu">
 											<div class="product-title">
-												<h3 class="title-group-2 gfont-1">Related Products</h3>
+												<h3 class="title-group-2 gfont-1">Товары из этой категории</h3>
 											</div>
 										</div>
 									</div>
@@ -283,125 +259,73 @@
 								<div class="product carosel-navigation">
 									<div class="row">
 										<div class="active-product-carosel">
+
+                                            {% for top in top_five_products_category %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
 													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/3bg.jpg' %}" alt="Product">
+														<a href="{{ top.get_absolute_url }}">
+															<img class="primary-img" src="{{ top.images|thumbnail_url:'images' }}" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="#">Various Versions</a></h5>
+														<h5><a href="#">{{ top.title }}</a></h5>
 														<div class="price-box">
-															<span class="price">$80.00</span>
+															<span class="price">${{ top.price }}</span>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- End Single-Product -->
+                                            {% endfor %}
+
+										</div>
+									</div>
+
+								</div>
+								<!-- End Product -->
+							</div>
+							<!-- END PRODUCT-AREA -->
+							<!-- START PRODUCT-AREA -->
+							<div class="product-area">
+								<div class="row">
+									<div class="col-xs-12 col-md-12">
+										<!-- Start Product-Menu -->
+										<div class="product-menu">
+											<div class="product-title">
+												<h3 class="title-group-2 gfont-1">Все товары</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- End Product-Menu -->
+								<div class="clear"></div>
+								<!-- Start Product -->
+								<div class="product carosel-navigation">
+									<div class="row">
+										<div class="active-product-carosel">
+
+                                            {% for top5 in top_five_products %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
 													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/11.jpg' %}" alt="Product">
+														<a href="{{ top5.get_absolute_url }}">
+															<img class="primary-img" src="{{ top5.images|thumbnail_url:'images' }}" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="#">Trid Palm</a></h5>
+														<h5><a href="#">{{ top5.title }}</a></h5>
 														<div class="price-box">
-															<span class="price">$79.00</span>
+															<span class="price">${{ top5.price }}</span>
 														</div>
 													</div>
 												</div>
 											</div>
 											<!-- End Single-Product -->
-											<!-- Start Single-Product -->
-											<div class="col-xs-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/1.jpg' %}" alt="Product">
-														</a>
-													</div>
-													<div class="product-description">
-														<h5><a href="#">Established Fact</a></h5>
-														<div class="price-box">
-															<span class="price">$75.00</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Single-Product -->
-											<!-- Start Single-Product -->
-											<div class="col-xs-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-														</a>
-													</div>
-													<div class="product-description">
-														<h5><a href="#">Trid Palm</a></h5>
-														<div class="price-box">
-															<span class="price">$95.00</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Single-Product -->
-											<!-- Start Single-Product -->
-											<div class="col-xs-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/13.jpg' %}" alt="Product">
-														</a>
-													</div>
-													<div class="product-description">
-														<h5><a href="#">Established Fact</a></h5>
-														<div class="price-box">
-															<span class="price">$82.00</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Single-Product -->
-											<!-- Start Single-Product -->
-											<div class="col-xs-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/10.jpg' %}" alt="Product">
-														</a>
-													</div>
-													<div class="product-description">
-														<h5><a href="#">Trid Palm</a></h5>
-														<div class="price-box">
-															<span class="price">$99.00</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Single-Product -->
-											<!-- Start Single-Product -->
-											<div class="col-xs-12">
-												<div class="single-product">
-													<div class="product-img">
-														<a href="#">
-															<img class="primary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
-														</a>
-													</div>
-													<div class="product-description">
-														<h5><a href="#">Various Versions</a></h5>
-														<div class="price-box">
-															<span class="price">$95.00</span>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Single-Product -->
+                                            {% endfor %}
+
 										</div>
 									</div>
 

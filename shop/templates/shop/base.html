@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load mptt_tags %}
+{% load i18n mptt_tags %}
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -302,28 +304,16 @@
 						<div class="col-xs-12">
 							<nav id="mobile-menu">
 								<ul>
-									<li><a href="index.html">Home</a>
+									<li><a href="/">Home</a></li>
+                                {% recursetree nodes %}
+									<li><a href="#">{{ node.name }}</a>
 										<ul>
-											<li><a href="index.html">Home Page 1</a></li>
-											<li><a href="index-2.html">Home Page 2</a></li>
+                                            {% for child in node.children.all %}
+											<li><a href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a></li>
+                                            {% endfor %}
 										</ul>
 									</li>
-									<li><a href="about.html">About Us</a></li>
-									<li><a href="shop.html">Bestseller Products</a></li>
-									<li><a href="shop-list.html">New Products</a></li>
-									<li><a href="#">Pages</a>
-										<ul>
-											<li><a href="cart.html">Cart</a></li>
-											<li><a href="checkout.html">Checkout</a></li>
-											<li><a href="registration-account.html">Create Account</a></li>
-											<li><a href="login.html">Login</a></li>
-											<li><a href="my-account.html">My Account</a></li>
-											<li><a href="product-details.html">Product details</a></li>
-											<li><a href="shop.html">Shop Grid View</a></li>
-											<li><a href="shop-list.html">Shop List View</a></li>
-											<li><a href="wishlist.html">Wish List</a></li>
-										</ul>
-									</li>
+                                {% endrecursetree %}
 									<li><a href="contact.html">Contact Us</a></li>
 								</ul>
 							</nav>

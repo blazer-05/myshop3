@@ -1,5 +1,12 @@
+{#В этом шаблоне выводится список товаров данной категории, обрабатывает функция shoplist#}
 {% extends 'shop/base.html' %}
 {% load staticfiles %}
+{% load thumbnail %}
+{% load mptt_tags %}
+
+{% block title %}
+    {{ category.name }}
+{% endblock %}
 
 {% block content %}
 		<!-- START PAGE-CONTENT -->
@@ -8,8 +15,10 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="index.html">Home</a></li>
-							<li class="active"><a href="#">Special Offers</a></li>
+							<li><a href="/">Home</a></li>
+                            <li><a href="{% url 'shop:catalog' %}">Catalog</a></li>
+							<li><a href="{% url 'shop:catlist' category.parent.slug %}">Основные</a></li>
+							<li class="active"><a href="">{{ category.name }}</a></li>
 						</ul>
 					</div>
 				</div>
@@ -37,7 +46,7 @@
 									<!-- Start Product-Menu -->
 									<div class="product-menu">
 										<div class="product-title">
-											<h3 class="title-group-3 gfont-1">cameras & photography</h3>
+											<h3 class="title-group-3 gfont-1">{{ category.name }}</h3>
 										</div>
 									</div>
 									<div class="product-filter">
@@ -89,7 +98,9 @@
 											<div role="tabpanel" class="tab-pane fade in active" id="display-1-1">
 												<div class="row">
 													<div class="listview">
+
 														<!-- Start Single-Product -->
+                                                        {% for prod in product %}
 														<div class="single-product">
 															<div class="col-md-3 col-sm-4 col-xs-12">
 																<div class="label_new">
@@ -99,17 +110,17 @@
 																	<span class="sale-percent">-55%</span>
 																</div>
 																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/10.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
+																	<a href="{{ prod.get_absolute_url }}">
+																		<img class="primary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
+																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
 																	</a>
 																</div>
 															</div>
 															<div class="col-md-9 col-sm-8 col-xs-12">
 																<div class="product-description">
-																	<h5><a href="#">Trid Palm</a></h5>
+																	<h5><a href="{{ prod.get_absolute_url }}">{{ prod.title }}</a></h5>
 																	<div class="price-box">
-																		<span class="price">$99.00</span>
+																		<span class="price">${{ prod.price }}</span>
 																		<span class="old-price">$110.00</span>
 																	</div>
 																	<span class="rating">
@@ -119,7 +130,7 @@
 																		<i class="fa fa-star"></i>
 																		<i class="fa fa-star-o"></i>
 																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
+																	<p class="description">{{ prod.descriptions }}</p>
 																	<div class="product-action">
 																		<div class="button-group">
 																			<div class="product-button">
@@ -135,289 +146,9 @@
 																</div>
 															</div>
 														</div>
+                                                        {% endfor %}
 														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/13.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/11.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Various Versions</a></h5>
-																	<div class="price-box">
-																		<span class="price">$90.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/10.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Established Fact</a></h5>
-																	<div class="price-box">
-																		<span class="price">$99.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/3.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/3bg.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Trid Palm</a></h5>
-																	<div class="price-box">
-																		<span class="price">$90.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/1.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/1bg.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Various Versions</a></h5>
-																	<div class="price-box">
-																		<span class="price">$90.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/2bg.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Established Fact</a></h5>
-																	<div class="price-box">
-																		<span class="price">$90.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
-														<!-- Start Single-Product -->
-														<div class="single-product">
-															<div class="col-md-3 col-sm-4 col-xs-12">
-																<div class="label_new">
-																	<span class="new">new</span>
-																</div>
-																<div class="sale-off">
-																	<span class="sale-percent">-55%</span>
-																</div>
-																<div class="product-img">
-																	<a href="#">
-																		<img class="primary-img" src="{% static 'shop/img/product/mediam/12.jpg' %}" alt="Product">
-																		<img class="secondary-img" src="{% static 'shop/img/product/mediam/12bg.jpg' %}" alt="Product">
-																	</a>
-																</div>
-															</div>
-															<div class="col-md-9 col-sm-8 col-xs-12">
-																<div class="product-description">
-																	<h5><a href="#">Various Versions</a></h5>
-																	<div class="price-box">
-																		<span class="price">$99.00</span>
-																		<span class="old-price">$110.00</span>
-																	</div>
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
-																	</span>
-																	<p class="description">Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Viva..</p>
-																	<div class="product-action">
-																		<div class="button-group">
-																			<div class="product-button">
-																				<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																			</div>
-																			<div class="product-button-2">
-																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- End Single-Product -->
+
 													</div>
 												</div>
 												<!-- Start Pagination Area -->
@@ -426,16 +157,29 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-																	<li class="active"><a href="#">1</a></li>
-																	<li><a href="#">2</a></li>
-																	<li><a href="#">></a></li>
-																	<li><a href="#">>|</a></li>
+                                                                    {% if product.has_previous %}
+																	<li><a href="?page=1{{ product.previous.num_pages }}"><|</a></li>
+																	<li><a href="?page={{ product.previous_page_number }}"><</a></li>
+                                                                    {% endif %}
+
+                                                                    {% for i in product.paginator.page_range %}
+                                                                      {% if product.number == i %}
+                                                                        <li class="active"><a href="">{{ i }}</a></li>
+                                                                      {% else %}
+                                                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                                                      {% endif %}
+                                                                    {% endfor %}
+
+                                                                    {% if product.has_next %}
+																	<li><a href="?page={{ product.next_page_number }}">></a></li>
+																	<li><a href="?page={{ product.paginator.num_pages }}">>|</a></li>
+                                                                    {% endif %}
 																</ul>
-															</div>
+														    </div>
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to 16 of 19 (2 Pages)</span>
+																<span>Showing {{ product.number }} to 16 of 19 ({{ product.paginator.num_pages }} Pages)</span>
 															</div>
 														</div>
 													</div>
@@ -443,683 +187,6 @@
 												<!-- End Pagination Area -->
 											</div>
 											<!-- End Product -->
-											<!-- Start Product-->
-											<div role="tabpanel" class="tab-pane fade" id="display-1-2">
-												<div class="row">
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="label_new">
-																<span class="new">new</span>
-															</div>
-															<div class="sale-off">
-																<span class="sale-percent">-55%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/12.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/12bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Trid Palm</a></h5>
-																<div class="price-box">
-																	<span class="price">$90.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-															</div>
-															<div class="product-action">
-																<div class="button-group">
-																	<div class="product-button">
-																		<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																	</div>
-																	<div class="product-button-2">
-																		<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																		<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																		<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="label_new">
-																<span class="new">new</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/12bg.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/12.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/2bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Various Versions</a></h5>
-																<div class="price-box">
-																	<span class="price">$90.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/2bg.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Trid Palm</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-20%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/5.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/3bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$90.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/6.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/4bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Various Versions</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/5.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/4bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Trid Palm</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="label_new">
-																<span class="new">new</span>
-															</div>
-															<div class="sale-off">
-																<span class="sale-percent">-55%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/12.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/12bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$90.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-															</div>
-															<div class="product-action">
-																<div class="button-group">
-																	<div class="product-button">
-																		<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																	</div>
-																	<div class="product-button-2">
-																		<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																		<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																		<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="label_new">
-																<span class="new">new</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/12bg.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/12.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Various Versions</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/2bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Trid Palm</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/2bg.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/2.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$90.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-20%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/5.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/3bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Various Versions</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/13.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Various Versions</a></h5>
-																<div class="price-box">
-																	<span class="price">$92.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/13.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/11.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/4bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Trid Palm</a></h5>
-																<div class="price-box">
-																	<span class="price">$99.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-													<!-- Start Single-Product -->
-													<div class="col-md-3 col-sm-4 col-xs-12">
-														<div class="single-product">
-															<div class="sale-off">
-																<span class="sale-percent">-25%</span>
-															</div>
-															<div class="product-img">
-																<a href="#">
-																	<img class="primary-img" src="{% static 'shop/img/product/mediam/10.jpg' %}" alt="Product">
-																	<img class="secondary-img" src="{% static 'shop/img/product/mediam/10bg.jpg' %}" alt="Product">
-																</a>
-															</div>
-															<div class="product-description">
-																<h5><a href="#">Established Fact</a></h5>
-																<div class="price-box">
-																	<span class="price">$92.00</span>
-																	<span class="old-price">$110.00</span>
-																</div>
-																<span class="rating">
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star"></i>
-																	<i class="fa fa-star-o"></i>
-																</span>
-																<div class="product-action">
-																	<div class="button-group">
-																		<div class="product-button">
-																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-																		</div>
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																			<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- End Single-Product -->
-												</div>
-												<!-- Start Pagination Area -->
-												<div class="pagination-area">
-													<div class="row">
-														<div class="col-xs-5">
-															<div class="pagination">
-																<ul>
-																	<li class="active"><a href="#">1</a></li>
-																	<li><a href="#">2</a></li>
-																	<li><a href="#">></a></li>
-																	<li><a href="#">>|</a></li>
-																</ul>
-															</div>
-														</div>
-														<div class="col-xs-7">
-															<div class="product-result">
-																<span>Showing 1 to 16 of 19 (2 Pages)</span>
-															</div>
-														</div>
-													</div>
-												</div>
-												<!-- End Pagination Area -->
-											</div>
-											<!-- End Product = TV -->
 										</div>
 									</div>
 									<!-- End Product -->

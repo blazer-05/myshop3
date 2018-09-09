@@ -17,7 +17,7 @@
                 <div class="col-md-12">
                     <ul class="page-menu">
                         <li><a href="/">Home</a></li>
-                        <li class="active"><a href="#">Catalog</a></li>
+                        <li class="active"><a href="">Catalog</a></li>
                     </ul>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                                                 </ul>
                                                 {% recursetree child.children.all %}
                                                     <ul>
-                                                        <li><a href="#">{{ node.name }}</a></li>
+                                                        <li><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
                                                     </ul>
                                                 {% endrecursetree %}
                                             </div>

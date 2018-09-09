@@ -17,7 +17,8 @@
                 <div class="col-md-12">
                     <ul class="page-menu">
                         <li><a href="/">Home</a></li>
-                        <li class="active"><a href="#">{{ thiscat.name }}</a></li>
+                        <li><a href="{% url 'shop:catalog' %}">Catalog</a></li>
+                        <li class="active"><a href="">{{ thiscat.name }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,8 +39,8 @@
                                                 <p>Нет изображения</p>
                                             {% endif %}
                                             <div class="image">
-                                                <h3>{{ child.name }}</h3>
-                                                <p>Товаров:   шт.</p>
+                                                <h3><a href="{% url 'shop:shop-list' child.slug %}">{{ child.name }}</a></h3>
+                                                <p>Товаров: шт.</p>
                                             </div>
                                         </div>
                                     {% endfor %}

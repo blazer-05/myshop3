@@ -19,7 +19,7 @@
                                          {% recursetree nodes %}
 	                                    <!-- Single menu start -->
 	                                    <li class="arrow-plus">
-											<a href="shop.html">{{ node.name }}</a>
+											<a href="{% url 'shop:catlinks' node.slug %}">{{ node.name }}</a>
 											<!--  MEGA MENU START -->
 											{% if not node.is_leaf_node %}
 											<div class="cat-left-drop-menu">
@@ -28,7 +28,7 @@
 													<a class="menu-item-heading" href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a>
 													<ul class="children">
 														{% recursetree child.children.all %}
-														<li><a href="#">{{ node.name }}</a></li>
+														<li><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
 														{% endrecursetree %}
 													</ul>
 												</div>
@@ -41,6 +41,9 @@
                                         {% endrecursetree %}
 
 	                                    <!-- MENU ACCORDION START -->
+	                                    <li class=" rx-child">
+	                                        <a href="shop.html">Каталог</a>
+	                                    </li>
 	                                    <li class=" rx-child">
 	                                        <a href="shop.html">Books</a>
 	                                    </li>
