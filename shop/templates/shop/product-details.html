@@ -1,3 +1,4 @@
+{#В этом шаблоне выводится товар с полным описанием, обрабатывает функция productdetails#}
 {% extends 'shop/base.html' %}
 {% load thumbnail %}
 {% load staticfiles %}
@@ -65,9 +66,10 @@
 										</ul>
 									</div>
                                         {% empty %}
-                                            <p>Нет изображения</p>
+                                            <p>Нет доп. изображения</p>
                                     {% endfor %}
 									<!-- End Toch-prond-Menu -->
+                                    <!-- ява скрипт меняет картинки в главном окне с изображением -->
                                     <script type="text/javascript">
                                         var img = document.getElementById("display-1").getElementsByTagName("img")[0]; //получаем большую картинку.
                                         function changeIMG(str){
@@ -91,7 +93,7 @@
 											<a href="#">Write a review</a>
 										</p>
 										<hr />
-										<p class="short-description">{{ product.descriptions }}</p>
+										<p class="short-description">Описание 1</p>
 										<hr />
 										<span class="current-price">${{ product.price }}</span>
 										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
@@ -147,99 +149,30 @@
 								</div>
 							</div>
 							<!-- Start Toch-Box -->
-							<div class="toch-box">
-								<div class="row">
-									<div class="col-xs-12">
-										<!-- Start Toch-Menu -->
-										<div class="toch-menu">
-											<ul role="tablist">
-												<li role="presentation" class=" active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
-												<li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Reviews (1)</a></li>
-											</ul>
-										</div>
-										<!-- End Toch-Menu -->
-										<div class="tab-content toch-description-review">
-											<!-- Start display-description -->
-											<div role="tabpanel" class="tab-pane fade in active" id="description">
-												<div class="row">
-													<div class="col-xs-12">
-														<div class="toch-description">
-															<p>Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut dolor dignissim semper. Nulla luctus malesuada tincidunt.
-															</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End display-description -->
-											<!-- Start display-reviews -->
-											<div role="tabpanel" class="tab-pane fade" id="reviews">
-												<div class="row">
-													<div class="col-xs-12">
-														<div class="toch-reviews">
-															<div class="toch-table">
-																<table class="table table-striped table-bordered">
-																	<tbody>
-																		<tr>
-																			<td><strong>plaza theme</strong></td>
-																			<td class="text-right"><strong>16/02/2016</strong></td>
-																		</tr>
-																		<tr>
-																			<td colspan="2">
-																				<p>It is part of Australia's network of offshore processing centres for irregular migrants who arrive by boat, and also houses New Zealanders facing deportation from Australia.</p>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star-o"></i></span>
-																			</td>
-																		</tr>
-																	</tbody>
-																</table>
-															</div>
-															<div class="toch-review-title">
-																<h2>Write a review</h2>
-															</div>
-															<div class="review-message">
-																<div class="col-xs-12">
-																	<p><sup>*</sup>Your Name <br>
-																		<input type="text" class="form-control" />
-																	</p>
-																	<p><sup>*</sup>Your Name <br>
-																		<textarea class="form-control"></textarea>
-																	</p>
-																</div>
-																<div class="help-block">
-																	<span class="note">Note:</span>
-																	 HTML is not translated!
-																</div>
-																<div class="get-rating">
-																	<span><sup>*</sup>Rating </span>
-																	Bad
-																	<input type="radio" value="1" name="rating" />
-																	<input type="radio" value="2" name="rating" />
-																	<input type="radio" value="3" name="rating" />
-																	<input type="radio" value="4" name="rating" />
-																	<input type="radio" value="5" name="rating" />
-																	Good
-																</div>
-																<div class="buttons clearfix">
-																	<button class="btn btn-primary pull-right">Continue</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- End Product = display-reviews -->
-										</div>
-									</div>
-								</div>
-							</div>
+                            <div class="toch-box">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#home" data-toggle="tab">Описание</a></li>
+                                    <li><a href="#profile" data-toggle="tab">Характеристики</a></li>
+                                    <li><a href="#messages" data-toggle="tab">Комментарии</a></li>
+                                    <li><a href="#settings" data-toggle="tab">Отзывы</a></li>
+                                </ul>
+                                <br>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active" id="home">Текст описания 1</div>
+                                    <div class="tab-pane fade in" id="profile">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                {{ product.descriptions|safe }}
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade in" id="messages">Текст описания 3</div>
+                                    <div class="tab-pane fade in" id="settings">Текст описания 4</div>
+                                </div>
+
+                            </div>
 							<!-- End Toch-Box -->
 							<!-- START PRODUCT-AREA -->
 							<div class="product-area">
@@ -273,6 +206,7 @@
 														<h5><a href="#">{{ top.title }}</a></h5>
 														<div class="price-box">
 															<span class="price">${{ top.price }}</span>
+                                                            <span class="old-price">$110.00</span>
 														</div>
 													</div>
 												</div>
@@ -319,6 +253,7 @@
 														<h5><a href="#">{{ top5.title }}</a></h5>
 														<div class="price-box">
 															<span class="price">${{ top5.price }}</span>
+                                                            <span class="old-price">$110.00</span>
 														</div>
 													</div>
 												</div>
@@ -340,3 +275,52 @@
 			</div>
         </section>
 {% endblock content %}
+
+{% comment %}
+
+<!-- Start Toch-Box -->
+							<div class="toch-box">
+								<div class="row">
+									<div class="col-xs-12">
+										<!-- Start Toch-Menu -->
+										<div class="toch-menu">
+											<ul role="tablist">
+												<li role="presentation" class=" active"><a href="#description" role="tab" data-toggle="tab">Description</a></li>
+												<li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Reviews (1)</a></li>
+											</ul>
+										</div>
+										<!-- End Toch-Menu -->
+										<div class="tab-content toch-description-review">
+											<!-- Start display-description -->
+											<div role="tabpanel" class="tab-pane fade in active" id="description">
+												<div class="row">
+													<div class="col-xs-12">
+														<div class="toch-description">
+															<p>
+                                                                Описание.
+															</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- End display-description -->
+											<!-- Start display-reviews -->
+											<div role="tabpanel" class="tab-pane fade" id="reviews">
+												<div class="row">
+													<div class="col-xs-12">
+                                                        <div class="toch-description">
+														    <p>
+                                                                Описание 2.
+                                                            </p>
+                                                        </div>
+													</div>
+												</div>
+											</div>
+											<!-- End Product = display-reviews -->
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Toch-Box -->
+
+{% endcomment %}

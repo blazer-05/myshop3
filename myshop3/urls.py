@@ -21,6 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('shop.urls', namespace='shop')),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

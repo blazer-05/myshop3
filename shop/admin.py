@@ -1,8 +1,14 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
-
+from django_summernote.admin import SummernoteModelAdmin
 from shop.models import Category, Brand, Product, ProductAlbomImages
+
+from eav.forms import BaseDynamicEntityForm
+from eav.admin import BaseEntityAdmin
+
+
+
 
 # class CategoryAdmin(DraggableMPTTAdmin):
 #     prepopulated_fields = {'slug': ('name',)}
@@ -12,7 +18,7 @@ from shop.models import Category, Brand, Product, ProductAlbomImages
 class BrandAdmin(admin.ModelAdmin):
     list_display = ['name']
 
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(BaseEntityAdmin, BaseDynamicEntityForm):
     prepopulated_fields = {'slug': ('title',)}
     list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_activ', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
