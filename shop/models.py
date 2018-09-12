@@ -95,6 +95,8 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('shop:product-details', kwargs={'product_slug': self.slug, 'albom_id': self.id})
 
+
+
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(models.Model):
     name = models.CharField(max_length=200, blank=True, verbose_name='Название')
