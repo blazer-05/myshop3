@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from .views import *
 from shop.context_processors import menucategory
 
@@ -12,7 +12,6 @@ urlpatterns = [
     path('shop/', shop, name='shop'),
     path('shop-list/<slug>', shoplist, name='shop-list'),
     path('product-details/<albom_id>/<product_slug>', productdetails, name='product-details'),
-    #re_path(r'^product-details/(?P<albom_id>\d+)/(?P<product_slug>[-\w]+)/$', productdetails, name='product-details'),
     path('wishlist/', wishlist, name='wishlist'),
     path('my-account/', myaccount, name='my-account'),
     path('contact/', contact, name='contact'),

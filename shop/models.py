@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
+from eav.decorators import register_eav
 
 # Модель категорий
 class Category(MPTTModel):
@@ -56,6 +57,7 @@ def image_folder(instance, filename):
     return '{0}/{1}'.format(instance.slug, filename)
 
 # Модель товара
+@register_eav()
 class Product(models.Model):
     category = TreeForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, verbose_name='Бренд', on_delete=models.CASCADE)

@@ -47,7 +47,7 @@ def shoplist(request, slug):
     context = {}
     category = Category.objects.get(slug=slug)
     product = Product.objects.filter(category=category, is_activ=True)
-    paginator = Paginator(product, 1)
+    paginator = Paginator(product, 10)
     page = request.GET.get('page')
     product = paginator.get_page(page)
     context['category'] = category
