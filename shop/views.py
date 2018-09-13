@@ -66,6 +66,9 @@ def productdetails(request, product_slug, albom_id):
     context['category'] = category
     context['top_five_products'] = top_five_products
     context['top_five_products_category'] = top_five_products_category
+    # print(product.get_all_attributes())
+    # print([method_name for method_name in dir(product) if callable(getattr(product, method_name))])
+    print(dir(product))
     return render(request, 'shop/product-details.html', context)
 
 def wishlist(request):
