@@ -1,9 +1,12 @@
 import mptt
+from eav.decorators import register_eav
+
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from eav.decorators import register_eav
+
 
 # Модель категорий
 class Category(MPTTModel):
@@ -92,6 +95,8 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('shop:product-details', kwargs={'product_slug': self.slug, 'albom_id': self.id})
+
+
 
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(models.Model):
