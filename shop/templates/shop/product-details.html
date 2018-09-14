@@ -165,11 +165,9 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover">
 {#                                                {{ product.descriptions|safe }}#}
-<<<<<<< HEAD
-                                                {{ product.get_all_attributes.all }}
-=======
-                                                {{ product.get_all_attributes }}
->>>>>>> origin/master
+                                                {% for prod in product.eav_values.all %}
+                                                {{ prod }}
+                                                {% endfor %}
                                             </table>
                                         </div>
                                     </div>

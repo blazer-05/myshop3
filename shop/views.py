@@ -66,7 +66,8 @@ def productdetails(request, product_slug, albom_id):
     context['category'] = category
     context['top_five_products'] = top_five_products
     context['top_five_products_category'] = top_five_products_category
-    print(dir(product))
+    # print(dir(product))
+    # print(product.eav_values.all())
     return render(request, 'shop/product-details.html', context)
 
 def wishlist(request):
