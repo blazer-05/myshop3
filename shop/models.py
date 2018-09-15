@@ -1,11 +1,8 @@
 import mptt
-from eav.decorators import register_eav
-
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
-from eav.decorators import register_eav
 
 
 # Модель категорий
@@ -60,7 +57,6 @@ def image_folder(instance, filename):
     return '{0}/{1}'.format(instance.slug, filename)
 
 # Модель товара
-@register_eav()
 class Product(models.Model):
     category = TreeForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, verbose_name='Бренд', on_delete=models.CASCADE)
@@ -123,3 +119,35 @@ class ProductAlbomImages(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
+
+# Модель атрибута товара
+class Attribute(models.Model):
+    title = models.CharField(max_length=250, verbose_name='Атрибут')
+
+    class Meta:
+        verbose_name = 'Атрибут'
+        verbose_name_plural = 'Атрибуты'
+
+    def __str__(self):
+        return self.title
+
+# Модель значения товара связанная с моделью атрибута
+class Value(models.Model):
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    value = models.CharField(max_length=250, blank=True, verbose_name='Значение')
+
+    class Meta:
+        verbose_name = 'Значение'
+        verbose_name_plural = 'Значения'
+
+    def __str__(self):
+        return self.value
+
+# Модель связанная с продуктом, атрибутом и значением. Выводится под товаром.
+class Entry(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+    value = models.ForeignKey(Value, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} - {}'.format(self.attribute.title, self.value.value)

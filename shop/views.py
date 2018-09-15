@@ -1,6 +1,6 @@
 
 from django.shortcuts import render, get_object_or_404
-from shop.models import Category, Brand, Product, ProductAlbomImages
+from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 def index(request):
@@ -66,8 +66,6 @@ def productdetails(request, product_slug, albom_id):
     context['category'] = category
     context['top_five_products'] = top_five_products
     context['top_five_products_category'] = top_five_products_category
-    # print(dir(product))
-    # print(product.eav_values.all())
     return render(request, 'shop/product-details.html', context)
 
 def wishlist(request):

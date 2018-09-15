@@ -3,17 +3,19 @@ from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
 
-from shop.models import Category, Brand, Product, ProductAlbomImages
+from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry
 
-from eav.forms import BaseDynamicEntityForm
-from eav.admin import BaseEntityAdmin
-# https://django-eav-2.readthedocs.io/en/improvement-docs/usage.html#admin-integration
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ['name']
 
-class ProductAdminForm(BaseDynamicEntityForm):
-    model = Product
+# Класс модели Entry для вывода атрибута и значения
+class EntryInline(admin.TabularInline):
+    model = Entry
+    fields = ('attribute', 'value')
+    extra = 0
 
-class ProductAdmin(BaseEntityAdmin, SummernoteModelAdmin):
-    form = ProductAdminForm
+class ProductAdmin(SummernoteModelAdmin):
+    inlines = [EntryInline] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
     list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_activ', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
@@ -26,10 +28,6 @@ class ProductAdmin(BaseEntityAdmin, SummernoteModelAdmin):
                    )
     search_fields = ['title']
     list_editable = ['slug', 'is_activ']
-
-class BrandAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
@@ -67,4 +65,7 @@ class ProductAlbomImagesAdmin(admin.ModelAdmin):
     list_display = ['name', 'image_img', 'product', 'is_activ', 'created', 'updated']
     readonly_fields = ['image_img']
 
+
 admin.site.register(ProductAlbomImages, ProductAlbomImagesAdmin)
+admin.site.register(Attribute)
+admin.site.register(Value)
