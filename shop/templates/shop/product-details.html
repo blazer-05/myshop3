@@ -160,20 +160,20 @@
                                 <br>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="home">{{ product.descriptions|safe }}</div>
+                                    <div class="tab-pane fade in active bmw" id="home">{{ product.descriptions|safe }}</div>
                                     <div class="tab-pane fade in" id="profile">
                                         <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <div class=""><h2>{{ product.title }}</h2></div>
-                                                {% for entry in product.entry_set.all %}
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="col-xs-6">{{ entry.attribute }}</td>
-                                                        <td class="col-xs-6">{{ entry.value }}</td>
-                                                    </tr>
-                                                </tbody>
-                                                {% endfor %}
-                                            </table>
+                                                <table class="table table-hover bmw">
+                                                    <h2>{{ product.title }}</h2>
+                                                    {% for entry in product.entry_set.all %}
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="col-xs-6 dots">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6">{{ entry.value }}</td>
+                                                            </tr>
+                                                        </thead>
+                                                    {% endfor %}
+                                                </table>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade in" id="messages">Текст описания 3</div>

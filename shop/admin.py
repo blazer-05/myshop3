@@ -11,9 +11,11 @@ class BrandAdmin(admin.ModelAdmin):
 # Класс модели Entry для вывода атрибута и значения
 class EntryInline(admin.TabularInline):
     model = Entry
-    fields = ('attribute', 'value')
+    fields = ('attribute', 'value', 'is_activ')
     extra = 0
 
+
+# Класс модели продукта
 class ProductAdmin(SummernoteModelAdmin):
     inlines = [EntryInline] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
@@ -31,6 +33,13 @@ class ProductAdmin(SummernoteModelAdmin):
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
+
+class ProductAlbomImagesAdmin(admin.ModelAdmin):
+    list_display = ['name', 'image_img', 'product', 'is_activ', 'created', 'updated']
+    readonly_fields = ['image_img']
+
+
+admin.site.register(ProductAlbomImages, ProductAlbomImagesAdmin)
 
 # В модели категорий делаем внешний вид согласно инструкции
 # https://django-mptt.readthedocs.io/en/latest/admin.html#mptt-admin-draggablempttadmin
@@ -61,11 +70,52 @@ admin.site.register(
     mptt_level_indent=20 # Эта настройка задает отступ субкатегории от родительской категории
 )
 
-class ProductAlbomImagesAdmin(admin.ModelAdmin):
-    list_display = ['name', 'image_img', 'product', 'is_activ', 'created', 'updated']
-    readonly_fields = ['image_img']
 
+# Модель Аттрибута в виде категорий
+admin.site.register(
+    Attribute,
+    DraggableMPTTAdmin,
+    list_display=(
+        'tree_actions',
+        'indented_title',
+        'title',
+        'is_activ',
+        # ...more fields if you feel like it...
+    ),
+    list_display_links=(
+        'indented_title',
+    ),
+    list_filter=(
+        #'name',       # Вывод фильтра по категориям справа экрана
+        ('parent', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
+    ),
+    list_editable = (
+        'is_activ',
+    ),
+)
 
-admin.site.register(ProductAlbomImages, ProductAlbomImagesAdmin)
-admin.site.register(Attribute)
-admin.site.register(Value)
+# Модель Значения в виде категорий
+admin.site.register(
+    Value,
+    DraggableMPTTAdmin,
+    list_display=(
+        'tree_actions',
+        'indented_title',
+        'attribute',
+        #'parent',
+        #'value',
+        'is_activ',
+        # ...more fields if you feel like it...
+    ),
+    list_display_links=(
+        'indented_title',
+    ),
+    list_filter=(
+        #'name',       # Вывод фильтра по категориям справа экрана
+        ('attribute', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
+    ),
+    list_editable = (
+        'is_activ',
+    ),
+)
+

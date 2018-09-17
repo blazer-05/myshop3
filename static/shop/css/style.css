@@ -44,6 +44,17 @@
     26. Account-Create Page
 
 -----------------------------------------------------------------------------------*/
+@import "bootstrap.min.css"; /*  Переапределение стилей бутстрапа https://www.youtube.com/watch?v=NarkyGPPxN8 */
+
+/* Убрал бордер в таблеце атрибутов товара */
+.table > thead > tr > td{
+  border: 0px;
+  width: 55%;
+}
+/* Размер шрифта на странице полного описания продукта во вкладках Описание, Характеристики */
+.bmw{
+  font-size: 14px;
+}
 
 /*----------------------------------------*/
 /*  1.  Theme default CSS
@@ -2963,3 +2974,17 @@ blockquote {
 	margin-bottom: 20px;
 }
 /* Конец блока с изображениями на странице catlist.html */
+
+.dots{
+  url("../img/icon/dots.png") 0 80% repeat-x;
+    background-color: rgba(0, 0, 0, 0);
+    background-position-x: 0px;
+    background-position-y: 65%;
+    background-repeat: repeat-x;
+    background-attachment: scroll;
+    background-image: url("../img/icon/dots.png");
+    background-size: auto auto;
+    background-origin: padding-box;
+    background-clip: border-box;
+}
+

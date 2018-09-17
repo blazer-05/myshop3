@@ -62,9 +62,11 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, verbose_name='Бренд', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, unique=True, verbose_name='Название товара')
     slug = models.SlugField()
-    descriptions = models.TextField(verbose_name='Описание')
+    descriptions = models.TextField(blank=True, verbose_name='Описание')
+    descriptions_two = models.TextField(blank=True, verbose_name='Доп.описание')
     images = models.ImageField(upload_to=image_folder, blank=True, verbose_name='Изображение товара')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
+    discount = models.IntegerField(default=0, verbose_name='Скидка')
     stock = models.PositiveIntegerField(verbose_name='Количество')
     is_activ = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
@@ -93,6 +95,11 @@ class Product(models.Model):
         return reverse('shop:product-details', kwargs={'product_slug': self.slug, 'albom_id': self.id})
 
 
+    # Расчет скидки
+    def get_sale(self):
+        '''Расчитать стоимость со скидкой'''
+        price = int(self.price * (100 - self.discount) / 100)
+        return price
 
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(models.Model):
@@ -121,8 +128,10 @@ class ProductAlbomImages(models.Model):
 
 
 # Модель атрибута товара
-class Attribute(models.Model):
+class Attribute(MPTTModel):
     title = models.CharField(max_length=250, verbose_name='Атрибут')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
+    is_activ = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
         verbose_name = 'Атрибут'
@@ -131,10 +140,18 @@ class Attribute(models.Model):
     def __str__(self):
         return self.title
 
+    class MPTTMeta:
+        order_insertion_by = ['title']
+
+
+mptt.register(Attribute, order_insertion_by=['title'])
+
 # Модель значения товара связанная с моделью атрибута
-class Value(models.Model):
-    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
+class Value(MPTTModel):
+    attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Атрибут')
     value = models.CharField(max_length=250, blank=True, verbose_name='Значение')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False) # editable=False (Скрыл поле parent в админке)
+    is_activ = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
         verbose_name = 'Значение'
@@ -143,11 +160,18 @@ class Value(models.Model):
     def __str__(self):
         return self.value
 
+    class MPTTMeta:
+        order_insertion_by = ['value']
+
+
+mptt.register(Value, order_insertion_by=['value'])
+
 # Модель связанная с продуктом, атрибутом и значением. Выводится под товаром.
 class Entry(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
     value = models.ForeignKey(Value, on_delete=models.CASCADE)
+    is_activ = models.BooleanField(default=True, verbose_name='Модерация')
 
     def __str__(self):
         return '{} - {}'.format(self.attribute.title, self.value.value)
