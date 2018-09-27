@@ -59,15 +59,21 @@
 										<!-- End Product = display-1-1 -->
 									</div>
 									<!-- Start Toch-prond-Menu -->
+
                                     {% for alb in albom %}
-									<div class="toch-prond-menu">
+									<div class="toch-prond-menu" align="center">
 										<ul role="tablist">
-											<li role="presentation" class=" active"><a onclick="changeIMG('{{ alb.image.url }}')" href="{{ alb.image.url }}" role="tab" data-toggle="tab"><img src="{{ alb.image|thumbnail_url:'images' }}" alt="" /></a></li>
+											<li role="presentation" class="active">
+                                                <a onclick="changeIMG('{{ alb.image.url }}')" href="{{ alb.image.url }}" role="tab" data-toggle="tab">
+                                                    <img src="{{ alb.image|thumbnail_url:'alb' }}" style="width: 74px; height: 74px" alt="" />
+                                                </a>
+                                            </li>
 										</ul>
 									</div>
                                         {% empty %}
                                             <p>Нет доп. изображения</p>
                                     {% endfor %}
+
 									<!-- End Toch-prond-Menu -->
                                     <!-- ява скрипт меняет картинки в главном окне с изображением -->
                                     <script type="text/javascript">
@@ -93,7 +99,7 @@
 											<a href="#">Write a review</a>
 										</p>
 										<hr />
-										<p class="short-description">Описание 1</p>
+										<p class="short-description">{{ product.descriptions|safe }}</p>
 										<hr />
 										<span class="current-price">${{ product.price }}</span>
 										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
@@ -152,20 +158,20 @@
                             <div class="toch-box">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#home" data-toggle="tab">Описание</a></li>
-                                    <li><a href="#profile" data-toggle="tab">Характеристики</a></li>
-                                    <li><a href="#messages" data-toggle="tab">Комментарии</a></li>
-                                    <li><a href="#settings" data-toggle="tab">Отзывы</a></li>
+                                    <li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
+                                    <li><a href="#characteristics" data-toggle="tab">Характеристики</a></li>
+                                    <li><a href="#comments" data-toggle="tab">Комментарии</a></li>
+                                    <li><a href="#reviews" data-toggle="tab">Отзывы</a></li>
                                 </ul>
                                 <br>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
-                                    <div class="tab-pane fade in active bmw" id="home">{{ product.descriptions|safe }}</div>
-                                    <div class="tab-pane fade in" id="profile">
+                                    <div class="tab-pane fade in active bmw" id="description"><h2 class="title-product">Описание: {{ product.title }}</h2>{{ product.descriptions_two|safe }}</div>
+                                    <div class="tab-pane fade in" id="characteristics">
                                         <div class="table-responsive">
                                                 <table class="table table-hover bmw">
-                                                    <h2>{{ product.title }}</h2>
-                                                    {% for entry in product.entry_set.all %}
+                                                    <h2 class="title-product">Характеристики: {{ product.title }}</h2>
+                                                    {% for entry in product.entry_set.active %}
                                                         <thead>
                                                             <tr>
                                                                 <td class="col-xs-6 dots">{{ entry.attribute }}</td>
@@ -176,8 +182,8 @@
                                                 </table>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade in" id="messages">Текст описания 3</div>
-                                    <div class="tab-pane fade in" id="settings">Текст описания 4</div>
+                                    <div class="tab-pane fade in" id="comments"><h2 class="title-product">Комментарии: Текст описания 3</h2></div>
+                                    <div class="tab-pane fade in" id="reviews"><h2 class="title-product">Отзывы: Текст описания 4</h2></div>
                                 </div>
 
                             </div>
@@ -201,19 +207,19 @@
 									<div class="row">
 										<div class="active-product-carosel">
 
-                                            {% for top in top_five_products_category %}
+                                            {% for pftc in products_from_this_category %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
-													<div class="product-img">
-														<a href="{{ top.get_absolute_url }}">
-															<img class="primary-img" src="{{ top.images|thumbnail_url:'images' }}" alt="Product">
+													<div class="product-img" align="center" style="width: 190px; height: 170px"><! -- style="width: 200px; height: 200px" -->
+														<a href="{{ pftc.get_absolute_url }}">
+															<img class="primary-img" src="{{ pftc.images|thumbnail_url:'pftc' }}" alt="Product" >
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="#">{{ top.title }}</a></h5>
+														<h5><a href="{{ pftc.get_absolute_url }}">{{ pftc.title }}</a></h5>
 														<div class="price-box">
-															<span class="price">${{ top.price }}</span>
+															<span class="price">${{ pftc.price }}</span>
                                                             <span class="old-price">$110.00</span>
 														</div>
 													</div>
@@ -248,19 +254,19 @@
 									<div class="row">
 										<div class="active-product-carosel">
 
-                                            {% for top5 in top_five_products %}
+                                            {% for allp in all_products %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
-													<div class="product-img">
-														<a href="{{ top5.get_absolute_url }}">
-															<img class="primary-img" src="{{ top5.images|thumbnail_url:'images' }}" alt="Product">
+													<div class="product-img" align="center" style="width: 190px; height: 170px"><! -- style="width: 200px; height: 200px" -->
+														<a href="{{ allp.get_absolute_url }}">
+															<img class="primary-img" src="{{ allp.images|thumbnail_url:'allp' }}" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="#">{{ top5.title }}</a></h5>
+														<h5><a href="{{ allp.get_absolute_url }}">{{ allp.title }}</a></h5>
 														<div class="price-box">
-															<span class="price">${{ top5.price }}</span>
+															<span class="price">${{ allp.price }}</span>
                                                             <span class="old-price">$110.00</span>
 														</div>
 													</div>
@@ -285,6 +291,10 @@
 {% endblock content %}
 
 {% comment %}
+
+{% for entry in product.entry_set.all %}
+
+{% endfor %}
 
 <!-- Start Toch-Box -->
 							<div class="toch-box">

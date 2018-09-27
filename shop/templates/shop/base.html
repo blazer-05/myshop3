@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="{% static 'shop/css/owl.carousel.css' %}">
         <link rel="stylesheet" href="{% static 'shop/css/owl.theme.css' %}">
         <link rel="stylesheet" href="{% static 'shop/css/owl.transitions.css' %}">
+        <link rel="stylesheet" href="{% static 'shop/css/owl.transitions.css' %}">
 		<!-- nivo slider CSS
 		============================================ -->
 		<link rel="stylesheet" href="{% static 'shop/css/nivo-slider.css' %}" type="text/css" />
@@ -167,24 +168,17 @@
 		                    <div class="quick-access">
 		                    	<div class="search-by-category">
 		                    		<div class="search-container">
-			                    		<select>
+			                    		<select onChange="if(this.selectedIndex!=0) self.location=this.options[this.selectedIndex].value">
 			                    			<option class="all-cate">All Categories</option>
-											<optgroup  class="cate-item-head" label="Cameras & Photography">
-												<option class="cate-item-title">Handbags</option>
-												<option class="c-item">Blouses And Shirts</option>
-												<option class="c-item">Clouthes</option>
+                                        {% recursetree nodes %}
+											<optgroup  class="cate-item-head" label="{{ node.name }}">
+                                            {% for child in node.children.all %}
+                                                <option class="cate-item-title" value="{% url 'shop:catlist' child.slug %}">
+                                                    {{ child.name }}
+                                                </option>
+                                            {% endfor %}
 											</optgroup>
-											<optgroup  class="cate-item-head" label="Laptop & Computer">
-												<option class="cate-item-title">Apple</option>
-												<option class="c-item">Dell</option>
-												<option class="c-item">Hp</option>
-												<option class="c-item">Sony</option>
-											</optgroup>
-											<optgroup  class="cate-item-head" label="Electronic">
-												<option class="c-item">Mobile</option>
-												<option class="c-item">Speaker</option>
-												<option class="c-item">Headphone</option>
-											</optgroup>
+                                        {% endrecursetree %}
 			                    		</select>
 		                    		</div>
 		                    		<div class="header-search">
@@ -266,7 +260,7 @@
 							<div class="mainmenu hidden-sm hidden-xs">
 								<nav>
 									<ul>
-										<li><a href="index.html">Home</a>
+										<li><a href="/">Home</a>
 {#											<ul>#}
 {#												<li><a href="index.html">Home Versions 1</a></li>#}
 {#												<li><a href="index-2.html">Home Versions 2</a></li>#}

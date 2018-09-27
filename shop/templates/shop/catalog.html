@@ -36,11 +36,11 @@
                                         {% for child in node.children.all %}
                                             <div class="info"><hr>
                                                 <ul>
-                                                    <li class="info_item"><a href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a></li>
+                                                    <li class="info_item"><a href="{% url 'shop:catlist' child.slug %}"><u>{{ child.name }}</u></a></li>
                                                 </ul>
                                                 {% recursetree child.children.all %}
                                                     <ul>
-                                                        <li><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
+                                                        <li class="info"><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
                                                     </ul>
                                                 {% endrecursetree %}
                                             </div>

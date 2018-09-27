@@ -5,10 +5,12 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 def index(request):
     context = {}
-    products = Product.objects.filter(is_activ=True)
+    products = Product.objects.filter(is_active=True)
     brands = Brand.objects.all()
+    slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     context['products'] = products
     context['brands'] = brands
+    context['slider_product'] = slider_product
     return render(request, 'shop/index.html', context)
 
 def catlinks(request, slug):
@@ -22,7 +24,7 @@ def catlinks(request, slug):
     return render(request, 'shop/catlinks.html', context )
 
 def catalog(request):
-    categories = Category.objects.filter(is_activ=True)
+    categories = Category.objects.filter(is_active=True)
     return render(request, 'shop/catalog.html', {'categories': categories})
 
 def catlist(request, slug):
@@ -37,7 +39,7 @@ def catlist(request, slug):
 
 def shop(request):
     context = {}
-    products = Product.objects.filter(is_activ=True)
+    products = Product.objects.filter(is_active=True)
     brands = Brand.objects.all()
     context['products'] = products
     context['brands'] = brands
@@ -46,7 +48,7 @@ def shop(request):
 def shoplist(request, slug):
     context = {}
     category = Category.objects.get(slug=slug)
-    product = Product.objects.filter(category=category, is_activ=True)
+    product = Product.objects.filter(category=category, is_active=True)
     paginator = Paginator(product, 10)
     page = request.GET.get('page')
     product = paginator.get_page(page)
@@ -59,13 +61,15 @@ def productdetails(request, product_slug, albom_id):
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(product=albom_id)
     category = product.category
-    top_five_products = Product.objects.all().exclude(slug=product_slug)
-    top_five_products_category = Product.objects.filter(category=category)
+    all_products = Product.objects.all().exclude(slug=product_slug)
+    products_from_this_category = Product.objects.filter(category=category)
+    #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
     context['product'] = product
     context['albom'] = albom
     context['category'] = category
-    context['top_five_products'] = top_five_products
-    context['top_five_products_category'] = top_five_products_category
+    context['all_products'] = all_products
+    context['products_from_this_category'] = products_from_this_category
+    #context['attribute_and_value'] = attribute_and_value
     return render(request, 'shop/product-details.html', context)
 
 def wishlist(request):

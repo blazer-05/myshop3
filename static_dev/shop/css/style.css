@@ -49,13 +49,19 @@
 /* Убрал бордер в таблеце атрибутов товара */
 .table > thead > tr > td{
   border: 0px;
-  width: 55%;
+  width: 65%;
 }
 /* Размер шрифта на странице полного описания продукта во вкладках Описание, Характеристики */
 .bmw{
   font-size: 14px;
 }
 
+/* В шаблоне index.html переопределен класс carousel-caption в большом слайдере. Заголовок, описание и кнопка подвинул вправо*/
+.carousel-caption{
+  right: 20%;
+  left: 20%;
+  padding-bottom: 5px;
+}
 /*----------------------------------------*/
 /*  1.  Theme default CSS
 /*----------------------------------------*/
@@ -2389,6 +2395,7 @@ z-index: 2;
 }
 .toch-prond-menu ul li:last-child {
 	margin-right: 0;
+    margin-left: 10px;
 }
 .toch-prond-menu ul li a {
   display: block;
@@ -2975,6 +2982,7 @@ blockquote {
 }
 /* Конец блока с изображениями на странице catlist.html */
 
+/* Класс пунктирных точек, которые выводятся на странице товара в Характеристиках */
 .dots{
   url("../img/icon/dots.png") 0 80% repeat-x;
     background-color: rgba(0, 0, 0, 0);
@@ -2987,4 +2995,5 @@ blockquote {
     background-origin: padding-box;
     background-clip: border-box;
 }
+
 

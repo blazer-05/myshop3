@@ -5,8 +5,8 @@ from shop.models import Category, Brand, Product
 
 def menucategory(request):
     context = {}
-    nodes = Category.objects.filter(is_activ=True)
-    product = Product.objects.filter(is_activ=True)
+    nodes = Category.objects.filter(is_active=True)
+    product = Product.objects.filter(is_active=True)
     context['nodes'] = nodes
     context['product'] = product
     return locals()

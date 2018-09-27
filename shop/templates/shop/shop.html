@@ -180,12 +180,13 @@
 															<div class="sale-off">
 																<span class="sale-percent">-55%</span>
 															</div>
-															<div class="product-img">
+															<div class="product-img" align="center" style="width: 190px; height: 150px"><! -- style="width: 200px; height: 200px" -->
 																<a href="{{ prod.get_absolute_url }}">
-																	<img class="primary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
-																	<img class="secondary-img" src="{{ prod.images|thumbnail_url:'images' }}" alt="Product">
+																	<img class="primary-img" src="{{ prod.images|thumbnail_url:'shop' }}" alt="Product">
+{#																	<img class="secondary-img" src="{{ prod.images|thumbnail_url:'shop' }}" alt="Product">#}
 																</a>
 															</div>
+                                                            <br>
 															<div class="product-description">
 																<h5><a href="{{ prod.get_absolute_url }}">{{ prod.title }}</a></h5>
 																<div class="price-box">

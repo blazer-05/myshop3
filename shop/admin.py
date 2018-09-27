@@ -6,12 +6,14 @@ from mptt.admin import TreeRelatedFieldListFilter
 from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
+    readonly_fields = ['image_img', ]
 
 # Класс модели Entry для вывода атрибута и значения
 class EntryInline(admin.TabularInline):
     model = Entry
-    fields = ('attribute', 'value', 'is_activ')
+    fields = ('attribute', 'value', 'is_active')
     extra = 0
 
 
@@ -19,27 +21,44 @@ class EntryInline(admin.TabularInline):
 class ProductAdmin(SummernoteModelAdmin):
     inlines = [EntryInline] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_activ', 'created', 'updated']
+    list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
     list_filter = (#'category',
                    ('category', TreeRelatedFieldListFilter),
                    'brand',
-                   'is_activ',
+                   'is_active',
                    'created',
                    'updated'
                    )
     search_fields = ['title']
-    list_editable = ['slug', 'is_activ']
+    list_editable = ['slug', 'is_active']
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
 
-class ProductAlbomImagesAdmin(admin.ModelAdmin):
-    list_display = ['name', 'image_img', 'product', 'is_activ', 'created', 'updated']
+# Модель Фото альбома в виде категорий
+admin.site.register(
+    ProductAlbomImages,
+    DraggableMPTTAdmin,
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'name',
+        'image_img',
+        'product',
+        'is_active',
+        'created',
+        'updated'
+    ),
+    list_display_links=(
+        'indented_title',
+    ),
+    list_filter=(
+        # 'name',       # Вывод фильтра по категориям справа экрана
+        ('parent', TreeRelatedFieldListFilter),  # Вывод фильтра по категориям справа экрана с потомками родителя
+    ),
     readonly_fields = ['image_img']
-
-
-admin.site.register(ProductAlbomImages, ProductAlbomImagesAdmin)
+)
 
 # В модели категорий делаем внешний вид согласно инструкции
 # https://django-mptt.readthedocs.io/en/latest/admin.html#mptt-admin-draggablempttadmin
@@ -51,7 +70,7 @@ admin.site.register(
         'indented_title',
         'image_img',
         'slug',
-        'is_activ',
+        'is_active',
         # ...more fields if you feel like it...
     ),
     list_display_links=(
@@ -63,7 +82,7 @@ admin.site.register(
     ),
     list_editable = (
         'slug',
-        'is_activ',
+        'is_active',
     ),
     readonly_fields = ['image_img', ], # Выводит в карточке товара картинку товара!
     prepopulated_fields = {'slug': ('name',)}, # Автозаполнение поля slug
@@ -79,7 +98,7 @@ admin.site.register(
         'tree_actions',
         'indented_title',
         'title',
-        'is_activ',
+        'is_active',
         # ...more fields if you feel like it...
     ),
     list_display_links=(
@@ -90,7 +109,7 @@ admin.site.register(
         ('parent', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
     ),
     list_editable = (
-        'is_activ',
+        'is_active',
     ),
 )
 
@@ -104,7 +123,7 @@ admin.site.register(
         'attribute',
         #'parent',
         #'value',
-        'is_activ',
+        'is_active',
         # ...more fields if you feel like it...
     ),
     list_display_links=(
@@ -115,7 +134,7 @@ admin.site.register(
         ('attribute', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
     ),
     list_editable = (
-        'is_activ',
+        'is_active',
     ),
 )
 

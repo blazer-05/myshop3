@@ -27,14 +27,16 @@
                     {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
                 </div>
                 <div class="">
-                    <div class="col-xs-12 col-sm-6 col-md-8">
-                        <div class="row">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-8">
                             {% recursetree category_list %}
                                 {% if not node.is_leaf_node %}
                                     {% for child in node.children.all %}
                                         <div class="category-item-desktop">
                                             {% if child.img %}
-                                                <img class="image" src="{{ MEDIA_URL }}{{ child.img|thumbnail_url:'images' }}" alt="">
+                                                <a href="{% url 'shop:catlist' child.slug %}">
+                                                <img class="image" src="{{ MEDIA_URL }}{{ child.img.url }}" style="width: 200px; height: 150px" alt="">
+                                                </a>
                                             {% else %}
                                                 <p>Нет изображения</p>
                                             {% endif %}
