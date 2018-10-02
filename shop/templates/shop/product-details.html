@@ -146,7 +146,9 @@
 									<div class="product-quantity">
 										<span>Qty</span>
 										<input type="number" placeholder="1" />
+                                        <a href="#" class="add_to_cart" data-slug="{{ product.slug }}">
 										<button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                        </a>
 										<button type="submit" class="toch-button toch-wishlist">wishlist</button>
 										<button type="submit" class="toch-button toch-compare">Compare</button>
 										<hr />
@@ -154,6 +156,27 @@
 									</div>
 								</div>
 							</div>
+                                <!-- Скрипт автоматического добавления товара в корзину без перезагрузки страницы. Для 149стр. -->
+                                <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
+                                <script>
+                                    $(document).ready(function(){
+                                        $('.add_to_cart').on('click', function(e){
+                                            e.preventDefault()
+                                            product_slug = $(this).attr('data-slug')
+                                            data = {
+                                                product_slug: product_slug
+                                            }
+                                            $.ajax({
+                                                type: "GET",
+                                                url: '{% url "cart:add_to_cart" %}',
+                                                data: data,
+                                                success: function(data){
+                                                    $("#cart_count").html(data.cart_total)
+                                                }
+                                            })
+                                        })
+                                    })
+                                </script>
 							<!-- Start Toch-Box -->
                             <div class="toch-box">
                                 <!-- Nav tabs -->
@@ -174,8 +197,8 @@
                                                     {% for entry in product.entry_set.active %}
                                                         <thead>
                                                             <tr>
-                                                                <td class="col-xs-6 dots">{{ entry.attribute }}</td>
-                                                                <td class="col-xs-6">{{ entry.value }}</td>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
                                                             </tr>
                                                         </thead>
                                                     {% endfor %}

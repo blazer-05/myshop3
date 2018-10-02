@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
+{% load thumbnail %}
 <!doctype html>
 <html class="no-js" lang="">
     <head>
@@ -191,53 +192,43 @@
 		                    	<div class="top-cart">
 		                    		<ul>
 		                    			<li>
-			                    			<a href="cart.html">
+			                    			<a href="{% url 'cart:cart' %}">
 			                    				<span class="cart-icon"><i class="fa fa-shopping-cart"></i></span>
 			                    				<span class="cart-total">
 			                    					<span class="cart-title">Shopping cart</span>
-				                    				<span class="cart-item">2 item(s)- </span>
-				                    				<span class="top-cart-price">$365.00</span>
+				                    				<span class="cart-item" id="cart_count">{{ cart.items.count }} item(s)- </span>
+				                    				<span class="top-cart-price cart-total-price">${{ cart.cart_total }}</span>
 			                    				</span>
 			                    			</a>
 											<div class="mini-cart-content">
-												<div class="cart-img-details">
+                                                {% for item in cart.items.all %}
+												<div class="cart-img-details cart-item-{{ item.product.id }}">
 													<div class="cart-img-photo">
-														<a href="#"><img src="{% static 'shop/img/product/total-cart.jpg' %}" alt="#"></a>
+														<a href="{{ item.product.get_absolute_url }}"><img src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}"></a>
 													</div>
 													<div class="cart-img-content">
-														<a href="#"><h4>Prod Aldults</h4></a>
+														<a href="{{ item.product.get_absolute_url }}"><h4>{{ item.product.title }}</h4></a>
 														<span>
 															<strong class="text-right">1 x</strong>
-															<strong class="cart-price text-right">$180.00</strong>
+															<strong class="cart-price text-right">${{ item.product.price }}</strong>
 														</span>
 													</div>
 													<div class="pro-del">
-														<a href="#"><i class="fa fa-times"></i></a>
+														<a href="#" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
 													</div>
 												</div>
+                                                {% endfor %}
 												<div class="clear"></div>
-												<div class="cart-img-details">
-													<div class="cart-img-photo">
-														<a href="#"><img src="{% static 'shop/img/product/total-cart2.jpg' %}" alt="#"></a>
-													</div>
-													<div class="cart-img-content">
-														<a href="#"><h4>Fact Prone</h4></a>
-														<span>
-															<strong class="text-right">1 x</strong>
-															<strong class="cart-price text-right">$185.00</strong>
-														</span>
-													</div>
-													<div class="pro-del">
-														<a href="#"><i class="fa fa-times"></i></a>
-													</div>
-												</div>
+
 												<div class="cart-inner-bottom">
 													<span class="total">
 														TOTAL:
-														<span class="amount">$550.00</span>
+														<span class="amount cart-total-price">${{ cart.cart_total }}</span>
 													</span>
 													<span class="cart-button-top">
-														<a href="cart.html">View cart</a>
+														<a href="{% url 'cart:cart' %}">View cart</a>
 														<a href="checkout.html">Checkout</a>
 													</span>
 												</div>
@@ -252,6 +243,50 @@
 				</div>
 			</div>
 			<!-- HEADER-MIDDLE END -->
+            <!-- Скрипт автоматического удаления товара из корзины без перезагрузки страницы. Для 204стр. -->
+            <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
+                <script>
+                $(document).ready(function(){
+                    $('.remove_from_cart').on('click', function(e){
+                        e.preventDefault()
+                        product_slug = $(this).attr('data-slug')
+                        item_product_id = $(this).attr('data-id')
+                        data = {
+                            product_slug: product_slug
+                        }
+                        $.ajax({
+                            type: "GET",
+                            url: '{% url "cart:remove_from_cart" %}',
+                            data: data,
+                            success: function(data){
+                                $("#cart_count").html(data.cart_total)
+                                $('.cart-item-'+item_product_id).css('display', 'none')
+                                $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                            }
+                        })
+                    })
+                })
+                // Скрипт автоматического увеличения товара в корзине и подсчета общей суммы товаров
+               $(document).ready(function(){
+                    $('.cart-item-qty').on('click', function(){
+                        qty = $(this).val()
+                        item_id = $(this).attr('data-id')
+                        data = {
+                            qty: qty,
+                            item_id: item_id
+                        }
+                        $.ajax({
+                            type: "GET",
+                            url: '{% url "cart:change_item_qty" %}',
+                            data: data,
+                            success: function(data){
+                                $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + ' руб.')
+                                $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                            }
+                        })
+                    })
+                })
+                </script>
 			<!-- START MAINMENU-AREA -->
 			<div class="mainmenu-area">
 				<div class="container">

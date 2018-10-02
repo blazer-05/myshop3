@@ -339,7 +339,9 @@
 																<div class="product-action">
 																	<div class="button-group">
 																		<div class="product-button">
+                                                                            <a href="#" class="add_to_cart" data-slug="{{ product.slug }}">
 																			<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                            </a>
 																		</div>
 																		<div class="product-button-2">
 																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
@@ -352,6 +354,27 @@
 														</div>
                                                         {% endfor %}
 														<!-- End Single-Product -->
+                                                    <!-- Скрипт автоматического добавления товара в корзину без перезагрузки страницы. Для 342стр. -->
+                                                    <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
+                                                    <script>
+                                                        $(document).ready(function(){
+                                                            $('.add_to_cart').on('click', function(e){
+                                                                e.preventDefault()
+                                                                product_slug = $(this).attr('data-slug')
+                                                                data = {
+                                                                    product_slug: product_slug
+                                                                }
+                                                                $.ajax({
+                                                                    type: "GET",
+                                                                    url: '{% url "cart:add_to_cart" %}',
+                                                                    data: data,
+                                                                    success: function(data){
+                                                                        $("#cart_count").html(data.cart_total)
+                                                                    }
+                                                                })
+                                                            })
+                                                        })
+                                                    </script>
 														<!-- Start Single-Product -->
 														<div class="col-xs-12">
 															<div class="single-product">

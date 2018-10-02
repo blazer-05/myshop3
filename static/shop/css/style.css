@@ -46,11 +46,6 @@
 -----------------------------------------------------------------------------------*/
 @import "bootstrap.min.css"; /*  Переапределение стилей бутстрапа https://www.youtube.com/watch?v=NarkyGPPxN8 */
 
-/* Убрал бордер в таблеце атрибутов товара */
-.table > thead > tr > td{
-  border: 0px;
-  width: 65%;
-}
 /* Размер шрифта на странице полного описания продукта во вкладках Описание, Характеристики */
 .bmw{
   font-size: 14px;
@@ -2575,8 +2570,9 @@ transition: border 0.2s ease-in-out 0s;
   max-width: 200px;
 }
 .cart-buttons {
-  display: block;
-  margin-left: 2px;
+  display: inline-block;
+  margin-left: 210px;
+  margin-top: -74px;
 }
 .accordion-cart {
   margin-bottom: 40px;

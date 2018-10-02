@@ -1,16 +1,30 @@
 
-from django.shortcuts import render, get_object_or_404
-from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_object_or_404
+
+from cart.views import *
+from shop.models import Category, Brand, Product, ProductAlbomImages
 
 def index(request):
     context = {}
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     products = Product.objects.filter(is_active=True)
     brands = Brand.objects.all()
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     context['products'] = products
     context['brands'] = brands
     context['slider_product'] = slider_product
+    context['cart'] = cart
     return render(request, 'shop/index.html', context)
 
 def catlinks(request, slug):
@@ -58,6 +72,17 @@ def shoplist(request, slug):
 
 def productdetails(request, product_slug, albom_id):
     context = {}
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(product=albom_id)
     category = product.category
@@ -69,6 +94,7 @@ def productdetails(request, product_slug, albom_id):
     context['category'] = category
     context['all_products'] = all_products
     context['products_from_this_category'] = products_from_this_category
+    context['cart'] = cart
     #context['attribute_and_value'] = attribute_and_value
     return render(request, 'shop/product-details.html', context)
 
@@ -83,9 +109,6 @@ def contact(request):
 
 def checkout(request):
     return render(request, 'shop/checkout.html')
-
-def cart(request):
-    return render(request, 'shop/cart.html')
 
 def registration(request):
     return render(request, 'shop/registration-account.html')
