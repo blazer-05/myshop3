@@ -115,7 +115,7 @@
 									<div class="support-content">
 										<i class="fa fa-clock-o"></i>
 										<div class="support-text">
-											<h1 class="zero gfont-1">working time</h1>
+											<h1 class="zero gfont-1" style="font-family: 'Roboto', sans-serif;">working time</h1>
 											<p>Mon- Sun: 8.00 - 18.00</p>
 										</div>
 									</div>
@@ -127,7 +127,7 @@
 								<div class="single-support">
 									<i class="fa fa-truck"></i>
 									<div class="support-text">
-										<h1 class="zero gfont-1">Free shipping</h1>
+										<h1 class="zero gfont-1" style="font-family: 'Roboto', sans-serif;">Free shipping</h1>
 										<p>On order over $199</p>
 									</div>
 								</div>
@@ -138,7 +138,7 @@
 								<div class="single-support">
 									<i class="fa fa-money"></i>
 									<div class="support-text">
-										<h1 class="zero gfont-1">Money back 100%</h1>
+										<h1 class="zero gfont-1" style="font-family: 'Roboto', sans-serif;">Money back 100%</h1>
 										<p>Within 30 Days after delivery</p>
 									</div>
 								</div>
@@ -149,7 +149,7 @@
 								<div class="single-support">
 									<i class="fa fa-phone-square"></i>
 									<div class="support-text">
-										<h1 class="zero gfont-1">Phone: 0501508541</h1>
+										<h1 class="zero gfont-1" style="font-family: 'Roboto', sans-serif;">Phone: 0501508541</h1>
 										<p>Order Online Now ! !</p>
 									</div>
 								</div>
@@ -196,8 +196,9 @@
 			                    				<span class="cart-icon"><i class="fa fa-shopping-cart"></i></span>
 			                    				<span class="cart-total">
 			                    					<span class="cart-title">Shopping cart</span>
-				                    				<span class="cart-item" id="cart_count">{{ cart.items.count }} item(s)- </span>
-				                    				<span class="top-cart-price cart-total-price">${{ cart.cart_total }}</span>
+				                    				<span class="cart-item" id="cart_count">{{ cart.items.count }}</span>
+				                    				<span class="cart-item">шт.</span>
+				                    				<span class="top-cart-price cart-total-price">&#8381; {{ cart.cart_total }}</span>
 			                    				</span>
 			                    			</a>
 											<div class="mini-cart-content">
@@ -209,12 +210,12 @@
 													<div class="cart-img-content">
 														<a href="{{ item.product.get_absolute_url }}"><h4>{{ item.product.title }}</h4></a>
 														<span>
-															<strong class="text-right">1 x</strong>
-															<strong class="cart-price text-right">${{ item.product.price }}</strong>
+															<strong class="text-right" id="item_qty">{{ item.qty }} x</strong>
+															<strong class="cart-price text-right">&#8381;{{ item.product.price }}</strong>
 														</span>
 													</div>
 													<div class="pro-del">
-														<a href="#" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
+														<a href="" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
                                                             <i class="fa fa-times"></i>
                                                         </a>
 													</div>
@@ -225,7 +226,7 @@
 												<div class="cart-inner-bottom">
 													<span class="total">
 														TOTAL:
-														<span class="amount cart-total-price">${{ cart.cart_total }}</span>
+														<span class="amount cart-total-price">&#8381;{{ cart.cart_total }}</span>
 													</span>
 													<span class="cart-button-top">
 														<a href="{% url 'cart:cart' %}">View cart</a>
@@ -261,27 +262,70 @@
                             success: function(data){
                                 $("#cart_count").html(data.cart_total)
                                 $('.cart-item-'+item_product_id).css('display', 'none')
-                                $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                                $('.cart-total-price').html('&#8381;' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
+                                  var cart_component = $('.mini-cart-content .clear');
+                                  $('.cart-img-details').remove();
+                                  for(var i in data.items) {
+                                    cart_component.before(''+
+                                    '<div class="cart-img-details cart-item-'+data.items[i].id+'">'+
+                                    '<div class="cart-img-photo">'+
+                                    '	<a href="'+data.items[i].url+'"><img src="'+data.items[i].images+'" alt="'+data.items[i].title+'"></a>'+
+                                    '</div>'+
+                                    '<div class="cart-img-content">'+
+                                    '	<a href="'+data.items[i].url+'"><h4>'+data.items[i].title+'</h4></a>'+
+                                    '	<span>'+
+                                    '		<strong class="text-right">1 x</strong>'+
+                                    '		<strong class="cart-price text-right">$'+data.items[i].price+'</strong>'+
+                                    '	</span>'+
+                                    '</div>'+
+                                    '<div class="pro-del">'+
+                                    '	<a href="#" class="remove_from_cart" data-slug="'+data.items[i].slug+'" data-id="{{ item.product.id }}">'+
+                                    '        <i class="fa fa-times"></i>'+
+                                    '    </a>'+
+                                    '</div>'+
+                                    '</div>')
+                                  }
                             }
                         })
                     })
                 })
-                // Скрипт автоматического увеличения товара в корзине и подсчета общей суммы товаров
-               $(document).ready(function(){
-                    $('.cart-item-qty').on('click', function(){
-                        qty = $(this).val()
-                        item_id = $(this).attr('data-id')
+                // Скрипт автоматического добавления товара в корзину и динамического обновления цены возле знака корзины
+                $(document).ready(function(){
+                    $('.add_to_cart').on('click', function(e){
+                        e.preventDefault()
+                        product_slug = $(this).attr('data-slug')
                         data = {
-                            qty: qty,
-                            item_id: item_id
+                            product_slug: product_slug
                         }
                         $.ajax({
                             type: "GET",
-                            url: '{% url "cart:change_item_qty" %}',
+                            url: '{% url "cart:add_to_cart" %}',
                             data: data,
                             success: function(data){
-                                $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + ' руб.')
-                                $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                                $("#cart_count").html(data.cart_total)
+                                $('.cart-total-price').html('&#8381;' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
+                                  var cart_component = $('.mini-cart-content .clear');
+                                  $('.cart-img-details').remove();
+                                  for(var i in data.items) {
+                                    cart_component.before(''+
+                                    '<div class="cart-img-details cart-item-'+data.items[i].id+'">'+
+                                    '<div class="cart-img-photo">'+
+                                    '	<a href="'+data.items[i].url+'"><img src="'+data.items[i].images+'" alt="'+data.items[i].title+'"></a>'+
+                                    '</div>'+
+                                    '<div class="cart-img-content">'+
+                                    '	<a href="'+data.items[i].url+'"><h4>'+data.items[i].title+'</h4></a>'+
+                                    '	<span>'+
+                                    '		<strong class="text-right">1 x</strong>'+
+                                    '		<strong class="cart-price text-right">$'+data.items[i].price+'</strong>'+
+                                    '	</span>'+
+                                    '</div>'+
+                                    '<div class="pro-del">'+
+                                    '	<a href="#" class="remove_from_cart" data-slug="'+data.items[i].slug+'" data-id="{{ item.product.id }}">'+
+                                    '        <i class="fa fa-times"></i>'+
+                                    '    </a>'+
+                                    '</div>'+
+                                    '</div>')
+                                  }
                             }
                         })
                     })

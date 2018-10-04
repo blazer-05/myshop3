@@ -41,7 +41,11 @@ def add_to_cart_view(request):
         new_cart_total += float(item.item_total)
     cart.cart_total = new_cart_total
     cart.save()
-    return JsonResponse({'cart_total': cart.items.count(), 'cart_total_price': cart.cart_total})
+    return JsonResponse(
+        {'cart_total': cart.items.count(),
+         'cart_total_price': cart.cart_total,
+         'items': cart_items_serializer(cart)
+         })
 
 # Удаление товара из корзины
 def remove_from_cart_view(request):
@@ -63,7 +67,11 @@ def remove_from_cart_view(request):
         new_cart_total += float(item.item_total)
     cart.cart_total = new_cart_total
     cart.save()
-    return JsonResponse({'cart_total': cart.items.count(), 'cart_total_price': cart.cart_total})
+    return JsonResponse(
+        {'cart_total': cart.items.count(),
+         'cart_total_price': cart.cart_total,
+         'items': cart_items_serializer(cart)
+         })
 
 # Функция которая увеличивает товар в корзине и умножает количество на цену товара
 def change_item_qty(request):
@@ -92,4 +100,18 @@ def change_item_qty(request):
         {'cart_total': cart.items.count(),
         'item_total': cart_item.item_total,
         'cart_total_price': cart.cart_total,
+        'items': cart_items_serializer(cart)
          })
+
+# Функция полуения объектов товара, вывод в выподающем списке корзины (изображения, описание, цена)
+def cart_items_serializer(cart):
+    return [{
+        'id': item.product.id,
+        'url': item.product.get_absolute_url(),
+        'slug': item.product.slug,
+        'title': item.product.title,
+        'images': item.product.images and item.product.images.url,
+        'qty': item.qty,
+        'price': item.product.price,
+        'item_total': item.item_total
+    } for item in cart.items.all()]

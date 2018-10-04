@@ -171,7 +171,8 @@
                                                 url: '{% url "cart:add_to_cart" %}',
                                                 data: data,
                                                 success: function(data){
-                                                    $("#cart_count").html(data.cart_total)
+                                                    $("#cart_count").html(data.cart_total) // В base.html 199 стр.
+                                                    $('.cart-total-price').html('&#8381; ' + parseFloat(data.cart_total_price).toFixed(2)) // В base.html 200 стр.
                                                 }
                                             })
                                         })

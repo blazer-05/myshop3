@@ -72,7 +72,7 @@
 {#																<button class="btn btn-primary" data-toggle="tooltip" title="Update">#}
 {#																	<i class="fa fa-refresh"></i>#}
 {#																</button>#}
-                                                                <a href="#" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
+                                                                <a href="" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
                                                                     <button class="btn btn-danger" data-toggle="tooltip" title="Remove">
                                                                         <i class="fa fa-times-circle"></i>
                                                                     </button>
@@ -80,8 +80,8 @@
 															</div>
 														</div>
 													</td>
-                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">{{ item.item_total }} руб.</td>
-                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">{{ item.product.price }} руб.</td>
+                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">&#8381; {{ item.item_total }}</td>
+                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">&#8381; {{ item.product.price }}</td>
 {#													<td class="text-right" id="cart-total-price">$</td>#}
 												</tr>
 											</tbody>
@@ -104,9 +104,9 @@
                                                 url: '{% url "cart:remove_from_cart" %}',
                                                 data: data,
                                                 success: function(data){
-                                                    $("#cart_count").html(data.cart_total)
+                                                    $("#cart_count").html(data.cart_total) // В base.html 199 стр.
                                                     $('.cart-item-'+item_product_id).css('display', 'none')
-                                                    $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                                                    $('.cart-total-price').html('<strong>&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) + '</strong>' ) // В base.html 200 стр.
                                                 }
                                             })
                                         })
@@ -125,8 +125,8 @@
                                                     url: '{% url "cart:change_item_qty" %}',
                                                     data: data,
                                                     success: function(data){
-                                                        $('#cart-item-total-'+item_id).html(parseFloat(data.item_total).toFixed(2) + ' руб.')
-                                                        $('.cart-total-price').html('<strong>' + parseFloat(data.cart_total_price).toFixed(2) + ' руб. </strong>')
+                                                        $('#cart-item-total-'+item_id).html('&#8381; ' + parseFloat(data.item_total).toFixed(2) )  //В cart.html 83 и 84 стр. добавляет товар в корзине на 1 с пересчетом суммы.
+                                                        $('.cart-total-price').html('<strong>&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) + '</strong>' ) // В base.html 200 стр. Общая сумма товара в корзине
                                                     }
                                                 })
                                             })
@@ -247,7 +247,7 @@
 														<td class="text-right">
 															<strong>Total:</strong>
 														</td>
-                                                        <td class="text-right cart-total-price"><strong>{{ cart.cart_total }} руб.</strong></td>
+                                                        <td class="text-right cart-total-price"><strong>&#8381; {{ cart.cart_total }} </strong></td>
 													</tr>
 												</tbody>
 											</table>
