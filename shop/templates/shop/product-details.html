@@ -101,7 +101,11 @@
 										<hr />
 										<p class="short-description">{{ product.descriptions|safe }}</p>
 										<hr />
-										<span class="current-price">${{ product.price }}</span>
+                                        {% if product.discount %}
+										<span class="current-price">${{ product.get_sale }}</span>
+                                            {% else %}
+                                            <span class="current-price">${{ product.price }}</span>
+                                        {% endif %}
 										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
 									</div>
 									<div class="about-product">
@@ -146,7 +150,7 @@
 									<div class="product-quantity">
 										<span>Qty</span>
 										<input type="number" placeholder="1" />
-                                        <a href="#" class="add_to_cart" data-slug="{{ product.slug }}">
+                                        <a href="" class="add_to_cart" data-slug="{{ product.slug }}">
 										<button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
                                         </a>
 										<button type="submit" class="toch-button toch-wishlist">wishlist</button>
@@ -178,6 +182,27 @@
                                         })
                                     })
                                 </script>
+                                <!-- Скрипт полета товара в корзину -->
+                                <script>
+                                    $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
+                                    var that = $(this).closest('.row').find('img'); // Класс row - это обертка нашей карточки товара, внутри которой есть и сама кнопка купить и картинка, которая полетит в корзину.
+                                    var bascket = $(".top-cart"); // Класс top-cart из base.html - это класс rорзины, туда и полетит изображение при клике по кнопке.
+                                    var w = that.width();
+                                    that.clone()
+                                        .css({'width' : w,
+                                        'position' : 'absolute',
+                                        'z-index' : '9999',
+                                        top: that.offset().top,
+                                        left:that.offset().left})
+                                        .appendTo("body")
+                                        .animate({opacity: 0.05,
+                                            left: bascket.offset()['left'],
+                                            top: bascket.offset()['top'],
+                                            width: 50}, 1000, function() {
+                                                $(this).remove();
+                                            });
+                                });
+                                </script>
 							<!-- Start Toch-Box -->
                             <div class="toch-box">
                                 <!-- Nav tabs -->
@@ -186,6 +211,7 @@
                                     <li><a href="#characteristics" data-toggle="tab">Характеристики</a></li>
                                     <li><a href="#comments" data-toggle="tab">Комментарии</a></li>
                                     <li><a href="#reviews" data-toggle="tab">Отзывы</a></li>
+                                    <li><a href="#action" data-toggle="tab">Акция</a></li>
                                 </ul>
                                 <br>
                                 <!-- Tab panes -->
@@ -208,6 +234,28 @@
                                     </div>
                                     <div class="tab-pane fade in" id="comments"><h2 class="title-product">Комментарии: Текст описания 3</h2></div>
                                     <div class="tab-pane fade in" id="reviews"><h2 class="title-product">Отзывы: Текст описания 4</h2></div>
+                                    <div class="tab-pane fade in" id="action"><h2 class="title-product">
+                                        {% if product.need_timer %}
+                                            <p>Для этого товара действует акция!</p>
+                                        <div class="timer">
+                                            <div class="eTimer" data-etDate="{{ product.timer_before|date:"d.m.Y.H.i"}}"></div>
+                                        </div>
+                                            <br>
+                                            <p style="font-size: 16px">{{ product.akciya_text|safe }}</p>
+                                            {% else %}
+                                            <p>На данный момент для этого товара акции нет</p>
+                                        {% endif %}
+                                    <!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html В файле скрипта etimer.js стр.93-94 настройка ссылки -->
+                                    <script type="text/javascript">
+                                        jQuery(document).ready(function() {
+                                            jQuery(".eTimer").each(function( index ) {
+                                                var etDate = $( this ).attr('data-etDate')
+                                                $( this ).eTimer({etType: 0, etDate: etDate, etTitleText: "До окончания акции осталось:", etTitleSize: 16, etShowSign: 1, etSep: " ", etFontFamily: "Roboto", etTextColor: "#0d0505", etPaddingTB: 0, etPaddingLR: 0, etBackground: "white", etBorderSize: 0, etBorderRadius: 0, etBorderColor: "white", etShadow: " 0px 0px 10px 0px white", etLastUnit: 4, etNumberFontFamily: "Impact", etNumberSize: 24, etNumberColor: "white", etNumberPaddingTB: 0, etNumberPaddingLR: 5, etNumberBackground: "#ED7987", etNumberBorderSize: 0, etNumberBorderRadius: 0, etNumberBorderColor: "white", etNumberShadow: "inset 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                    </h2></div>
                                 </div>
 
                             </div>

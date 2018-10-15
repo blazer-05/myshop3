@@ -73,7 +73,7 @@ def remove_from_cart_view(request):
          'items': cart_items_serializer(cart)
          })
 
-# Функция которая увеличивает товар в корзине и умножает количество на цену товара
+# Функция которая изменяет количество товара в корзине и умножает количество на цену товара
 def change_item_qty(request):
     try:
         cart_id = request.session['cart_id']

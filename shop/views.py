@@ -19,9 +19,11 @@ def index(request):
         cart = Cart.objects.get(id=cart_id)
 
     products = Product.objects.filter(is_active=True)
+    hotdeals = Product.objects.filter(akciya=True)
     brands = Brand.objects.all()
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     context['products'] = products
+    context['hotdeals'] = hotdeals
     context['brands'] = brands
     context['slider_product'] = slider_product
     context['cart'] = cart
@@ -31,10 +33,9 @@ def catlinks(request, slug):
     context = {}
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
-    #product = Product.objects.all()
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-    #context['product'] = product
+
     return render(request, 'shop/catlinks.html', context )
 
 def catalog(request):
@@ -45,16 +46,17 @@ def catlist(request, slug):
     context = {}
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
-    #product = Product.objects.all()
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-    #context['product'] = product
     return render(request, 'shop/catlist.html', context )
 
 def shop(request):
     context = {}
     products = Product.objects.filter(is_active=True)
     brands = Brand.objects.all()
+    paginator = Paginator(products, 5)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
     context['products'] = products
     context['brands'] = brands
     return render(request, 'shop/shop.html', context)
@@ -63,14 +65,14 @@ def shoplist(request, slug):
     context = {}
     category = Category.objects.get(slug=slug)
     product = Product.objects.filter(category=category, is_active=True)
-    paginator = Paginator(product, 10)
+    paginator = Paginator(product, 5)
     page = request.GET.get('page')
     product = paginator.get_page(page)
     context['category'] = category
     context['product'] = product
     return render(request, 'shop/shop-list.html', context)
 
-def productdetails(request, product_slug, albom_id):
+def productdetails(request, product_slug):
     context = {}
     try:
         cart_id = request.session['cart_id']
@@ -84,15 +86,17 @@ def productdetails(request, product_slug, albom_id):
         cart = Cart.objects.get(id=cart_id)
 
     product = get_object_or_404(Product, slug=product_slug)
-    albom = ProductAlbomImages.objects.filter(product=albom_id)
+    albom = ProductAlbomImages.objects.filter(is_active=True, product=product)
     category = product.category
     all_products = Product.objects.all().exclude(slug=product_slug)
     products_from_this_category = Product.objects.filter(category=category)
+    hotdeals = Product.objects.filter(akciya=True, timer=True)
     #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
     context['product'] = product
     context['albom'] = albom
     context['category'] = category
     context['all_products'] = all_products
+    context['hotdeals'] = hotdeals
     context['products_from_this_category'] = products_from_this_category
     context['cart'] = cart
     #context['attribute_and_value'] = attribute_and_value

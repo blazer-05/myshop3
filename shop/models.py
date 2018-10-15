@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
+from django.utils import timezone
 
 
 # Модель категорий
@@ -83,6 +84,11 @@ class Product(models.Model):
     images = models.ImageField(upload_to='img_product/%y/%m/%d/', blank=True, verbose_name='Изображение товара')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     discount = models.IntegerField(default=0, verbose_name='Скидка')
+    new = models.BooleanField(default=False, verbose_name='Новый товар')
+    akciya = models.BooleanField(default=False, verbose_name='Акция')
+    akciya_text = models.TextField(blank=True, verbose_name='Описание')
+    timer = models.BooleanField(default=False, verbose_name='Таймер')
+    timer_before = models.DateTimeField(null=True, blank=True, verbose_name='Дата таймера')
     stock = models.PositiveIntegerField(verbose_name='Количество')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
@@ -108,7 +114,7 @@ class Product(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse('shop:product-details', kwargs={'product_slug': self.slug, 'albom_id': self.id})
+        return reverse('shop:product-details', kwargs={'product_slug': self.slug})
 
 
     # Расчет скидки
@@ -116,6 +122,10 @@ class Product(models.Model):
         '''Расчитать стоимость со скидкой'''
         price = int(self.price * (100 - self.discount) / 100)
         return price
+
+    # Функция для вывода таймера
+    def need_timer(self):
+        return self.timer and self.timer_before and timezone.now() < self.timer_before
 
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):

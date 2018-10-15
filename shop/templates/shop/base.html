@@ -226,7 +226,7 @@
 												<div class="cart-inner-bottom">
 													<span class="total">
 														TOTAL:
-														<span class="amount cart-total-price">&#8381;{{ cart.cart_total }}</span>
+														<span class="amount cart-total-price">&#8381; {{ cart.cart_total }}</span>
 													</span>
 													<span class="cart-button-top">
 														<a href="{% url 'cart:cart' %}">View cart</a>
@@ -262,10 +262,11 @@
                             success: function(data){
                                 $("#cart_count").html(data.cart_total)
                                 $('.cart-item-'+item_product_id).css('display', 'none')
-                                $('.cart-total-price').html('&#8381;' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
+                                $('.cart-total-price').html('&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
                                   var cart_component = $('.mini-cart-content .clear');
                                   $('.cart-img-details').remove();
                                   for(var i in data.items) {
+                                    console.log(data.items[i])
                                     cart_component.before(''+
                                     '<div class="cart-img-details cart-item-'+data.items[i].id+'">'+
                                     '<div class="cart-img-photo">'+
@@ -303,10 +304,11 @@
                             data: data,
                             success: function(data){
                                 $("#cart_count").html(data.cart_total)
-                                $('.cart-total-price').html('&#8381;' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
+                                $('.cart-total-price').html('&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) ) // В base.html 200 стр.
                                   var cart_component = $('.mini-cart-content .clear');
                                   $('.cart-img-details').remove();
                                   for(var i in data.items) {
+                                    console.log(data.items[i])
                                     cart_component.before(''+
                                     '<div class="cart-img-details cart-item-'+data.items[i].id+'">'+
                                     '<div class="cart-img-photo">'+
@@ -330,6 +332,27 @@
                         })
                     })
                 })
+                </script>
+                <!-- Скрипт полета товара в корзину -->
+                <script>
+                    $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
+                    var that = $(this).closest('.single-product').find('img'); // Класс single-product - это обертка нашей карточки товара, внутри которой есть и сама кнопка купить и картинка, которая полетит в корзину.
+                    var bascket = $(".top-cart"); // Класс top-cart из base.html - это класс rорзины, туда и полетит изображение при клике по кнопке.
+                    var w = that.width();
+                    that.clone()
+                        .css({'width' : w,
+                        'position' : 'absolute',
+                        'z-index' : '9999',
+                        top: that.offset().top,
+                        left:that.offset().left})
+                        .appendTo("body")
+                        .animate({opacity: 0.05,
+                            left: bascket.offset()['left'],
+                            top: bascket.offset()['top'],
+                            width: 50}, 1000, function() {
+                                $(this).remove();
+                            });
+                });
                 </script>
 			<!-- START MAINMENU-AREA -->
 			<div class="mainmenu-area">
@@ -678,5 +701,7 @@
 		<script src="{% static 'shop/js/imagezoom.js' %}"></script>
 		<!-- plugins JS
 		============================================ -->
+        <script src="{% static 'shop/js/etimer.js' %}" type="text/javascript"></script>
+
     </body>
 </html>

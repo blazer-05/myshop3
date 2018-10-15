@@ -5,6 +5,10 @@ from mptt.admin import TreeRelatedFieldListFilter
 
 from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry
 
+class AlbomInLine(admin.TabularInline):
+    model = ProductAlbomImages
+    extra = 1
+
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
@@ -19,7 +23,7 @@ class EntryInline(admin.TabularInline):
 
 # Класс модели продукта
 class ProductAdmin(SummernoteModelAdmin):
-    inlines = [EntryInline] # Привязываем модель EntryInline в админке к товару.
+    inlines = [EntryInline, AlbomInLine] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
     list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!

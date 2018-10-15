@@ -3,6 +3,8 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load mptt_tags %}
+{% load bootstrap3 %}
+
 
 {% block title %}
     {{ category.name }}
@@ -157,23 +159,7 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-                                                                    {% if product.has_previous %}
-																	<li><a href="?page=1{{ product.previous.num_pages }}"><|</a></li>
-																	<li><a href="?page={{ product.previous_page_number }}"><</a></li>
-                                                                    {% endif %}
-
-                                                                    {% for i in product.paginator.page_range %}
-                                                                      {% if product.number == i %}
-                                                                        <li class="active"><a href="">{{ i }}</a></li>
-                                                                      {% else %}
-                                                                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                                                      {% endif %}
-                                                                    {% endfor %}
-
-                                                                    {% if product.has_next %}
-																	<li><a href="?page={{ product.next_page_number }}">></a></li>
-																	<li><a href="?page={{ product.paginator.num_pages }}">>|</a></li>
-                                                                    {% endif %}
+                                                                    {% bootstrap_pagination product pages_to_show=3 %}
 																</ul>
 														    </div>
 														</div>
@@ -199,3 +185,25 @@
 			</div>
         </section>
 {% endblock content %}
+
+{% comment %}
+
+{% if product.has_previous %}
+<li><a href="?page=1{{ product.previous.num_pages }}"><|</a></li>
+<li><a href="?page={{ product.previous_page_number }}"><</a></li>
+{% endif %}
+
+{% for i in product.paginator.page_range %}
+  {% if product.number == i %}
+    <li class="active"><a href="">{{ i }}</a></li>
+  {% else %}
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+
+{% if product.has_next %}
+<li><a href="?page={{ product.next_page_number }}">></a></li>
+<li><a href="?page={{ product.paginator.num_pages }}">>|</a></li>
+{% endif %}
+
+{% endcomment %}

@@ -2,6 +2,7 @@
 {% extends 'shop/base.html' %}
 {% load staticfiles %}
 {% load thumbnail %}
+{% load bootstrap3 %}
 
 {% block title %}
     Список товаров
@@ -224,10 +225,7 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-																	<li class="active"><a href="#">1</a></li>
-																	<li><a href="#">2</a></li>
-																	<li><a href="#">></a></li>
-																	<li><a href="#">>|</a></li>
+                                                                    {% bootstrap_pagination products pages_to_show=4 %}
 																</ul>
 															</div>
 														</div>

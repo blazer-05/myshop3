@@ -39,6 +39,7 @@
 										<h2 class="entry-title">Shopping Cart</h2>
 									</div>
 									<!-- Start Table -->
+                                    {% if cart.items.count > 0 %}
 									<div class="table-responsive">
 										<table class="table table-bordered bmw">
 											<thead>
@@ -88,10 +89,17 @@
                                             {% endfor %}
 										</table>
 									</div>
+                                    <h3 class='cart-empty'></h3>
+                                        <br>
+                                    {% else %}
+                                        <h3 class="text-left"><strong>Your basket is empty</strong></h3>
+                                        <br>
+                                    {% endif %}
                                 <!-- Скрипт автоматического удаления товара из корзины без перезагрузки страницы. Для 73стр. -->
                                 <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
                                     <script>
                                     $(document).ready(function(){
+                                        $('.cart-empty').css('display', 'none')
                                         $('.remove_from_cart').on('click', function(e){
                                             e.preventDefault()
                                             product_slug = $(this).attr('data-slug')
@@ -107,6 +115,11 @@
                                                     $("#cart_count").html(data.cart_total) // В base.html 199 стр.
                                                     $('.cart-item-'+item_product_id).css('display', 'none')
                                                     $('.cart-total-price').html('<strong>&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) + '</strong>' ) // В base.html 200 стр.
+                                                    if(parseInt(data.cart_total) == 0){
+                                                        $('.table-responsive').css('display', 'none')
+                                                        $('.cart-empty').css('display', 'block')
+                                                        $('.cart-empty').html('<h3 class="text-left"><strong>Your basket is empty</strong></h3>')
+                                                    }
                                                 }
                                             })
                                         })
