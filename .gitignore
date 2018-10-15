@@ -109,6 +109,7 @@ gitignore
 myshop3/settings.py
 myshop3/requirements.txt
 backup/
-.media/
+media/
+media_1/
 
 
