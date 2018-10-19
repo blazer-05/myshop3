@@ -106,7 +106,6 @@ venv.bak/
 
 gitignore
 .idea/
-.myshop3/notes.txt
 myshop3/settings.py
 myshop3/requirements.txt
 backup/
