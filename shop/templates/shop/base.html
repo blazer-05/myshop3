@@ -433,51 +433,15 @@
 					</div>
 					<div class="row">
 						<div class="active-brand-logo">
+                            {% for brand in brends %}
+                                {% if brand.image %}
 							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/1.png' %}" alt=""></a>
+								<div class="single-brand-logo"> <!-- style="width: 200px; height: 82px" -->
+									<a href="#"><img src="{{ brand.image|thumbnail_url:'brandlogo' }}" alt=""></a>
 								</div>
 							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/2.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/3.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/4.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/5.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/6.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/1.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/2.png' %}" alt=""></a>
-								</div>
-							</div>
-							<div class="col-md-2">
-								<div class="single-brand-logo">
-									<a href="#"><img src="{% static 'shop/img/brand/3.png' %}" alt=""></a>
-								</div>
-							</div>
+                                {% endif %}
+                            {% endfor %}
 						</div>
 					</div>
 				</div>
@@ -617,14 +581,13 @@
 										<img alt="#" src="{% static 'shop/img/product/quickview-photo.jpg' %}"/>
 									</div>
 								</div><!-- .product-images -->
-
 								<div class="product-info">
-									<h1>Aenean eu tristique</h1>
+									<h1>Title</h1>
 									<div class="price-box-3">
 										<hr />
 										<div class="s-price-box">
-											<span class="new-price">$160.00</span>
-											<span class="old-price">$190.00</span>
+											<span class="new-price">$180.00</span>
+											<span class="old-price">$200.00</span>
 										</div>
 										<hr />
 									</div>

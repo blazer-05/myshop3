@@ -341,28 +341,6 @@
 														</div>
                                                         {% endfor %}
 														<!-- End Single-Product -->
-                                                    <!-- Скрипт автоматического добавления товара в корзину без перезагрузки страницы. Для 342стр. -->
-                                                    <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
-                                                    <script>
-                                                        $(document).ready(function(){
-                                                            $('.add_to_cart').on('click', function(e){
-                                                                e.preventDefault()
-                                                                product_slug = $(this).attr('data-slug')
-                                                                data = {
-                                                                    product_slug: product_slug
-                                                                }
-                                                                $.ajax({
-                                                                    type: "GET",
-                                                                    url: '{% url "cart:add_to_cart" %}',
-                                                                    data: data,
-                                                                    success: function(data){
-                                                                        $("#cart_count").html(data.cart_total) // В base.html 199 стр.
-                                                                        $('.cart-total-price').html('&#8381;' + parseFloat(data.cart_total_price).toFixed(2) ) //
-                                                                    }
-                                                                })
-                                                            })
-                                                        })
-                                                    </script>
                                                     <!-- Скрипт полета товара в корзину -->
                                                     <script>
                                                         $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
@@ -4653,7 +4631,6 @@
 				</div>
 			</div>
         </section>
-
 {% endblock content %}
 
 

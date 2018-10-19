@@ -115,3 +115,4 @@ def cart_items_serializer(cart):
         'price': item.product.price,
         'item_total': item.item_total
     } for item in cart.items.all()]
+

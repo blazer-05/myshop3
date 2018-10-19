@@ -22,3 +22,11 @@ def bestseller(request): # Вывод фильтра в шаблон filters.htm
     bestsellers = Brand.objects.all()
     context['bestsellers'] = bestsellers
     return locals()
+
+def brendlogo(request): # Вывод брендов в шаблоне base.html
+    brends = Brand.objects.filter(is_active=True)
+    return locals()
+
+# def base(request):
+#     baseproduct = Product.objects.get(id=1)
+#     return locals()

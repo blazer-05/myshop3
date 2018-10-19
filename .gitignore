@@ -108,6 +108,7 @@ gitignore
 .idea/
 myshop3/settings.py
 myshop3/requirements.txt
+myshop3/notes.txt
 backup/
 media/
 

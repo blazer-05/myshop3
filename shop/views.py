@@ -1,9 +1,10 @@
 
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 
 from cart.views import *
 from shop.models import Category, Brand, Product, ProductAlbomImages
+
 
 def index(request):
     context = {}
@@ -20,11 +21,9 @@ def index(request):
 
     products = Product.objects.filter(is_active=True)
     hotdeals = Product.objects.filter(akciya=True)
-    brands = Brand.objects.all()
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     context['products'] = products
     context['hotdeals'] = hotdeals
-    context['brands'] = brands
     context['slider_product'] = slider_product
     context['cart'] = cart
     return render(request, 'shop/index.html', context)
@@ -35,7 +34,6 @@ def catlinks(request, slug):
     category_list = thiscat.get_descendants(include_self=True)
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-
     return render(request, 'shop/catlinks.html', context )
 
 def catalog(request):
@@ -52,24 +50,47 @@ def catlist(request, slug):
 
 def shop(request):
     context = {}
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     products = Product.objects.filter(is_active=True)
-    brands = Brand.objects.all()
-    paginator = Paginator(products, 5)
+    paginator = Paginator(products, 10)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context['products'] = products
-    context['brands'] = brands
+    context['cart'] = cart
     return render(request, 'shop/shop.html', context)
 
 def shoplist(request, slug):
     context = {}
+
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     category = Category.objects.get(slug=slug)
-    product = Product.objects.filter(category=category, is_active=True)
-    paginator = Paginator(product, 5)
+    products = Product.objects.filter(category=category, is_active=True)
+    paginator = Paginator(products, 5)
     page = request.GET.get('page')
-    product = paginator.get_page(page)
+    products = paginator.get_page(page)
     context['category'] = category
-    context['product'] = product
+    context['products'] = products
+    context['cart'] = cart
     return render(request, 'shop/shop-list.html', context)
 
 def productdetails(request, product_slug):
