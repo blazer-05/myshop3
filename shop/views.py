@@ -132,9 +132,6 @@ def myaccount(request):
 def contact(request):
     return render(request, 'shop/contact.html')
 
-def checkout(request):
-    return render(request, 'shop/checkout.html')
-
 def registration(request):
     return render(request, 'shop/registration-account.html')
 

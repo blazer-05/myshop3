@@ -93,7 +93,7 @@
 								<ul class="link">
 									<li><a href="my-account.html"><i class="fa fa-user"></i> My Account</a></li>
 									<li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
-									<li><a href="checkout.html"><i class="fa fa-share"></i> Checkout</a></li>
+									<li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i> Checkout</a></li>
 									<li><a href="registration-account.html"><i class="fa fa-unlock-alt"></i> Login</a></li>
 								</ul>
 							</div>
@@ -230,7 +230,7 @@
 													</span>
 													<span class="cart-button-top">
 														<a href="{% url 'cart:cart' %}">View cart</a>
-														<a href="checkout.html">Checkout</a>
+														<a href="{% url 'cart:checkout' %}">Checkout</a>
 													</span>
 												</div>
 											</div>
@@ -375,7 +375,7 @@
 										<li><a href="#">Pages</a>
 											<ul>
 												<li><a href="cart.html">Cart</a></li>
-												<li><a href="checkout.html">Checkout</a></li>
+												<li><a href="../../../cart/templates/cart/checkout.html">Checkout</a></li>
 												<li><a href="registration-account.html">Create Account</a></li>
 												<li><a href="my-account.html">My Account</a></li>
 												<li><a href="product-details.html">Product details</a></li>

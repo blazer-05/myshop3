@@ -15,7 +15,6 @@ urlpatterns = [
     path('wishlist/', wishlist, name='wishlist'),
     path('my-account/', myaccount, name='my-account'),
     path('contact/', contact, name='contact'),
-    path('checkout/', checkout, name='checkout'),
     path('registration/', registration, name='registration'),
     path('about/', about, name='about'),
 

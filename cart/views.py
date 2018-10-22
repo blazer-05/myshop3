@@ -116,3 +116,19 @@ def cart_items_serializer(cart):
         'item_total': item.item_total
     } for item in cart.items.all()]
 
+# Функция вывода в шаблон checkout данных заказа.
+def checkout(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+    context = {
+        'cart': cart,
+    }
+    return render(request, 'cart/checkout.html', context)

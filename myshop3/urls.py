@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('shop.urls', namespace='shop')),
     path('summernote/', include('django_summernote.urls')),
     path('cart/', include('cart.urls', namespace='cart')),
+    #path('order/', include('orders.urls', namespace='order')),
 ]
 
 if settings.DEBUG:

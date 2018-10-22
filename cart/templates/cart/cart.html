@@ -45,15 +45,15 @@
 									<!-- Start Table -->
                                     {% if cart.items.count > 0 %}
 									<div class="table-responsive">
-										<table class="table table-bordered bmw">
+										<table class="table table-bordered table-hover bmw">
 											<thead>
 												<tr>
 													<td class="text-center">Image</td>
 													<td class="text-left">Product Name</td>
 {#													<td class="text-left">Quantity</td>#}
 													<td class="text-left">Quantity</td>
-													<td class="text-right">Total</td>
 													<td class="text-right">Unit Price</td>
+													<td class="text-right">Total</td>
 												</tr>
 											</thead>
                                             {% for item in cart.items.all %}
@@ -85,7 +85,7 @@
 															</div>
 														</div>
 													</td>
-                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">&#8381; {{ item.item_total }}</td>
+                                                    <td class="text-right" id="cart-item-total">&#8381; {{ item.item_total }}</td>
                                                     <td class="text-right" id="cart-item-total-{{ item.id }}">&#8381; {{ item.product.price }}</td>
 {#													<td class="text-right" id="cart-total-price">$</td>#}
 												</tr>
@@ -173,7 +173,7 @@
 									</div>
 									<div class="shopping-checkout">
 										<a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue Shopping</a>
-										<a href="{% url 'shop:checkout' %}" class="btn btn-primary pull-right">Checkout</a>
+										<a href="{% url 'cart:checkout' %}" class="btn btn-primary pull-right">Checkout</a>
 									</div>
 								</div>
 							</div>
