@@ -14,7 +14,7 @@
 					<div class="col-md-12">
 						<ul class="page-menu">
 							<li><a href="/">Home</a></li>
-							<li class="active"><a href="{% url 'cart:cart' %}">Shopping Cart</a></li>
+							<li class="active"><a href="/cart/">Shopping Cart</a></li>
 						</ul>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 										<h2 class="entry-title">Shopping Cart</h2>
 									</div>
 									<!-- Start Table -->
-                                    {% if cart.items.count > 0 %}
+                                    {% if cart.products.count > 0 %}
 									<div class="table-responsive">
 										<table class="table table-bordered table-hover bmw">
 											<thead>
@@ -56,37 +56,41 @@
 													<td class="text-right">Total</td>
 												</tr>
 											</thead>
-                                            {% for item in cart.items.all %}
+                                            {% for cartproduct in cart.cartproduct_set.all %}
 											<tbody>
-												<tr class="cart-item-{{ item.product.id }}">
+												<tr class="cart-item-{{ cartproduct.id }}">
 													<td class="text-center">
-														<a href="{{ item.product.get_absolute_url }}">
-                                                            <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
+														<a href="{{ cartproduct.product.get_absolute_url }}">
+                                                            <img class="img-thumbnail" src="{{ cartproduct.product.images|thumbnail_url:'cart' }}" alt="{{ cartproduct.product.title }}" />
                                                         </a>
 													</td>
 													<td class="text-left">
-														<a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a>
+														<a href="{{ cartproduct.product.get_absolute_url }}">{{ cartproduct.product.title }}</a>
 													</td>
 {#													<td class="text-center">{{ item.qty }}</td>#}
 													<td class="text-left">
-														<div class="btn-block cart-put">
-                                                            <form action="" method="GET">
-															<input class="form-control cart-item-qty" data-id="{{ item.id }}" type="number" name="qty" value="{{ item.qty }}" min="1"/>
-                                                            </form>
-															<div class="input-group-btn cart-buttons">
-{#																<button class="btn btn-primary" data-toggle="tooltip" title="Update">#}
-{#																	<i class="fa fa-refresh"></i>#}
-{#																</button>#}
-                                                                <a href="" class="remove_from_cart" data-slug="{{ item.product.slug }}" data-id="{{ item.product.id }}">
-                                                                    <button class="btn btn-danger" data-toggle="tooltip" title="Remove">
-                                                                        <i class="fa fa-times-circle"></i>
-                                                                    </button>
-                                                                </a>
-															</div>
-														</div>
+                                                        <form class="product-quantity" onsubmit="return changeCart(event)">
+                                                            <div style="display: inline-block; width: 110px">
+                                                                <div class="input-group plus-minus-widget">
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-default" type="submit" style="width: 35px" onclick="quantityChange(event, -1)">-</button>
+                                                                    </span>
+                                                                    <input type="text" placeholder="1" value="{{ cartproduct.quantity }}" name="quantity" class="form-control">
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-default" type="submit" style="width: 35px" onclick="quantityChange(event, +1)">+</button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <input type="hidden" name="product" value="{{ cartproduct.product.slug }}"/>
+                                                        </form>
+                                                        <div style="display: inline-block;">
+                                                            <div class="input-group">
+                                                                <button class="btn btn-danger" title="Remove" onclick="return removeFromCartTable(event, '{{ cartproduct.product.slug }}')"><i class="fa fa-times-circle"></i></button>
+                                                            </div>
+                                                        </div>
 													</td>
-                                                    <td class="text-right" id="cart-item-total">&#8381; {{ item.item_total }}</td>
-                                                    <td class="text-right" id="cart-item-total-{{ item.id }}">&#8381; {{ item.product.price }}</td>
+                                                    <td class="text-right" id="cart-item-total-{{ cartproduct.id }}">&#8381; {{ cartproduct.product.price }}</td>
+                                                    <td class="text-right" id="cart-item-total-{{ cartproduct.id }}">&#8381; {{ cartproduct.product.total }}</td>
 {#													<td class="text-right" id="cart-total-price">$</td>#}
 												</tr>
 											</tbody>
@@ -102,56 +106,20 @@
                                 <!-- Скрипт автоматического удаления товара из корзины без перезагрузки страницы. Для 73стр. -->
                                 <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
                                     <script>
-                                    $(document).ready(function(){
-                                        $('.cart-empty').css('display', 'none')
-                                        $('.remove_from_cart').on('click', function(e){
-                                            e.preventDefault()
-                                            product_slug = $(this).attr('data-slug')
-                                            item_product_id = $(this).attr('data-id')
-                                            data = {
-                                                product_slug: product_slug
+                                        $(document).ready(function () {
+                                            $('.cart-empty').css('display', 'none')
+                                            $('#hide').css('display', 'block')
+                                            if (parseInt(data.cart_total) == 0) {
+                                                $('.table-responsive').css('display', 'none')
+                                                $('.cart-empty').css('display', 'block')
+                                                $('.cart-empty').html('<h3 class="text-left"><strong>Your basket is empty</strong></h3>')
+                                                $('#hide').css('display', 'none')
                                             }
-                                            $.ajax({
-                                                type: "GET",
-                                                url: '{% url "cart:remove_from_cart" %}',
-                                                data: data,
-                                                success: function(data){
-                                                    $("#cart_count").html(data.cart_total) // В base.html 199 стр.
-                                                    $('.cart-item-'+item_product_id).css('display', 'none')
-                                                    $('.cart-total-price').html('<strong>&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) + '</strong>' ) // В base.html 200 стр.
-                                                    if(parseInt(data.cart_total) == 0){
-                                                        $('.table-responsive').css('display', 'none')
-                                                        $('.cart-empty').css('display', 'block')
-                                                        $('.cart-empty').html('<h3 class="text-left"><strong>Your basket is empty</strong></h3>')
-                                                    }
-                                                }
-                                            })
-                                        })
-                                    })
-                                    // Скрипт автоматического увеличения товара в корзине
-                                        $(document).ready(function(){
-                                            $('.cart-item-qty').on('click', function(){
-                                                qty = $(this).val()
-                                                item_id = $(this).attr('data-id')
-                                                data = {
-                                                    qty: qty,
-                                                    item_id: item_id
-                                                }
-                                                $.ajax({
-                                                    type: "GET",
-                                                    url: '{% url "cart:change_item_qty" %}',
-                                                    data: data,
-                                                    success: function(data){
-                                                        $('#cart-item-total-'+item_id).html('&#8381; ' + parseFloat(data.item_total).toFixed(2) )  //В cart.html 83 и 84 стр. добавляет товар в корзине на 1 с пересчетом суммы.
-                                                        $('.cart-total-price').html('<strong>&#8381; ' + parseFloat(data.cart_total_price).toFixed(2) + '</strong>' ) // В base.html 200 стр. Общая сумма товара в корзине
-                                                    }
-                                                })
-                                            })
                                         })
                                     </script>
 									<!-- End Table -->
 
-									<div class="row">
+									<div class="row" id="hide">
 										<div class="col-sm-4 col-sm-offset-8">
 											<table class="table table-bordered">
 												<tbody>
@@ -161,12 +129,14 @@
 {#														</td>#}
 {#														<td class="text-right">$</td>#}
 {#													</tr>#}
+
 													<tr>
 														<td class="text-right">
 															<strong>Total:</strong>
 														</td>
                                                         <td class="text-right cart-total-price"><strong>&#8381; {{ cart.cart_total }} </strong></td>
 													</tr>
+
 												</tbody>
 											</table>
 										</div>

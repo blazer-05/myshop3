@@ -1,24 +1,11 @@
-
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import get_object_or_404, render_to_response
-
-from cart.views import *
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 from shop.models import Category, Brand, Product, ProductAlbomImages
 
 
 def index(request):
     context = {}
-    try:
-        cart_id = request.session['cart_id']
-        cart = Cart.objects.get(id=cart_id)
-        request.session['total'] = cart.items.count()
-    except:
-        cart = Cart()
-        cart.save()
-        cart_id = cart.id
-        request.session['cart_id'] = cart_id
-        cart = Cart.objects.get(id=cart_id)
-
+    cart = request.cart
     products = Product.objects.filter(is_active=True)
     hotdeals = Product.objects.filter(akciya=True)
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
@@ -50,17 +37,7 @@ def catlist(request, slug):
 
 def shop(request):
     context = {}
-    try:
-        cart_id = request.session['cart_id']
-        cart = Cart.objects.get(id=cart_id)
-        request.session['total'] = cart.items.count()
-    except:
-        cart = Cart()
-        cart.save()
-        cart_id = cart.id
-        request.session['cart_id'] = cart_id
-        cart = Cart.objects.get(id=cart_id)
-
+    cart = request.cart
     products = Product.objects.filter(is_active=True)
     paginator = Paginator(products, 10)
     page = request.GET.get('page')
@@ -71,18 +48,7 @@ def shop(request):
 
 def shoplist(request, slug):
     context = {}
-
-    try:
-        cart_id = request.session['cart_id']
-        cart = Cart.objects.get(id=cart_id)
-        request.session['total'] = cart.items.count()
-    except:
-        cart = Cart()
-        cart.save()
-        cart_id = cart.id
-        request.session['cart_id'] = cart_id
-        cart = Cart.objects.get(id=cart_id)
-
+    cart = request.cart
     category = Category.objects.get(slug=slug)
     products = Product.objects.filter(category=category, is_active=True)
     paginator = Paginator(products, 5)
@@ -95,17 +61,7 @@ def shoplist(request, slug):
 
 def productdetails(request, product_slug):
     context = {}
-    try:
-        cart_id = request.session['cart_id']
-        cart = Cart.objects.get(id=cart_id)
-        request.session['total'] = cart.items.count()
-    except:
-        cart = Cart()
-        cart.save()
-        cart_id = cart.id
-        request.session['cart_id'] = cart_id
-        cart = Cart.objects.get(id=cart_id)
-
+    cart = request.cart
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(is_active=True, product=product)
     category = product.category

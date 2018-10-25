@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import index, catalog, catlist, catlinks, shop, shoplist, productdetails, wishlist, myaccount, contact, registration, about
 from shop.context_processors import menucategory
 
 app_name = 'shop'

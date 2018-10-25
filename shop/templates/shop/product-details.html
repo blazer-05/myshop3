@@ -147,41 +147,34 @@
 											</button>
 										</div>
 									</div>
-									<div class="product-quantity">
-										<span>Qty</span>
-										<input type="number" placeholder="1" />
-                                        <a href="" class="add_to_cart" data-slug="{{ product.slug }}">
+
+                                <div class="">
+									<form class="product-quantity" onsubmit="return addToCart(event)">
+
+                                        <div style="display: inline-block; width: 110px">
+                                            <div class="input-group plus-minus-widget">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, -1)">-</button>
+                                                </span>
+                                                <input type="text" placeholder="1" value="1" name="quantity" class="form-control" style="height: 40px">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, +1)">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <div class="input-group">
+										<input type="hidden" name="product" value="{{ product.slug }}"/>
 										<button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
-                                        </a>
 										<button type="submit" class="toch-button toch-wishlist">wishlist</button>
 										<button type="submit" class="toch-button toch-compare">Compare</button>
+                                            </div>
+                                        </div>
 										<hr />
 {#										<a href="#"><img src="{% static 'shop/img/icon/social.png' %}" alt="#" /></a>#}
-									</div>
+									</form>
 								</div>
 							</div>
-                                <!-- Скрипт автоматического добавления товара в корзину без перезагрузки страницы. Для 149стр. -->
-                                <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
-                                <script>
-                                    $(document).ready(function(){
-                                        $('.add_to_cart').on('click', function(e){
-                                            e.preventDefault()
-                                            product_slug = $(this).attr('data-slug')
-                                            data = {
-                                                product_slug: product_slug
-                                            }
-                                            $.ajax({
-                                                type: "GET",
-                                                url: '{% url "cart:add_to_cart" %}',
-                                                data: data,
-                                                success: function(data){
-                                                    $("#cart_count").html(data.cart_total) // В base.html 199 стр.
-                                                    $('.cart-total-price').html('&#8381; ' + parseFloat(data.cart_total_price).toFixed(2)) // В base.html 200 стр.
-                                                }
-                                            })
-                                        })
-                                    })
-                                </script>
                                 <!-- Скрипт полета товара в корзину -->
                                 <script>
                                     $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
