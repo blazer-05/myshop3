@@ -131,7 +131,7 @@ class Product(models.Model):
 class ProductAlbomImages(MPTTModel):
     name = models.CharField(max_length=200, verbose_name='Название')
     product = models.ForeignKey(Product, blank=True, null=True, related_name='image', on_delete=models.CASCADE, verbose_name='Продукт')
-    image = models.ImageField(upload_to='product-albom-images/%y/%m/%d/', blank=True, verbose_name='Фото товара')
+    image = models.ImageField(upload_to='product-albom-images/%y/%m/%d/', blank=True, verbose_name='Загрузить картинку')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')

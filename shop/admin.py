@@ -7,7 +7,9 @@ from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute,
 
 class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
-    extra = 1
+    readonly_fields = ['image_img']
+    fields = ['image_img', 'name', 'image', 'parent', 'is_active'] # Порядок вывода объектов в карточке товара слева направо.
+    extra = 0 # Количество видимых полей для добавления картинки
 
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
@@ -18,7 +20,7 @@ class BrandAdmin(admin.ModelAdmin):
 class EntryInline(admin.TabularInline):
     model = Entry
     fields = ('attribute', 'value', 'is_active')
-    extra = 0
+    extra = 0 # Количество видимых полей для добавления атрибут/значения
 
 
 # Класс модели продукта

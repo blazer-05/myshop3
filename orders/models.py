@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.db import models
 
-from cart.models import *
-from shop.models import *
+from cart.models import Cart, CartProduct
+from shop.models import Product
 
 ORDER_STATUS_CHAICES = (
     ('Принят в обработку', 'Принят в обработку'),

@@ -140,9 +140,10 @@
 															<div class="product-action">
 																<div class="button-group">
 																	<div class="product-button">
-                                                                        <a href="" class="add_to_cart" data-slug="{{ product.slug }}">
-																		<button><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                                                        </a>
+                                                                        <form class="product-button" onsubmit="return addToCart(event)">
+                                                                            <input type="hidden" name="product" value="{{ product.slug }}">
+                                                                            <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                        </form>
 																	</div>
 																	<div class="product-button-2">
 																		<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>

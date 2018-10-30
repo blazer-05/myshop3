@@ -164,10 +164,10 @@
                                         </div>
                                         <div style="display: inline-block;">
                                             <div class="input-group">
-										<input type="hidden" name="product" value="{{ product.slug }}"/>
-										<button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
-										<button type="submit" class="toch-button toch-wishlist">wishlist</button>
-										<button type="submit" class="toch-button toch-compare">Compare</button>
+                                                <input type="hidden" name="product" value="{{ product.slug }}"/>
+                                                <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                <button type="submit" class="toch-button toch-wishlist">wishlist</button>
+                                                <button type="submit" class="toch-button toch-compare">Compare</button>
                                             </div>
                                         </div>
 										<hr />
@@ -177,7 +177,7 @@
 							</div>
                                 <!-- Скрипт полета товара в корзину -->
                                 <script>
-                                    $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
+                                    $('.toch-add-cart').on('click', function(){ // Класс кнопки купить add_to_cart
                                     var that = $(this).closest('.row').find('img'); // Класс row - это обертка нашей карточки товара, внутри которой есть и сама кнопка купить и картинка, которая полетит в корзину.
                                     var bascket = $(".top-cart"); // Класс top-cart из base.html - это класс rорзины, туда и полетит изображение при клике по кнопке.
                                     var w = that.width();
@@ -238,16 +238,17 @@
                                             {% else %}
                                             <p>На данный момент для этого товара акции нет</p>
                                         {% endif %}
-                                    <!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html В файле скрипта etimer.js стр.93-94 настройка ссылки -->
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function() {
-                                            jQuery(".eTimer").each(function( index ) {
-                                                var etDate = $( this ).attr('data-etDate')
-                                                $( this ).eTimer({etType: 0, etDate: etDate, etTitleText: "До окончания акции осталось:", etTitleSize: 16, etShowSign: 1, etSep: " ", etFontFamily: "Roboto", etTextColor: "#0d0505", etPaddingTB: 0, etPaddingLR: 0, etBackground: "white", etBorderSize: 0, etBorderRadius: 0, etBorderColor: "white", etShadow: " 0px 0px 10px 0px white", etLastUnit: 4, etNumberFontFamily: "Impact", etNumberSize: 24, etNumberColor: "white", etNumberPaddingTB: 0, etNumberPaddingLR: 5, etNumberBackground: "#ED7987", etNumberBorderSize: 0, etNumberBorderRadius: 0, etNumberBorderColor: "white", etNumberShadow: "inset 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
+                                        <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
+                                        <!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html В файле скрипта etimer.js стр.93-94 настройка ссылки -->
+                                        <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                jQuery(".eTimer").each(function( index ) {
+                                                    var etDate = $( this ).attr('data-etDate')
+                                                    $( this ).eTimer({etType: 0, etDate: etDate, etTitleText: "До окончания акции осталось:", etTitleSize: 16, etShowSign: 1, etSep: " ", etFontFamily: "Roboto", etTextColor: "#0d0505", etPaddingTB: 0, etPaddingLR: 0, etBackground: "white", etBorderSize: 0, etBorderRadius: 0, etBorderColor: "white", etShadow: " 0px 0px 10px 0px white", etLastUnit: 4, etNumberFontFamily: "Impact", etNumberSize: 24, etNumberColor: "white", etNumberPaddingTB: 0, etNumberPaddingLR: 5, etNumberBackground: "#ED7987", etNumberBorderSize: 0, etNumberBorderRadius: 0, etNumberBorderColor: "white", etNumberShadow: "inset 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
+                                                    });
                                                 });
                                             });
-                                        });
-                                    </script>
+                                        </script>
                                     </h2></div>
                                 </div>
 
