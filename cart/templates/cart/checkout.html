@@ -383,16 +383,16 @@
 																	<td class="text-left">Total</td>
 																</tr>
 															</thead>
-                                                            {% for item in cart.items.all %}
+                                                            {% for item in request.cart.cartproduct_set.all %}
 															<tbody>
 																<tr>
 																	<td class="text-left">
 																		<img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
 																	</td>
 																	<td class="text-left">{{ item.product.title }}</td>
-																	<td class="text-left">{{ item.qty }}</td>
+																	<td class="text-left">{{ item.quantity }}</td>
 																	<td class="text-left">&#8381; {{ item.product.price }}</td>
-																	<td class="text-left">&#8381; {{ item.item_total }}</td>
+																	<td class="text-left">&#8381; {{ item.total }}</td>
 																</tr>
 															</tbody>
                                                             {% endfor %}
@@ -401,7 +401,7 @@
 																	<td class="text-right" colspan="4">
 																		<strong>Sub-Total:</strong>
 																	</td>
-																	<td class="text-right">&#8381; {{ cart.cart_total }}</td>
+																	<td class="text-right">&#8381; {{ request.cart.total }}</td>
 																</tr>
 															</tfoot>
 														</table>

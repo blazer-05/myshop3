@@ -1,67 +1,79 @@
-from decimal import Decimal
+from django.http import JsonResponse, HttpResponse
+from django.views import View
+from django.views.generic import TemplateView, FormView
+from easy_thumbnails.alias import aliases
+from easy_thumbnails.files import get_thumbnailer
 
-from django.http import JsonResponse
-from django.shortcuts import render
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-
-from cart.models import CartProduct, Cart
-from cart.serializers import CartInfoSerializer, CartProductSerializer
+from cart.forms import CartAddProductForm, CartChangeProductForm, CartRemoveProductForm
 
 
-class CartViewSet(viewsets.GenericViewSet):
-    queryset = Cart.objects.none()
+class CartTemplateView(TemplateView):
+    template_name = 'cart/cart.html'
 
-    def list(self, request):
-        context = {
-            'cart': request.cart,
+
+class CartInfoTemplateView(View):
+    def get(self, request, *args, **kwargs):
+        def get_thumb(field, alias=None):
+            if not field:
+                return
+
+            if not alias:
+                return field.url
+
+            thumbnail_options = aliases.get(alias)
+            thumbnailer = get_thumbnailer(field)
+            return thumbnailer.get_thumbnail(thumbnail_options).url
+
+        data = {
+            'count': request.cart.count,
+            'total': request.cart.total,
+            'products': [
+                {
+                    'id': cartproduct.product.id,
+                    'url': cartproduct.product.get_absolute_url(),
+                    'slug': cartproduct.product.slug,
+                    'title': cartproduct.product.title,
+                    'images': get_thumb(cartproduct.product.images),
+                    'thumb': get_thumb(cartproduct.product.images, 'cart'),
+                    'quantity': cartproduct.quantity,
+                    'price': cartproduct.product.price,
+                    'total': cartproduct.total,
+                } for cartproduct in request.cart.cartproduct_set.all()
+            ],
         }
-        return render(request, 'cart/cart.html', context)
 
-    @action(methods=['get'], serializer_class=CartInfoSerializer, detail=False)
-    def info(self, request):
-        serializer = self.get_serializer(instance=request.cart)
-        return Response(serializer.data)
-
-    @action(methods=['post'], serializer_class=CartProductSerializer, detail=False)
-    def add(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        product = serializer.validated_data.get('product')
-        quantity = serializer.validated_data.get('quantity')
-        cart_product, created = CartProduct.objects.get_or_create(
-            cart=request.cart, product=product, defaults={'quantity': quantity}
-        )
-        if not created:
-            cart_product.quantity += quantity
-            cart_product.save()
-        return Response(status=201)
-
-    @action(methods=['post'], serializer_class=CartProductSerializer, detail=False)
-    def change(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        product = serializer.validated_data.get('product')
-        quantity = serializer.validated_data.get('quantity')
-        CartProduct.objects.filter(
-            cart=request.cart, product=product
-        ).update(quantity=quantity)
-        return Response(status=201)
-
-    @action(methods=['post'], serializer_class=CartProductSerializer, detail=False)
-    def remove(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        product = serializer.validated_data.get('product')
-        CartProduct.objects.filter(cart=request.cart, product=product).delete()
-        return Response(status=204)
+        return JsonResponse(data)
 
 
-# Функция вывода в шаблон checkout данных заказа.
-def checkout(request):
-    cart = request.cart
-    context = {
-        'cart': cart,
-    }
-    return render(request, 'cart/checkout.html', context)
+class CartFormViewMixin:
+    success_status = 201
+    error_status = 400
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'cart': self.request.cart})
+        return kwargs
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponse(status=self.success_status)
+
+    def form_invalid(self, form):
+        return JsonResponse(form.errors, status=self.error_status)
+
+
+class CartAddFormView(CartFormViewMixin, FormView):
+    form_class = CartAddProductForm
+
+
+class CartChangeFormView(CartFormViewMixin, FormView):
+    form_class = CartChangeProductForm
+
+
+class CartRemoveFormView(CartFormViewMixin, FormView):
+    form_class = CartRemoveProductForm
+    success_status = 204
+
+
+class CheckoutTemplateView(TemplateView):
+    template_name = 'cart/checkout.html'

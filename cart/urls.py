@@ -1,14 +1,15 @@
 from django.urls import path
-from cart.views import checkout, CartViewSet
-from rest_framework.routers import DefaultRouter
+from cart.views import (CartTemplateView, CartInfoTemplateView, CartAddFormView,
+                        CartChangeFormView, CartRemoveFormView, CheckoutTemplateView)
 
-router = DefaultRouter()
-router.register(r'', CartViewSet)
 
 app_name = 'cart'
 
 urlpatterns = [
-
-    path('checkout/', checkout, name='checkout'),
-
-] + router.urls
+    path('', CartTemplateView.as_view(), name='cart'),
+    path('info/', CartInfoTemplateView.as_view(), name='info'),
+    path('add/', CartAddFormView.as_view(), name='add'),
+    path('change/', CartChangeFormView.as_view(), name='change'),
+    path('remove/', CartRemoveFormView.as_view(), name='remove'),
+    path('checkout/', CheckoutTemplateView.as_view(), name='checkout'),
+]

@@ -19,7 +19,7 @@ class Cart(models.Model):
         return self.cartproduct_set.aggregate(
             total=Sum(
                 F('quantity') * F('product__price'),
-                output_field=models.DecimalField())
+                output_field=models.DecimalField(decimal_places=2))
         ).get('total') or 0
 
     @property

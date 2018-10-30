@@ -1,3 +1,4 @@
+from django.middleware.csrf import get_token
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.functional import SimpleLazyObject
 
@@ -19,4 +20,5 @@ def get_cart(request):
 
 class CartMiddleware(MiddlewareMixin):
     def process_request(self, request):
+        get_token(request)
         request.cart = SimpleLazyObject(lambda: get_cart(request))
