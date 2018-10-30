@@ -26,7 +26,7 @@ SECRET_KEY = '*4tn&e7_af55ix$xe##57k@*ksl!7%(kdw!*0gxt&bo25z_5#)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []  # myshop3.sharelink.ru
+ALLOWED_HOSTS = ['myshop3.sharelink.ru', 'localhost']  # myshop3.sharelink.ru
 
 
 # Application definition
@@ -39,9 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop',
+    'cart',
+    'orders',
     'mptt',            # https://django-mptt.readthedocs.io/en/latest/index.html
     'easy_thumbnails', # https://pypi.org/project/easy-thumbnails/
     'django_cleanup',  # https://github.com/un1t/django-cleanup
+    'django_summernote', # https://github.com/summernote/django-summernote
+    'bootstrap3',
+    'rest_framework',
 
 ]
 
@@ -53,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cart.middleware.CartMiddleware',
 ]
 
 ROOT_URLCONF = 'myshop3.urls'
@@ -73,6 +79,8 @@ TEMPLATES = [
                 'shop.context_processors.menucategory', # Сквозной вывод бокового левого меню
                 'shop.context_processors.filters', # Сквозной вывод бокового левого фильтра
                 'shop.context_processors.bestseller', # Сквозной вывод бокового левого блока bestseller
+                'shop.context_processors.brendlogo', # Сквозной вывод нижнего блока brend logo
+                #'shop.context_processors.base', # Сквозной вывод нижнего блока brend logo
             ],
         },
     },
@@ -142,10 +150,21 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static_dev'),
 )
 
+# # Настройка вывода дерева категорий 10 веток https://django-mptt.readthedocs.io/en/latest/index.html
+# MPTT_ADMIN_LEVEL_IDENT = 100
 
-# Настройки изображений по полю images из модели product https://pypi.org/project/easy-thumbnails/
+# Настройки миниатюр для изображений https://pypi.org/project/easy-thumbnails/
 THUMBNAIL_ALIASES = {
     '': {
-        'images': {'size': (200, 200), 'crop': False, 'quality': 99},
-    },
+        'slider': {'size': (500, 200), 'quality': 99},                  # index.html
+        'index': {'size': (200, 150), 'corp':True, 'quality': 99},      # index.html
+        'akciya': {'size': (200, 150), 'corp':True, 'quality': 99},     # index.html
+        'shop': {'size': (200, 150), 'corp':True, 'quality': 99},       # shop.html
+        'shop-list': {'size': (200, 150), 'corp':True, 'quality': 99},  # shop-list.html
+        'alb': {'size': (200, 150), 'corp':True, 'quality': 99},        # product-details.html
+        'pftc': {'size': (200, 150), 'corp':True, 'quality': 99},       # product-details.html
+        'allp': {'size': (200, 150), 'corp':True, 'quality': 99},       # product-details.html
+        'cart': {'size': (70, 90), 'corp':True, 'quality': 99},         # cart.html
+        'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},   # base.html
+    }
 }
