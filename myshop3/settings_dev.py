@@ -168,3 +168,5 @@ THUMBNAIL_ALIASES = {
         'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},   # base.html
     }
 }
+
+THUMBNAIL_SUBDIR = 'thumbs'

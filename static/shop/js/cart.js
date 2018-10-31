@@ -169,7 +169,7 @@ function addToCart(e) {
     body: data
   }).then(function(res){
 
-    var that = $(e.target).closest('.row').find('img');
+    var that = $(e.target).closest('.jq-product-wrapper').find('img');
     var bascket = $(".top-cart");
     var w = that.width();
     that.clone()
