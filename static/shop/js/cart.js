@@ -61,15 +61,103 @@ function renderCartTemplate(data) {
     return tmpl;
 }
 
+function renderCartTableTemplate(data) {
+    var products = data.products;
+    if(products.length == 0)
+      return '<h3 class="text-left"><strong>Your basket is empty</strong></h3>';
+
+    var tmpl = '' +
+      '<div class="table-responsive">' +
+      '    <table class="table table-bordered table-hover bmw">' +
+      '        <thead>' +
+      '            <tr>' +
+      '                <td class="text-center">Image</td>' +
+      '                <td class="text-left">Product Name</td>' +
+      '                <td class="text-center">Quantity</td>' +
+      '                <td class="text-right">Unit Price</td>' +
+      '                <td class="text-right">Total</td>' +
+      '            </tr>' +
+      '        </thead>';
+
+
+    products.forEach(function(product, i, products) {
+        tmpl = tmpl +
+          '        <tbody>' +
+          '            <tr class="cart-item-">' +
+          '                <td class="text-center">' +
+          '                    <a href="' + product.url + '">' +
+          '                        <img class="img-thumbnail" src="' + product.thumb + '" alt="' + product.url + '" />' +
+          '                    </a>' +
+          '                </td>' +
+          '                <td class="text-left">' +
+          '                    <a href="' + product.url + '">' + product.title + '</a>' +
+          '                </td>' +
+          '                <td class="text-center">' +
+          '                    <form class="product-quantity" onsubmit="return changeCart(event)">' +
+          '                        <div style="display: inline-block; width: 110px">' +
+          '                            <div class="input-group plus-minus-widget">' +
+          '                                <span class="input-group-btn">' +
+          '                                    <button class="btn btn-default" type="submit" style="width: 35px" onclick="quantityChange(event, -1)">-</button>' +
+          '                                </span>' +
+          '                                <input type="text" placeholder="1" value="' + product.quantity + '" name="quantity" class="form-control">' +
+          '                                <span class="input-group-btn">' +
+          '                                    <button class="btn btn-default" type="submit" style="width: 35px" onclick="quantityChange(event, +1)">+</button>' +
+          '                                </span>' +
+          '                            </div>' +
+          '                        </div>' +
+          '                        <input type="hidden" name="product" value="' + product.slug + '"/>' +
+          '                    </form>' +
+          '                    <div style="display: inline-block;">' +
+          '                        <div class="input-group">' +
+          '                            <button class="btn btn-danger" title="Remove" onclick="return removeFromCartTable(event, \'' + product.slug + '\')"><i class="fa fa-times-circle"></i></button>' +
+          '                        </div>' +
+          '                    </div>' +
+          '                </td>' +
+          '                <td class="text-right" id="cart-item-total-">&#8381; ' + product.price + '</td>' +
+          '                <td class="text-right" id="cart-item-total-">&#8381; ' + product.total + '</td>' +
+          '            </tr>' +
+          '        </tbody>';
+    });
+
+    tmpl = tmpl +
+      '    </table>' +
+      '</div>';
+
+    tmpl = tmpl +
+      '<div class="row" id="hide">' +
+      '    <div class="col-sm-4 col-sm-offset-8">' +
+      '        <table class="table table-bordered">' +
+      '            <tbody>' +
+      '                <tr>' +
+      '                    <td class="text-right">' +
+      '                        <strong>Total:</strong>' +
+      '                    </td>' +
+      '                    <td class="text-right cart-total-price"><strong>&#8381; ' + data.total + ' </strong></td>' +
+      '                </tr>' +
+      '            </tbody>' +
+      '        </table>' +
+      '    </div>' +
+      '</div>';
+    return tmpl;
+}
+
 function cartInfo() {
   const url = '/cart/info/';
   fetch(url)
     .then(function (res) {
       res.json().then(function (res) {
         $('#cart-info').html(renderCartTemplate(res));
+        if(window.location.pathname == '/cart/') {
+          cartTableInfo(res);
+        }
       })
     });
 }
+
+function cartTableInfo(res) {
+  $('#cart-table').html(renderCartTableTemplate(res));
+}
+
 function addToCart(e) {
   const url = '/cart/add/';
   let data = new FormData(e.target);
@@ -134,16 +222,7 @@ function changeCart(e) {
   return false;
 }
 function removeFromCartTable(e, productSlug) {
-  let removeTr = function() {
-      let table = $(e.target).closest('table');
-      $(e.target).closest('tr').remove();
-      if(table.find($('tr')).length===1) {
-          table.closest('.table-responsive').replaceWith(
-              '<h3 class="text-left"><strong>Your basket is empty</strong></h3>'
-          )
-      }
-  };
-  removeFromCart(productSlug, removeTr)
+  removeFromCart(productSlug)
 }
 
 function quantityChange(e, action) {

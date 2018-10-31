@@ -165,27 +165,6 @@
                                                         {% endif %}
 														<!-- End Single-Product -->
 													</div>
-                                                <!-- Скрипт полета товара в корзину -->
-                                                <script>
-                                                    $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
-                                                    var that = $(this).closest('.single-product').find('img'); // Класс single-product - это обертка нашей карточки товара, внутри которой есть и сама кнопка купить и картинка, которая полетит в корзину.
-                                                    var bascket = $(".top-cart"); // Класс top-cart из base.html - это класс rорзины, туда и полетит изображение при клике по кнопке.
-                                                    var w = that.width();
-                                                    that.clone()
-                                                        .css({'width' : w,
-                                                        'position' : 'absolute',
-                                                        'z-index' : '9999',
-                                                        top: that.offset().top,
-                                                        left:that.offset().left})
-                                                        .appendTo("body")
-                                                        .animate({opacity: 0.05,
-                                                            left: bascket.offset()['left'],
-                                                            top: bascket.offset()['top'],
-                                                            width: 50}, 1000, function() {
-                                                                $(this).remove();
-                                                            });
-                                                });
-                                                </script>
                                                     <!-- Start Single-Product -->
 
 												<!-- Start Pagination Area -->
