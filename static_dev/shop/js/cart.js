@@ -14,7 +14,7 @@ function renderCartTemplate(data) {
     '                <span class="cart-total">' +
     '                <span class="cart-title">Shopping cart</span>' +
     '                <span class="cart-item" id="cart_count">' + data.count + ' item(s)- </span>' +
-    '                <span class="top-cart-price cart-total-price">$' + data.total +'</span>' +
+    '                <span class="top-cart-price cart-total-price">&#8381;' + data.total +'</span>' +
     '                </span>' +
     '            </a>' +
     '            <div class="mini-cart-content">';
@@ -51,7 +51,7 @@ function renderCartTemplate(data) {
     '                </span>' +
     '                <span class="cart-button-top">' +
     '                    <a href="/cart/">View cart</a>' +
-    '                    <a href="checkout.html">Checkout</a>' +
+    '                    <a href="/cart/checkout/">Checkout</a>' +
     '                </span>' +
     '            </div>' +
     '        </div>' +
@@ -126,7 +126,7 @@ function renderCartTableTemplate(data) {
     tmpl = tmpl +
       '<div class="row" id="hide">' +
       '    <div class="col-sm-4 col-sm-offset-8">' +
-      '        <table class="table table-bordered">' +
+      '        <table class="table table-bordered bmw">' +
       '            <tbody>' +
       '                <tr>' +
       '                    <td class="text-right">' +

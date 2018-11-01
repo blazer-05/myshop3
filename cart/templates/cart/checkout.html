@@ -376,38 +376,41 @@
 														<table class="table table-bordered table-hover bmw">
 															<thead>
 																<tr>
-																	<td class="text-left">Images</td>
+																	<td class="text-center">Images</td>
 																	<td class="text-left">Product Name</td>
-																	<td class="text-left">Quantity</td>
-																	<td class="text-left">Unit Price</td>
-																	<td class="text-left">Total</td>
+																	<td class="text-center">Quantity</td>
+																	<td class="text-right">Unit Price</td>
+																	<td class="text-right">Total</td>
 																</tr>
 															</thead>
                                                             {% for item in request.cart.cartproduct_set.all %}
 															<tbody>
 																<tr>
-																	<td class="text-left">
+																	<td class="text-center">
 																		<img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
 																	</td>
 																	<td class="text-left">{{ item.product.title }}</td>
-																	<td class="text-left">{{ item.quantity }}</td>
-																	<td class="text-left">&#8381; {{ item.product.price }}</td>
-																	<td class="text-left">&#8381; {{ item.total }}</td>
+																	<td class="text-center">{{ item.quantity }}</td>
+																	<td class="text-right">&#8381; {{ item.product.price }}</td>
+																	<td class="text-right">&#8381; {{ item.total }}</td>
 																</tr>
 															</tbody>
                                                             {% endfor %}
 															<tfoot>
 																<tr>
 																	<td class="text-right" colspan="4">
-																		<strong>Sub-Total:</strong>
+																		<strong>Total:</strong>
 																	</td>
-																	<td class="text-right">&#8381; {{ request.cart.total }}</td>
+																	<td class="text-right"><strong>&#8381; {{ request.cart.total }}</strong></td>
 																</tr>
 															</tfoot>
 														</table>
 													</div>
 													<div class="buttons pull-right">
 														<input type="button" class="btn btn-primary" value="Confirm Order" />
+													</div>
+													<div class="buttons pull-left">
+														<a href="{% url 'cart:cart' %}"><input type="button" class="btn btn-success" value="Return To Cart" /></a>
 													</div>
 												</div>
 											</div>
