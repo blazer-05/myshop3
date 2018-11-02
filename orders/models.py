@@ -25,7 +25,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=250, verbose_name='Фамилия')
     phone = models.CharField(max_length=25, verbose_name='Телефон')
     address = models.CharField(max_length=250, verbose_name='Адрес')
-    buying_type = models.CharField(max_length=50, verbose_name='Тип заказа', choices=BUYING_TYPE)
+    buying_type = models.IntegerField(verbose_name='Тип заказа', choices=BUYING_TYPE)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     comment = models.TextField(verbose_name='Комментарий к заказу')
     status = models.IntegerField(choices=STATUS, default=STATUS.registration, verbose_name='Статус заказа')
