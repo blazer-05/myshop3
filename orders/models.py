@@ -4,10 +4,12 @@ from django.db import models
 from cart.models import Cart, CartProduct
 from shop.models import Product
 
-ORDER_STATUS_CHAICES = (
-    ('Принят в обработку', 'Принят в обработку'),
-    ('Выполняется', 'Выполняется'),
-    ('Оплачен', 'Оплачен')
+from model_utils import Choices
+
+STATUS = Choices(
+    (0, 'registration', 'На регистрации'),
+    (1, 'execution', 'На исполнении'),
+    (2, 'executed', 'Исполнен')
 )
 
 class Order(models.Model):
@@ -20,8 +22,8 @@ class Order(models.Model):
     address = models.CharField(max_length=250, verbose_name='Адрес')
     buying_type = models.CharField(max_length=50, verbose_name='Тип заказа', choices=(('Самовывоз', 'Самовывоз'), ('Доставка', 'Доставка')))
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
-    comments = models.TextField(verbose_name='Комментарий к заказу')
-    status = models.CharField(max_length=100, choices=ORDER_STATUS_CHAICES, verbose_name='Статус заказа')
+    comment = models.TextField(verbose_name='Комментарий к заказу')
+    status = models.IntegerField(choices=STATUS, default=STATUS.registration, verbose_name='Статус заказа')
 
     class Meta:
         verbose_name = 'Заказ'

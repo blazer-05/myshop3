@@ -1,10 +1,3 @@
-function getCookie(name) {
-  var matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-  ));
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 function renderCartTemplate(data) {
     var tmpl = '<div class="top-cart">' +
     '    <ul>' +
@@ -164,7 +157,7 @@ function addToCart(e) {
   const content = fetch(url, {
     method: 'POST',
     headers: {
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': Cookies.get('csrftoken')
     },
     body: data
   }).then(function(res){
@@ -197,7 +190,7 @@ function removeFromCart(productSlug, callback) {
   const content = fetch(url, {
     method: 'POST',
     headers: {
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': Cookies.get('csrftoken')
     },
     body: data
   }).then(function(res){
@@ -213,7 +206,7 @@ function changeCart(e) {
   const content = fetch(url, {
     method: 'POST',
     headers: {
-      'X-CSRFToken': getCookie('csrftoken')
+      'X-CSRFToken': Cookies.get('csrftoken')
     },
     body: data
   }).then(function(res){
