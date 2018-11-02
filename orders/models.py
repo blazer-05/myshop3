@@ -12,6 +12,11 @@ STATUS = Choices(
     (2, 'executed', 'Исполнен')
 )
 
+BUYING_TYPE = Choices(
+    (0, 'take_out', 'Самовывоз'),
+    (1, 'delivery', 'Доставка')
+)
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     items = models.ManyToManyField(Cart, verbose_name='Товар')
@@ -20,7 +25,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=250, verbose_name='Фамилия')
     phone = models.CharField(max_length=25, verbose_name='Телефон')
     address = models.CharField(max_length=250, verbose_name='Адрес')
-    buying_type = models.CharField(max_length=50, verbose_name='Тип заказа', choices=(('Самовывоз', 'Самовывоз'), ('Доставка', 'Доставка')))
+    buying_type = models.CharField(max_length=50, verbose_name='Тип заказа', choices=BUYING_TYPE)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     comment = models.TextField(verbose_name='Комментарий к заказу')
     status = models.IntegerField(choices=STATUS, default=STATUS.registration, verbose_name='Статус заказа')
