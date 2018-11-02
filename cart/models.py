@@ -18,7 +18,8 @@ class Cart(models.Model):
     def total(self):
         return self.cartproduct_set.aggregate(
             total=Sum(
-                F('quantity') * F('product__price'),
+                # int(self.price * (100 - self.discount) / 100)
+                F('quantity') * F('product__price') * (100 - F('product__discount')) / 100,
                 output_field=models.DecimalField(decimal_places=2))
         ).get('total') or 0
 
@@ -37,4 +38,4 @@ class CartProduct(models.Model):
 
     @property
     def total(self):
-        return self.quantity * self.product.price
+        return self.quantity * self.product.get_sale()

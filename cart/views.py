@@ -36,7 +36,7 @@ class CartInfoTemplateView(View):
                     'images': get_thumb(cartproduct.product.images),
                     'thumb': get_thumb(cartproduct.product.images, 'cart'),
                     'quantity': cartproduct.quantity,
-                    'price': cartproduct.product.price,
+                    'price': cartproduct.product.get_sale(),
                     'total': cartproduct.total,
                 } for cartproduct in request.cart.cartproduct_set.all()
             ],
