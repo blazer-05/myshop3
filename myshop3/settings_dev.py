@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_cleanup',  # https://github.com/un1t/django-cleanup
     'django_summernote', # https://github.com/summernote/django-summernote
     'bootstrap3',
-    'rest_framework',
 
 ]
 
