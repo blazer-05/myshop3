@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.db.models import Sum, F
 
 from shop.models import Product
@@ -16,12 +18,12 @@ class Cart(models.Model):
 
     @property
     def total(self):
-        return self.cartproduct_set.aggregate(
+        t = self.cartproduct_set.aggregate(
             total=Sum(
-                # int(self.price * (100 - self.discount) / 100)
                 F('quantity') * F('product__price') * (100 - F('product__discount')) / 100,
                 output_field=models.DecimalField(decimal_places=2))
-        ).get('total') or 0
+        ).get('total') or Decimal(0)
+        return t.quantize(Decimal('0.01'))
 
     @property
     def count(self):
