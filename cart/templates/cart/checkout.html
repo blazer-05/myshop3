@@ -49,7 +49,7 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Checkout Options  <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Checkout Options  <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-options" class="collapse">
@@ -367,7 +367,7 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 6: Confirm Order <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 6: Confirm Order <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-confirm" class="collapse in">
@@ -407,7 +407,7 @@
 														</table>
 													</div>
 													<div class="buttons pull-right">
-														<input type="button" class="btn btn-primary" value="Confirm Order" />
+														<a href="{% url 'order:create_orders' %}"><input type="button" class="btn btn-primary" value="Confirm Order" /></a>
 													</div>
 													<div class="buttons pull-left">
 														<a href="{% url 'cart:cart' %}"><input type="button" class="btn btn-success" value="Return To Cart" /></a>

@@ -4,7 +4,7 @@ from django.db import models
 from cart.models import Cart, CartProduct
 from shop.models import Product
 
-from model_utils import Choices
+from model_utils import Choices  #https://django-model-utils.readthedocs.io/en/latest/utilities.html
 
 STATUS = Choices(
     (0, 'registration', 'На регистрации'),
@@ -25,7 +25,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=250, verbose_name='Фамилия')
     phone = models.CharField(max_length=25, verbose_name='Телефон')
     address = models.CharField(max_length=250, verbose_name='Адрес')
-    buying_type = models.IntegerField(verbose_name='Тип заказа', choices=BUYING_TYPE)
+    buying_type = models.IntegerField(verbose_name='Тип заказа', choices=BUYING_TYPE, default=BUYING_TYPE.delivery)
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     comment = models.TextField(verbose_name='Комментарий к заказу')
     status = models.IntegerField(choices=STATUS, default=STATUS.registration, verbose_name='Статус заказа')

@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe # Импорт функции дл
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils import timezone
+from decimal import Decimal
 
 
 # Модель категорий
@@ -120,7 +121,7 @@ class Product(models.Model):
     # Расчет скидки
     def get_sale(self):
         '''Расчитать стоимость со скидкой'''
-        price = int(self.price * (100 - self.discount) / 100)
+        price = Decimal(self.price * (100 - self.discount) / 100)
         return price
 
     # Функция для вывода таймера

@@ -338,3 +338,23 @@
         </section>
 {% endblock content %}
 
+{% comment %}
+
+                                    <div class="tab-pane fade in active bmw" id="description"><h2 class="title-product">Описание: {{ product.title }}</h2>{{ product.descriptions_two|safe }}</div>
+                                    <div class="tab-pane fade in" id="characteristics">
+                                        <div class="table-responsive">
+                                                <table class="table table-hover bmw">
+                                                    <h2 class="title-product">Характеристики: {{ product.title }}</h2>
+                                                    {% for entry in product.entry_set.active %}
+                                                        <tbody style="border: none">
+                                                            <tr>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                        </div>
+                                    </div>
+
+{% endcomment %}
