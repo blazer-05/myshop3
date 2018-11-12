@@ -38,8 +38,8 @@ class CartInfoTemplateView(View):
                     'thumb': get_thumb(cartproduct.product.images, 'cart'),
                     'quantity': cartproduct.quantity,
                     'price': cartproduct.product.price,
-                    'discount_price': cartproduct.product.get_sale(),
-                    'total': cartproduct.total,
+                    'discount_price': cartproduct.discount_price,
+                    'total': cartproduct.full_price,
                 } for cartproduct in request.cart.cartproduct_set.all()
             ],
         }

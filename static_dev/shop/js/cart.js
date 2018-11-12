@@ -109,7 +109,7 @@ function renderCartTableTemplate(data) {
           '                <td class="text-right" id="cart-item-total-">&#8381; ' + product.price + '</td>' +
           '                <td class="text-right" id="cart-item-total-">' +
           '                    &#8381; ' + product.discount_price +
-          (product.total === data.discount_price ? '' : '<strike>&#8381; ' + product.total) + ' </strike>' +
+          (product.total === product.discount_price ? '' : '<strike>&#8381; ' + product.total) + ' </strike>' +
           '                </td>' +
           '            </tr>' +
           '        </tbody>';

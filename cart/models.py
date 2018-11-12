@@ -48,5 +48,9 @@ class CartProduct(models.Model):
         return 'Cart item for product {0}'.format(self.product.title)
 
     @property
-    def total(self):
+    def full_price(self):
+        return Decimal(self.quantity * self.product.price).quantize(Decimal('0.01'))
+
+    @property
+    def discount_price(self):
         return Decimal(self.quantity * self.product.get_sale()).quantize(Decimal('0.01'))
