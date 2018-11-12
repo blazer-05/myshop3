@@ -27,7 +27,7 @@ def order_create(request):
         Order.objects.create(
             user=request.user,
             cart=request.cart,
-            total=cart.total,
+            total=cart.discount_price,
             first_name=name,
             last_name=last_name,
             phone=phone,

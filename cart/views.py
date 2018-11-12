@@ -26,7 +26,8 @@ class CartInfoTemplateView(View):
 
         data = {
             'count': request.cart.count,
-            'total': request.cart.total,
+            'full_price': request.cart.full_price,
+            'discount_price': request.cart.discount_price,
             'products': [
                 {
                     'id': cartproduct.product.id,
@@ -36,7 +37,8 @@ class CartInfoTemplateView(View):
                     'images': get_thumb(cartproduct.product.images),
                     'thumb': get_thumb(cartproduct.product.images, 'cart'),
                     'quantity': cartproduct.quantity,
-                    'price': cartproduct.product.get_sale(),
+                    'price': cartproduct.product.price,
+                    'discount_price': cartproduct.product.get_sale(),
                     'total': cartproduct.total,
                 } for cartproduct in request.cart.cartproduct_set.all()
             ],
