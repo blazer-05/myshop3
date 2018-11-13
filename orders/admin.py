@@ -15,7 +15,8 @@ class OrderAdmin(admin.ModelAdmin):
         'buying_type',
         'date',
         'comment',
-        'status'
+        'status',
+        'date',
     ]
 
 admin.site.register(Order, OrderAdmin)

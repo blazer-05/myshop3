@@ -33,7 +33,8 @@ def order_create(request):
             phone=phone,
             address=address,
             buying_type=buying_type,
-            comment=comment
+            comment=comment,
+
         )
 
         return HttpResponseRedirect('thanks')
