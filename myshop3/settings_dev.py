@@ -169,3 +169,15 @@ THUMBNAIL_ALIASES = {
 }
 
 THUMBNAIL_SUBDIR = 'thumbs'
+
+# Настройки почтового сервера
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'blazer-05@mail.ru'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'blazer-05@mail.ru'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_USE_TLS = True
+#SERVER_EMAIL = 'blazer-05@mail.ru'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

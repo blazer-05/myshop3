@@ -1,5 +1,7 @@
 #from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
 from orders.forms import OrderForm
 from orders.models import Order
 
@@ -16,32 +18,54 @@ from orders.models import Order
 
 def order_create(request):
     cart = request.cart
-    form = OrderForm(request.POST or None)
-    if form.is_valid():
-        name = form.cleaned_data['name']
-        last_name = form.cleaned_data['last_name']
-        phone = form.cleaned_data['phone']
-        buying_type = form.cleaned_data['buying_type']
-        address = form.cleaned_data['address']
-        comment = form.cleaned_data['comment']
-        Order.objects.create(
-            user=request.user,
-            cart=request.cart,
-            total=cart.discount_price,
-            first_name=name,
-            last_name=last_name,
-            phone=phone,
-            address=address,
-            buying_type=buying_type,
-            comment=comment,
+    if request.method == 'POST':
+        form = OrderForm(request.POST or None)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            last_name = form.cleaned_data['last_name']
+            phone = form.cleaned_data['phone']
+            buying_type = form.cleaned_data['buying_type']
+            address = form.cleaned_data['address']
+            comment = form.cleaned_data['comment']
+            recepients = ['blazer-05@mail.ru']
+            cart = request.cart
+            Order.objects.create(
+                user=request.user,
+                cart=request.cart,
+                total=cart.discount_price,
+                first_name=name,
+                last_name=last_name,
+                phone=phone,
+                address=address,
+                buying_type=buying_type,
+                comment=comment,
 
-        )
+            )
 
-        return HttpResponseRedirect('thanks')
+            context = {
+                'name': name,
+                'last_name': last_name,
+                'phone': phone,
+                'buying_type': buying_type,
+                'address': address,
+                'comment': comment,
+                'cart': cart,
+            }
+
+            message = render_to_string('orders/admin_email.html', context)
+            email = EmailMessage((name), message, 'blazer-05@mail.ru', recepients)
+            email.content_subtype = 'html'
+            email.send()
+
+            return HttpResponseRedirect('thanks')
+    else:
+        form = OrderForm()
 
     return render(request, 'orders/orders.html', {'form': form, 'cart': cart})
 
-
+# def adminemail(request):
+#     cart = request.cart
+#     return render(request, 'orders/admin_email.html', {'cart': cart})
 
 # def order_create(request):
 #     cart = request.cart

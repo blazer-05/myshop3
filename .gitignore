@@ -114,6 +114,9 @@ myshop3/settings.py
 backup/
 media/
 static/
+ssh-keygen -t rsa
+ssh-keygen -t rsa.pub
+
 
 
 

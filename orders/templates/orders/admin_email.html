@@ -1,0 +1,49 @@
+{% load staticfiles %}
+{% load thumbnail %}
+
+<h1>Письмо заказа для администратора.</h1>
+Номер заказа: {{ id }}<br>
+Имя: {{ name }}<br>
+Фамилия: {{ last_name }} <br>
+Телефон:{{ phone }} <br>
+Дата: {{ buying_type }} <br>
+Адрес: {{ address }} <br>
+Комментарий: {{ comment }} <br>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bmw">
+        <thead>
+            <tr>
+                <td class="text-center">Images</td>
+                <td class="text-left">Product Name</td>
+                <td class="text-center">Quantity</td>
+                <td class="text-right">Unit Price</td>
+                <td class="text-right">Total</td>
+            </tr>
+        </thead>
+        {% for item in request.cart.cartproduct_set.all %}
+        <tbody>
+            <tr>
+                <td class="text-center">
+                    <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
+                </td>
+                <td class="text-left">{{ item.product.title }}</td>
+                <td class="text-center">{{ item.quantity }}</td>
+                <td class="text-right">&#8381; {{ item.product.price }}</td>
+                <td class="text-right">&#8381; {{ item.discount_price }}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+        <tfoot>
+            <tr>
+                <td class="text-right" colspan="4">
+                    <strong>Total:</strong>
+                </td>
+                <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+
+
+
