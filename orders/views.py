@@ -29,7 +29,7 @@ def order_create(request):
             comment = form.cleaned_data['comment']
             recepients = ['blazer-05@mail.ru']
             cart = request.cart
-            Order.objects.create(
+            order = Order.objects.create(
                 user=request.user,
                 cart=request.cart,
                 total=cart.discount_price,
@@ -50,12 +50,15 @@ def order_create(request):
                 'address': address,
                 'comment': comment,
                 'cart': cart,
+                'order': order,
             }
 
-            message = render_to_string('orders/admin_email.html', context)
+            message = render_to_string('orders/admin_email.html', context, request)
             email = EmailMessage((name), message, 'blazer-05@mail.ru', recepients)
             email.content_subtype = 'html'
             email.send()
+
+            request.cart.clear()
 
             return HttpResponseRedirect('thanks')
     else:
