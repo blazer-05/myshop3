@@ -6,6 +6,10 @@ from cart.models import Cart
 
 
 def get_cart(request):
+    def cart_clear(reqeust):
+        request.session.pop('cart_id', None)
+        request.cart = None
+
     if not hasattr(request, '_cached_cart'):
         cart_id = request.session.get('cart_id')
         if not cart_id:
@@ -14,6 +18,7 @@ def get_cart(request):
         else:
             cart = Cart.objects.get(pk=cart_id)
 
+        setattr(cart, 'clear', lambda: cart_clear(request))
         request._cached_cart = cart
     return request._cached_cart
 
