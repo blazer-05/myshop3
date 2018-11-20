@@ -25,6 +25,7 @@ def order_create(request):
             last_name = form.cleaned_data['last_name']
             phone = form.cleaned_data['phone']
             buying_type = form.cleaned_data['buying_type']
+            delivery_date = form.cleaned_data['delivery_date']
             address = form.cleaned_data['address']
             comment = form.cleaned_data['comment']
             recepients = ['blazer-05@mail.ru']
@@ -38,6 +39,7 @@ def order_create(request):
                 phone=phone,
                 address=address,
                 buying_type=buying_type,
+                delivery_date=delivery_date,
                 comment=comment,
 
             )
@@ -47,6 +49,7 @@ def order_create(request):
                 'last_name': last_name,
                 'phone': phone,
                 'buying_type': buying_type,
+                'delivery_date': delivery_date,
                 'address': address,
                 'comment': comment,
                 'cart': cart,

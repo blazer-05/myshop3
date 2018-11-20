@@ -13,6 +13,7 @@ class OrderAdmin(admin.ModelAdmin):
         'phone',
         'address',
         'buying_type',
+        'delivery_date',
         'comment',
         'status',
         'date',

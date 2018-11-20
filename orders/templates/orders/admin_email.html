@@ -1,49 +1,369 @@
 {% load staticfiles %}
 {% load thumbnail %}
 
-<h1>Письмо заказа для администратора.</h1>
-Номер заказа: {{ order }}<br>
-Имя: {{ name }}<br>
-Фамилия: {{ last_name }} <br>
-Телефон: {{ phone }} <br>
-Дата: {{ buying_type }} <br>
-Адрес: {{ address }} <br>
-Комментарий: {{ comment }} <br>
-
-<div class="table-responsive">
-    <table class="table table-bordered table-hover bmw">
-        <thead>
-            <tr>
-                <td class="text-center">Images</td>
-                <td class="text-left">Product Name</td>
-                <td class="text-center">Quantity</td>
-                <td class="text-right">Unit Price</td>
-                <td class="text-right">Total</td>
-            </tr>
-        </thead>
-        {% for item in request.cart.cartproduct_set.all %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <title>Odrova.ru</title>
+  <style type="text/css">
+/* -------------------------------------
+GLOBAL
+------------------------------------- */
+* {
+margin:0;
+padding:0;
+}
+* { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+img {
+max-width: 100%;
+}
+.collapse {
+margin:0;
+padding:0;
+}
+body {
+-webkit-font-smoothing:antialiased;
+-webkit-text-size-adjust:none;
+width: 100%!important;
+height: 100%;
+}
+/* -------------------------------------
+ELEMENTS
+------------------------------------- */
+a { color: #2BA6CB;}
+.btn {
+text-decoration:none;
+color: #FFF;
+background-color: #666;
+padding:10px 16px;
+font-weight:bold;
+margin-right:10px;
+text-align:center;
+cursor:pointer;
+display: inline-block;
+}
+p.callout {
+padding:15px;
+background-color:#ECF8FF;
+margin-bottom: 15px;
+}
+.callout a {
+font-weight:bold;
+color: #2BA6CB;
+}
+table.social {
+/* padding:15px; */
+background-color: #ebebeb;
+}
+.social .soc-btn {
+padding: 3px 7px;
+font-size:12px;
+margin-bottom:10px;
+text-decoration:none;
+color: #FFF;font-weight:bold;
+display:block;
+text-align:center;
+}
+a.fb { background-color: #3B5998!important; }
+a.vk { background-color: #466482!important; }
+a.ok { background-color: #D35B0A!important; }
+a.ms { background-color: #000!important; }
+.sidebar .soc-btn {
+display:block;
+width:100%;
+}
+/* -------------------------------------
+HEADER
+------------------------------------- */
+table.head-wrap { width: 100%;}
+.header.container table td.logo { padding: 15px; }
+.header.container table td.label { padding: 15px; padding-left:0px;}
+/* -------------------------------------
+BODY
+------------------------------------- */
+table.body-wrap { width: 100%;}
+/* -------------------------------------
+FOOTER
+------------------------------------- */
+table.footer-wrap { width: 100%; clear:both!important;
+}
+.footer-wrap .container td.content p { border-top: 1px solid rgb(215,215,215); padding-top:15px;}
+.footer-wrap .container td.content p {
+font-size:10px;
+font-weight: bold;
+}
+/* -------------------------------------
+TYPOGRAPHY
+------------------------------------- */
+h1,h2,h3,h4,h5,h6 {
+font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.1; margin-bottom:15px; color:#000;
+}
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; text-transform: none; }
+h1 { font-weight:200; font-size: 44px;}
+h2 { font-weight:200; font-size: 37px;}
+h3 { font-weight:500; font-size: 27px;}
+h4 { font-weight:500; font-size: 23px;}
+h5 { font-weight:900; font-size: 17px;}
+h6 { font-weight:900; font-size: 14px; text-transform: uppercase; color:#444;}
+.collapse { margin:0!important;}
+p, ul {
+margin-bottom: 10px;
+font-weight: normal;
+font-size:14px;
+line-height:1.6;
+}
+p.lead { font-size:17px; }
+p.last { margin-bottom:0px;}
+ul li {
+margin-left:5px;
+list-style-position: inside;
+}
+/* -------------------------------------
+SIDEBAR
+------------------------------------- */
+ul.sidebar {
+background:#ebebeb;
+display:block;
+list-style-type: none;
+}
+ul.sidebar li { display: block; margin:0;}
+ul.sidebar li a {
+text-decoration:none;
+color: #666;
+padding:10px 16px;
+/* font-weight:bold; */
+margin-right:10px;
+/* text-align:center; */
+cursor:pointer;
+border-bottom: 1px solid #777777;
+border-top: 1px solid #FFFFFF;
+display:block;
+margin:0;
+}
+ul.sidebar li a.last { border-bottom-width:0px;}
+ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.sidebar li a h5,ul.sidebar li a h6,ul.sidebar li a p { margin-bottom:0!important;}
+/* ---------------------------------------------------
+RESPONSIVENESS
+Nuke it from orbit. It's the only way to be sure.
+------------------------------------------------------ */
+/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+.container {
+display:block!important;
+max-width:600px!important;
+margin:0 auto!important; /* makes it centered */
+clear:both!important;
+}
+/* This should also be a block element, so that it will fill 100% of the .container */
+.content {
+padding:15px;
+max-width:600px;
+margin:0 auto;
+display:block;
+}
+/* Let's make sure tables in the content area are 100% wide */
+.content table { width: 100%; }
+/* Odds and ends */
+.column {
+width: 300px;
+float:left;
+}
+.column tr td { padding: 15px; }
+.column-wrap {
+padding:0!important;
+margin:0 auto;
+max-width:600px!important;
+}
+.column table { width:100%;}
+.social .column {
+width: 280px;
+min-width: 279px;
+float:left;
+}
+/* Be sure to place a .clear element after each set of columns, just to be safe */
+.clear { display: block; clear: both; }
+/* -------------------------------------------
+PHONE
+For clients that support media queries.
+Nothing fancy.
+-------------------------------------------- */
+@media only screen and (max-width: 600px) {
+a[class="btn"] { display:block!important; margin-bottom:10px!important; background-image:none!important; margin-right:0!important;}
+div[class="column"] { width: auto!important; float:none!important;}
+table.social div[class="column"] {
+width:auto!important;
+}
+}
+.bmw{
+  font-size: 14px;
+}
+  </style>
+</head>
+<body style="background-color: rgb(255, 255, 255);">
+<!-- HEADER -->
+<table class="head-wrap" bgcolor="#999999">
+  <tbody>
+    <tr>
+      <td></td>
+      <td class="header container">
+      <div class="content">
+      <table bgcolor="#999999">
         <tbody>
-            <tr>
-                <td class="text-center">
-                    <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
-                </td>
-                <td class="text-left">{{ item.product.title }}</td>
-                <td class="text-center">{{ item.quantity }}</td>
-                <td class="text-right">&#8381; {{ item.product.price }}</td>
-                <td class="text-right">&#8381; {{ item.discount_price }}</td>
-            </tr>
+          <tr>
+            <td><img src="http://myshop.sharelink.ru/static/img/kolun.jpg"></td>
+            <td align="right">
+            <h6 class="collapse">Odrova.ru&nbsp;</h6>
+            </td>
+          </tr>
         </tbody>
-        {% endfor %}
-        <tfoot>
-            <tr>
-                <td class="text-right" colspan="4">
-                    <strong>Total:</strong>
-                </td>
-                <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
-            </tr>
-        </tfoot>
-    </table>
-    </div>
+      </table>
+      </div>
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- /HEADER --><!-- BODY -->
+<table class="body-wrap">
+  <tbody>
+    <tr>
+      <td></td>
+      <td class="container" bgcolor="#ffffff">
+      <div class="content">
+      <table>
+        <tbody>
+          <tr>
+            <td style="font-size: inherit">
+            <h1>Поступил новый заказ! </h1>
+            <p class="callout">
+            Номер заказа: {{ order }}<br>
+            Имя: {{ name }}<br>
+            Фамилия: {{ last_name }}<br>
+            Телефон: {{ phone }} <br>
+            Тип заказа: {{ order.get_buying_type_display }} <br>
+            Адрес: {{ address }} <br>
+            Комментарий: {{ comment }} <br>
+            Дата доставки: {{ delivery_date }} <br>
+            Дата создания заказа: {{ order.date }} <br>
+            </p>
 
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover bmw">
+                        <thead>
+                            <tr>
+                                <td class="text-center">Images</td>
+                                <td class="text-left">Product Name</td>
+                                <td class="text-center">Quantity</td>
+                                <td class="text-right">Unit Price</td>
+                                <td class="text-right">Total</td>
+                            </tr>
+                        </thead>
+                        {% for item in request.cart.cartproduct_set.all %}
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    <img class="img-thumbnail" src="http://myshop3.sharelink.ru:8080/{{ item.product.images.url }}" alt="{{ item.product.title }}" style="width: 70px" height="90px" />
+                                </td>
+                                <td class="text-left">{{ item.product.title }}</td>
+                                <td class="text-center">{{ item.quantity }}</td>
+                                <td class="text-right">&#8381; {{ item.product.price }}</td>
+                                <td class="text-right">&#8381; {{ item.discount_price }}</td>
+                            </tr>
+                        </tbody>
+                        {% endfor %}
+                        <tfoot>
+                            <tr>
+                                <td class="text-right" colspan="4">
+                                    <strong>Total:</strong>
+                                </td>
+                                <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
+<!-- /Callout Panel -->
+<!-- social & contact -->
+            <table class="social" width="100%">
+              <tbody>
+                <tr>
+                  <td>
+<!-- column 1 -->
+                  <table class="column" align="left">
+                    <tbody>
+                      <tr>
+                        <td>
+                        <h5 class="">Мы в соцсетях:</h5>
+                        <p class=""><a
+ href="https://www.facebook.com/groups/132544753956741/"
+ class="soc-btn fb">Facebook</a> <a
+ href="https://vk.com/odrova8" class="soc-btn vk">Вконтакте</a>
+                        <a
+ href="https://m.ok.ru/group/53238553706648" class="soc-btn ok">Одноклассники</a></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+<!-- /column 1 --><!-- column 2 -->
+                  <table class="column" align="left">
+                    <tbody>
+                      <tr>
+                        <td>
+                        <h5 class="">Наши контакты:</h5>
+                        <p>Телефон: <strong>8 922 035 28 87</strong><br>
+Почта: <strong><a href="mailto:a8m888@gmail.com">a8m888@gmail.com</a></strong></p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+<!-- /column 2 --><span class="clear"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+<!-- /social & contact --></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+<!-- /content --></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- /BODY --><!-- FOOTER -->
+<table class="footer-wrap">
+  <tbody>
+    <tr>
+      <td></td>
+      <td class="container">
+<!-- content -->
+      <div class="content">
+      <table>
+        <tbody>
+          <tr>
+            <td align="center">
+            <p><a href="https://odrova.ru">odrova.ru</a>
+|
+            <a href="http://odrova.odrova.ru">odrova.odrova.ru</a>
+|
+            <a href="http://colyn.ru"><unsubscribe>colyn.ru</unsubscribe></a>
+            </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+<!-- /content --></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<!-- /FOOTER -->
+</body>
+</html>
 

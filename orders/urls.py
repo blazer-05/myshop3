@@ -8,5 +8,7 @@ app_name = 'orders'
 urlpatterns = [
     path('create/', order_create, name='create_orders'),
     path('create/thanks', TemplateView.as_view(template_name='orders/thanks.html'), name='thanks'),
-    #path('email/', adminemail, name='email'),
+    #path('adminemail/', adminemail, name='adminemail'),
+
+
 ]

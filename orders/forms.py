@@ -14,7 +14,7 @@ class OrderForm(forms.Form):
     phone = forms.CharField()
     buying_type = forms.ChoiceField(widget=forms.Select(), choices=BUYING_TYPE)
     address = forms.CharField(required=False)
-    date = forms.DateField(widget=forms.SelectDateWidget(), initial=timezone.now())
+    delivery_date = forms.DateField(widget=forms.SelectDateWidget(), initial=timezone.now())
     comment = forms.CharField(widget=forms.Textarea, required=False)
 
 
@@ -29,6 +29,6 @@ class OrderForm(forms.Form):
         self.fields['address'].label = 'Укажите адрес доставки'
         #self.fields['address'].help_text = '*Обязательно указывайте город!'
         self.fields['comment'].label = 'Комментарий к заказу'
-        self.fields['date'].label = 'Дата доставки'
-        self.fields['date'].help_text = 'Доставка производится на следущий день после оформления заказа. Менеджер с Вами предварительно свяжется!'
+        self.fields['delivery_date'].label = 'Дата доставки'
+        self.fields['delivery_date'].help_text = 'Доставка производится на следущий день после оформления заказа. Менеджер с Вами предварительно свяжется!'
 
