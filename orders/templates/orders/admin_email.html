@@ -1,16 +1,14 @@
 {% load staticfiles %}
 {% load thumbnail %}
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-<!-- If you delete this meta tag, Half Life 3 will never be released. -->
+<html><head><!-- If you delete this meta tag, Half Life 3 will never be released. -->
+
   <meta name="viewport" content="width=device-width">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <title>Odrova.ru</title>
-  <style type="text/css">
+<link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css">
+
+  <title>Tehnopoint</title><style type="text/css">
 /* -------------------------------------
 GLOBAL
 ------------------------------------- */
@@ -86,7 +84,7 @@ table.head-wrap { width: 100%;}
 /* -------------------------------------
 BODY
 ------------------------------------- */
-table.body-wrap { width: 100%;}
+table.body-wrap { width: 88%;}
 /* -------------------------------------
 FOOTER
 ------------------------------------- */
@@ -166,7 +164,7 @@ margin:0 auto;
 display:block;
 }
 /* Let's make sure tables in the content area are 100% wide */
-.content table { width: 100%; }
+.content table { width: 750px; }
 /* Odds and ends */
 .column {
 width: 300px;
@@ -201,32 +199,31 @@ width:auto!important;
 .bmw{
   font-size: 14px;
 }
-  </style>
-</head>
+  </style></head>
 <body style="background-color: rgb(255, 255, 255);">
 <!-- HEADER -->
-<table class="head-wrap" bgcolor="#999999">
-  <tbody>
-    <tr>
-      <td></td>
-      <td class="header container">
-      <div class="content">
-      <table bgcolor="#999999">
-        <tbody>
-          <tr>
-            <td><img src="http://myshop.sharelink.ru/static/img/kolun.jpg"></td>
-            <td align="right">
-            <h6 class="collapse">Odrova.ru&nbsp;</h6>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-      </td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
+{#<table class="head-wrap" bgcolor="#999999">#}
+{#  <tbody>#}
+{#    <tr>#}
+{#      <td></td>#}
+{#      <td class="header container">#}
+{#      <div class="content">#}
+{#      <table bgcolor="#999999">#}
+{#        <tbody>#}
+{#          <tr>#}
+{#            <td><img src="http://myshop.sharelink.ru/static/img/kolun.jpg"></td>#}
+{#            <td align="right">#}
+{#            <h6 class="collapse">Tehnopoint&nbsp;</h6>#}
+{#            </td>#}
+{#          </tr>#}
+{#        </tbody>#}
+{#      </table>#}
+{#      </div>#}
+{#      </td>#}
+{#      <td></td>#}
+{#    </tr>#}
+{#  </tbody>#}
+{#</table>#}
 <!-- /HEADER --><!-- BODY -->
 <table class="body-wrap">
   <tbody>
@@ -237,22 +234,26 @@ width:auto!important;
       <table>
         <tbody>
           <tr>
-            <td style="font-size: inherit">
+            <td style="font-size: inherit;">
             <h1>Поступил новый заказ! </h1>
             <p class="callout">
-            Номер заказа: {{ order }}<br>
-            Имя: {{ name }}<br>
-            Фамилия: {{ last_name }}<br>
-            Телефон: {{ phone }} <br>
-            Тип заказа: {{ order.get_buying_type_display }} <br>
-            Адрес: {{ address }} <br>
-            Комментарий: {{ comment }} <br>
-            Дата доставки: {{ delivery_date }} <br>
-            Дата создания заказа: {{ order.date }} <br>
-            </p>
+            <b>Заказ: {{ order}} </b> <br>
+            <b>ФИО:</b> {{ full_name }}<br>
+            <b>Телефон:</b> {{ phone }} <br>
+            <b>Тип заказа:</b> {{ order.get_buying_type_display }} <br>
+            <b>Комментарий:</b> {{ comment }} <br>
+            <b>Дата создания заказа:</b> {{ order.date }} <br>
+            {% if buying_type == 'delivery' %}
+            <b>Дата доставки:</b> {{ delivery_date }} <br>
+            <b>Адрес:</b> {{ address }} <br>
+                {% else %}
+                <p></p>
+            {% endif %}
+
+
 
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover bmw">
+                        <table class="table table-bordered table-hover bmw">
                         <thead>
                             <tr>
                                 <td class="text-center">Images</td>
@@ -262,25 +263,31 @@ width:auto!important;
                                 <td class="text-right">Total</td>
                             </tr>
                         </thead>
-                        {% for item in request.cart.cartproduct_set.all %}
+                            {% for item in request.cart.cartproduct_set.all %}
                         <tbody>
                             <tr>
                                 <td class="text-center">
-                                    <img class="img-thumbnail" src="http://myshop3.sharelink.ru:8080/{{ item.product.images.url }}" alt="{{ item.product.title }}" style="width: 70px" height="90px" />
+                                    <img class="img-thumbnail" src="http://myshop3.sharelink.ru:8080/{{ item.product.images.url }}" alt="{{ item.product.title }}" style="width: 70px;" height="90">
                                 </td>
                                 <td class="text-left">{{ item.product.title }}</td>
                                 <td class="text-center">{{ item.quantity }}</td>
-                                <td class="text-right">&#8381; {{ item.product.price }}</td>
-                                <td class="text-right">&#8381; {{ item.discount_price }}</td>
+                                <td class="text-right">₽ {{ item.product.price }}</td>
+                                <td class="text-right">₽ {{ item.discount_price }}</td>
                             </tr>
                         </tbody>
-                        {% endfor %}
+                            {% endfor %}
                         <tfoot>
                             <tr>
                                 <td class="text-right" colspan="4">
                                     <strong>Total:</strong>
                                 </td>
-                                <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                                <td class="text-right"><strong>₽ {{ request.cart.discount_price }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" colspan="4">
+                                    <strong>Total amount:</strong>
+                                </td>
+                                <td class="text-right">{{ request.cart.count_products }} шт.</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -298,12 +305,9 @@ width:auto!important;
                       <tr>
                         <td>
                         <h5 class="">Мы в соцсетях:</h5>
-                        <p class=""><a
- href="https://www.facebook.com/groups/132544753956741/"
- class="soc-btn fb">Facebook</a> <a
- href="https://vk.com/odrova8" class="soc-btn vk">Вконтакте</a>
-                        <a
- href="https://m.ok.ru/group/53238553706648" class="soc-btn ok">Одноклассники</a></p>
+                        <p class=""><a href="" class="soc-btn fb">Facebook</a>
+                        <a href="" class="soc-btn vk">Вконтакте</a>
+                        <a href="" class="soc-btn ok">Одноклассники</a></p>
                         </td>
                       </tr>
                     </tbody>
@@ -343,15 +347,15 @@ width:auto!important;
       <td class="container">
 <!-- content -->
       <div class="content">
-      <table>
+      <table style="height: 30px; width: 568px;">
         <tbody>
           <tr>
             <td align="center">
-            <p><a href="https://odrova.ru">odrova.ru</a>
+            <p><a href="/">Ссылка</a>
 |
-            <a href="http://odrova.odrova.ru">odrova.odrova.ru</a>
+            <a href="/">Ссылка</a>
 |
-            <a href="http://colyn.ru"><unsubscribe>colyn.ru</unsubscribe></a>
+            <a href="/"><unsubscribe>Ссылка</unsubscribe></a>
             </p>
             </td>
           </tr>
@@ -364,6 +368,38 @@ width:auto!important;
   </tbody>
 </table>
 <!-- /FOOTER -->
-</body>
-</html>
+</body></html>
 
+{% comment %}
+
+<link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
+
+{% load staticfiles %}
+{% load thumbnail %}
+
+<!-- HEADER -->
+{#<table class="head-wrap" bgcolor="#999999">#}
+{#  <tbody>#}
+{#    <tr>#}
+{#      <td></td>#}
+{#      <td class="header container">#}
+{#      <div class="content">#}
+{#      <table bgcolor="#999999">#}
+{#        <tbody>#}
+{#          <tr>#}
+{#            <td><img src="http://myshop.sharelink.ru/static/img/kolun.jpg"></td>#}
+{#            <td align="right">#}
+{#            <h6 class="collapse">Tehnopoint&nbsp;</h6>#}
+{#            </td>#}
+{#          </tr>#}
+{#        </tbody>#}
+{#      </table>#}
+{#      </div>#}
+{#      </td>#}
+{#      <td></td>#}
+{#    </tr>#}
+{#  </tbody>#}
+{#</table>#}
+<!-- /HEADER --><!-- BODY -->
+
+{% endcomment %}

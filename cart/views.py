@@ -28,6 +28,7 @@ class CartInfoTemplateView(View):
             'count': request.cart.count,
             'full_price': request.cart.full_price,
             'discount_price': request.cart.discount_price,
+            'count_products': request.cart.count_products,
             'products': [
                 {
                     'id': cartproduct.product.id,

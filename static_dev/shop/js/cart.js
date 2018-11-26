@@ -25,7 +25,7 @@ function renderCartTemplate(data) {
     '                    <a href="' + product.url + '"><h4>' + product.title + '</h4></a>' +
     '                    <span>' +
     '                        <strong class="text-right">' + product.quantity + ' x</strong>' +
-    '                        <strong class="cart-price text-right">$' + product.discount_price + '</strong>' +
+    '                        <strong class="cart-price text-right">&#8381;' + product.discount_price + '</strong>' +
     '                    </span>' +
     '                </div>' +
     '                <div class="pro-del">' +
@@ -40,7 +40,7 @@ function renderCartTemplate(data) {
     '            <div class="cart-inner-bottom">' +
     '                <span class="total">' +
     '                    TOTAL:' +
-    '                    <span class="amount cart-total-price">$' + data.discount_price + '</span>' +
+    '                    <span class="amount cart-total-price">&#8381;' + data.discount_price + '</span>' +
     '                </span>' +
     '                <span class="cart-button-top">' +
     '                    <a href="/cart/">View cart</a>' +
@@ -132,6 +132,12 @@ function renderCartTableTemplate(data) {
       '                        <strong>&#8381; ' + data.discount_price + ' </strong>' +
       (data.full_price === data.discount_price ? '' : '<br><strike>&#8381; ' + data.full_price) + ' </strike>' +
       '                    </td>' +
+      '                </tr>' +
+      '                <tr>' +
+      '                    <td class="text-right">' +
+      '                        <strong>Total amount:</strong>' +
+      '                    </td>' +
+      '                     <td class="text-right">' + data.count_products + ' шт.</td>' +
       '                </tr>' +
       '            </tbody>' +
       '        </table>' +

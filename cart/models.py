@@ -38,6 +38,13 @@ class Cart(models.Model):
     def count(self):
         return self.products.count()
 
+    @property
+    def count_products(self):
+        return self.cartproduct_set.aggregate(
+        total=Sum(F('quantity'),
+        output_field=models.IntegerField())
+    ).get('total')
+
 
 class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')

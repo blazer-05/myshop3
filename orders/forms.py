@@ -3,14 +3,12 @@ from django.utils import timezone
 from model_utils import Choices
 
 BUYING_TYPE = Choices(
-    (0, 'take_out', 'Самовывоз'),
-    (1, 'delivery', 'Доставка')
+    ('take_out', 'Самовывоз'),
+    ('delivery', 'Доставка'),
 )
 
 class OrderForm(forms.Form):
-
-    name = forms.CharField()
-    last_name = forms.CharField(required=False)
+    full_name = forms.CharField()
     phone = forms.CharField()
     buying_type = forms.ChoiceField(widget=forms.Select(), choices=BUYING_TYPE)
     address = forms.CharField(required=False)
@@ -21,13 +19,12 @@ class OrderForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = 'Имя'
-        self.fields['last_name'].label = 'Фамилия'
-        self.fields['phone'].label = 'Контактный телефон'
+        self.fields['full_name'].label = '*ФИО'
+        self.fields['phone'].label = '*Контактный телефон'
         self.fields['phone'].help_text = 'Пожалуйста, указывайте реальный номер телефона, по которому с Вами можно связаться'
         self.fields['buying_type'].label = 'Способ получения'
         self.fields['address'].label = 'Укажите адрес доставки'
-        #self.fields['address'].help_text = '*Обязательно указывайте город!'
+        self.fields['address'].help_text = '*Обязательно указывайте город, почтовый индекс, улица, дом, квартира!'
         self.fields['comment'].label = 'Комментарий к заказу'
         self.fields['delivery_date'].label = 'Дата доставки'
         self.fields['delivery_date'].help_text = 'Доставка производится на следущий день после оформления заказа. Менеджер с Вами предварительно свяжется!'
