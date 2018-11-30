@@ -1,4 +1,5 @@
 import mptt
+import random
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
@@ -80,6 +81,8 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, blank=True, null=True, verbose_name='Бренд', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, unique=True, verbose_name='Название товара')
     slug = models.SlugField(verbose_name='Транслит')
+    meta_keywords = models. CharField(max_length=250, blank=True, verbose_name='Клюевые слова')
+    meta_descriptions = models.CharField(max_length=250, blank=True, verbose_name='Мета описание')
     descriptions = models.TextField(blank=True, verbose_name='Описание')
     descriptions_two = models.TextField(blank=True, verbose_name='Доп.описание')
     images = models.ImageField(upload_to='img_product/%y/%m/%d/', blank=True, verbose_name='Изображение товара')
@@ -91,6 +94,7 @@ class Product(models.Model):
     timer = models.BooleanField(default=False, verbose_name='Таймер')
     timer_before = models.DateTimeField(null=True, blank=True, verbose_name='Дата таймера')
     stock = models.PositiveIntegerField(verbose_name='Количество')
+    vendor_code = models.IntegerField(default=0, verbose_name='Артикул товара')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
@@ -127,6 +131,9 @@ class Product(models.Model):
     # Функция для вывода таймера
     def need_timer(self):
         return self.timer and self.timer_before and timezone.now() < self.timer_before
+
+    def vendorcode(self):
+        self.vendor_code = random.random(1, 5500)
 
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):

@@ -3,6 +3,9 @@
 {% load thumbnail %}
 {% load staticfiles %}
 
+{% block keywords %}{{ product.meta_keywords }}{% endblock %}
+{% block description %}{{ product.meta_descriptions }}{% endblock %}
+
 {% block title %}
     {{ product.title }}
 {% endblock %}
@@ -98,6 +101,11 @@
 											/
 											<a href="#">Write a review</a>
 										</p>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <span>Vendor code: <span class="text-stock"></span></span>
+                                            </div>
+                                        </div>
 										<hr />
 										<p class="short-description">{{ product.descriptions|safe }}</p>
 										<hr />
@@ -199,8 +207,8 @@
                                                     {% for entry in product.entry_set.active %}
                                                         <tbody style="border: none">
                                                             <tr>
-                                                                <td class="col-xs-6 dots active" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
-                                                                <td class="col-xs-6 active" style="border: 0px; width: 60%">{{ entry.value }}</td>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
                                                             </tr>
                                                         </tbody>
                                                     {% endfor %}
