@@ -1,0 +1,224 @@
+{#В этом шаблоне выводится список товаров данной категории, обрабатывает функция shoplist#}
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load mptt_tags %}
+{% load bootstrap3 %}
+
+
+{% block title %}
+    {{ category.name }}
+{% endblock %}
+
+{% block content %}
+		<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+                            <li><a href="{% url 'shop:catalog' %}">Catalog</a></li>
+							<li><a href="{% url 'shop:catlist' category.parent.slug %}">Основные</a></li>
+							<li class="active"><a href="">{{ category.name }}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+                    {% include 'shop/filters.html' %} <!-- Подгружаем код из шаблона shop/filters.html -->
+					</div>
+					<div class="col-md-9">
+						<!-- START PRODUCT-BANNER -->
+						<div class="product-banner">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="banner">
+										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-BANNER -->
+						<!-- START PRODUCT-AREA -->
+						<div class="product-area">
+							<div class="row">
+								<div class="col-xs-12">
+									<!-- Start Product-Menu -->
+									<div class="product-menu">
+										<div class="product-title">
+											<h3 class="title-group-3 gfont-1">{{ category.name }}</h3>
+										</div>
+									</div>
+									<div class="product-filter">
+										<ul role="tablist">
+											<li role="presentation" class="list active">
+												<a href="#display-1-1" role="tab" data-toggle="tab"></a>
+											</li>
+											<li role="presentation"  class="grid ">
+												<a href="#display-1-2" role="tab" data-toggle="tab"></a>
+											</li>
+										</ul>
+										<div class="sort">
+											<label>Sort By:</label>
+											<select>
+												<option value="#">Default</option>
+												<option value="#">Name (A - Z)</option>
+												<option value="#">Name (Z - A)</option>
+												<option value="#">Price (Low > High)</option>
+												<option value="#">Rating (Highest)</option>
+												<option value="#">Rating (Lowest)</option>
+												<option value="#">Name (A - Z)</option>
+												<option value="#">Model (Z - A))</option>
+												<option value="#">Model (A - Z)</option>
+											</select>
+										</div>
+										<div class="limit">
+											<label>Show:</label>
+											<select>
+												<option value="#">8</option>
+												<option value="#">16)</option>
+												<option value="#">24</option>
+												<option value="#">40</option>
+												<option value="#">80</option>
+												<option value="#">100</option>
+											</select>
+										</div>
+									</div>
+
+									<!-- End Product-Menu -->
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-12">
+									<!-- Start Product -->
+									<div class="product">
+										<div class="tab-content">
+											<!-- Product -->
+											<div role="tabpanel" class="tab-pane fade in active" id="display-1-1">
+													<div class="listview">
+
+														<!-- Start Single-Product -->
+                                                        {% if products %}
+                                                        {% for product in products %}
+														<div class="single-product jq-product-wrapper">
+															<div class="col-md-3 col-sm-4 col-xs-12">
+																<div class="label_new">
+                                                                    {% if product.new %}
+																	<span class="new">new</span>
+                                                                    {% endif %}
+																</div>
+																<div class="sale-off">
+                                                                    {% if product.discount %}
+																	<span class="sale-percent">-{{ product.discount }}%</span>
+                                                                    {% endif %}
+																</div>
+																<div class="product-img" align="center" style="width: 190px; height: 151px">
+																	<a href="{{ product.get_absolute_url }}">
+																		<img class="primary-img" src="{{ product.images|thumbnail_url:'shop-list' }}" alt="Product">
+{#																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'shop-list' }}" alt="Product">#}
+																	</a>
+																</div>
+															</div>
+															<div class="col-md-9 col-sm-8 col-xs-12">
+																<div class="product-description">
+																	<h5><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
+                                                                    {% if product.discount %}
+																	<div class="price-box">
+																		<span class="price">${{ product.get_sale }}</span>
+																		<span class="old-price">${{ product.price }}</span>
+																	</div>
+                                                                        {% else %}
+																	<div class="price-box">
+																		<span class="price">${{ product.price}}</span>
+																	</div>
+                                                                    {% endif %}
+																	<span class="rating">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</span><br><br>
+                                                                    <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
+																	<p class="description">{{ product.descriptions|safe }}</p>
+																	<div class="product-action">
+																		<div class="button-group">
+																			<form class="product-button" onsubmit="return addToCart(event)">
+                                                                                <input type="hidden" name="product" value="{{ product.slug }}">
+																				<button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+																			</form>
+																			<div class="product-button-2">
+																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+																				<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" title="Quickview"><i class="fa fa-search-plus"></i></a>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                                                        {% endfor %}
+                                                            {% else %}
+                                                            <p align="center" style="font-size: 14px;">В данной категории пока нет товаров</p>
+                                                        {% endif %}
+														<!-- End Single-Product -->
+													</div>
+                                                    <!-- Start Single-Product -->
+
+												<!-- Start Pagination Area -->
+												<div class="pagination-area">
+													<div class="row">
+														<div class="col-xs-5">
+															<div class="pagination">
+																<ul>
+                                                                    {% bootstrap_pagination products pages_to_show=3 %}
+																</ul>
+														    </div>
+														</div>
+														<div class="col-xs-7">
+															<div class="product-result">
+																<span>Showing {{ products.number }} to 16 of 19 ({{ products.paginator.num_pages }} Pages)</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- End Pagination Area -->
+											</div>
+											<!-- End Product -->
+										</div>
+									</div>
+									<!-- End Product -->
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-AREA -->
+					</div>
+				</div>
+			</div>
+        </section>
+{% endblock content %}
+
+{% comment %}
+
+{% if product.has_previous %}
+<li><a href="?page=1{{ product.previous.num_pages }}"><|</a></li>
+<li><a href="?page={{ product.previous_page_number }}"><</a></li>
+{% endif %}
+
+{% for i in product.paginator.page_range %}
+  {% if product.number == i %}
+    <li class="active"><a href="">{{ i }}</a></li>
+  {% else %}
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+
+{% if product.has_next %}
+<li><a href="?page={{ product.next_page_number }}">></a></li>
+<li><a href="?page={{ product.paginator.num_pages }}">>|</a></li>
+{% endif %}
+
+{% endcomment %}

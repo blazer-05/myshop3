@@ -1,0 +1,60 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Thanks
+{% endblock %}
+
+{% block content %}
+		<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+							<li class="active"><a href="{% url 'order:thanks' %}">Thanks</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						{% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+					</div>
+					<div class="col-md-9">
+						<!-- START PRODUCT-BANNER -->
+						<div class="product-banner">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="banner">
+										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-BANNER -->
+                        <h1>Your order is accepted</h1>
+						<div class="Wishlist-area">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel_default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Create Order <i class="fa fa-caret-down"></i> </a>
+                                        </h4>
+                                    </div>
+
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </section>
+
+    <script type="text/javascript">
+setTimeout('location.replace("/shop/")', 3000);
+/*Изменить текущий адрес страницы через 3 секунды (3000 миллисекунд)*/
+</script>
+{% endblock content %}

@@ -1,0 +1,143 @@
+{#В этом шаблоне выводятся все каатегории и их потомки, обрабатывает функция catalog#}
+{#В шаблон встроен аккардион http://dbmast.ru/otzyvchivyj-akkordeon-s-pomoshhyu-jquery в файле style.css его код строка 2854#}
+
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load mptt_tags %}
+
+{% block title %}
+    Каталог товаров
+{% endblock %}
+
+{% block content %}
+    <!-- START PAGE-CONTENT -->
+    <section class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="page-menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="">Catalog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-8">
+                        {% recursetree categories %}
+                            <!-- блок аккордеон -->
+                            <div class="accordion">
+                                <section class="accordion_item">
+                                    <h3 class="title_block"><strong>{{ node.name }}</strong></h3>
+                                    {% if not node.is_leaf_node %}
+                                        {% for child in node.children.all %}
+                                            <div class="info"><hr>
+                                                <ul>
+                                                    <li class="info_item"><a href="{% url 'shop:catlist' child.slug %}"><u>{{ child.name }}</u></a></li>
+                                                </ul>
+                                                {% recursetree child.children.all %}
+                                                    <ul>
+                                                        <li class="info"><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
+                                                    </ul>
+                                                {% endrecursetree %}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </section>
+                            </div>
+                            <!-- конец блока аккордеон -->
+                        {% endrecursetree %}
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            !function (i) {
+                                var o, n;
+                                i(".title_block").on("click", function () {
+                                    o = i(this).parents(".accordion_item"), n = o.find(".info"),
+                                        o.hasClass("active_block") ? (o.removeClass("active_block"),
+                                            n.slideUp()) : (o.addClass("active_block"), n.stop(!0, !0).slideDown(),
+                                            o.siblings(".active_block").removeClass("active_block").children(
+                                                ".info").stop(!0, !0).slideUp())
+                                })
+                            }(jQuery);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+
+
+{% comment %}
+
+Первый ваариант
+
+                         {% recursetree categories %}
+                            <div class="dropdown">
+                                  <a data-target="#" data-toggle="dropdown" class="dropdown-toggle">
+                                  <ul><li><strong><p class="lead">{{ node.name }}</strong></li></ul>
+    {#                              <b class="caret"></b>#}
+                                  </a>
+                                  <ul class="list-group">
+                                    <li>
+                                        <a href="#">
+                                            {% if not node.is_leaf_node %}
+                                                {% for child in node.children.all %}
+                                                <ul class="children">
+                                                    {{ child.name }}
+                                                </ul>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                  </ul>
+                            </div>
+                         {% endrecursetree %}
+
+
+Второй вариант
+
+
+                            {% recursetree categories %}
+                              <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse">{{ node.name }}</a>
+                                  </h4>
+                                </div>
+                                <div id="collapse" class="panel-collapse collapse">
+                                    {% if not node.is_leaf_node %}
+                                  <ul class="list-group">
+                                        {% for child in node.children.all %}
+                                    <li class="list-group-item">{{ child.name }}</li>
+                                        {% endfor %}
+                                  </ul>
+                                    {% endif %}
+                                </div>
+                              </div>
+                            {% endrecursetree %}
+
+Третий вариант
+
+                            {% recursetree categories %}
+                                <ul class="nav nav-pills nav-stacked">
+                                  <li class="active"><a href="#">{{ node.name }}</a></li>
+                                    {% if not node.is_leaf_node %}
+                                  <li class="dropdown">
+                                      {% for child in node.children.all %}
+                                    <a class="" data-toggle="" href="#">{{ child.name }}
+                                        {% endfor %}
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="#"></a></li>
+                                    </ul>
+                                  </li>
+                                    {% endif %}
+                                </ul>
+                            {% endrecursetree %}
+
+{% endcomment %}

@@ -1,0 +1,436 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block content %}
+<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+							<li><a href="{% url 'cart:cart' %}">Shopping Cart</a></li>
+							<li class="active"><a href="{% url 'cart:checkout' %}">Checkout</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						{% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+						{% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
+					</div>
+					<div class="col-md-9">
+						<!-- START PRODUCT-BANNER -->
+						<div class="product-banner">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="banner">
+										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-BANNER -->
+						<!-- Start checkout-area -->
+						<div class="checkout-area">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="cart-title">
+										<h2 class="entry-title">Checkout</h2>
+									</div>
+									<!-- Accordion start -->
+									<div class="panel-group" id="accordion">
+										<!-- Start 1 Checkout-options -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Checkout Options  <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="checkout-options" class="collapse">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-md-6 col-xs-12">
+															<div class="checkout-collapse">
+																<h3 class="title-group-3 gfont-1">New Customer</h3>
+																<p>Checkout Options</p>
+																<div class="radio">
+																	<label>
+																		<input type="radio" value="register" name="account" checked/>
+																		Register Account
+																	</label>
+																</div>
+																<div class="radio">
+																	<label>
+																		<input type="radio" value="guest" name="account"/>
+																		Guest Checkout
+																	</label>
+																</div>
+																<p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
+																<input type="submit" class="btn btn-primary" value="Continue"/>
+															</div>
+														</div>
+														<div class="col-md-6 col-xs-12">
+															<div class="checkout-collapse">
+																<h3 class="title-group-3 gfont-1">Returning Customer</h3>
+																<p>I am a returning customer</p>
+																<div class="form-group">
+																	<label>E-mail</label>
+																	<input type="email" class="form-control" name="email" />
+																</div>
+																<div class="form-group">
+																	<label>Password</label>
+																	<input type="password" class="form-control" />
+																	<a href="#">Forgotten Password</a>
+																</div>
+																<input type="submit" class="btn btn-primary" value="Login"/>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Checkout-options -->
+										<!-- Start 2 Payment-Address -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Step 2: Account & Billing Details <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="payment-address" class="collapse">
+												<div class="panel-body">
+													<div class="row">
+														<div class="col-md-6 col-xs-12">
+															<fieldset id="account">
+																<legend>Your Personal Details</legend>
+																<div class="form-group">
+																	<label><sup>*</sup>First Name</label>
+																	<input type="text" class="form-control" placeholder="First Name" name="firstname" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Last Name</label>
+																	<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>E-mail</label>
+																	<input type="email" class="form-control" placeholder="E-mail" name="email" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Telephone</label>
+																	<input type="text" class="form-control" placeholder="Telephone" name="telephone" />
+																</div>
+																<div class="form-group">
+																	<label>Fax</label>
+																	<input type="text" class="form-control" placeholder="Fax" name="fax" />
+																</div>
+															</fieldset>
+															<fieldset>
+																<legend>Your Password</legend>
+																<div class="form-group">
+																	<label><sup>*</sup>Password</label>
+																	<input type="password" class="form-control" placeholder="Password" name="password" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Password Confirm</label>
+																	<input type="password" class="form-control" placeholder="Password Confirm" name="confirm" />
+																</div>
+															</fieldset>
+														</div>
+														<div class="col-md-6 col-xs-12">
+															<fieldset id="address">
+																<legend>Your Address</legend>
+																<div class="form-group">
+																	<label>Company</label>
+																	<input type="text" class="form-control" placeholder="Company" name="company" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Address 1</label>
+																	<input type="text" class="form-control" placeholder="Address 1" name="Address_1" />
+																</div>
+																<div class="form-group">
+																	<label>Address 2</label>
+																	<input type="text" class="form-control" placeholder="Address 2" name="Address_2" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>City</label>
+																	<input type="text" class="form-control" placeholder="City" name="city" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Post Code</label>
+																	<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Country</label>
+																	<select class="form-control">
+																		<option> --- Please Select --- </option>
+																		<option> Bangladesh </option>
+																		<option> United States </option>
+																		<option> United Kingdom </option>
+																		<option> Canada </option>
+																		<option> Malaysia </option>
+																		<option> United Arab Emirates </option>
+																	</select>
+																</div>
+																<div class="form-group">
+																	<label><sup>*</sup>Region / State</label>
+																	<select class="form-control">
+																		<option> --- Please Select --- </option>
+																		<option> Aberdeen </option>
+																		<option> Bedfordshire </option>
+																		<option> Caerphilly </option>
+																		<option> Denbighshire </option>
+																		<option> East Ayrshire </option>
+																		<option> Falkirk </option>
+																	</select>
+																</div>
+															</fieldset>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-xs-12">
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" name="newsletter" />
+																	 I wish to subscribe to the Malias1 newsletter.
+																</label>
+															</div>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" name="shipping_address" checked/>
+																	 My delivery and billing addresses are the same.
+																</label>
+															</div>
+															<div class="buttons clearfix">
+																<div class="pull-right">
+																	I have read and agree to the 
+																	<a href="#"><b>Privacy Policy</b></a>
+																	<input type="checkbox" name="agree" />
+																	<input type="button" class="btn btn-primary" value="Continue" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Payment-Address -->
+										<!-- Start 3 shipping-Address -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-address">Step 3: Delivery Details <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="shipping-address" class="collapse">
+												<div class="panel-body">
+													<div class="form-horizontal">
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>First Name</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="First Name" name="firstname" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>Last Name</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label">Company</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="Company" name="company" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>Address 1</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="Address 1" name="address_1" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label">Address 2</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="Address 2" name="address_2" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>City</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="City" name="city" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>Post Code</label>
+															<div class="col-sm-10">
+																<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>Country</label>
+															<div class="col-sm-10">
+																<select class="form-control">
+																	<option> --- Please Select --- </option>
+																	<option> Bangladesh </option>
+																	<option> United States </option>
+																	<option> United Kingdom </option>
+																	<option> Canada </option>
+																	<option> Malaysia </option>
+																	<option> United Arab Emirates </option>
+																</select>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-sm-2 control-label"><sup>*</sup>Region / State</label>
+															<div class="col-sm-10">
+																<select class="form-control">
+																	<option> --- Please Select --- </option>
+																	<option> Dhaka </option>
+																	<option> New York </option>
+																	<option> London </option>
+																	<option> Canada </option>
+																	<option> Malaysia </option>
+																	<option> United Arab Emirates </option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End shipping-Address -->
+										<!-- Start 4 shipping-Method -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Step 4: Delivery Method <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="shipping-method" class="collapse">
+												<div class="panel-body">
+													<p>Please select the preferred shipping method to use on this order.</p>
+													<p><strong>Flat Rate</strong></p>
+													<div class="radio">
+														<label>
+															<input type="radio" name="shipping_method" checked/>
+															Flat Shipping Rate - $5.00
+														</label>
+													</div>
+													<p><strong>Add Comments About Your Order</strong></p>
+													<p>
+														<textarea class="form-control" name="comment" rows="8"></textarea>
+													</p>
+													<div class="buttons pull-right">
+														<input type="button" class="btn btn-primary" value="Continue" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End shipping-Method -->
+										<!-- Start 5 Payment-Method -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-method">Step 5: Payment Method  <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="payment-method" class="collapse">
+												<div class="panel-body">
+													<p>Please select the preferred payment method to use on this order.</p>
+													<div class="radio">
+														<label>
+															<input type="radio" name="payment_method" checked/>
+															Cash On Delivery      
+														</label>
+													</div>
+													<p><strong>Add Comments About Your Order</strong></p>
+													<p>
+														<textarea class="form-control" name="comment" rows="8"></textarea>
+													</p>
+													<div class="buttons pull-right">
+														I have read and agree to the 
+														<a href="#"><b>Terms & Conditions</b></a>
+														<input type="checkbox" name="agree" />
+														<input type="button" class="btn btn-primary" value="Continue" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Payment-Method -->
+										<!-- Start 6 Checkout-Confirm -->
+										<div class="panel panel_default">
+											<div class="panel-heading">
+												<h4 class="panel-title">
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 6: Confirm Order <i class="fa fa-caret-down"></i> </a>
+												</h4>
+											</div>
+											<div id="checkout-confirm" class="collapse in">
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table class="table table-bordered table-hover bmw">
+															<thead>
+																<tr>
+																	<td class="text-center">Images</td>
+																	<td class="text-left">Product Name</td>
+																	<td class="text-center">Quantity</td>
+																	<td class="text-right">Unit Price</td>
+																	<td class="text-right">Total</td>
+																</tr>
+															</thead>
+                                                            {% for item in request.cart.cartproduct_set.all %}
+															<tbody>
+																<tr>
+																	<td class="text-center">
+																		<img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
+																	</td>
+																	<td class="text-left">{{ item.product.title }}</td>
+																	<td class="text-center">{{ item.quantity }}</td>
+																	<td class="text-right">&#8381; {{ item.product.price }}</td>
+																	<td class="text-right">&#8381; {{ item.discount_price }}</td>
+																</tr>
+															</tbody>
+                                                            {% endfor %}
+															<tfoot>
+																<tr>
+																	<td class="text-right" colspan="4">
+																		<strong>Total:</strong>
+																	</td>
+																	<td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+																</tr>
+                                                                <tr>
+                                                                    <td class="text-right" colspan="4">
+                                                                        <strong>Total amount:</strong>
+                                                                    </td>
+                                                                    <td class="text-right">{{ request.cart.count_products }} шт.</td>
+                                                                </tr>
+															</tfoot>
+														</table>
+													</div>
+													<div class="buttons pull-right">
+														<a href="{% url 'order:create_orders' %}"><input type="button" class="btn btn-primary" value="Confirm Order" /></a>
+													</div>
+													<div class="buttons pull-left">
+														<a href="{% url 'cart:cart' %}"><input type="button" class="btn btn-success" value="Return To Cart" /></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Checkout-Confirm -->
+									</div>
+									<!-- Accordion end -->
+								</div>
+							</div>
+						</div>
+						<!-- End Shopping-Cart -->
+					</div>
+				</div>
+			</div>
+        </section>
+{% endblock content %}
+{% comment %}{% endcomment %}

@@ -1,0 +1,62 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+{% block title %}
+    Carte
+{% endblock %}
+
+{% block content %}
+		<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+							<li class="active"><a href="{% url 'cart:cart' %}">Shopping Cart</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						{% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+						{% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
+					</div>
+					<div class="col-md-9">
+						<!-- START PRODUCT-BANNER -->
+						<div class="product-banner">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="banner">
+										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-BANNER -->
+						<!-- Start Shopping-Cart -->
+						<div class="shopping-cart">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="cart-title">
+										<h2 class="entry-title">Shopping Cart</h2>
+									</div>
+									<!-- Start Table -->
+                                    <div id="cart-table">
+
+                                    </div>
+									<div class="shopping-checkout">
+										<a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue Shopping</a>
+										<a href="{% url 'cart:checkout' %}" class="btn btn-primary pull-right">Checkout</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End Shopping-Cart -->
+					</div>
+				</div>
+			</div>
+        </section>
+{% endblock content %}
+

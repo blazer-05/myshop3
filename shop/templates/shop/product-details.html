@@ -1,0 +1,368 @@
+{#В этом шаблоне выводится товар с полным описанием, обрабатывает функция productdetails#}
+{% extends 'shop/base.html' %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+{% block keywords %}{{ product.meta_keywords }}{% endblock %}
+{% block description %}{{ product.meta_descriptions }}{% endblock %}
+
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block content %}
+		<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+                            <li><a href="{% url 'shop:catalog' %}">Catalog</a></li>
+                            <li><a href="{% url 'shop:catlist' product.category.parent.slug %}">Основные</a></li>
+							<li><a href="{% url 'shop:shop-list' product.category.slug %}">{{ product.category }}</a></li>
+							<li class="active"><a href="">{{ product.title }}</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						{% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+						{% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
+						<!-- START SIDEBAR-BANNER -->
+	                    <div class="sidebar-banner hidden-sm hidden-xs">
+	                    	<div class="active-sidebar-banner">
+	                    		<div class="single-sidebar-banner">
+	                    			<a href=""><img src="{% static 'shop/img/banner/1.jpg' %}" alt="Product Banner"></a>
+	                    		</div>
+	                    		<div class="single-sidebar-banner">
+	                    			<a href=""><img src="{% static 'shop/img/banner/2.jpg' %}" alt="Product Banner"></a>
+	                    		</div>
+	                    	</div>
+	                    </div>
+	                    <!-- END SIDEBAR-BANNER -->
+					</div>
+					<div class="col-md-9 col-sm-12 col-xs-12">
+						<!-- Start Toch-Prond-Area -->
+						<div class="toch-prond-area">
+							<div class="row jq-product-wrapper">
+								<div class="col-md-5 col-sm-5 col-xs-12">
+									<div class="clear"></div>
+									<div class="tab-content">
+										<!-- Product = display-1-1 -->
+										<div role="tabpanel" class="tab-pane fade in active" id="display-1">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="toch-photo">
+														<a href="#"><img src="{{ product.images.url }}" data-imagezoom="true" alt="" /></a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Product = display-1-1 -->
+									</div>
+									<!-- Start Toch-prond-Menu -->
+
+                                    {% for alb in albom %}
+									<div class="toch-prond-menu" align="center">
+										<ul role="tablist">
+											<li role="presentation" class="active">
+                                                <a onclick="changeIMG('{{ alb.image.url }}')" href="{{ alb.image.url }}" role="tab" data-toggle="tab">
+                                                    <img src="{{ alb.image|thumbnail_url:'alb' }}" style="width: 74px; height: 74px" alt="" />
+                                                </a>
+                                            </li>
+										</ul>
+									</div>
+                                    {% empty %}
+                                        <p>Нет доп. изображения</p>
+                                    {% endfor %}
+
+									<!-- End Toch-prond-Menu -->
+                                    <!-- ява скрипт меняет картинки в главном окне с изображением -->
+                                    <script type="text/javascript">
+                                        var img = document.getElementById("display-1").getElementsByTagName("img")[0]; //получаем большую картинку.
+                                        function changeIMG(str){
+                                          img.setAttribute('src', str);
+                                        }
+                                        </script>
+								</div>
+								<div class="col-md-7 col-sm-7 col-xs-12">
+									<h2 class="title-product"> {{ product.title }}</h2>
+									<div class="about-toch-prond">
+										<p>
+											<span class="rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star-o"></i>
+											</span>
+											<a href="#">1 reviews</a>
+											/
+											<a href="#">Write a review</a>
+										</p>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
+                                            </div>
+                                        </div>
+										<hr />
+										<p class="short-description">{{ product.descriptions|safe }}</p>
+										<hr />
+                                        {% if product.discount %}
+										<span class="current-price">${{ product.get_sale }}</span>
+                                            {% else %}
+                                            <span class="current-price">${{ product.price }}</span>
+                                        {% endif %}
+										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
+									</div>
+									<div class="about-product">
+										<div class="product-select product-color">
+											<label><sup>*</sup>Color</label>
+											<select class="form-control">
+												<option> --- Please Select --- </option>
+												<option>Black (+$10.00) </option>
+												<option>White (+$8.00)</option>
+												<option>Pink (+$30.00)</option>
+												<option>Green (+$30.00)</option>
+											</select>
+										</div>
+										<div class="product-select product-Size">
+											<label><sup>*</sup>Size</label>
+											<select class="form-control">
+												<option> --- Please Select --- </option>
+												<option>Small (+$10.00)</option>
+												<option>Medium (+$20.00)</option>
+												<option>Large (+$30.00)</option>
+												<option>Extra Large (+$35.00)</option>
+											</select>
+										</div>
+										<div class="product-select product-type">
+											<label><sup>*</sup>Text</label>
+											<input type="text"  class="form-control" placeholder="Text"/>
+										</div>
+										<div class="product-select product-date">
+											<label><sup>*</sup>Date</label>
+											<input type="text"  class="form-control" placeholder="2016/02/15"/>
+										</div>
+										<div class="product-select product-checkbox">
+											<label><sup>*</sup>Checkbox</label>
+											<label><input type="checkbox" /> Checkbox 1  (+$5.00)</label>
+										</div>
+										<div class="product-select product-button">
+											<button type="submit" >
+												<i class="fa fa-calendar"></i>
+											</button>
+										</div>
+									</div>
+
+                                <div class="">
+									<form class="product-quantity" onsubmit="return addToCart(event)">
+
+                                        <div style="display: inline-block; width: 110px">
+                                            <div class="input-group plus-minus-widget">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, -1)">-</button>
+                                                </span>
+                                                <input type="text" placeholder="1" value="1" name="quantity" class="form-control" style="height: 40px">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, +1)">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <div class="input-group">
+                                                <input type="hidden" name="product" value="{{ product.slug }}"/>
+                                                <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                <button type="submit" class="toch-button toch-wishlist">wishlist</button>
+                                                <button type="submit" class="toch-button toch-compare">Compare</button>
+                                            </div>
+                                        </div>
+										<hr />
+{#										<a href="#"><img src="{% static 'shop/img/icon/social.png' %}" alt="#" /></a>#}
+									</form>
+								</div>
+							</div>
+                        </div>
+
+                        <div class="row">
+							<!-- Start Toch-Box -->
+                            <div class="toch-box">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
+                                    <li><a href="#characteristics" data-toggle="tab">Характеристики</a></li>
+                                    <li><a href="#comments" data-toggle="tab">Комментарии</a></li>
+                                    <li><a href="#reviews" data-toggle="tab">Отзывы</a></li>
+                                    <li><a href="#action" data-toggle="tab">Акция</a></li>
+                                </ul>
+                                <br>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane fade in active bmw" id="description"><h2 class="title-product">Описание: {{ product.title }}</h2>{{ product.descriptions_two|safe }}</div>
+                                    <div class="tab-pane fade in" id="characteristics">
+                                        <div class="table-responsive">
+                                                <table class="table table-hover bmw">
+                                                    <h2 class="title-product">Характеристики: {{ product.title }}</h2>
+                                                    {% for entry in product.entry_set.active %}
+                                                        <tbody style="border: none">
+                                                            <tr>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade in" id="comments"><h2 class="title-product">Комментарии: Текст описания 3</h2></div>
+                                    <div class="tab-pane fade in" id="reviews"><h2 class="title-product">Отзывы: Текст описания 4</h2></div>
+                                    <div class="tab-pane fade in" id="action"><h2 class="title-product">
+                                        {% if product.need_timer %}
+                                            <p>Для этого товара действует акция!</p>
+                                        <div class="timer">
+                                            <div class="eTimer" data-etDate="{{ product.timer_before|date:"d.m.Y.H.i"}}"></div>
+                                        </div>
+                                            <br>
+                                            <p style="font-size: 16px">{{ product.akciya_text|safe }}</p>
+                                            {% else %}
+                                            <p>На данный момент для этого товара акции нет</p>
+                                        {% endif %}
+                                        <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
+                                        <!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html В файле скрипта etimer.js стр.93-94 настройка ссылки -->
+                                        <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                jQuery(".eTimer").each(function( index ) {
+                                                    var etDate = $( this ).attr('data-etDate')
+                                                    $( this ).eTimer({etType: 0, etDate: etDate, etTitleText: "До окончания акции осталось:", etTitleSize: 16, etShowSign: 1, etSep: " ", etFontFamily: "Roboto", etTextColor: "#0d0505", etPaddingTB: 0, etPaddingLR: 0, etBackground: "white", etBorderSize: 0, etBorderRadius: 0, etBorderColor: "white", etShadow: " 0px 0px 10px 0px white", etLastUnit: 4, etNumberFontFamily: "Impact", etNumberSize: 24, etNumberColor: "white", etNumberPaddingTB: 0, etNumberPaddingLR: 5, etNumberBackground: "#ED7987", etNumberBorderSize: 0, etNumberBorderRadius: 0, etNumberBorderColor: "white", etNumberShadow: "inset 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                    </h2></div>
+                                </div>
+
+                            </div>
+							<!-- End Toch-Box -->
+							<!-- START PRODUCT-AREA -->
+							<div class="product-area">
+								<div class="row">
+									<div class="col-xs-12 col-md-12">
+										<!-- Start Product-Menu -->
+										<div class="product-menu">
+											<div class="product-title">
+												<h3 class="title-group-2 gfont-1">Товары из этой категории</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- End Product-Menu -->
+								<div class="clear"></div>
+								<!-- Start Product -->
+								<div class="product carosel-navigation">
+									<div class="row">
+										<div class="active-product-carosel">
+
+                                            {% for pftc in products_from_this_category %}
+											<!-- Start Single-Product -->
+											<div class="col-xs-12">
+												<div class="single-product">
+													<div class="product-img" align="center" style="width: 190px; height: 170px">
+														<a href="{{ pftc.get_absolute_url }}">
+															<img class="primary-img" src="{{ pftc.images|thumbnail_url:'pftc' }}" alt="Product" >
+														</a>
+													</div>
+													<div class="product-description">
+														<h5><a href="{{ pftc.get_absolute_url }}">{{ pftc.title }}</a></h5>
+														<div class="price-box">
+															<span class="price">${{ pftc.price }}</span>
+                                                            <span class="old-price">$110.00</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- End Single-Product -->
+                                            {% endfor %}
+
+										</div>
+									</div>
+
+								</div>
+								<!-- End Product -->
+							</div>
+							<!-- END PRODUCT-AREA -->
+							<!-- START PRODUCT-AREA -->
+							<div class="product-area">
+								<div class="row">
+									<div class="col-xs-12 col-md-12">
+										<!-- Start Product-Menu -->
+										<div class="product-menu">
+											<div class="product-title">
+												<h3 class="title-group-2 gfont-1">Все товары</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- End Product-Menu -->
+								<div class="clear"></div>
+								<!-- Start Product -->
+								<div class="product carosel-navigation">
+									<div class="row">
+										<div class="active-product-carosel">
+
+                                            {% for allp in all_products %}
+											<!-- Start Single-Product -->
+											<div class="col-xs-12">
+												<div class="single-product">
+													<div class="product-img" align="center" style="width: 190px; height: 170px"><! -- style="width: 200px; height: 200px" -->
+														<a href="{{ allp.get_absolute_url }}">
+															<img class="primary-img" src="{{ allp.images|thumbnail_url:'allp' }}" alt="Product">
+														</a>
+													</div>
+													<div class="product-description">
+														<h5><a href="{{ allp.get_absolute_url }}">{{ allp.title }}</a></h5>
+														<div class="price-box">
+															<span class="price">${{ allp.price }}</span>
+                                                            <span class="old-price">$110.00</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- End Single-Product -->
+                                            {% endfor %}
+
+										</div>
+									</div>
+
+								</div>
+								<!-- End Product -->
+							</div>
+							<!-- END PRODUCT-AREA -->
+						</div>
+						<!-- End Toch-Prond-Area -->
+					</div>
+				</div>
+			</div>
+        </section>
+{% endblock content %}
+
+{% comment %}
+
+                                    <div class="tab-pane fade in active bmw" id="description"><h2 class="title-product">Описание: {{ product.title }}</h2>{{ product.descriptions_two|safe }}</div>
+                                    <div class="tab-pane fade in" id="characteristics">
+                                        <div class="table-responsive">
+                                                <table class="table table-hover bmw">
+                                                    <h2 class="title-product">Характеристики: {{ product.title }}</h2>
+                                                    {% for entry in product.entry_set.active %}
+                                                        <tbody style="border: none">
+                                                            <tr>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    {% endfor %}
+                                                </table>
+                                        </div>
+                                    </div>
+
+{% endcomment %}
