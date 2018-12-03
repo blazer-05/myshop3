@@ -102,7 +102,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ['title']
+        ordering = ['-created']
 
     def __str__(self):
         return self.title
@@ -132,8 +132,16 @@ class Product(models.Model):
     def need_timer(self):
         return self.timer and self.timer_before and timezone.now() < self.timer_before
 
-    def vendorcode(self):
-        self.vendor_code = random.random(1, 5500)
+    #Переопределен метод save() для генерации случайных чисел для поля vendor_code (Артикул товара), в параметре numbers=6 можно задать количество чисел.
+    def generate_vendor_code(self, numbers=5):
+        while not self.vendor_code:
+            vendor_code = random.randint(10**numbers, 10**(numbers+1) - 1)
+            if not Product.objects.filter(vendor_code=vendor_code).exists():
+                self.vendor_code = vendor_code
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.generate_vendor_code()
+        super().save(force_insert, force_update, using, update_fields)
 
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):

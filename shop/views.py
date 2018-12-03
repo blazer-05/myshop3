@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from shop.models import Category, Brand, Product, ProductAlbomImages
+from shop.models import Category, Product, ProductAlbomImages
 
 
 def index(request):

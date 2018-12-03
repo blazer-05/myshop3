@@ -27,7 +27,7 @@ class EntryInline(admin.TabularInline):
 class ProductAdmin(SummernoteModelAdmin):
     inlines = [EntryInline, AlbomInLine] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ['title', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_active', 'created', 'updated']
+    list_display = ['title', 'vendor_code', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
     list_filter = (#'category',
                    ('category', TreeRelatedFieldListFilter),
@@ -36,7 +36,7 @@ class ProductAdmin(SummernoteModelAdmin):
                    'created',
                    'updated'
                    )
-    search_fields = ['title']
+    search_fields = ['title', 'vendor_code']
     list_editable = ['slug', 'is_active']
 
 admin.site.register(Brand, BrandAdmin)
