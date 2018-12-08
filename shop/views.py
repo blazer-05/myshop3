@@ -1,18 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from shop.models import Category, Product, ProductAlbomImages
+from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
 
 
 def index(request):
     context = {}
     cart = request.cart
-    products = Product.objects.filter(is_active=True)
+    products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True)
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     context['products'] = products
     context['hotdeals'] = hotdeals
     context['slider_product'] = slider_product
     context['cart'] = cart
+    context['index_categories'] = CategoryIndexPage.get_index_categories() # Из модели shop/CategoryIndexPage, выводим в контекст метод get_index_categories()
     return render(request, 'shop/index.html', context)
 
 def catlinks(request, slug):
@@ -39,7 +40,7 @@ def shop(request):
     context = {}
     cart = request.cart
     products = Product.objects.filter(is_active=True)
-    paginator = Paginator(products, 10)
+    paginator = Paginator(products, 12)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context['products'] = products
@@ -65,8 +66,8 @@ def productdetails(request, product_slug):
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(is_active=True, product=product)
     category = product.category
-    all_products = Product.objects.all().exclude(slug=product_slug)
-    products_from_this_category = Product.objects.filter(category=category)
+    all_products = Product.objects.all().exclude(slug=product_slug).order_by('?')[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары)
+    products_from_this_category = Product.objects.filter(category=category).order_by('?')[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (товары из этой категории)
     hotdeals = Product.objects.filter(akciya=True, timer=True)
     #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
     context['product'] = product

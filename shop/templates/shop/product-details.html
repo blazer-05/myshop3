@@ -110,51 +110,14 @@
 										<p class="short-description">{{ product.descriptions|safe }}</p>
 										<hr />
                                         {% if product.discount %}
-										<span class="current-price">${{ product.get_sale }}</span>
+                                        <span class="current-price">${{ product.get_sale }}</span>
+                                        <span class="old-price">${{ product.price }}</span>
                                             {% else %}
                                             <span class="current-price">${{ product.price }}</span>
                                         {% endif %}
-										<span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
+                                        <span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
 									</div>
-									<div class="about-product">
-										<div class="product-select product-color">
-											<label><sup>*</sup>Color</label>
-											<select class="form-control">
-												<option> --- Please Select --- </option>
-												<option>Black (+$10.00) </option>
-												<option>White (+$8.00)</option>
-												<option>Pink (+$30.00)</option>
-												<option>Green (+$30.00)</option>
-											</select>
-										</div>
-										<div class="product-select product-Size">
-											<label><sup>*</sup>Size</label>
-											<select class="form-control">
-												<option> --- Please Select --- </option>
-												<option>Small (+$10.00)</option>
-												<option>Medium (+$20.00)</option>
-												<option>Large (+$30.00)</option>
-												<option>Extra Large (+$35.00)</option>
-											</select>
-										</div>
-										<div class="product-select product-type">
-											<label><sup>*</sup>Text</label>
-											<input type="text"  class="form-control" placeholder="Text"/>
-										</div>
-										<div class="product-select product-date">
-											<label><sup>*</sup>Date</label>
-											<input type="text"  class="form-control" placeholder="2016/02/15"/>
-										</div>
-										<div class="product-select product-checkbox">
-											<label><sup>*</sup>Checkbox</label>
-											<label><input type="checkbox" /> Checkbox 1  (+$5.00)</label>
-										</div>
-										<div class="product-select product-button">
-											<button type="submit" >
-												<i class="fa fa-calendar"></i>
-											</button>
-										</div>
-									</div>
+
 
                                 <div class="">
 									<form class="product-quantity" onsubmit="return addToCart(event)">
@@ -224,9 +187,9 @@
                                             <div class="eTimer" data-etDate="{{ product.timer_before|date:"d.m.Y.H.i"}}"></div>
                                         </div>
                                             <br>
-                                            <p style="font-size: 16px">{{ product.akciya_text|safe }}</p>
+                                            <p>{{ product.akciya_text|safe }}</p>
                                             {% else %}
-                                            <p>На данный момент для этого товара акции нет</p>
+                                            <p style="font-size: 18px">На данный момент для этого товара акции нет</p>
                                         {% endif %}
                                         <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
                                         <!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html В файле скрипта etimer.js стр.93-94 настройка ссылки -->
@@ -267,17 +230,41 @@
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
+                                                    <div class="label_new">
+                                                        {% if pftc.new %}
+                                                        <span class="new">new</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="sale-off">
+                                                        {% if pftc.discount %}
+                                                        <span class="sale-percent">-{{ pftc.discount }}%</span>
+                                                        {% endif %}
+                                                    </div>
 													<div class="product-img" align="center" style="width: 190px; height: 170px">
 														<a href="{{ pftc.get_absolute_url }}">
 															<img class="primary-img" src="{{ pftc.images|thumbnail_url:'pftc' }}" alt="Product" >
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="{{ pftc.get_absolute_url }}">{{ pftc.title }}</a></h5>
+														<h5><a href="{{ pftc.get_absolute_url }}">{{ pftc.title|truncatechars:22 }}</a></h5>
+                                                        {% if pftc.discount %}
 														<div class="price-box">
-															<span class="price">${{ pftc.price }}</span>
-                                                            <span class="old-price">$110.00</span>
+															<span class="price">${{ pftc.get_sale }}</span>
+                                                            <span class="old-price">{{ pftc.price }}</span>
 														</div>
+                                                            {% else %}
+                                                                <div class="price-box">
+                                                                    <span class="price">${{ pftc.price}}</span>
+                                                                </div>
+                                                        {% endif %}
+                                                        <span class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </span><br><br>
+                                                        <span>Vendor code: <span class="text-stock">{{ pftc.vendor_code }}</span></span>
 													</div>
 												</div>
 											</div>
@@ -314,16 +301,42 @@
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product">
+                                                    <div class="label_new">
+                                                        {% if allp.new %}
+                                                        <span class="new">new</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="sale-off">
+                                                        {% if allp.discount %}
+                                                        <span class="sale-percent">-{{ allp.discount }}%</span>
+                                                        {% endif %}
+                                                    </div>
 													<div class="product-img" align="center" style="width: 190px; height: 170px"><! -- style="width: 200px; height: 200px" -->
 														<a href="{{ allp.get_absolute_url }}">
 															<img class="primary-img" src="{{ allp.images|thumbnail_url:'allp' }}" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
-														<h5><a href="{{ allp.get_absolute_url }}">{{ allp.title }}</a></h5>
+														<h5><a href="{{ allp.get_absolute_url }}">{{ allp.title|truncatechars:22 }}</a></h5>
 														<div class="price-box">
-															<span class="price">${{ allp.price }}</span>
-                                                            <span class="old-price">$110.00</span>
+                                                        {% if allp.discount %}
+														<div class="price-box">
+															<span class="price">${{ allp.get_sale }}</span>
+                                                            <span class="old-price">{{ allp.price }}</span>
+														</div>
+                                                            {% else %}
+                                                                <div class="price-box">
+                                                                    <span class="price">${{ allp.price}}</span>
+                                                                </div>
+                                                        {% endif %}
+                                                        <span class="rating">
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star-o"></i>
+                                                        </span><br><br>
+                                                        <span>Vendor code: <span class="text-stock">{{ allp.vendor_code }}</span></span>
 														</div>
 													</div>
 												</div>
@@ -347,6 +360,47 @@
 {% endblock content %}
 
 {% comment %}
+
+									<div class="about-product">
+										<div class="product-select product-color">
+											<label><sup>*</sup>Color</label>
+											<select class="form-control">
+												<option> --- Please Select --- </option>
+												<option>Black (+$10.00) </option>
+												<option>White (+$8.00)</option>
+												<option>Pink (+$30.00)</option>
+												<option>Green (+$30.00)</option>
+											</select>
+										</div>
+										<div class="product-select product-Size">
+											<label><sup>*</sup>Size</label>
+											<select class="form-control">
+												<option> --- Please Select --- </option>
+												<option>Small (+$10.00)</option>
+												<option>Medium (+$20.00)</option>
+												<option>Large (+$30.00)</option>
+												<option>Extra Large (+$35.00)</option>
+											</select>
+										</div>
+										<div class="product-select product-type">
+											<label><sup>*</sup>Text</label>
+											<input type="text"  class="form-control" placeholder="Text"/>
+										</div>
+										<div class="product-select product-date">
+											<label><sup>*</sup>Date</label>
+											<input type="text"  class="form-control" placeholder="2016/02/15"/>
+										</div>
+										<div class="product-select product-checkbox">
+											<label><sup>*</sup>Checkbox</label>
+											<label><input type="checkbox" /> Checkbox 1  (+$5.00)</label>
+										</div>
+										<div class="product-select product-button">
+											<button type="submit" >
+												<i class="fa fa-calendar"></i>
+											</button>
+										</div>
+									</div>
+
 
                                     <div class="tab-pane fade in active bmw" id="description"><h2 class="title-product">Описание: {{ product.title }}</h2>{{ product.descriptions_two|safe }}</div>
                                     <div class="tab-pane fade in" id="characteristics">

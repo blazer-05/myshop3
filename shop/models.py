@@ -180,7 +180,7 @@ class Attribute(MPTTModel):
 
     class Meta:
         verbose_name = 'Атрибут'
-        verbose_name_plural = 'Атрибуты'
+        verbose_name_plural = 'Атрибуты товара'
 
     def __str__(self):
         return self.title
@@ -233,3 +233,25 @@ class Entry(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.attribute.title, self.value.value)
+
+# Модель и метод для вывода на главной всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:10]).
+class CategoryIndexPage(models.Model):
+    sortcategory = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Вывод категорий на главной странице')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+
+    class Meta:
+        verbose_name = 'Вывод из категории на главной'
+        verbose_name_plural = 'Вывод из категорий на главной'
+
+    def __str__(self):
+        return '{}'.format(self.sortcategory)
+
+    @classmethod
+    def get_index_categories(cls):
+        index_categories = {}
+        for category in cls.objects.filter(is_active=True):
+            cat_descendants = category.sortcategory.get_descendants(include_self=True)
+            index_categories.update(
+                {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?')[:10]}
+            )
+        return index_categories
