@@ -285,16 +285,3 @@ class Bestseller(models.Model):
             )
         return bestseller_categories
 
-    # @classmethod
-    # def get_bestseller_category(self):
-    #     bestseller_categories = {}
-    #     for best in self.objects.filter(is_active=True):
-    #         #bestseller_one_descendants = bestseller_one.bestseller.get_descendants(include_self=True)
-    #         #bestseller_two_descendants = bestseller_two.bestseller.get_descendants(include_self=True)
-    #         bestseller_categories.update(
-    #             {
-    #                 best: Product.objects.filter(is_active=True).order_by('?')[:4],
-    #                 #bestseller_two: Product.objects.filter(category__in=bestseller_two_descendants, is_active=True).order_by('?')[:4]
-    #             }
-    #         )
-    #     return bestseller_categories
