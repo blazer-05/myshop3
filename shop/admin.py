@@ -3,7 +3,7 @@ from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
 
-from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry, CategoryIndexPage
+from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry, CategoryIndexPage, Bestseller
 
 class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
@@ -40,13 +40,19 @@ class ProductAdmin(SummernoteModelAdmin):
     list_editable = ['slug', 'is_active']
     list_per_page = 10  # Вывод количества новостей в админке
 
+# Класс модели связанных категорий для вывода на главной блоков категории и их товаров
 class CategoryIndexPageAdmin(admin.ModelAdmin):
     list_display = ['sortcategory', 'is_active']
+    list_editable = ['is_active']
+
+class BestsellerAdmin(admin.ModelAdmin):
+    list_display = ['bestseller', 'is_active']
     list_editable = ['is_active']
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CategoryIndexPage, CategoryIndexPageAdmin)
+admin.site.register(Bestseller, BestsellerAdmin)
 
 # Модель Фото альбома в виде категорий
 admin.site.register(

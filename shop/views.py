@@ -9,10 +9,10 @@ def index(request):
     products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True)
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
+    context['cart'] = cart
     context['products'] = products
     context['hotdeals'] = hotdeals
     context['slider_product'] = slider_product
-    context['cart'] = cart
     context['index_categories'] = CategoryIndexPage.get_index_categories() # Из модели shop/CategoryIndexPage, выводим в контекст метод get_index_categories()
     return render(request, 'shop/index.html', context)
 

@@ -214,7 +214,7 @@
 										<!-- Start Product-Menu -->
 										<div class="product-menu">
 											<div class="product-title">
-												<h3 class="title-group-2 gfont-1">Товары из этой категории</h3>
+                                                <h3 class="title-group-2 gfont-1"><a href="{{ category.get_absolut_url }}">Товары из этой категории</a></h3>
 											</div>
 										</div>
 									</div>
@@ -285,7 +285,7 @@
 										<!-- Start Product-Menu -->
 										<div class="product-menu">
 											<div class="product-title">
-												<h3 class="title-group-2 gfont-1">Все товары</h3>
+                                                <h3 class="title-group-2 gfont-1"><a href="{% url 'shop:shop' %}">Все товары</a></h3>
 											</div>
 										</div>
 									</div>

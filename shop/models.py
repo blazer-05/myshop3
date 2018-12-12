@@ -27,6 +27,11 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
+    # Возвращает ссылку на категорию в шаблоне главной страницы index {{ category.sortcategory.get_absolut_url }}
+    def get_absolute_url(self):
+        return reverse('shop:shop-list', kwargs={'slug': self.slug})
+
+
     # Вывод картинок в админке!
     # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
     def image_img(self):
@@ -143,6 +148,8 @@ class Product(models.Model):
         self.generate_vendor_code()
         super().save(force_insert, force_update, using, update_fields)
 
+
+
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):
     name = models.CharField(max_length=200, verbose_name='Название')
@@ -255,3 +262,39 @@ class CategoryIndexPage(models.Model):
                 {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?')[:10]}
             )
         return index_categories
+
+
+class Bestseller(models.Model):
+    bestseller = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+
+    class Meta:
+        verbose_name = 'Бестселлер'
+        verbose_name_plural = 'Блок Бестселлеры'
+
+    def __str__(self):
+        return '{}'.format(self.bestseller)
+
+    @classmethod
+    def get_bestseller_category(self):
+        bestseller_categories = {}
+        for category in self.objects.filter(is_active=True):
+            best_descendants = category.bestseller.get_descendants(include_self=True)
+            bestseller_categories.update(
+                {category: Product.objects.filter(category__in=best_descendants, is_active=True).order_by('?')[:4]}
+            )
+        return bestseller_categories
+
+    # @classmethod
+    # def get_bestseller_category(self):
+    #     bestseller_categories = {}
+    #     for best in self.objects.filter(is_active=True):
+    #         #bestseller_one_descendants = bestseller_one.bestseller.get_descendants(include_self=True)
+    #         #bestseller_two_descendants = bestseller_two.bestseller.get_descendants(include_self=True)
+    #         bestseller_categories.update(
+    #             {
+    #                 best: Product.objects.filter(is_active=True).order_by('?')[:4],
+    #                 #bestseller_two: Product.objects.filter(category__in=bestseller_two_descendants, is_active=True).order_by('?')[:4]
+    #             }
+    #         )
+    #     return bestseller_categories
