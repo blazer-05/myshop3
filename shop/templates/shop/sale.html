@@ -1,0 +1,688 @@
+{% load staticfiles %}
+{% load mptt_tags %}
+{% load i18n mptt_tags %}
+{% load thumbnail %}
+
+{#Этот шаблон обрабатывает функция sale() из модуля context_processors.py#}
+
+						<!-- START SMALL-PRODUCT-AREA (1) -->
+						<div class="small-product-area">
+							<!-- Start Product-Menu -->
+							<div class="row">
+								<div class="col-xs-12 col-md-12">
+									<div class="product-menu">
+										<ul role="tablist">
+                                            {% if sale_categories %}
+										    <li role="presentation" class=" active"><a href="#display-4-1" role="tab" data-toggle="tab">Sales by category</a></li>
+                                            {% endif %}
+                                            {% if sale_product %}
+										    <li role="presentation"><a href="#display-4-2" role="tab" data-toggle="tab">Sales by product</a></li>
+                                            {% endif %}
+{#										    <li role="presentation"><a href="#display-4-3"  role="tab" data-toggle="tab">Random</a></li>#}
+										</ul>
+									</div>
+								</div>
+							</div>
+							<!-- End Product-Menu -->
+							<!-- Start Product -->
+							<div class="row">
+								<div class="col-xs-12 col-md-12">
+									<div class="product carosel-navigation">
+										<div class="tab-content">
+											<!-- Product = display-4-1 -->
+                                            {% if sale_categories %}
+											<div role="tabpanel" class="tab-pane fade in active" id="display-4-1">
+												<div class="row">
+                                                    {% for category, sale_cat in sale_categories.items %}
+													<div class="active-small-product">
+														<!-- Start Single-Product -->
+                                                        {% for sale in sale_cat %}
+														<div class="col-xs-12">
+															<div class="single-product jq-product-wrapper">
+																<div class="product-img" style="width: 100px; height: 140px">
+																	<a href="{{ sale.get_absolute_url }}">
+																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="Product">
+																	</a>
+																</div>
+																<div class="product-description">
+																	<h5><a href="{{ sale.get_absolute_url }}">{{ sale.title|truncatechars:15 }}</a></h5>
+                                                                        {% if sale.discount %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.get_sale }}</span>
+                                                                            <span class="old-price">${{ sale.price }}</span>
+                                                                        </div>
+                                                                            {% else %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.price}}</span>
+                                                                        </div>
+                                                                        {% endif %}
+																	<span class="rating">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</span>
+                                                                    <div class="">
+                                                                    <span>Vendor code: <span class="text-stock">{{ sale.vendor_code }}</span></span>
+                                                                    </div>
+																	<div class="product-action">
+                                                                        <div class="button-group">
+                                                                            <div class="product-button">
+                                                                                <form class="product-button" onsubmit="return addToCart(event)">
+                                                                                    <input type="hidden" name="product" value="{{ sale.slug }}">
+                                                                                    <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="product-button-2">
+                                                                                <a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
+                                                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                            </div>
+                                                                        </div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                                                        {% endfor %}
+													</div>
+                                                    {% endfor %}
+												</div>
+											</div>
+                                            {% endif %}
+											<!-- End Product = display-4-1 -->
+
+                                            {% if sale_product %}
+											<!-- Start Product = display-4-2 -->
+											<div role="tabpanel" class="tab-pane fade" id="display-4-2">
+												<div class="row">
+													<div class="active-small-product">
+														<!-- Start Single-Product -->
+                                                        {% for sale in sale_product %}
+														<div class="col-xs-12">
+															<div class="single-product">
+																<div class="product-img" style="width: 100px; height: 140px">
+																	<a href="{{ sale.sale_product.get_absolute_url }}">
+																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="Product">
+																	</a>
+																</div>
+																<div class="product-description">
+																	<h5><a href="{{ sale.sale_product.get_absolute_url }}">{{ sale.sale_product.title|truncatechars:15 }}</a></h5>
+                                                                        {% if sale.sale_product.discount %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product.get_sale }}</span>
+                                                                            <span class="old-price">${{ sale.sale_product.price }}</span>
+                                                                        </div>
+                                                                            {% else %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product.price}}</span>
+                                                                        </div>
+                                                                        {% endif %}
+																	<span class="rating">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</span>
+                                                                    <div class="">
+                                                                    <span>Vendor code: <span class="text-stock">{{ sale.sale_product.vendor_code }}</span></span>
+                                                                    </div>
+																	<div class="product-action">
+																		<div class="product-button-2">
+																			<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                                                        {% endfor %}
+													</div>
+												</div>
+											</div>
+											<!-- End Product = display-4-2 -->
+                                            {% endif %}
+
+{#											<!-- Start Product = display-4-3 -->#}
+{#											<div role="tabpanel" class="tab-pane fade" id="display-4-3">#}
+{#												<div class="row">#}
+{#													<div class="active-small-product">#}
+{#														<!-- Start Single-Product -->#}
+{#														<div class="col-xs-12">#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/1.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Trid Palm</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$99.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/5.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$110.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/3.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Various Versions</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$90.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#														<!-- End Single-Product -->#}
+{#														<!-- Start Single-Product -->#}
+{#														<div class="col-xs-12">#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/1.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$105.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/5.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Trid Palm</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$99.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/3.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$110.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#														<!-- End Single-Product -->#}
+{#														<!-- Start Single-Product -->#}
+{#														<div class="col-xs-12">#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/1.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Various Versions</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$90.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/5.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$105.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/3.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Trid Palm</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$99.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#														<!-- End Single-Product -->#}
+{#														<!-- Start Single-Product -->#}
+{#														<div class="col-xs-12">#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/1.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$110.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/5.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Various Versions</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$90.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/3.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$105.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#														<!-- End Single-Product -->#}
+{#														<!-- Start Single-Product -->#}
+{#														<div class="col-xs-12">#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/1.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Trid Palm</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$99.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/5.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Established Fact</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$85.00</span>#}
+{#																		<span class="old-price">$110.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#															<div class="single-product">#}
+{#																<div class="product-img">#}
+{#																	<a href="#">#}
+{#																		<img class="primary-img" src="{% static 'shop/img/product/small/3.jpg' %}" alt="Product">#}
+{#																	</a>#}
+{#																</div>#}
+{#																<div class="product-description">#}
+{#																	<h5><a href="#">Various Versions</a></h5>#}
+{#																	<div class="price-box">#}
+{#																		<span class="price">$90.00</span>#}
+{#																		<span class="old-price">$120.00</span>#}
+{#																	</div>#}
+{#																	<span class="rating">#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star"></i>#}
+{#																		<i class="fa fa-star-o"></i>#}
+{#																	</span>#}
+{#																	<div class="product-action">#}
+{#																		<div class="button-group">#}
+{#																			<div class="product-button-2">#}
+{#																				<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>#}
+{#																				<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>#}
+{#																			</div>#}
+{#																		</div>#}
+{#																	</div>#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#														<!-- End Single-Product -->#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#											<!-- End Product = display-4-3 -->#}
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- End Product -->
+						</div>
+						<!-- END SMALL-PRODUCT-AREA (1) -->
+
+{% comment %}
+
+											<!-- Start Product = display-4-2 -->
+											<div role="tabpanel" class="tab-pane fade" id="display-4-2">
+												<div class="row">
+													<div class="active-small-product">
+														<!-- Start Single-Product -->
+                                                        {% for sale in sale_product %}
+														<div class="col-xs-12">
+															<div class="single-product">
+																<div class="product-img" style="width: 100px; height: 140px">
+																	<a href="{{ sale.sale_product.get_absolute_url }}">
+																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="Product">
+																	</a>
+																</div>
+																<div class="product-description">
+																	<h5><a href="{{ sale.sale_product.get_absolute_url }}">{{ sale.sale_product.title|truncatechars:15 }}</a></h5>
+                                                                        {% if sale.sale_product.discount %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product.get_sale }}</span>
+                                                                            <span class="old-price">${{ sale.sale_product.price }}</span>
+                                                                        </div>
+                                                                            {% else %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product.price}}</span>
+                                                                        </div>
+                                                                        {% endif %}
+																	<span class="rating">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</span>
+                                                                    <div class="">
+                                                                    <span>Vendor code: <span class="text-stock">{{ sale.sale_product.vendor_code }}</span></span>
+                                                                    </div>
+																	<div class="product-action">
+																		<div class="product-button-2">
+																			<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                                                        {% endfor %}
+													</div>
+												</div>
+											</div>
+											<!-- End Product = display-4-2 -->
+
+
+{% endcomment %}

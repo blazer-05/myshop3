@@ -40,7 +40,7 @@ def shop(request):
     context = {}
     cart = request.cart
     products = Product.objects.filter(is_active=True)
-    paginator = Paginator(products, 12)
+    paginator = Paginator(products, 20)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context['products'] = products

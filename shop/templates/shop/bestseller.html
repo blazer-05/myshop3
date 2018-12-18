@@ -6,7 +6,7 @@
 {#Этот шаблон обрабатывает функция bestseller() из модуля context_processors.py#}
 
 <!-- START SMALL-PRODUCT-AREA -->
-{#                        {% for category, product_one, product_two in bestseller_categories.items %}#}
+                        {% if bestseller_categories %}
 						<div class="small-product-area carosel-navigation hidden-sm hidden-xs">
 							<div class="row">
 								<div class="col-md-12">
@@ -17,8 +17,8 @@
 							</div>
 							<div class="row">
 								<div class="active-bestseller sidebar">
+                                    {% for category, product_one in bestseller_categories.items %}
 									<div class="col-xs-12">
-{#                                    {% for category, product_one in bestseller_categories.items %}#}
 										<!-- Start Single-Product -->
                                         {% for best in product_one %}
 										<div class="single-product">
@@ -29,10 +29,16 @@
 											</div>
 											<div class="product-description">
 												<h5><a href="{{ best.get_absolute_url }}">{{ best.title|truncatechars:15 }}</a></h5>
-												<div class="price-box">
-													<span class="price">${{ best.get_sale }}</span>
-													<span class="old-price">${{ best.price }}</span>
-												</div>
+                                                    {% if best.discount %}
+                                                    <div class="price-box">
+                                                        <span class="price">${{ best.get_sale }}</span>
+                                                        <span class="old-price">${{ best.price }}</span>
+                                                    </div>
+                                                        {% else %}
+                                                    <div class="price-box">
+                                                        <span class="price">${{ best.price}}</span>
+                                                    </div>
+                                                    {% endif %}
 												<span class="rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -46,11 +52,12 @@
 											</div>
 										</div>
                                         {% endfor %}
-{#                                    {% endfor %}#}
 										<!-- End Single-Product -->
 									</div>
+                                    {% endfor %}
+
+                                    {% for category, product_two in bestseller_categories.items %}
 									<div class="col-xs-12">
-{#                                    {% for category, product_two in bestseller_categories.items %}#}
 										<!-- Start Single-Product -->
                                         {% for best in product_two %}
 										<div class="single-product">
@@ -78,11 +85,12 @@
 											</div>
 										</div>
                                         {% endfor %}
-{#                                    {% endfor %}#}
 										<!-- End Single-Product -->
 									</div>
+                                    {% endfor %}
 								</div>
 							</div>
 						</div>
-{#                        {% endfor %}#}
+                        {% endif %}
+
 						<!-- END SMALL-PRODUCT-AREA -->

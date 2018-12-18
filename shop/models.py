@@ -263,7 +263,7 @@ class CategoryIndexPage(models.Model):
             )
         return index_categories
 
-
+# Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
 class Bestseller(models.Model):
     bestseller = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
@@ -279,9 +279,45 @@ class Bestseller(models.Model):
     def get_bestseller_category(self):
         bestseller_categories = {}
         for category in self.objects.filter(is_active=True):
-            best_descendants = category.bestseller.get_descendants(include_self=True)
+            #best_descendants = category.bestseller.get_descendants(include_self=True) # Тут товары отсортированы по категориям
             bestseller_categories.update(
-                {category: Product.objects.filter(category__in=best_descendants, is_active=True).order_by('?')[:4]}
+                {category: Product.objects.filter(is_active=True).order_by('?')[:4]} # category__in=best_descendants
             )
         return bestseller_categories
 
+class SaleCategory(models.Model):
+    sale_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+
+    class Meta:
+        verbose_name = 'Распродажа по категориям'
+        verbose_name_plural = 'Распродажи по категориям'
+
+    def __str__(self):
+        return '{}'.format(self.sale_category)
+
+
+    @classmethod
+    def get_sale_category(self):
+        sale_categories = {}
+        for category in self.objects.filter(is_active=True):
+            sale_descendants = category.sale_category.get_descendants(include_self=True) # Тут товары отсортированы по категориям
+            sale_categories.update(
+                {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?')[:9]} # category__in=best_descendants
+            )
+        return sale_categories
+
+class SaleProduct(models.Model):
+    sale_product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Выберите товар')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+
+    class Meta:
+        verbose_name = 'Распродажа по товарам'
+        verbose_name_plural = 'Распродажи по товарам'
+
+    def __str__(self):
+        return '{}'.format(self.sale_product)
+
+    @classmethod
+    def get_sale_product(self):
+        return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке

@@ -3,7 +3,20 @@ from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
 
-from shop.models import Category, Brand, Product, ProductAlbomImages, Attribute, Value, Entry, CategoryIndexPage, Bestseller
+from shop.models import (
+    Category,
+    Brand,
+    Product,
+    ProductAlbomImages,
+    Attribute,
+    Value,
+    Entry,
+    CategoryIndexPage,
+    Bestseller,
+    SaleCategory,
+    SaleProduct,
+    )
+
 
 class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
@@ -45,14 +58,32 @@ class CategoryIndexPageAdmin(admin.ModelAdmin):
     list_display = ['sortcategory', 'is_active']
     list_editable = ['is_active']
 
+# Класс модели блока Bestseller
 class BestsellerAdmin(admin.ModelAdmin):
     list_display = ['bestseller', 'is_active']
     list_editable = ['is_active']
+
+# Класс модели блока SaleCategory
+class SaleCategoryAdmin(admin.ModelAdmin):
+    fields = ('sale_category', 'is_active') # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
+    list_display = ['sale_category', 'is_active']
+    list_display_links = ['sale_category'] # Задает в админке ссылку на объект
+    list_editable = ['is_active']
+
+# Класс модели блока SaleProduct
+class SaleProductAdmin(admin.ModelAdmin):
+    fields = ('sale_product', 'is_active') # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
+    list_display = ['sale_product', 'is_active']
+    list_display_links = ['sale_product'] # Задает в админке ссылку на объект
+    list_editable = ['is_active']
+
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CategoryIndexPage, CategoryIndexPageAdmin)
 admin.site.register(Bestseller, BestsellerAdmin)
+admin.site.register(SaleCategory, SaleCategoryAdmin)
+admin.site.register(SaleProduct, SaleProductAdmin)
 
 # Модель Фото альбома в виде категорий
 admin.site.register(
