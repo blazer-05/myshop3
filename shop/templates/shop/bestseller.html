@@ -22,7 +22,7 @@
 										<!-- Start Single-Product -->
                                         {% for best in product_one %}
 										<div class="single-product">
-											<div class="product-img" style="width: 100px; height: 100px">
+											<div class="product-img" style="width: 100px; height: 100px" align="center">
 												<a href="{{ best.get_absolute_url }}">
 													<img class="primary-img" src="{{ best.images|thumbnail_url:'bestsellers' }}" alt="{{ best.title }}" title="{{ best.title }}">
 												</a>
@@ -61,7 +61,7 @@
 										<!-- Start Single-Product -->
                                         {% for best in product_two %}
 										<div class="single-product">
-											<div class="product-img" style="width: 100px; height: 100px">
+											<div class="product-img" style="width: 100px; height: 100px" align="center">
 												<a href="{{ best.get_absolute_url }}">
 													<img class="primary-img" src="{{ best.images|thumbnail_url:'bestsellers' }}" alt="{{ best.title }}" title="{{ best.title }}">
 												</a>

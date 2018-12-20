@@ -29,6 +29,7 @@ def sale(request):
     context = {}
     context['sale_categories'] = SaleCategory.get_sale_category() # Из модели shop/SaleCategory выводим в контекст метод get_sale_category()
     context['sale_product'] = SaleProduct.get_sale_product() # Из модели shop/SaleProduct выводим в контекст метод get_sale_product()
+    #context['sale_product_all'] = SaleProduct.get_sale_product_all() # Из модели shop/SaleProduct выводим в контекст метод get_sale_product_all()
     return context
 
 

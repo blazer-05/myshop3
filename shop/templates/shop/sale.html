@@ -39,9 +39,9 @@
                                                         {% for sale in sale_cat %}
 														<div class="col-xs-12">
 															<div class="single-product jq-product-wrapper">
-																<div class="product-img" style="width: 100px; height: 140px">
+																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.get_absolute_url }}">
-																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="Product">
+																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="{{ sale.title }}" title="{{ sale.title }}">
 																	</a>
 																</div>
 																<div class="product-description">
@@ -68,16 +68,15 @@
                                                                     </div>
 																	<div class="product-action">
                                                                         <div class="button-group">
-                                                                            <div class="product-button">
+                                                                            <div class="product-button-2">
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
                                                                                     <input type="hidden" name="product" value="{{ sale.slug }}">
-                                                                                    <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                                                                                </form>
-                                                                            </div>
-                                                                            <div class="product-button-2">
-                                                                                <a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
+                                                                                    <button type="submit" data-toggle="tooltip"><i class="fa fa-shopping-cart">Add Cart</i></button>
+
+{#                                                                                <a href="#" type="submit" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
                                                                                 <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
                                                                                 <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                                </form>
                                                                             </div>
                                                                         </div>
 																	</div>
@@ -101,9 +100,9 @@
                                                         {% for sale in sale_product %}
 														<div class="col-xs-12">
 															<div class="single-product">
-																<div class="product-img" style="width: 100px; height: 140px">
+																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.sale_product.get_absolute_url }}">
-																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="Product">
+																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product.title }}" title="{{ sale.sale_product.title }}">
 																	</a>
 																</div>
 																<div class="product-description">
@@ -632,6 +631,49 @@
 						<!-- END SMALL-PRODUCT-AREA (1) -->
 
 {% comment %}
+
+
+{% for sale in sale_product_all %}
+														<div class="col-xs-12">
+															<div class="single-product">
+																<div class="product-img" style="width: 105px; height: 160px" align="center">
+																	<a href="{{ sale.sale_product_all.get_absolute_url }}">
+																		<img class="primary-img" src="{{ sale.sale_product_all.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product_all.title }}" title="{{ sale.sale_product_all.title }}">
+																	</a>
+																</div>
+																<div class="product-description">
+																	<h5><a href="{{ sale.sale_product_all.get_absolute_url }}">{{ sale.sale_product_all.title|truncatechars:15 }}</a></h5>
+                                                                        {% if sale.sale_product_all.discount %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product_all.get_sale }}</span>
+                                                                            <span class="old-price">${{ sale.sale_product_all.price }}</span>
+                                                                        </div>
+                                                                            {% else %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ sale.sale_product_all.price}}</span>
+                                                                        </div>
+                                                                        {% endif %}
+																	<span class="rating">
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star"></i>
+																		<i class="fa fa-star-o"></i>
+																	</span>
+                                                                    <div class="">
+                                                                    <span>Vendor code: <span class="text-stock">{{ sale.sale_product_all.vendor_code }}</span></span>
+                                                                    </div>
+																	<div class="product-action">
+																		<div class="product-button-2">
+																			<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+                                                        {% endfor %}
 
 											<!-- Start Product = display-4-2 -->
 											<div role="tabpanel" class="tab-pane fade" id="display-4-2">
