@@ -17,6 +17,19 @@ from shop.models import (
     SaleProduct,
     )
 
+# Функции фильтрации для массовой публикации/снятия с публикации новостей.
+def all_post(modeladmin, request, queryset):
+    for qs in queryset:
+        print(qs.title)
+
+def complete_post(modeladmin, request, queryset):
+    queryset.update(is_active=True)
+complete_post.short_description = 'Опубликовать товар'
+
+def incomplete_post(modeladmin, request, queryset):
+    queryset.update(is_active=False)
+incomplete_post.short_description = 'Снять с публикации товар'
+# Конец Функции фильтрации
 
 class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
@@ -52,6 +65,7 @@ class ProductAdmin(SummernoteModelAdmin):
     search_fields = ['title', 'vendor_code']
     list_editable = ['slug', 'is_active']
     list_per_page = 10  # Вывод количества новостей в админке
+    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
 # Класс модели связанных категорий для вывода на главной блоков категории и их товаров
 class CategoryIndexPageAdmin(admin.ModelAdmin):
@@ -62,6 +76,7 @@ class CategoryIndexPageAdmin(admin.ModelAdmin):
 class BestsellerAdmin(admin.ModelAdmin):
     list_display = ['bestseller', 'is_active']
     list_editable = ['is_active']
+    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
 # Класс модели блока SaleCategory
 class SaleCategoryAdmin(admin.ModelAdmin):
@@ -69,6 +84,7 @@ class SaleCategoryAdmin(admin.ModelAdmin):
     list_display = ['sale_category', 'is_active']
     list_display_links = ['sale_category'] # Задает в админке ссылку на объект
     list_editable = ['is_active']
+    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
 # Класс модели блока SaleProduct
 class SaleProductAdmin(admin.ModelAdmin):
@@ -76,6 +92,7 @@ class SaleProductAdmin(admin.ModelAdmin):
     list_display = ['sale_product', 'is_active']
     list_display_links = ['sale_product'] # Задает в админке ссылку на объект
     list_editable = ['is_active']
+    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
 
 admin.site.register(Brand, BrandAdmin)

@@ -38,7 +38,7 @@
 														<!-- Start Single-Product -->
                                                         {% for sale in sale_cat %}
 														<div class="col-xs-12">
-															<div class="single-product jq-product-wrapper">
+															<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
 																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.get_absolute_url }}">
 																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="{{ sale.title }}" title="{{ sale.title }}">
@@ -71,9 +71,9 @@
                                                                             <div class="product-button-2">
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
                                                                                     <input type="hidden" name="product" value="{{ sale.slug }}">
-                                                                                    <button type="submit" data-toggle="tooltip"><i class="fa fa-shopping-cart">Add Cart</i></button>
-
-{#                                                                                <a href="#" type="submit" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>#}
+                                                                                    <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
+                                                                                        <i class="fa fa-shopping-cart"></i>
+                                                                                    </button>
                                                                                 <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
                                                                                 <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
                                                                                 </form>
@@ -99,7 +99,7 @@
 														<!-- Start Single-Product -->
                                                         {% for sale in sale_product %}
 														<div class="col-xs-12">
-															<div class="single-product">
+															<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
 																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.sale_product.get_absolute_url }}">
 																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product.title }}" title="{{ sale.sale_product.title }}">
@@ -128,11 +128,18 @@
                                                                     <span>Vendor code: <span class="text-stock">{{ sale.sale_product.vendor_code }}</span></span>
                                                                     </div>
 																	<div class="product-action">
-																		<div class="product-button-2">
-																			<a href="#" data-toggle="tooltip" title="Add Cart"><i class="fa fa-shopping-cart"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
-																			<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																		</div>
+                                                                        <div class="button-group">
+                                                                            <div class="product-button-2">
+                                                                                <form class="product-button" onsubmit="return addToCart(event)">
+                                                                                    <input type="hidden" name="product" value="{{ sale.sale_product.slug }}">
+                                                                                    <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
+                                                                                        <i class="fa fa-shopping-cart"></i>
+                                                                                    </button>
+                                                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
 																	</div>
 																</div>
 															</div>

@@ -322,6 +322,3 @@ class SaleProduct(models.Model):
     def get_sale_product(self):
         return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке
 
-    # @classmethod
-    # def get_sale_product_all(self):
-    #     return self.objects.all()
