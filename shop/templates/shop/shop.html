@@ -119,16 +119,20 @@
                                                             <br>
 															<div class="product-description">
 																<h5><a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:22 }}</a></h5>
-                                                                    {% if product.discount %}
-																	<div class="price-box">
-																		<span class="price">${{ product.get_sale }}</span>
-																		<span class="old-price">${{ product.price }}</span>
-																	</div>
-                                                                        {% else %}
-																	<div class="price-box">
-																		<span class="price">${{ product.price}}</span>
-																	</div>
-                                                                    {% endif %}
+                                                                {% if product.stock == 0 %}
+                                                                    <p>Out of stock</p>
+                                                                    {% else %}
+                                                                        {% if product.discount %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ product.get_sale }}</span>
+                                                                            <span class="old-price">${{ product.price }}</span>
+                                                                        </div>
+                                                                            {% else %}
+                                                                        <div class="price-box">
+                                                                            <span class="price">${{ product.price}}</span>
+                                                                        </div>
+                                                                        {% endif %}
+                                                                {% endif %}
 																<span class="rating">
 																	<i class="fa fa-star"></i>
 																	<i class="fa fa-star"></i>
@@ -141,10 +145,13 @@
 															<div class="product-action">
 																<div class="button-group">
 																	<div class="product-button">
+                                                                        {% if product.stock == 0 %}
+                                                                            {% else %}
                                                                         <form class="product-button" onsubmit="return addToCart(event)">
                                                                             <input type="hidden" name="product" value="{{ product.slug }}">
                                                                             <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
                                                                         </form>
+                                                                        {% endif %}
 																	</div>
 																	<div class="product-button-2">
 																		<a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>

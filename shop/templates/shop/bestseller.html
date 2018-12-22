@@ -29,6 +29,9 @@
 											</div>
 											<div class="product-description">
 												<h5><a href="{{ best.get_absolute_url }}">{{ best.title|truncatechars:15 }}</a></h5>
+                                                {% if best.stock == 0 %}
+                                                    <p>Out of stock</p>
+                                                    {% else %}
                                                     {% if best.discount %}
                                                     <div class="price-box">
                                                         <span class="price">${{ best.get_sale }}</span>
@@ -39,6 +42,7 @@
                                                         <span class="price">${{ best.price}}</span>
                                                     </div>
                                                     {% endif %}
+                                                {% endif %}
 												<span class="rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>
@@ -68,10 +72,20 @@
 											</div>
 											<div class="product-description">
 												<h5><a href="{{ best.get_absolute_url }}">{{ best.title|truncatechars:15 }}</a></h5>
-												<div class="price-box">
-													<span class="price">${{ best.get_sale }}</span>
-													<span class="old-price">${{ best.price }}</span>
-												</div>
+                                                {% if best.stock == 0 %}
+                                                    <p>Out of stock</p>
+                                                    {% else %}
+                                                    {% if best.discount %}
+                                                    <div class="price-box">
+                                                        <span class="price">${{ best.get_sale }}</span>
+                                                        <span class="old-price">${{ best.price }}</span>
+                                                    </div>
+                                                        {% else %}
+                                                    <div class="price-box">
+                                                        <span class="price">${{ best.price}}</span>
+                                                    </div>
+                                                    {% endif %}
+                                                {% endif %}
 												<span class="rating">
 													<i class="fa fa-star"></i>
 													<i class="fa fa-star"></i>

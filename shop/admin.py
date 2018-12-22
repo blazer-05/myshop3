@@ -63,7 +63,7 @@ class ProductAdmin(SummernoteModelAdmin):
                    'updated'
                    )
     search_fields = ['title', 'vendor_code']
-    list_editable = ['slug', 'is_active']
+    list_editable = ['slug', 'is_active', 'stock',]
     list_per_page = 10  # Вывод количества новостей в админке
     actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
@@ -101,6 +101,7 @@ admin.site.register(CategoryIndexPage, CategoryIndexPageAdmin)
 admin.site.register(Bestseller, BestsellerAdmin)
 admin.site.register(SaleCategory, SaleCategoryAdmin)
 admin.site.register(SaleProduct, SaleProductAdmin)
+
 
 # Модель Фото альбома в виде категорий
 admin.site.register(

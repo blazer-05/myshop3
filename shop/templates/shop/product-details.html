@@ -109,11 +109,15 @@
 										<hr />
 										<p class="short-description">{{ product.descriptions|safe }}</p>
 										<hr />
-                                        {% if product.discount %}
-                                        <span class="current-price">${{ product.get_sale }}</span>
-                                        <span class="old-price">${{ product.price }}</span>
+                                        {% if product.stock == 0 %}
+                                            <p>Out of stock</p>
                                             {% else %}
-                                            <span class="current-price">${{ product.price }}</span>
+                                            {% if product.discount %}
+                                            <span class="current-price">${{ product.get_sale }}</span>
+                                            <span class="old-price">${{ product.price }}</span>
+                                                {% else %}
+                                                <span class="current-price">${{ product.price }}</span>
+                                            {% endif %}
                                         {% endif %}
                                         <span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
 									</div>
@@ -136,7 +140,10 @@
                                         <div style="display: inline-block;">
                                             <div class="input-group">
                                                 <input type="hidden" name="product" value="{{ product.slug }}"/>
+                                                {% if product.stock == 0 %}
+                                                    {% else %}
                                                 <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                {% endif %}
                                                 <button type="submit" class="toch-button toch-wishlist">wishlist</button>
                                                 <button type="submit" class="toch-button toch-compare">Compare</button>
                                             </div>
@@ -229,7 +236,7 @@
                                             {% for pftc in products_from_this_category %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
-												<div class="single-product">
+												<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
                                                     <div class="label_new">
                                                         {% if pftc.new %}
                                                         <span class="new">new</span>
@@ -266,6 +273,24 @@
                                                         </span><br><br>
                                                         <span>Vendor code: <span class="text-stock">{{ pftc.vendor_code }}</span></span>
 													</div>
+                                                    <div class="product-action">
+                                                        <div class="button-group">
+                                                            {% if pftc.stock == 0 %}
+                                                                {% else %}
+                                                            <div class="product-button">
+                                                                <form class="product-button" onsubmit="return addToCart(event)">
+                                                                    <input type="hidden" name="product" value="{{ pftc.slug }}">
+                                                                    <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                </form>
+                                                            </div>
+                                                            {% endif %}
+                                                            <div class="product-button-2">
+                                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 												</div>
 											</div>
 											<!-- End Single-Product -->
@@ -300,7 +325,7 @@
                                             {% for allp in all_products %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
-												<div class="single-product">
+												<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
                                                     <div class="label_new">
                                                         {% if allp.new %}
                                                         <span class="new">new</span>
@@ -319,15 +344,19 @@
 													<div class="product-description">
 														<h5><a href="{{ allp.get_absolute_url }}">{{ allp.title|truncatechars:22 }}</a></h5>
 														<div class="price-box">
-                                                        {% if allp.discount %}
-														<div class="price-box">
-															<span class="price">${{ allp.get_sale }}</span>
-                                                            <span class="old-price">{{ allp.price }}</span>
-														</div>
-                                                            {% else %}
-                                                                <div class="price-box">
-                                                                    <span class="price">${{ allp.price}}</span>
-                                                                </div>
+                                                        {% if allp.stock == 0 %}
+                                                            <p>Out of stock</p>
+                                                        {% else %}
+                                                            {% if allp.discount %}
+                                                            <div class="price-box">
+                                                                <span class="price">${{ allp.get_sale }}</span>
+                                                                <span class="old-price">{{ allp.price }}</span>
+                                                            </div>
+                                                                {% else %}
+                                                                    <div class="price-box">
+                                                                        <span class="price">${{ allp.price}}</span>
+                                                                    </div>
+                                                            {% endif %}
                                                         {% endif %}
                                                         <span class="rating">
                                                             <i class="fa fa-star"></i>
@@ -338,6 +367,24 @@
                                                         </span><br><br>
                                                         <span>Vendor code: <span class="text-stock">{{ allp.vendor_code }}</span></span>
 														</div>
+                                                            <div class="product-action">
+                                                                <div class="button-group">
+                                                                    {% if allp.stock == 0 %}
+                                                                        {% else %}
+                                                                    <div class="product-button">
+                                                                        <form class="product-button" onsubmit="return addToCart(event)">
+                                                                            <input type="hidden" name="product" value="{{ allp.slug }}">
+                                                                            <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                        </form>
+                                                                    </div>
+                                                                    {% endif %}
+                                                                    <div class="product-button-2">
+                                                                        <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                        <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                        <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 													</div>
 												</div>
 											</div>
