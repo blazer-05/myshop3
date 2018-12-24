@@ -254,15 +254,19 @@
 													</div>
 													<div class="product-description">
 														<h5><a href="{{ pftc.get_absolute_url }}">{{ pftc.title|truncatechars:22 }}</a></h5>
-                                                        {% if pftc.discount %}
-														<div class="price-box">
-															<span class="price">${{ pftc.get_sale }}</span>
-                                                            <span class="old-price">{{ pftc.price }}</span>
-														</div>
-                                                            {% else %}
-                                                                <div class="price-box">
-                                                                    <span class="price">${{ pftc.price}}</span>
-                                                                </div>
+                                                        {% if pftc.stock == 0 %}
+                                                            <p>Out of stock</p>
+                                                        {% else %}
+                                                            {% if pftc.discount %}
+                                                            <div class="price-box">
+                                                                <span class="price">${{ pftc.get_sale }}</span>
+                                                                <span class="old-price">{{ pftc.price }}</span>
+                                                            </div>
+                                                                {% else %}
+                                                                    <div class="price-box">
+                                                                        <span class="price">${{ pftc.price}}</span>
+                                                                    </div>
+                                                            {% endif %}
                                                         {% endif %}
                                                         <span class="rating">
                                                             <i class="fa fa-star"></i>
