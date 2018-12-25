@@ -166,7 +166,7 @@ THUMBNAIL_ALIASES = {
 
 THUMBNAIL_SUBDIR = 'thumbs'
 
-# Настройки почтового сервера
+# Подгружаем настройки почтового сервера из модуля local_settings.py
 from myshop3.local_settings import (
     EMAIL_HOST,
     EMAIL_HOST_USER,
