@@ -110,7 +110,6 @@ venv.bak/
 gitignore
 .idea/
 notes.txt
-myshop3/settings.py
 myshop3/local_settings.py
 backup/
 media/
