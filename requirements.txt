@@ -12,5 +12,4 @@ pilkit==2.0
 Pillow==5.1.0
 pytz==2018.5
 requests==2.6.0
-
 six==1.9.0
