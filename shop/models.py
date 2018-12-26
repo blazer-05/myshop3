@@ -242,8 +242,9 @@ class Entry(models.Model):
         return '{} - {}'.format(self.attribute.title, self.value.value)
 
 # Модель и метод для вывода на главной всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:10]).
-class CategoryIndexPage(models.Model):
+class CategoryIndexPage(MPTTModel):
     sortcategory = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Вывод категорий на главной странице')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
@@ -285,8 +286,10 @@ class Bestseller(models.Model):
             )
         return bestseller_categories
 
-class SaleCategory(models.Model):
+# Модель и метод вывода на главной товаров по категориям в блоке распродажа
+class SaleCategory(MPTTModel):
     sale_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
@@ -307,8 +310,10 @@ class SaleCategory(models.Model):
             )
         return sale_categories
 
-class SaleProduct(models.Model):
+# Модель и метод вывода на главной товаров по штучно в блоке распродажа
+class SaleProduct(MPTTModel):
     sale_product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Выберите товар')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:

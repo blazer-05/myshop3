@@ -110,12 +110,15 @@ venv.bak/
 gitignore
 .idea/
 notes.txt
+myshop3/settings.py
 myshop3/local_settings.py
 backup/
 media/
+myshop3/cart/migrations
+myshop3/orders/migrations
+myshop3/shop/migrations
 static/
-ssh-keygen -t rsa
-ssh-keygen -t rsa.pub
+deployment/
 
 
 

@@ -2,172 +2,172 @@
 {% load staticfiles %}
 
 {% block content %}
-		<!-- START PAGE-CONTENT -->
-    <section class="page-content">
-        <div class="container">
-            <div class="row">
-                <div class="text-center">
-                    <h1>Страница FTP сервера</h1>
-                    <p style="font-size: 16px">Скачать файл с нашего <a href="ftp://blazer-05:123@91.200.160.6/test_file.rar">сервера</a></p>
-                    <div style="font-size: 16px; text-align: justify">
+<!-- START PAGE-CONTENT -->
+<section class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="text-center">
+                <h1>Страница FTP сервера</h1>
+                <p style="font-size: 16px">Скачать файл с нашего <a href="ftp://blazer-05:123@91.200.160.6/test_file.rar">сервера</a></p>
+                <div style="font-size: 16px; text-align: justify">
 
-                        <p>Страница фтп сервера выведенная на сайт не работает в браузерах последних версий. Работает нормально только в браузере Ie, Edge и в старых версиях mozilla, opera, chrome, причина описана ниже.</p>
+                    <p>Страница фтп сервера выведенная на сайт не работает в браузерах последних версий. Работает нормально только в браузере Ie, Edge и в старых версиях mozilla, opera, chrome, причина описана ниже.</p>
 
-Данное решение связано с недостаточной безопасностью протокола FTP.
+                    Данное решение связано с недостаточной безопасностью протокола FTP.
 
-Инженеры компании Mozilla решили пойти по стопам разработчиков браузера Google Chrome и начать блокировать загрузку FTP-подресурсов на страницах, работающих по протоколам HTTP и HTTPS в программе Firefox.
+                    Инженеры компании Mozilla решили пойти по стопам разработчиков браузера Google Chrome и начать блокировать загрузку FTP-подресурсов на страницах, работающих по протоколам HTTP и HTTPS в программе Firefox.
 
-Под FTP-подресурсами подразумеваются файлы, загруженные через протокол FTP в теги img, script или iframe, которые имеют src = "ftp: //". При этом ссылки FTP, размещенные в обычных ссылках с тегом или введенные непосредственно в адресной строке браузера, будут продолжать работать.
+                    Под FTP-подресурсами подразумеваются файлы, загруженные через протокол FTP в теги img, script или iframe, которые имеют src = "ftp: //". При этом ссылки FTP, размещенные в обычных ссылках с тегом или введенные непосредственно в адресной строке браузера, будут продолжать работать.
 
-Решение связано с недостаточной безопасностью протокола FTP. <p>Он не поддерживает современные методы шифрования и нарушает многие встроенные функции безопасности и конфиденциальности браузеров, такие как HSTS, CSP, XSA и пр.
+                    Решение связано с недостаточной безопасностью протокола FTP. <p>Он не поддерживает современные методы шифрования и нарушает многие встроенные функции безопасности и конфиденциальности браузеров, такие как HSTS, CSP, XSA и пр.
 
-Помимо этого, многие кампании по распространению рекламного вредоносного ПО часто полагаются на скомпрометированные FTP-серверы и перенаправляют или загружают вредоносы на компьютеры пользователей через подресурсы FTP.
+                    Помимо этого, многие кампании по распространению рекламного вредоносного ПО часто полагаются на скомпрометированные FTP-серверы и перенаправляют или загружают вредоносы на компьютеры пользователей через подресурсы FTP.
 
-По словам инженеров Mozilla, блокировка FTP-подресурсов появится в версии Firefox 61, выпуск которого запланирован на 26 июня 2018 года.
+                    По словам инженеров Mozilla, блокировка FTP-подресурсов появится в версии Firefox 61, выпуск которого запланирован на 26 июня 2018 года.
 
-                        В сентябре минувшего года Google приняла аналогичное решение. Начиная с Chrome 63, браузер начал блокировать загрузку подресурсов FTP, а также отмечать ссылки FTP, доступные в адресной строке браузера, как небезопасные.</p>
+                    В сентябре минувшего года Google приняла аналогичное решение. Начиная с Chrome 63, браузер начал блокировать загрузку подресурсов FTP, а также отмечать ссылки FTP, доступные в адресной строке браузера, как небезопасные.</p>
 
-                    </div>
-
-                    <iframe src="ftp://blazer-05:123@91.200.160.6/" width="900" height="4400" frameborder="no" >
-                        Данный текст будет показан, если браузер не поддерживает фреймы.
-                    </iframe>
                 </div>
+
+                <iframe src="ftp://blazer-05:123@91.200.160.6/" width="900" height="4400" frameborder="no" >
+                    Данный текст будет показан, если браузер не поддерживает фреймы.
+                </iframe>
             </div>
         </div>
-        <!-- End Our-Team -->
-    </section>
+    </div>
+    <!-- End Our-Team -->
+</section>
 
 
 {% endblock content %}
 
 {% comment %}
 
-		<!-- START PAGE-CONTENT -->
-		<section class="page-content">
-			<div class="container">
-	            <div class="row">
-					<div class="col-md-12">
-						<ul class="page-menu">
-							<li><a href="index.html">Home</a></li>
-							<li class="active"><a href="#">About Us</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- Start About-Area -->
-			<div class="about-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="f-title text-center">
-								<h3 class="title text-uppercase">About Us</h3>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-7 col-sm-12 col-xs-12">
-							<div class="about-page-cntent">
-								<h3>The standard lorem ipsum passage</h3>
-								<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
-								<blockquote>
-									<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur</p>
-								</blockquote>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu nisi ac mi malesuada vestibulum. Phasellus tempor nunc eleifend cursus molestie. Mauris lectus arcu, pellentesque at sodales sit amet, condimentum id nunc. Donec ornare mattis suscipit. Praesent fermentum accumsan vulputate.</p>
-							</div>
-						</div>
-						<div class="col-md-5 col-sm-12 col-xs-12">
-							<div class="img-element">
-								<img alt="banner1" src="{% static 'shop/img/about/about' %}.jpg">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End About-Area -->
-			<!-- Start Our-Team -->
-			<div class="our-team">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="f-title text-center">
-								<h3 class="title text-uppercase">Meet the team</h3>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-3 col-sm-3">
-							<div class="item-team text-center">
-								<div class="team-info">
-									<div class="team-img">
-										<img alt="Team" class="img-responsive" src="{% static 'shop/img/about/1.jpg' %}">
-										<div class="mask">
-											<div class="mask-inner">
-												<a href="#"><i class="fa fa-facebook"></i></a>
-												<a href="#"><i class="fa fa-twitter"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<h4>Havier Macherano</h4>
-								<h5>Developer</h5>
-							</div>
-						</div>
-						<div class="col-md-3 col-sm-3">
-							<div class="item-team text-center">
-								<div class="team-info">
-									<div class="team-img">
-										<img alt="Team" class="img-responsive" src="{% static 'shop/img/about/2.jpg' %}">
-										<div class="mask">
-											<div class="mask-inner">
-												<a href="#"><i class="fa fa-facebook"></i></a>
-												<a href="#"><i class="fa fa-twitter"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<h4>Luka Biglia</h4>
-								<h5>Programmer</h5>
-							</div>
-						</div>
-						<div class="col-md-3 col-sm-3">
-							<div class="item-team text-center">
-								<div class="team-info">
-									<div class="team-img">
-										<img alt="Team" class="img-responsive" src="{% static 'shop/img/about/1.jpg' %}">
-										<div class="mask">
-											<div class="mask-inner">
-												<a href="#"><i class="fa fa-facebook"></i></a>
-												<a href="#"><i class="fa fa-twitter"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<h4>Anzo Perez</h4>
-								<h5>Designer</h5>
-							</div>
-						</div>
-						<div class="col-md-3 col-sm-3">
-							<div class="item-team text-center">
-								<div class="team-info">
-									<div class="team-img">
-										<img alt="Team" class="img-responsive" src="{% static 'shop/img/about/2.jpg' %}">
-										<div class="mask">
-											<div class="mask-inner">
-												<a href="#"><i class="fa fa-facebook"></i></a>
-												<a href="#"><i class="fa fa-twitter"></i></a>
-											</div>
-										</div>
-									</div>
-								</div>
-								<h4>Martin Demichelis</h4>
-								<h5>PHP Developer</h5>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End Our-Team -->
-        </section>
+<!-- START PAGE-CONTENT -->
+<section class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="page-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="#">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Start About-Area -->
+    <div class="about-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="f-title text-center">
+                        <h3 class="title text-uppercase">About Us</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7 col-sm-12 col-xs-12">
+                    <div class="about-page-cntent">
+                        <h3>The standard lorem ipsum passage</h3>
+                        <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+                        <blockquote>
+                            <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur</p>
+                        </blockquote>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eu nisi ac mi malesuada vestibulum. Phasellus tempor nunc eleifend cursus molestie. Mauris lectus arcu, pellentesque at sodales sit amet, condimentum id nunc. Donec ornare mattis suscipit. Praesent fermentum accumsan vulputate.</p>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="img-element">
+                        <img alt="banner1" src="{% static 'shop/img/about/about' %}.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End About-Area -->
+    <!-- Start Our-Team -->
+    <div class="our-team">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="f-title text-center">
+                        <h3 class="title text-uppercase">Meet the team</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-3">
+                    <div class="item-team text-center">
+                        <div class="team-info">
+                            <div class="team-img">
+                                <img alt="Team" class="img-responsive" src="{% static 'shop/img/about/1.jpg' %}">
+                                <div class="mask">
+                                    <div class="mask-inner">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Havier Macherano</h4>
+                        <h5>Developer</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <div class="item-team text-center">
+                        <div class="team-info">
+                            <div class="team-img">
+                                <img alt="Team" class="img-responsive" src="{% static 'shop/img/about/2.jpg' %}">
+                                <div class="mask">
+                                    <div class="mask-inner">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Luka Biglia</h4>
+                        <h5>Programmer</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <div class="item-team text-center">
+                        <div class="team-info">
+                            <div class="team-img">
+                                <img alt="Team" class="img-responsive" src="{% static 'shop/img/about/1.jpg' %}">
+                                <div class="mask">
+                                    <div class="mask-inner">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Anzo Perez</h4>
+                        <h5>Designer</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                    <div class="item-team text-center">
+                        <div class="team-info">
+                            <div class="team-img">
+                                <img alt="Team" class="img-responsive" src="{% static 'shop/img/about/2.jpg' %}">
+                                <div class="mask">
+                                    <div class="mask-inner">
+                                        <a href="#"><i class="fa fa-facebook"></i></a>
+                                        <a href="#"><i class="fa fa-twitter"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h4>Martin Demichelis</h4>
+                        <h5>PHP Developer</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Our-Team -->
+</section>
 
 {% endcomment %}

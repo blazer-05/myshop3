@@ -1,9 +1,8 @@
 # Два контекстных процессора, которые выводят меню категории и фильтр сайта
-from django.shortcuts import render, render_to_response
 
 from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct
 
-def menucategory(request):
+def menucategory(request): # Вывод главного блока меню на всех страницах.
     context = {}
     nodes = Category.objects.filter(is_active=True)
     product = Product.objects.filter(is_active=True)

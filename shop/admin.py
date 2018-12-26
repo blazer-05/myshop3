@@ -67,40 +67,79 @@ class ProductAdmin(SummernoteModelAdmin):
     list_per_page = 10  # Вывод количества новостей в админке
     actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
-# Класс модели связанных категорий для вывода на главной блоков категории и их товаров
-class CategoryIndexPageAdmin(admin.ModelAdmin):
-    list_display = ['sortcategory', 'is_active']
-    list_editable = ['is_active']
-
-# Класс модели блока Bestseller
-class BestsellerAdmin(admin.ModelAdmin):
-    list_display = ['bestseller', 'is_active']
-    list_editable = ['is_active']
-    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
-
-# Класс модели блока SaleCategory
-class SaleCategoryAdmin(admin.ModelAdmin):
-    fields = ('sale_category', 'is_active') # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
-    list_display = ['sale_category', 'is_active']
-    list_display_links = ['sale_category'] # Задает в админке ссылку на объект
-    list_editable = ['is_active']
-    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
-
-# Класс модели блока SaleProduct
-class SaleProductAdmin(admin.ModelAdmin):
-    fields = ('sale_product', 'is_active') # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
-    list_display = ['sale_product', 'is_active']
-    list_display_links = ['sale_product'] # Задает в админке ссылку на объект
-    list_editable = ['is_active']
-    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
-
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(CategoryIndexPage, CategoryIndexPageAdmin)
-admin.site.register(Bestseller, BestsellerAdmin)
-admin.site.register(SaleCategory, SaleCategoryAdmin)
-admin.site.register(SaleProduct, SaleProductAdmin)
+
+
+# Класс модели блока SaleProduct
+admin.site.register(
+    SaleProduct,
+    DraggableMPTTAdmin,
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'sale_product',
+        'is_active',
+    ),
+    list_editable = (
+        'is_active',
+    ),
+    actions = [complete_post, incomplete_post], # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
+    fields = ('sale_product', 'is_active'), # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
+    #list_display_links = ['sale_product'] # Задает в админке ссылку на объект
+
+)
+
+# Класс модели блока SaleCategory
+admin.site.register(
+    SaleCategory,
+    DraggableMPTTAdmin,
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'sale_category',
+        'is_active',
+    ),
+    list_editable = (
+        'is_active',
+    ),
+    actions = [complete_post, incomplete_post], # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
+    fields = ('sale_category', 'is_active'), # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
+    list_display_links = ['sale_category'] # Задает в админке ссылку на объект
+
+)
+
+# Блок Bestseller
+admin.site.register(
+    Bestseller,
+    DraggableMPTTAdmin,
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'bestseller',
+        'is_active',
+    ),
+    list_editable = (
+        'is_active',
+    ),
+    actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
+)
+
+# Вывод категорий и товаров на главной
+admin.site.register(
+    CategoryIndexPage,
+    DraggableMPTTAdmin,
+    list_display = (
+        'tree_actions',
+        'indented_title',
+        'sortcategory',
+        'is_active',
+    ),
+    list_editable = (
+        'is_active',
+    )
+)
 
 
 # Модель Фото альбома в виде категорий
