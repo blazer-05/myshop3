@@ -265,8 +265,9 @@ class CategoryIndexPage(MPTTModel):
         return index_categories
 
 # Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
-class Bestseller(models.Model):
+class Bestseller(MPTTModel):
     bestseller = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:

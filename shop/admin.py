@@ -79,7 +79,7 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        'sale_product',
+        #'sale_product',
         'is_active',
     ),
     list_editable = (
@@ -98,7 +98,7 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        'sale_category',
+        #'sale_category',
         'is_active',
     ),
     list_editable = (
@@ -106,7 +106,7 @@ admin.site.register(
     ),
     actions = [complete_post, incomplete_post], # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
     fields = ('sale_category', 'is_active'), # Задает в админке в каком порядке будут выстроенны поля.(В данном случае сначала категории потом продукты)
-    list_display_links = ['sale_category'] # Задает в админке ссылку на объект
+    #list_display_links = ['sale_category'] # Задает в админке ссылку на объект
 
 )
 
@@ -117,7 +117,7 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        'bestseller',
+        #'bestseller',
         'is_active',
     ),
     list_editable = (
@@ -133,7 +133,7 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        'sortcategory',
+        #'sortcategory',
         'is_active',
     ),
     list_editable = (
