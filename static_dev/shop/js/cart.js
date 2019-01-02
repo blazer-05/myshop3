@@ -83,7 +83,8 @@ function renderCartTableTemplate(data) {
           '                    </a>' +
           '                </td>' +
           '                <td class="text-left">' +
-          '                    <a href="' + product.url + '">' + product.title + '</a>' +
+          '                    <a href="' + product.url + '">' + product.title + '</a>' + '<br><br>' +
+          '                    <small>Vendor code: <span class="text-stock">' + product.vendor_code + '</span></small>' +
           '                </td>' +
           '                <td class="text-center">' +
           '                    <form class="product-quantity" onsubmit="return changeCart(event)">' +

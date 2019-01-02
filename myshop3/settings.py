@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'orders',
+    'info',
     'mptt',            # https://django-mptt.readthedocs.io/en/latest/index.html
     'easy_thumbnails', # https://pypi.org/project/easy-thumbnails/
     'django_cleanup',  # https://github.com/un1t/django-cleanup
@@ -82,6 +83,7 @@ TEMPLATES = [
                 'shop.context_processors.brendlogo',    # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.bestseller',   # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.sale',         # Сквозной вывод нижнего блока sale на главной
+
             ],
         },
     },

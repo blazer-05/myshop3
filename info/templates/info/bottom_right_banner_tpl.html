@@ -1,0 +1,11 @@
+                                {% if banners.is_active == True %}
+									<div class="single-product-banner">
+										<a href="{{ banners.link }}" target="_blank"><img src="{{ banners.images.url }}" alt="Product Banner"></a>
+										<div class="banner-text banner-2">
+											<h2>Htc <span>N8.</span></h2>
+											<p>lumina n85</p>
+										</div>
+									</div>
+                                    {% else %}
+                                        <p>No banner</p>
+                                {% endif %}

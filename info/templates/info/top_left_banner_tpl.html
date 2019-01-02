@@ -1,0 +1,10 @@
+                                {% if banners.is_active == True %}
+									<div class="single-product-banner">
+										<a href="{{ banners.link }}" target="_blank"><img src="{{ banners.images.url }}" alt="Product Banner"></a>
+										<div class="banner-text banner-1">
+											<h2>head phone 2015</h2>
+										</div>
+									</div>
+                                    {% else %}
+                                    <p>no banners</p>
+                                {% endif %}

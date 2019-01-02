@@ -1,0 +1,12 @@
+                            {% if nokia_one and nokia_two.is_active == True %}
+                                <div class="active-sidebar-banner">
+                                    <div class="single-sidebar-banner">
+                                        <a href="{{ nokia_one.link }}" target="_blank"><img src="{{ nokia_one.images.url }}" alt="Product Banner"></a>
+                                    </div>
+                                    <div class="single-sidebar-banner">
+                                        <a href="{{ nokia_two.link }}" target="_blank"><img src="{{ nokia_two.images.url }}" alt="Product Banner"></a>
+                                    </div>
+                                </div>
+                                    {% else %}
+                                    <p>No banner</p>
+                            {% endif %}

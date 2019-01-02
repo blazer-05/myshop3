@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load bootstrap3 %}
+{% load banner %}
 
 {% block title %}
     Thanks
@@ -27,11 +28,7 @@
 						<!-- START PRODUCT-BANNER -->
 						<div class="product-banner">
 							<div class="row">
-								<div class="col-xs-12">
-									<div class="banner">
-										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
-									</div>
-								</div>
+                                {% center_big_banner %} <!-- Большой баннер 870×216 -->
 							</div>
 						</div>
 						<!-- END PRODUCT-BANNER -->

@@ -1,0 +1,12 @@
+                                {% if banners.is_active == True %}
+									<div class="single-product-banner">
+										<a href="{{ banners.link }}" target="_blank"><img src="{{ banners.images.url }}" alt="Product Banner"></a>
+										<div class="banner-text banner-1">
+											<h2>ApBle 4s</h2>
+											<p>Vibrant colors beautifully designed</p>
+											<span>$888.66</span>
+										</div>
+									</div>
+                                    {% else %}
+                                        <p>No banner</p>
+                                {% endif %}

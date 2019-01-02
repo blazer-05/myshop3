@@ -40,7 +40,7 @@ class AlbomInLine(admin.TabularInline):
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
-    readonly_fields = ['image_img', ]
+    readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
 
 # Класс модели Entry для вывода атрибута и значения
 class EntryInline(admin.TabularInline):
@@ -149,12 +149,15 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        'name',
+        #'name',
         'image_img',
         'product',
         'is_active',
         'created',
         'updated'
+    ),
+    list_editable = (
+      'is_active',
     ),
     list_display_links=(
         'indented_title',

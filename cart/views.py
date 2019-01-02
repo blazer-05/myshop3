@@ -41,6 +41,7 @@ class CartInfoTemplateView(View):
                     'price': cartproduct.product.price,
                     'discount_price': cartproduct.discount_price,
                     'total': cartproduct.full_price,
+                    'vendor_code': cartproduct.product.vendor_code
                 } for cartproduct in request.cart.cartproduct_set.all()
             ],
         }

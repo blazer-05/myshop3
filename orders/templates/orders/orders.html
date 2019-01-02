@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load bootstrap3 %}
+{% load banner %}
 
 {% block title %}
     Orders
@@ -27,11 +28,7 @@
 						<!-- START PRODUCT-BANNER -->
 						<div class="product-banner">
 							<div class="row">
-								<div class="col-xs-12">
-									<div class="banner">
-										<a href="#"><img src="{% static 'shop/img/banner/12.jpg' %}" alt="Product Banner"></a>
-									</div>
-								</div>
+                                {% center_big_banner %} <!-- Большой баннер 870×216 -->
 							</div>
 						</div>
 						<!-- END PRODUCT-BANNER -->
@@ -64,7 +61,7 @@
                                                             <td class="text-center">
                                                                 <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
                                                             </td>
-                                                            <td class="text-left">{{ item.product.title }}</td>
+                                                            <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
                                                             <td class="text-center">{{ item.quantity }}</td>
                                                             <td class="text-right">&#8381; {{ item.product.price }}</td>
                                                             <td class="text-right">&#8381; {{ item.discount_price }}</td>

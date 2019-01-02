@@ -3,6 +3,7 @@
 {% load i18n mptt_tags %}
 {% load thumbnail %}
 {% load staticfiles %}
+{% load banner %}
 
 {% block content %}
 		<!-- Category slider area start -->
@@ -126,7 +127,7 @@
 		                    		</div>
                                         {% empty %}
                                         <div class="col-md-12"><br>
-                                                <h4 style="color:#111;">Акции нет</h4>
+                                                <h4 style="color:#111;">Акций нет</h4>
                                         </div>
                                     {% endfor %}
 		                    		<!-- End Single-hot-deals -->
@@ -137,14 +138,7 @@
                         {% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
 	                    <!-- START SIDEBAR-BANNER -->
 	                    <div class="sidebar-banner">
-	                    	<div class="active-sidebar-banner">
-	                    		<div class="single-sidebar-banner">
-	                    			<a href="#"><img src="{% static 'shop/img/banner/1.jpg' %}" alt="Product Banner"></a>
-	                    		</div>
-	                    		<div class="single-sidebar-banner">
-	                    			<a href="#"><img src="{% static 'shop/img/banner/2.jpg' %}" alt="Product Banner"></a>
-	                    		</div>
-	                    	</div>
+                            {% left_block_banner %} <!--Баннер из левого блока -->
 	                    </div>
 	                    <!-- END SIDEBAR-BANNER -->
 	                    <!-- START RECENT-POSTS -->
@@ -240,22 +234,11 @@
 						<!-- START PRODUCT-BANNER -->
 						<div class="product-banner home1-banner">
 							<div class="row">
-								<div class="col-md-7 banner-box1">
-									<div class="single-product-banner">
-										<a href="#"><img src="{% static 'shop/img/banner/3.jpg' %}" alt="Product Banner"></a>
-										<div class="banner-text banner-1">
-											<h2>head phone 2015</h2>
-										</div>
-									</div>
-								</div>
+                                <div class="col-md-7 banner-box1">
+                                    {% top_left_banner %} <!-- Верхний левый баннер -->
+                                </div>
 								<div class="col-md-5 banner-box2">
-									<div class="single-product-banner">
-										<a href="#"><img src="{% static 'shop/img/banner/4.jpg' %}" alt="Product Banner"></a>
-										<div class="banner-text banner-2">
-											<h2>Deals <span>50%</span></h2>
-											<p>lumina n85</p>
-										</div>
-									</div>
+                                    {% top_right_banner %} <!-- Верхний правый бвннер-->
 								</div>
 							</div>
 						</div>
@@ -410,23 +393,10 @@
 						<div class="product-banner">
 							<div class="row">
 								<div class="col-md-7 banner-box1">
-									<div class="single-product-banner">
-										<a href="#"><img src="{% static 'shop/img/banner/5.jpg' %}" alt="Product Banner"></a>
-										<div class="banner-text banner-1">
-											<h2>ApBle 4s</h2>
-											<p>Vibrant colors beautifully designed</p>
-											<span>$888.66</span>
-										</div>
-									</div>
+                                    {% bottom_left_banner %} <!-- Нижний левый баннер -->
 								</div>
 								<div class="col-md-5 banner-box2">
-									<div class="single-product-banner">
-										<a href="#"><img src="{% static 'shop/img/banner/6.jpg' %}" alt="Product Banner"></a>
-										<div class="banner-text banner-2">
-											<h2>Htc <span>N8.</span></h2>
-											<p>lumina n85</p>
-										</div>
-									</div>
+                                    {% bottom_right_banner %} <!-- Нижний правый баннер -->
 								</div>
 							</div>
 						</div>

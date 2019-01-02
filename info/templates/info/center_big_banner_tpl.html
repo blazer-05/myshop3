@@ -1,0 +1,9 @@
+                            {% if banners.is_active == True %}
+								<div class="col-xs-12">
+									<div class="banner">
+										<a href="{{ banners.links }}"><img src="{{ banners.images.url }}" alt="Product Banner"></a>
+									</div>
+								</div>
+                                {% else %}
+                                    <p>No banner!</p>
+                            {% endif %}
