@@ -111,15 +111,21 @@
 										<hr />
                                         {% if product.stock == 0 %}
                                             <p>Out of stock</p>
-                                            {% else %}
+                                        {% else %}
                                             {% if product.discount %}
-                                            <span class="current-price">${{ product.get_sale }}</span>
-                                            <span class="old-price">${{ product.price }}</span>
-                                                {% else %}
+                                                <span class="current-price">${{ product.get_sale }}</span>
+                                                <span class="old-price">${{ product.price }}</span>
+                                            {% else %}
                                                 <span class="current-price">${{ product.price }}</span>
                                             {% endif %}
                                         {% endif %}
-                                        <span class="item-stock">Availability: <span class="text-stock">{{ product.stock }} In Stock</span></span>
+                                        <span class="item-stock">Availability: <span class="text-stock">
+                                            {% if product.stock == 0 %}
+                                                <p>Out of stock</p>
+                                            {% else %}
+                                                {{ product.stock }} In Stock</span>
+                                            {% endif %}
+                                        </span>
 									</div>
 
 

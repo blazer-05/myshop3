@@ -27,3 +27,7 @@ class Banners(models.Model):
             return '(Нет изображения)'
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
+
+
+
+
