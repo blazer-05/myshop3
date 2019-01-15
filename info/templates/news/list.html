@@ -1,0 +1,129 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load bootstrap3 %}
+{% load banner %}
+{% load mptt_tags %}
+{% load i18n mptt_tags %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+    <!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+                            <li class="active"><a href="{% url 'news:newslist' %}">News list</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+					</div>
+					<div class="col-md-9">
+						<!-- START PRODUCT-BANNER -->
+						<div class="product-banner">
+							<div class="row">
+                                {% center_big_banner %} <!-- Большой баннер 870×216 -->
+							</div>
+						</div>
+						<!-- END PRODUCT-BANNER -->
+						<!-- START PRODUCT-AREA -->
+						<div class="product-area">
+							<div class="row">
+								<div class="col-xs-12">
+									<!-- Start Product-Menu -->
+									<div class="product-menu">
+										<div class="product-title">
+											<h3 class="title-group-3 gfont-1">News</h3>
+										</div>
+									</div>
+									<!-- End Product-Menu -->
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-md-12">
+									<!-- Start Product -->
+									<div class="product">
+										<div class="tab-content">
+											<!-- Product -->
+											<div role="tabpanel" class="tab-pane fade in active" id="display-1-1">
+													<div class="listview">
+
+														<!-- Start Single-Product -->
+                                                        {% if news_list %}
+                                                            {% for list in news_list %}
+                                                            <div class="single-product">
+                                                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                                                    <div class="product-img" align="center" style="width: 190px; height: 130px">
+                                                                        <a href="{{ list.get_absolute_url }}">
+                                                                            <img class="primary-img" src="{{ list.images.url }}" alt="{{ list.title }}" title="{{ list.title }}">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-9 col-sm-8 col-xs-12">
+                                                                    <div class="product-description" style="font-size: 15px">
+                                                                        <h5><a href="{{ list.get_absolute_url }}">{{ list.title }}</a></h5>
+                                                                        <div class="post-info" style="font-size: .8em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
+                                                                            <span class="postdate updated">{{ list.created }}</span>
+                                                                            <span class="vcard author">
+                                                                            <span class="fn">{{ list.user }}</span></span>
+                                                                            <span class="view">Просмотрели: {{ list.count }}</span>
+{#                                                                            <span class="comment">0 комментария</span>#}
+                                                                        </div>
+                                                                        <p class="description" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:35|safe }}</p>
+                                                                        <p><a href="{{ list.get_absolute_url }}">Read more ...</a></p>
+                                                                        <div class="container-fluid">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% endfor %}
+                                                            {% else %}
+                                                            <p align="center" style="font-size: 14px;">В данном разделе новостей пока нет.</p>
+                                                        {% endif %}
+														<!-- End Single-Product -->
+													</div>
+                                                    <!-- Start Single-Product -->
+
+												<!-- Start Pagination Area -->
+												<div class="pagination-area">
+													<div class="row">
+														<div class="col-xs-5">
+															<div class="pagination">
+																<ul>
+                                                                    {% bootstrap_pagination news_list pages_to_show=3 %}
+																</ul>
+														    </div>
+														</div>
+														<div class="col-xs-7">
+															<div class="product-result">
+																<span>Showing to {{ news_list.number }} of ({{ news_list.paginator.num_pages }} Pages)</span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!-- End Pagination Area -->
+											</div>
+											<!-- End Product -->
+										</div>
+									</div>
+									<!-- End Product -->
+								</div>
+							</div>
+						</div>
+						<!-- END PRODUCT-AREA -->
+					</div>
+				</div>
+			</div>
+        </section>
+
+{% endblock %}

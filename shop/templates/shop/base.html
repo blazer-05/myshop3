@@ -56,6 +56,7 @@
     <link rel="stylesheet" href="{% static 'shop/css/responsive.css' %}" type="text/css" />
     <!--
     ============================================ -->
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/css-dmaster-new.css' %}">
 
 
 </head>
@@ -217,6 +218,7 @@
                                         {#												<li><a href="index-2.html">Home Versions 2</a></li>#}
                                         {#											</ul>#}
                                 </li>
+                                <li><a href="{% url 'news:newslist' %}">News</a></li>
                                 <li><a href="about.html">About Us</a></li>
                                 <li class="hot"><a href="shop.html">Bestseller Products</a></li>
                                 <li class="new"><a href="shop-list.html">New Products</a></li>

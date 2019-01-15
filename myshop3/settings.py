@@ -162,7 +162,9 @@ THUMBNAIL_ALIASES = {
         'cart': {'size': (70, 90), 'corp':True, 'quality': 99},         # cart.html
         'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},   # base.html
         'bestsellers': {'size': (100, 100), 'corp':True, 'quality': 99},# bestseller.html
-        'sale': {'size': (100, 100), 'corp':True, 'quality': 99},      # sale.html
+        'sale': {'size': (100, 100), 'corp':True, 'quality': 99},       # sale.html
+        'news': {'size': (190, 130), 'corp':True, 'quality': 99},       # news/list.html
+        #'index_news': {'size': (270, 93), 'corp':True, 'quality': 99},  # index.html
     }
 }
 

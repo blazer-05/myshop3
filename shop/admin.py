@@ -60,7 +60,8 @@ class ProductAdmin(SummernoteModelAdmin):
                    'brand',
                    'is_active',
                    'created',
-                   'updated'
+                   'updated',
+
                    )
     search_fields = ['title', 'vendor_code']
     list_editable = ['slug', 'is_active', 'stock',]

@@ -73,6 +73,7 @@
 	            <div class="row">
 	            	<div class="col-md-3 col-sm-3">
 	                    <!-- START HOT-DEALS-AREA -->
+                        {% if hotdeals %}
 	            		<div class="hot-deals-area carosel-navigation">
 	            			<div class="row">
 								<div class="col-md-12">
@@ -134,6 +135,7 @@
 		                    	</div>
 	                    	</div>
 	                    </div>
+                        {% endif %}
 	                    <!-- END HOT-DEALS-AREA -->
                         {% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
 	                    <!-- START SIDEBAR-BANNER -->
@@ -142,92 +144,44 @@
 	                    </div>
 	                    <!-- END SIDEBAR-BANNER -->
 	                    <!-- START RECENT-POSTS -->
+                        {% if news_list %}
 	                    <div class="shop-blog-area sidebar">
 	                    	<div class="row">
 	                    		<div class="col-md-12">
-	                    			<h3 class="title-group border-red gfont-1">RECENT POSTS </h3>
+	                    			<h3 class="title-group border-red gfont-1">NEWS </h3>
 	                    		</div>
 	                    	</div>
 	                    	<div class="row">
 		                    	<div class="active-recent-posts carosel-circle">
 		                    		<!-- Start Single-Recent-Posts -->
+                                    {% for list in news_list %}
 		                    		<div class="col-xs-12">
 			                    		<div class="single-recent-posts">
 			                    			<div class="recent-posts-photo">
-			                    				<img src="{% static 'shop/img/posts/1.jpg' %}" alt="Recent Posts">
+                                                <a href="{{ list.get_absolute_url }}">
+			                    				    <img src="{{ list.images.url }}" alt="{{ list.title }}">
+                                                </a>
 			                    			</div>
 			                    			<div class="recent-posts-text">
-			                    				<h5><a href="#" class="recent-posts-title">swimwear for women</a></h5>
-			                    				<span class="recent-posts-date">23/12/2015 | BootExpert Theme</span>
-			                    				<p class="posts-short-brif">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-			                    				<a href="#" class="posts-read-more">Read more ...</a>
+			                    				<h5><a href="{{ list.get_absolute_url }}" class="recent-posts-title">{{ list.title }}</a></h5><br>
+                                                <div class="post-info" style="font-size: .8em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
+                                                    <span class="postdate updated">{{ list.created }}</span>
+                                                    <span class="vcard author">
+                                                    <span class="fn">{{ list.user }}</span></span>
+                                                    <span class="view">{{ list.count }}</span>
+{#                                                    <span class="comment">0 комментария</span>#}
+                                                </div>
+			                    				<p class="posts-short-brif">{{ list.text|truncatewords:25|safe }}</p>
+			                    				<a href="{{ list.get_absolute_url }}" class="posts-read-more">Read more ...</a>
 			                    			</div>
 			                    		</div>
 		                    		</div>
-		                    		<!-- End Single-Recent-Posts -->
-		                    		<!-- Start Single-Recent-Posts -->
-		                    		<div class="col-xs-12">
-			                    		<div class="single-recent-posts">
-			                    			<div class="recent-posts-photo">
-			                    				<img src="{% static 'shop/img/posts/2.jpg' %}" alt="Recent Posts">
-			                    			</div>
-			                    			<div class="recent-posts-text">
-			                    				<h5><a href="#" class="recent-posts-title">swimwear for women</a></h5>
-			                    				<span class="recent-posts-date">23/12/2015 | BootExpert Theme</span>
-			                    				<p class="posts-short-brif">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-			                    				<a href="#" class="posts-read-more">Read more ...</a>
-			                    			</div>
-			                    		</div>
-		                    		</div>
-		                    		<!-- End Single-Recent-Posts -->
-		                    		<!-- Start Single-Recent-Posts -->
-		                    		<div class="col-xs-12">
-			                    		<div class="single-recent-posts">
-			                    			<div class="recent-posts-photo">
-			                    				<img src="{% static 'shop/img/posts/3.jpg' %}" alt="Recent Posts">
-			                    			</div>
-			                    			<div class="recent-posts-text">
-			                    				<h5><a href="#" class="recent-posts-title">swimwear for women</a></h5>
-			                    				<span class="recent-posts-date">23/12/2015 | BootExpert Theme</span>
-			                    				<p class="posts-short-brif">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-			                    				<a href="#" class="posts-read-more">Read more ...</a>
-			                    			</div>
-			                    		</div>
-		                    		</div>
-		                    		<!-- End Single-Recent-Posts -->
-		                    		<!-- Start Single-Recent-Posts -->
-		                    		<div class="col-xs-12">
-			                    		<div class="single-recent-posts">
-			                    			<div class="recent-posts-photo">
-			                    				<img src="{% static 'shop/img/posts/4.jpg' %}" alt="Recent Posts">
-			                    			</div>
-			                    			<div class="recent-posts-text">
-			                    				<h5><a href="#" class="recent-posts-title">swimwear for women</a></h5>
-			                    				<span class="recent-posts-date">23/12/2015 | BootExpert Theme</span>
-			                    				<p class="posts-short-brif">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-			                    				<a href="#" class="posts-read-more">Read more ...</a>
-			                    			</div>
-			                    		</div>
-		                    		</div>
-		                    		<!-- End Single-Recent-Posts -->
-		                    		<!-- Start Single-Recent-Posts -->
-		                    		<div class="col-xs-12">
-			                    		<div class="single-recent-posts">
-			                    			<div class="recent-posts-photo">
-			                    				<img src="{% static 'shop/img/posts/1.jpg' %}" alt="Recent Posts">
-			                    			</div>
-			                    			<div class="recent-posts-text">
-			                    				<h5><a href="#" class="recent-posts-title">swimwear for women</a></h5>
-			                    				<span class="recent-posts-date">23/12/2015 | BootExpert Theme</span>
-			                    				<p class="posts-short-brif">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et.</p>
-			                    				<a href="#" class="posts-read-more">Read more ...</a>
-			                    			</div>
-			                    		</div>
-		                    		</div>
+                                    {% endfor %}
 		                    		<!-- End Single-Recent-Posts -->
 		                    	</div>
 	                    	</div>
 	                    </div>
+                        {% endif %}
 	                    <!-- END RECENT-POSTS -->
 	                </div>
 					<div class="col-md-9 col-sm-9">

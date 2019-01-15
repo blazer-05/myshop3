@@ -1,6 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.safestring import mark_safe
-
+from django.contrib.auth.models import User
 
 class Banners(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название баннера')
@@ -29,5 +30,37 @@ class Banners(models.Model):
     image_img.allow_tags = True
 
 
+class News(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=200, verbose_name='Транслит')
+    metakeywords = models.CharField(max_length=200, verbose_name='Ключевые слова', blank=True)
+    metadescription = models.CharField(max_length=200, verbose_name='Описание', blank=True)
+    text = models.TextField(verbose_name='Статья')
+    images = models.ImageField(upload_to='news/%y/%m/%d/', blank=True, verbose_name='Изображение статьи')
+    video = models.URLField(blank=True, verbose_name='Ссылка на видео')
+    count = models.IntegerField(default=0, verbose_name='Просмотры')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
+    is_active = models.BooleanField(default=False, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
 
+    class Meta:
+        verbose_name = 'Новости'
+        verbose_name_plural = 'Новости'
+        ordering = ['-created']
 
+    def __str__(self):
+        return self.title
+
+    # Вывод картинок в админке!
+    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
+    def image_img(self):
+        if self.images:
+            return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="80px" height="50px"/></a>'.format(self.images.url))
+        else:
+            return '(Нет изображения)'
+    image_img.short_description = 'Картинка'
+    image_img.allow_tags = True
+
+    def get_absolute_url(self):
+        return reverse('news:newsdetails', kwargs={'slug': self.slug})

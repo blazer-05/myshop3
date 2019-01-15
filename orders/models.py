@@ -18,7 +18,7 @@ BUYING_TYPE = Choices(
 )
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name='Корзина')
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Всего')
     full_name = models.CharField(max_length=250, default='', verbose_name='Фио')

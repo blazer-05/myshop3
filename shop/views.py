@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
+from info.views import News
 from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
 
 
@@ -9,9 +10,11 @@ def index(request):
     products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True)
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
+    news_list = News.objects.filter(is_active=True).order_by('?')[:5]
     context['cart'] = cart
     context['products'] = products
     context['hotdeals'] = hotdeals
+    context['news_list'] = news_list
     context['slider_product'] = slider_product
     context['index_categories'] = CategoryIndexPage.get_index_categories() # Из модели shop/CategoryIndexPage, выводим в контекст метод get_index_categories()
     return render(request, 'shop/index.html', context)
@@ -40,7 +43,7 @@ def shop(request):
     context = {}
     cart = request.cart
     products = Product.objects.filter(is_active=True)
-    paginator = Paginator(products, 20)
+    paginator = Paginator(products, 5)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context['products'] = products
