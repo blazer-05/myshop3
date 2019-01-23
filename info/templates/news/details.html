@@ -11,7 +11,9 @@
 {% endblock %}
 
 {% block content %}
-<!-- START PAGE-CONTENT -->
+{#    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>#}
+
+    <!-- START PAGE-CONTENT -->
 		<section class="page-content">
 			<div class="container">
 	            <div class="row">
@@ -38,7 +40,7 @@
                                 <span class="vcard author">
                                 <span class="fn">{{ newsdetails.user }}</span></span>
                                 <span class="view">Просмотрели: {{ newsdetails.count }}</span>
-{#                                <span class="comment">0 комментария</span>#}
+                                <span class="comment">{{ newsdetails.comments_set.count }} комментария</span>
                             </div>
                             <br>
 							<div class="single-post-image">
@@ -48,9 +50,156 @@
 							<div class="single-post-content" style="font-size: 14px; text-align: justify">
                                 {{ newsdetails.text|safe }}
 							</div>
+                            <br>
+
+                            <!-- Comments -->
+
+							<div class="post-coments" style="width: 90%;">
+								<h4>Comments ({{ newsdetails.comments_set.count }})</h4>
+								<ul class="post-comments">
+									<li>
+                                        {% for com in comment %}
+										<div class="comment-wrapper">
+                                            {% if com.user %}
+											<div class="comment-author">
+                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                                {{ com.user }}
+                                            </div>
+                                                {% else %}
+											<div class="comment-author">
+                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                                {{ com.user_name }}
+                                            </div>
+                                            {% endif %}
+                                                <div class="comment-text">
+                                                    <p>{{ com.text|safe }}</p>
+                                                </div>
+											<!-- Comment Controls -->
+											<div class="comment-actions">
+												<span class="comment-date">{{ com.created }}</span>
+												<a href="" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+												<a href="" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>
+												<span class="label label-success">+8</span>
+												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
+											</div>
+										</div>
+                                        {% endfor %}
+									</li>
+{#									<li>#}
+{#										<ul>#}
+{#											<li>#}
+{#												<div class="comment-wrapper">#}
+{#													<div class="comment-author"><img src="{% static 'info/news/img/user2.jpg' %}" alt="User Name"> User Name</div>#}
+{#													<p>#}
+{#														Vivamus euismod elit ac libero facilisis tristique. Duis mollis non ligula vel tincidunt. Nulla consectetur libero id nunc ornare, vel vulputate tellus mollis. Sed quis nulla magna.#}
+{#													</p>#}
+{#													<!-- Comment Controls -->#}
+{#													<div class="comment-actions">#}
+{#														<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
+{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
+{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
+{#														<span class="label label-danger">-2</span>#}
+{#														<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
+{#													</div>#}
+{#												</div>#}
+{#											</li>#}
+{#										</ul>#}
+{#									</li>#}
+{#									<li>#}
+{#										<div class="comment-wrapper">#}
+{#											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>#}
+{#											<p>#}
+{#												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.#}
+{#											</p>#}
+{#											<!-- Comment Controls -->#}
+{#											<div class="comment-actions">#}
+{#												<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
+{#												<span class="label label-success">+8</span>#}
+{#												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
+{#											</div>#}
+{#										</div>#}
+{#									</li>#}
+								</ul>
+								<!-- Pagination -->
+								<div class="paginations-wrapper">
+									<ul class="paginations paginations-sm">
+										<li class="disabled"><a href="#">Previous</a></li>
+										<li class="active"><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><a href="#">5</a></li>
+										<li><a href="#">Next</a></li>
+									</ul>
+								</div>
+								<!-- Comments Form -->
+								<h4>Leave a Comment</h4>
+								<div class="comment-form-wrapper">
+									<form class="" action="." method="post">
+                                        {% csrf_token %}
+                                        {% if not user.is_active %}
+				        				<div class="form-group">
+				        				 	<label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
+											{{ form.user_name }}
+										</div>
+										<div class="form-group">
+											<label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
+                                            {{ form.email }}
+										</div>
+										<div class="form-group">
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
+											{{ form.text }}
+										</div>
+                                            {% else %}
+										<div class="form-group">
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
+											{{ form.text }}
+										</div>
+                                        {% endif %}
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+										</div>
+										<div class="clearfix"></div>
+				        			</form>
+								</div>
+								<!-- End Comment Form -->
+							</div>
+
+							<!-- End Comments -->
+
 						</div>
 					</div>
 				</div>
 			</div>
         </section>
+
 {% endblock %}
+
+{% comment %}
+
+
+								<div class="comment-form-wrapper">
+									<form class="" action="." method="post">
+                                        {% csrf_token %}
+				        				<div class="form-group">
+				        				 	<label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name</b></label>
+											<input class="form-control" name="user" type="text" placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
+											<input class="form-control" name="email" type="text" placeholder="">
+										</div>
+										<div class="form-group">
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
+											<textarea class="form-control" rows="5" name="text"></textarea>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+										</div>
+										<div class="clearfix"></div>
+				        			</form>
+								</div>
+
+{% endcomment %}

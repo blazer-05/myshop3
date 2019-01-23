@@ -1,0 +1,256 @@
+/*Размер текста в комментариях*/
+body {
+    font-size: 14px;
+}
+
+.post-comments {
+  list-style-type: none;
+  margin-left: 0;
+  margin-bottom: 40px;
+  padding: 0;
+}
+.comment-wrapper p {
+  margin: 0;
+  position: relative;
+  border: 1px solid #CCC;
+  padding: 10px;
+  margin-bottom: 10px;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+}
+.comment-actions {
+  text-align: right;
+  opacity: 0.6;
+  -webkit-transition: opacity .25s linear;
+  -moz-transition: opacity .25s linear;
+  -o-transition: opacity .25s linear;
+  -ms-transition: opacity .25s linear;
+  transition: opacity .25s linear;
+}
+.comment-actions:hover {
+  text-align: right;
+  opacity: 1;
+}
+.comment-actions i {
+  color: #333;
+}
+.comment-date {
+  font-size: 0.9em;
+  margin-right: 20px;
+}
+.comment-author {
+  font-size: 1.3em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.comment-author img {
+  max-width: 50px;
+  -webkit-border-radius: 25px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 25px;
+  -moz-background-clip: padding;
+  border-radius: 25px;
+  background-clip: padding-box;
+  margin-right: 10px;
+}
+.btn-grey {
+  border: 1px solid #cecece;
+  color: #333;
+  background: none repeat scroll 0 0 #E7E7E7;
+}
+.btn-grey:hover {
+  background: none repeat scroll 0 0 #cecece;
+  color: #333;
+  text-decoration: none;
+  border: 1px solid #cecece;
+}
+.btn-grey .caret {
+  border-top: 4px solid #333;
+}
+.btn-micro {
+  padding: 1px 8px;
+  font-size: 10px;
+}
+.comment-reply-btn {
+  margin-left: 10px;
+}
+
+/*Размер лейблов в форме добавления комментариев*/
+label {
+	font-size: 14px;
+	font-weight: normal;
+}
+/*--------------------------------------------------------------------------
++	Buttons Style
+--------------------------------------------------------------------------*/
+/*.btn {*/
+  /*border: 1px solid #4f8db3;*/
+  /*-webkit-border-radius: 2px;*/
+  /*-webkit-background-clip: padding-box;*/
+  /*-moz-border-radius: 2px;*/
+  /*-moz-background-clip: padding;*/
+  /*border-radius: 2px;*/
+  /*background-clip: padding-box;*/
+  /*color: #FFFFFF;*/
+  /*cursor: pointer;*/
+  /*display: inline-block;*/
+  /*text-transform: none;*/
+  /*-webkit-transition: all .25s ease;*/
+  /*-moz-transition: all .25s ease;*/
+  /*-o-transition: all .25s ease;*/
+  /*-ms-transition: all .25s ease;*/
+  /*transition: all .25s ease;*/
+  /*text-align: center;*/
+  /*background: none repeat scroll 0 0 #4f8db3;*/
+  /*text-shadow: none;*/
+  /*box-shadow: none;*/
+  /*color: #FFF;*/
+  /*white-space: nowrap;*/
+/*}*/
+/*.btn:hover {*/
+  /*background: none repeat scroll 0 0 #3b3c41;*/
+  /*color: #FFF;*/
+  /*text-decoration: none;*/
+  /*border: 1px solid #3b3c41;*/
+/*}*/
+.btn .caret {
+  border-top: 4px solid #FFF;
+}
+.btn-micro {
+  padding: 1px 8px;
+  font-size: 10px;
+}
+.btn-grey {
+  border: 1px solid #cecece;
+  color: #333;
+  background: none repeat scroll 0 0 #E7E7E7;
+}
+.btn-grey:hover {
+  background: none repeat scroll 0 0 #cecece;
+  color: #333;
+  text-decoration: none;
+  border: 1px solid #cecece;
+}
+.btn-grey .caret {
+  border-top: 4px solid #333;
+}
+.btn-blue {
+  border: 1px solid #3e7191;
+  color: #FFF;
+  background: none repeat scroll 0 0 #4F8DB3;
+}
+.btn-blue:hover {
+  background: none repeat scroll 0 0 #3b3c41;
+  color: #FFF;
+  text-decoration: none;
+  border: 1px solid #3b3c41;
+}
+.btn-orange {
+  border: 1px solid #cc5a00;
+  color: #FFF;
+  background: none repeat scroll 0 0 #FF7000;
+}
+.btn-orange:hover {
+  background: none repeat scroll 0 0 #3b3c41;
+  color: #FFF;
+  text-decoration: none;
+  border: 1px solid #3b3c41;
+}
+.btn-green {
+  border: 1px solid #4c5818;
+  color: #FFF;
+  background: none repeat scroll 0 0 #6E8023;
+}
+.btn-green:hover {
+  background: none repeat scroll 0 0 #3b3c41;
+  color: #FFF;
+  text-decoration: none;
+  border: 1px solid #3b3c41;
+}
+.btn-red {
+  border: 1px solid #ab0d0d;
+  color: #FFF;
+  background: none repeat scroll 0 0 #DA1111;
+}
+.btn-red:hover {
+  background: none repeat scroll 0 0 #3b3c41;
+  color: #FFF;
+  text-decoration: none;
+  border: 1px solid #3b3c41;
+}
+.btn-group.open .btn.dropdown-toggle {
+  background: none repeat scroll 0 0 #3b3c41;
+  color: #FFF;
+}
+.dropdown.open a.dropdown-toggle .caret {
+  border-top: 4px solid #FFF;
+}
+
+
+/*--------------------------------------------------------------------------
++	Pagination Style (overrides Bootstrap style)
+--------------------------------------------------------------------------*/
+
+.paginations {
+	display: inline-flex;
+	padding-left: 0;
+	margin: 20px 0;
+    padding-bottom: 30px;
+	border-radius: 4px;
+    font-size: 14px;
+}
+
+/*Размер пагинации*/
+.paginations-sm > li > a, .paginations-sm > li > span {
+	padding: 5px 10px;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.paginations-wrapper {
+  margin-top: 15px;
+  text-align: center;
+}
+.paginations > li > a,
+.paginations > li > span {
+  border: none;
+  border-bottom: 3px solid #FFF;
+  color: #666666;
+  margin-left: 0;
+  margin-bottom: 5px;
+  -webkit-transition: all .25s linear;
+  -moz-transition: all .25s linear;
+  -o-transition: all .25s linear;
+  -ms-transition: all .25s linear;
+  transition: all .25s linear;
+}
+.paginations > li > a:hover,
+.paginations > li > a:focus,
+.paginations > .active > a,
+.paginations > .active > span {
+  background: #FFF;
+}
+.paginations > li > a:hover {
+  border-bottom: 3px solid #666666;
+}
+.paginations > .active > a,
+.paginations > .active > span {
+  color: #666666;
+  border-bottom: 3px solid #4f8db3;
+}
+.paginations > .disabled > a {
+  border-color: #fff;
+}
+.paginations > .disabled > span,
+.paginations > .disabled > a,
+.paginations > .disabled > a:hover,
+.paginations > .disabled > a:focus {
+  margin-bottom: 0;
+  color: #C9C9C9;
+  background-color: #FFF;
+  cursor: default;
+}

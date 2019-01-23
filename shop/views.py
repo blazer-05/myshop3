@@ -10,7 +10,7 @@ def index(request):
     products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True)
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
-    news_list = News.objects.filter(is_active=True).order_by('?')[:5]
+    news_list = News.objects.filter(is_active=True).order_by('-created')[:5]
     context['cart'] = cart
     context['products'] = products
     context['hotdeals'] = hotdeals

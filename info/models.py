@@ -1,7 +1,9 @@
+import mptt
 from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
+from mptt.models import MPTTModel, TreeForeignKey
 
 class Banners(models.Model):
     title = models.CharField(max_length=150, verbose_name='Название баннера')
@@ -64,3 +66,25 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('news:newsdetails', kwargs={'slug': self.slug})
+
+class Comments(MPTTModel):
+    parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False) # editable=False (Скрыл поле parent в админке)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
+    news = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name='Новость')
+    text = models.TextField(verbose_name='Комментарий')
+    email = models.EmailField(max_length=50, blank=True, verbose_name='e-mail')
+    user_name = models.CharField(max_length=100, blank=True, verbose_name='Логин пользователя')
+    like = models.IntegerField(default=0, verbose_name='like')
+    dislike = models.IntegerField(default=0, verbose_name='dislike')
+    count = models.IntegerField(default=0, verbose_name='Количество комментариев')
+    is_active = models.BooleanField(default=False, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Коментарии'
+        ordering = ['-created']
+
+    def __str__(self):
+        return '{} {}'.format(self.user, self.news)

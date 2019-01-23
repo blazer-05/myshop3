@@ -144,7 +144,7 @@
                                                                             <i class="fa fa-star-o"></i>
                                                                         </span><br><br>
                                                                         <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
-                                                                        <p class="description">{{ product.descriptions|safe }}</p>
+                                                                        <p class="description">{{ product.descriptions|truncatewords:25|safe }}</p>
                                                                         <div class="product-action">
                                                                             <div class="button-group">
                                                                                 {% if product.stock == 0 %}

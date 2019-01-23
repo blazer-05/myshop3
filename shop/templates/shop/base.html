@@ -56,7 +56,9 @@
     <link rel="stylesheet" href="{% static 'shop/css/responsive.css' %}" type="text/css" />
     <!--
     ============================================ -->
-    <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/css-dmaster-new.css' %}">
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/css-dmaster-new.css' %}"><!--Стили иконок под заголовком новостей-->
+
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/mains.css' %}"><!--Стили комментариев в полной новости-->
 
 
 </head>
@@ -522,6 +524,8 @@
 <!-- cart.js
 ============================================ -->
 <script src="{% static 'shop/js/cart.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'info/news/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
 
 
 </body>

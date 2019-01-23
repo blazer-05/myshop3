@@ -89,7 +89,7 @@ class Product(models.Model):
     meta_keywords = models. CharField(max_length=250, blank=True, verbose_name='Клюевые слова')
     meta_descriptions = models.CharField(max_length=250, blank=True, verbose_name='Мета описание')
     descriptions = models.TextField(blank=True, verbose_name='Описание')
-    descriptions_two = models.TextField(blank=True, verbose_name='Доп.описание')
+    descriptions_two = models.TextField(blank=True, verbose_name='Доп.описание', editable=False) # Скрыл это поле в админке атрибутом editable=False
     images = models.ImageField(upload_to='img_product/%y/%m/%d/', blank=True, verbose_name='Изображение товара')
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     discount = models.IntegerField(default=0, verbose_name='Скидка')

@@ -63,9 +63,9 @@
                                                             {% for list in news_list %}
                                                             <div class="single-product">
                                                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                                                    <div class="product-img" align="center" style="width: 190px; height: 130px">
+                                                                    <div class="product-img" align="center" >
                                                                         <a href="{{ list.get_absolute_url }}">
-                                                                            <img class="primary-img" src="{{ list.images.url }}" alt="{{ list.title }}" title="{{ list.title }}">
+                                                                            <img src="{{ list.images.url }}" alt="{{ list.title }}" title="{{ list.title }}">
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -79,7 +79,7 @@
                                                                             <span class="view">Просмотрели: {{ list.count }}</span>
 {#                                                                            <span class="comment">0 комментария</span>#}
                                                                         </div>
-                                                                        <p class="description" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:35|safe }}</p>
+                                                                        <p class="description" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:25|safe }}</p>
                                                                         <p><a href="{{ list.get_absolute_url }}">Read more ...</a></p>
                                                                         <div class="container-fluid">
                                                                         </div>
