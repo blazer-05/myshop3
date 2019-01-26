@@ -26,9 +26,6 @@ SECRET_KEY = '*4tn&e7_af55ix$xe##57k@*ksl!7%(kdw!*0gxt&bo25z_5#)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Подгружаем настройки разрешенных хостов из модуля local_settings.py.
-from myshop3.local_settings import ALLOWED_HOSTS
-
 
 # Application definition
 
@@ -43,9 +40,9 @@ INSTALLED_APPS = [
     'cart',
     'orders',
     'info',
-    'mptt',            # https://django-mptt.readthedocs.io/en/latest/index.html
-    'easy_thumbnails', # https://pypi.org/project/easy-thumbnails/
-    'django_cleanup',  # https://github.com/un1t/django-cleanup
+    'mptt',              # https://django-mptt.readthedocs.io/en/latest/index.html
+    'easy_thumbnails',   # https://pypi.org/project/easy-thumbnails/
+    'django_cleanup',    # https://github.com/un1t/django-cleanup
     'django_summernote', # https://github.com/summernote/django-summernote
     'bootstrap3',
 
@@ -94,9 +91,6 @@ WSGI_APPLICATION = 'myshop3.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-# Подгружаем настройки базы данных из модуля local_settings.py
-from myshop3.local_settings import DATABASES
 
 
 # Password validation
@@ -170,12 +164,9 @@ THUMBNAIL_ALIASES = {
 
 THUMBNAIL_SUBDIR = 'thumbs'
 
-# Подгружаем настройки почтового сервера из модуля local_settings.py
-from myshop3.local_settings import (
-    EMAIL_HOST,
-    EMAIL_HOST_USER,
-    EMAIL_HOST_PASSWORD,
-    EMAIL_PORT,
-    EMAIL_USE_SSL,
-    DEFAULT_FROM_EMAIL
-)
+
+# Подгружаем настройки из модуля local_settings.py.
+try:
+    from.local_settings import *
+except ImportError:
+    pass

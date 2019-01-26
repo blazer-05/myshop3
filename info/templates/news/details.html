@@ -40,7 +40,7 @@
                                 <span class="vcard author">
                                 <span class="fn">{{ newsdetails.user }}</span></span>
                                 <span class="view">Просмотрели: {{ newsdetails.count }}</span>
-                                <span class="comment">{{ newsdetails.comments_set.count }} комментария</span>
+                                <span class="comment">{{ newsdetails.comment_set.count }} комментария</span>
                             </div>
                             <br>
 							<div class="single-post-image">
@@ -54,11 +54,11 @@
 
                             <!-- Comments -->
 
-							<div class="post-coments" style="width: 90%;">
-								<h4>Comments ({{ newsdetails.comments_set.count }})</h4>
+							<div class="post-coments" style="width: 100%;">
+								<h4>Comments ({{ all_comment }} )</h4>
 								<ul class="post-comments">
 									<li>
-                                        {% for com in comment %}
+                                        {% for com in comments %}
 										<div class="comment-wrapper">
                                             {% if com.user %}
 											<div class="comment-author">
@@ -85,53 +85,65 @@
 										</div>
                                         {% endfor %}
 									</li>
-{#									<li>#}
-{#										<ul>#}
-{#											<li>#}
-{#												<div class="comment-wrapper">#}
-{#													<div class="comment-author"><img src="{% static 'info/news/img/user2.jpg' %}" alt="User Name"> User Name</div>#}
-{#													<p>#}
-{#														Vivamus euismod elit ac libero facilisis tristique. Duis mollis non ligula vel tincidunt. Nulla consectetur libero id nunc ornare, vel vulputate tellus mollis. Sed quis nulla magna.#}
-{#													</p>#}
-{#													<!-- Comment Controls -->#}
-{#													<div class="comment-actions">#}
-{#														<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
-{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
-{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
-{#														<span class="label label-danger">-2</span>#}
-{#														<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
-{#													</div>#}
-{#												</div>#}
-{#											</li>#}
-{#										</ul>#}
-{#									</li>#}
-{#									<li>#}
-{#										<div class="comment-wrapper">#}
-{#											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>#}
-{#											<p>#}
-{#												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.#}
-{#											</p>#}
-{#											<!-- Comment Controls -->#}
-{#											<div class="comment-actions">#}
-{#												<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
-{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
-{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
-{#												<span class="label label-success">+8</span>#}
-{#												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
-{#											</div>#}
-{#										</div>#}
-{#									</li>#}
+									<li>
+										<ul>
+											<li>
+												<div class="comment-wrapper">
+													<div class="comment-author"><img src="{% static 'info/news/img/user2.jpg' %}" alt="User Name"> User Name</div>
+													<p>
+														Vivamus euismod elit ac libero facilisis tristique. Duis mollis non ligula vel tincidunt. Nulla consectetur libero id nunc ornare, vel vulputate tellus mollis. Sed quis nulla magna.
+													</p>
+													<!-- Comment Controls -->
+													<div class="comment-actions">
+														<span class="comment-date">June 10th, 2013 3:16 pm</span>
+														<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+														<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>
+														<span class="label label-danger">-2</span>
+														<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<div class="comment-wrapper">
+											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>
+											<p>
+												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.
+											</p>
+											<!-- Comment Controls -->
+											<div class="comment-actions">
+												<span class="comment-date">June 10th, 2013 3:16 pm</span>
+												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>
+												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>
+												<span class="label label-success">+8</span>
+												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
+											</div>
+										</div>
+									</li>
 								</ul>
 								<!-- Pagination -->
 								<div class="paginations-wrapper">
 									<ul class="paginations paginations-sm">
-										<li class="disabled"><a href="#">Previous</a></li>
-										<li class="active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">Next</a></li>
+
+                                        {% if comments.has_previous %}
+                                            <li><a href="?page=1">&laquo; First</a></li>
+                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>
+                                        {% endif %}
+
+                                        {% for i in comments.paginator.page_range %}
+                                            {% if comments.number == i %}
+                                                <li class="active"><span>{{ i }} </span></li>
+                                            {% else %}
+                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if comments.has_next %}
+                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>
+                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>
+                                        {% endif %}
+
 									</ul>
 								</div>
 								<!-- Comments Form -->
@@ -149,12 +161,12 @@
                                             {{ form.email }}
 										</div>
 										<div class="form-group">
-											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
 											{{ form.text }}
 										</div>
                                             {% else %}
 										<div class="form-group">
-											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
 											{{ form.text }}
 										</div>
                                         {% endif %}

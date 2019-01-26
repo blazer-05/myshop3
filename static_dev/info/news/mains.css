@@ -9,6 +9,11 @@ body {
   margin-bottom: 40px;
   padding: 0;
 }
+.post-comments ul {
+  list-style-type: none;
+  margin-left: 30px;
+  padding: 0;
+}
 .comment-wrapper p {
   margin: 0;
   position: relative;
@@ -207,8 +212,10 @@ label {
 /*Размер пагинации*/
 .paginations-sm > li > a, .paginations-sm > li > span {
 	padding: 5px 10px;
-	font-size: 15px;
+	font-size: 14px;
 	line-height: 1.5;
+    font-family: Roboto, sans-serif;
+
 }
 
 .paginations-wrapper {
@@ -219,7 +226,7 @@ label {
 .paginations > li > span {
   border: none;
   border-bottom: 3px solid #FFF;
-  color: #666666;
+  color: #7e7e7e;
   margin-left: 0;
   margin-bottom: 5px;
   -webkit-transition: all .25s linear;

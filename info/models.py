@@ -31,6 +31,10 @@ class Banners(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
+class NewsQuerySet(models.QuerySet):
+    '''Для вывода колонки количества комментариев к статье в админке'''
+    def with_comments_count(self):
+        return self.annotate(comments_count=models.Count('comments'))
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
@@ -46,10 +50,12 @@ class News(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
 
+    objects = NewsQuerySet.as_manager()     #'''Для вывода колонки количества комментариев к статье в админке'''
     class Meta:
         verbose_name = 'Новости'
         verbose_name_plural = 'Новости'
         ordering = ['-created']
+
 
     def __str__(self):
         return self.title
@@ -67,7 +73,7 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse('news:newsdetails', kwargs={'slug': self.slug})
 
-class Comments(MPTTModel):
+class Comment(MPTTModel):
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False) # editable=False (Скрыл поле parent в админке)
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
     news = models.ForeignKey(News, on_delete=models.CASCADE, verbose_name='Новость')
@@ -76,7 +82,7 @@ class Comments(MPTTModel):
     user_name = models.CharField(max_length=100, blank=True, verbose_name='Логин пользователя')
     like = models.IntegerField(default=0, verbose_name='like')
     dislike = models.IntegerField(default=0, verbose_name='dislike')
-    count = models.IntegerField(default=0, verbose_name='Количество комментариев')
+    count_comment = models.IntegerField(default=0, verbose_name='Количество комментариев')
     is_active = models.BooleanField(default=False, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
