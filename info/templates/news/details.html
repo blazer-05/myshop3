@@ -77,12 +77,41 @@
 											<!-- Comment Controls -->
 											<div class="comment-actions">
 												<span class="comment-date">{{ com.created }}</span>
-												<a href="" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-												<a href="" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>
-												<span class="label label-success">+8</span>
-												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
+
+                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like({{ com.id }})">
+                                                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                                                </span>
+
+ 												<span class="label label-success">{{ com.like }}</span>
+
+                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike({{ com.id }})">
+                                                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                                                </span>
+
+												<span class="label label-danger">-{{ com.dislike }}</span>
+
+                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ com.id }})">
+                                                    <i class="glyphicon glyphicon-share-alt"></i> Reply
+                                                </div>
+                                                <!-- Форма добавления ответа на комментарий -->
+                                                <div class="reply-comments" id="{{ com.id }}">
+                                                    <form class="" action="." method="post">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                                            {{ form.text }}
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+                                                        </div>
+                                                        <div class="closebtn">
+                                                            <button class="btn btn-danger btn-sm" onclick="closeForm({{ com.id }})">close</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
 											</div>
 										</div>
+
                                         {% endfor %}
 									</li>
 									<li>
@@ -105,22 +134,22 @@
 											</li>
 										</ul>
 									</li>
-									<li>
-										<div class="comment-wrapper">
-											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>
-											<p>
-												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.
-											</p>
-											<!-- Comment Controls -->
-											<div class="comment-actions">
-												<span class="comment-date">June 10th, 2013 3:16 pm</span>
-												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>
-												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>
-												<span class="label label-success">+8</span>
-												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>
-											</div>
-										</div>
-									</li>
+{#									<li>#}
+{#										<div class="comment-wrapper">#}
+{#											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>#}
+{#											<p>#}
+{#												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.#}
+{#											</p>#}
+{#											<!-- Comment Controls -->#}
+{#											<div class="comment-actions">#}
+{#												<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
+{#												<span class="label label-success">+8</span>#}
+{#												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
+{#											</div>#}
+{#										</div>#}
+{#									</li>#}
 								</ul>
 								<!-- Pagination -->
 								<div class="paginations-wrapper">
@@ -146,7 +175,7 @@
 
 									</ul>
 								</div>
-								<!-- Comments Form -->
+								<!-- Форма добавление нового комментария -->
 								<h4>Leave a Comment</h4>
 								<div class="comment-form-wrapper">
 									<form class="" action="." method="post">

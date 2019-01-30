@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
@@ -28,6 +29,7 @@ def newsdetails(request, slug):
     page = request.GET.get('page')
     comments = paginator.get_page(page)
 
+
     if request.method == 'POST':
         form = CommentForm(request.POST or None)
         if form.is_valid():
@@ -56,6 +58,22 @@ def newsdetails(request, slug):
                                                  'comments': comments,
                                                  'all_comment': all_comment,
                                                  'form': form})
+
+def like(request):
+    pk = request.POST.get('pk')
+    post = Comment.objects.get(id=pk)
+    post.like += 1
+    post.save()
+    return HttpResponse(status=201)
+
+def dislike(request):
+    pk = request.POST.get('pk')
+    post = Comment.objects.get(id=pk)
+    post.dislike += 1
+    post.save()
+    return HttpResponse(status=201)
+
+
 
 def admin_comment_email(request):
     return render(request, 'news/admin_comment_email.html')

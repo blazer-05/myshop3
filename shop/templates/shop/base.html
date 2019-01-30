@@ -275,7 +275,12 @@
     <!-- End Mobile-menu -->
 </header>
 <!-- HEADER AREA END -->
-{% block content %}{% endblock %}
+{% block content %}
+
+{% endblock %}
+
+{% csrf_token %}
+
 <!-- START BRAND-LOGO-AREA -->
 <div class="brand-logo-area carosel-navigation">
     <div class="container">
@@ -529,7 +534,9 @@
 
 <script src="{% static 'info/news/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
 
+<script src="{% static 'info/news/script.js' %}" type="text/javascript"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 </body>
 </html>

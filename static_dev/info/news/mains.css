@@ -3,6 +3,18 @@ body {
     font-size: 14px;
 }
 
+.reply-comments{
+    display: none;
+    /*width: 300px;*/
+    margin-left: 65%;
+    margin-top: 20px;
+
+}
+
+.closebtn{
+    margin-right: 300px;
+}
+
 .post-comments {
   list-style-type: none;
   margin-left: 0;

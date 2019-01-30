@@ -50,7 +50,7 @@ class NewsAdmin(SummernoteModelAdmin):
 
 
 @admin.register(Comment)
-class CommentsAdmin(admin.ModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     list_display = ['id', 'news', 'sender', 'is_authenticated', 'text', 'email', 'like', 'dislike', 'is_active', 'created', 'updated']
     list_editable = ['is_active', ]
     list_display_links = ['news']  # Выводит в админке какие поля будут в виде ссылок.

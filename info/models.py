@@ -34,7 +34,7 @@ class Banners(models.Model):
 class NewsQuerySet(models.QuerySet):
     '''Для вывода колонки количества комментариев к статье в админке'''
     def with_comments_count(self):
-        return self.annotate(comments_count=models.Count('comments'))
+        return self.annotate(comments_count=models.Count('comment'))
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
