@@ -37,7 +37,7 @@ def catlist(request, slug):
     category_list = thiscat.get_descendants(include_self=True)
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-    return render(request, 'shop/catlist.html', context )
+    return render(request, 'shop/catlist.html', context)
 
 def shop(request):
     context = {}

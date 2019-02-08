@@ -4,15 +4,18 @@ body {
 }
 
 .reply-comments{
-    display: none;
-    /*width: 300px;*/
-    margin-left: 65%;
-    margin-top: 20px;
+  display: none;
+  /*width: 300px;*/
+  /*margin-left: 65%;*/
+  margin-top: 20px;
+  padding-top: 10px;
+  /*height: 120px;*/
 
 }
 
 .closebtn{
-    margin-right: 300px;
+    /*margin-right: 300px;*/
+  padding-right: 7%;
 }
 
 .post-comments {

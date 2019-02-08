@@ -58,61 +58,73 @@
 								<h4>Comments ({{ all_comment }} )</h4>
 								<ul class="post-comments">
 									<li>
-                                        {% for com in comments %}
+                                        {% recursetree comments %}
 										<div class="comment-wrapper">
-                                            {% if com.user %}
+                                            {% if node.user %}
 											<div class="comment-author">
                                                 <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ com.user }}
+                                                {{ node.user }}
                                             </div>
                                                 {% else %}
 											<div class="comment-author">
                                                 <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ com.user_name }}
+                                                {{ node.user_name }}
                                             </div>
                                             {% endif %}
                                                 <div class="comment-text">
-                                                    <p>{{ com.text|safe }}</p>
+                                                    <p>{{ node.text|safe }}</p>
                                                 </div>
 											<!-- Comment Controls -->
 											<div class="comment-actions">
-												<span class="comment-date">{{ com.created }}</span>
+												<span class="comment-date">{{ node.created }} | Комментарии: {{ node.get_descendant_count }}</span>
 
-                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like({{ com.id }})">
+                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ node.id }}">
                                                     <i class="glyphicon glyphicon-thumbs-up"></i>
                                                 </span>
 
- 												<span class="label label-success">{{ com.like }}</span>
+ 												<span class="label label-success">{{ node.like }}</span>
 
-                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike({{ com.id }})">
+                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ node.id }}">
                                                     <i class="glyphicon glyphicon-thumbs-down"></i>
                                                 </span>
 
-												<span class="label label-danger">-{{ com.dislike }}</span>
+												<span class="label label-danger">{{ node.dislike }}</span>
 
-                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ com.id }})">
+                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ node.id }})">
                                                     <i class="glyphicon glyphicon-share-alt"></i> Reply
                                                 </div>
                                                 <!-- Форма добавления ответа на комментарий -->
-                                                <div class="reply-comments" id="{{ com.id }}">
-                                                    <form class="" action="." method="post">
-                                                        {% csrf_token %}
-                                                        <div class="form-group">
-                                                            <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
-                                                            {{ form.text }}
+                                                <div class="row">
+                                                    <div class="reply-comments" id="{{ node.id }}">
+                                                        <div class="col-12">
+                                                            {% if not node.is_leaf_node %}
+                                                                <ul class="children">
+                                                                    {{ children }}
+                                                                </ul>
+                                                            {% endif %}
                                                         </div>
-                                                        <div class="form-group">
-                                                            <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
-                                                        </div>
-                                                        <div class="closebtn">
-                                                            <button class="btn btn-danger btn-sm" onclick="closeForm({{ com.id }})">close</button>
-                                                        </div>
-                                                    </form>
+    {#                                                {% if user.is_active and node.level < 4 %}#}
+                                                        <form class="" action="." method="post">
+                                                            {% csrf_token %}
+                                                            <input type="number" name="id" hidden value="{{ node.id }}">
+                                                            <div class="form-group">
+    {#                                                            <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>#}
+                                                                {{ form.text }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+                                                            </div>
+                                                            <div class="closebtn">
+                                                                <button class="btn btn-danger btn-sm" onclick="closeForm({{ node.id }})">close</button>
+                                                            </div>
+                                                        </form>
+    {#                                                {% endif %}#}
+                                                    </div>
                                                 </div>
 											</div>
 										</div>
 
-                                        {% endfor %}
+                                        {% endrecursetree %}
 									</li>
 									<li>
 										<ul>

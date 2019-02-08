@@ -532,10 +532,12 @@
 ============================================ -->
 <script src="{% static 'shop/js/cart.js' %}" type="text/javascript"></script>
 
-<script src="{% static 'info/news/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+{#<script src="{% static 'info/news/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>#}
 
+<!--Подключение файла скриптов для лайков и комментариев -->
 <script src="{% static 'info/news/script.js' %}" type="text/javascript"></script>
 
+<!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/script.js  -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 </body>

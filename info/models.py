@@ -82,6 +82,7 @@ class Comment(MPTTModel):
     user_name = models.CharField(max_length=100, blank=True, verbose_name='Логин пользователя')
     like = models.IntegerField(default=0, verbose_name='like')
     dislike = models.IntegerField(default=0, verbose_name='dislike')
+    user_like = models.ManyToManyField(User, verbose_name='Кто поставил лайк', related_name='users_like', blank=True)
     count_comment = models.IntegerField(default=0, verbose_name='Количество комментариев')
     is_active = models.BooleanField(default=False, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
