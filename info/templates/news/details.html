@@ -54,12 +54,12 @@
 
                             <!-- Comments -->
 
-							<div class="post-coments" style="width: 100%;">
+							<div class="post-coments main" style="width: 100%;">
 								<h4>Comments ({{ all_comment }} )</h4>
 								<ul class="post-comments">
 									<li>
                                         {% recursetree comments %}
-										<div class="comment-wrapper">
+										<div class="comment-wrapper reply">
                                             {% if node.user %}
 											<div class="comment-author">
                                                 <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
@@ -75,8 +75,8 @@
                                                     <p>{{ node.text|safe }}</p>
                                                 </div>
 											<!-- Comment Controls -->
-											<div class="comment-actions">
-												<span class="comment-date">{{ node.created }} | Комментарии: {{ node.get_descendant_count }}</span>
+											<div class="comment-actions reply" >
+												<span class="comment-date">{{ node.created }}</span>
 
                                                 <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ node.id }}">
                                                     <i class="glyphicon glyphicon-thumbs-up"></i>
@@ -103,12 +103,12 @@
                                                                 </ul>
                                                             {% endif %}
                                                         </div>
-    {#                                                {% if user.is_active and node.level < 4 %}#}
+{#                                                    {% if user.is_active and node.level < 4 %}#}
                                                         <form class="" action="." method="post">
                                                             {% csrf_token %}
-                                                            <input type="number" name="id" hidden value="{{ node.id }}">
                                                             <div class="form-group">
-    {#                                                            <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>#}
+                                                                <input type="number" name="id" hidden value="{{ node.id }}">
+                                                                <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
                                                                 {{ form.text }}
                                                             </div>
                                                             <div class="form-group">
@@ -118,13 +118,194 @@
                                                                 <button class="btn btn-danger btn-sm" onclick="closeForm({{ node.id }})">close</button>
                                                             </div>
                                                         </form>
-    {#                                                {% endif %}#}
+{#                                                    {% endif %}#}
                                                     </div>
                                                 </div>
 											</div>
 										</div>
 
                                         {% endrecursetree %}
+									</li>
+{#									<li>#}
+{#										<ul>#}
+{#											<li>#}
+{#												<div class="comment-wrapper">#}
+{#													<div class="comment-author"><img src="{% static 'info/news/img/user2.jpg' %}" alt="User Name"> User Name</div>#}
+{#													<p>#}
+{#														Vivamus euismod elit ac libero facilisis tristique. Duis mollis non ligula vel tincidunt. Nulla consectetur libero id nunc ornare, vel vulputate tellus mollis. Sed quis nulla magna.#}
+{#													</p>#}
+{#													<!-- Comment Controls -->#}
+{#													<div class="comment-actions">#}
+{#														<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
+{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
+{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
+{#														<span class="label label-danger">-2</span>#}
+{#														<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
+{#													</div>#}
+{#												</div>#}
+{#											</li>#}
+{#										</ul>#}
+{#									</li>#}
+{#									<li>#}
+{#										<div class="comment-wrapper">#}
+{#											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>#}
+{#											<p>#}
+{#												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.#}
+{#											</p>#}
+{#											<!-- Comment Controls -->#}
+{#											<div class="comment-actions">#}
+{#												<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
+{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
+{#												<span class="label label-success">+8</span>#}
+{#												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
+{#											</div>#}
+{#										</div>#}
+{#									</li>#}
+								</ul>
+								<!-- Pagination -->
+								<div class="paginations-wrapper">
+									<ul class="paginations paginations-sm">
+
+                                        {% if comments.has_previous %}
+                                            <li><a href="?page=1">&laquo; First</a></li>
+                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>
+                                        {% endif %}
+
+                                        {% for i in comments.paginator.page_range %}
+                                            {% if comments.number == i %}
+                                                <li class="active"><span>{{ i }} </span></li>
+                                            {% else %}
+                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if comments.has_next %}
+                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>
+                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>
+                                        {% endif %}
+
+									</ul>
+								</div>
+								<!-- Форма добавление нового комментария -->
+								<h4>Leave a Comment</h4>
+								<div class="comment-form-wrapper ">
+									<form class="" action="." method="post">
+                                        {% csrf_token %}
+                                        {% if not user.is_active %}
+				        				<div class="form-group">
+				        				 	<label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
+											{{ form.user_name }}
+										</div>
+										<div class="form-group">
+											<label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
+                                            {{ form.email }}
+										</div>
+										<div class="form-group">
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+											{{ form.text }}
+										</div>
+                                            {% else %}
+										<div class="form-group">
+											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+											{{ form.text }}
+										</div>
+                                        {% endif %}
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+										</div>
+										<div class="clearfix"></div>
+				        			</form>
+								</div>
+								<!-- End Comment Form -->
+							</div>
+
+							<!-- End Comments -->
+
+						</div>
+					</div>
+				</div>
+			</div>
+        </section>
+
+{% endblock %}
+
+{% comment %}
+
+
+                            <!-- Comments -->
+
+							<div class="post-coments " style="width: 100%;">
+								<h4>Comments ({{ all_comment }} )</h4>
+								<ul class="post-comments">
+									<li>
+                                        {% for com in comments %}
+										<div class="comment-wrapper ">
+                                            {% if com.user %}
+											<div class="comment-author">
+                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                                {{ com.user }}
+                                            </div>
+                                                {% else %}
+											<div class="comment-author">
+                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                                {{ com.user_name }}
+                                            </div>
+                                            {% endif %}
+                                                <div class="comment-text">
+                                                    <p>{{ com.text|safe }}</p>
+                                                </div>
+											<!-- Comment Controls -->
+											<div class="comment-actions ">
+												<span class="comment-date">{{ com.created }}</span>
+
+                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ com.id }}">
+                                                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                                                </span>
+
+ 												<span class="label label-success">{{ com.like }}</span>
+
+                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ com.id }}">
+                                                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                                                </span>
+
+												<span class="label label-danger">{{ com.dislike }}</span>
+
+                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ com.id }})">
+                                                    <i class="glyphicon glyphicon-share-alt"></i> Reply
+                                                </div>
+                                                <!-- Форма добавления ответа на комментарий -->
+{#                                                <div class="row">#}
+                                                    <div class="reply-comments" id="{{ com.id }}">
+{#                                                        <div class="col-12">#}
+{#                                                            {% if not node.is_leaf_node %}#}
+{#                                                                <ul class="children">#}
+{#                                                                    {{ children }}#}
+{#                                                                </ul>#}
+{#                                                            {% endif %}#}
+{#                                                        </div>#}
+{#                                                    {% if user.is_active and node.level < 4 %}#}
+                                                        <form class="" action="." method="post">
+                                                            {% csrf_token %}
+                                                            <div class="form-group">
+                                                                <input type="number" name="id" hidden value="{{ node.id }}">
+                                                                <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                                                {{ form.text }}
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+                                                            </div>
+                                                            <div class="closebtn">
+                                                                <button class="btn btn-danger btn-sm" onclick="closeForm({{ com.id }})">close</button>
+                                                            </div>
+                                                        </form>
+{#                                                    {% endif %}#}
+                                                    </div>
+{#                                                </div>#}
+											</div>
+										</div>
+
+                                        {% endfor %}
 									</li>
 {#									<li>#}
 {#										<ul>#}
@@ -221,16 +402,6 @@
 							</div>
 
 							<!-- End Comments -->
-
-						</div>
-					</div>
-				</div>
-			</div>
-        </section>
-
-{% endblock %}
-
-{% comment %}
 
 
 								<div class="comment-form-wrapper">
