@@ -32,6 +32,32 @@
 					</div>
 					<div class="col-md-9">
                         <div class="blog-post blog-single-post">
+
+                            <!-- Вывод сообщения об отправке комментария.  -->
+                            {% if messages %}
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <li{% if message.tags %}
+                                                class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Вывод сообщения о неверно введенной капчи  -->
+                            {% if form.captcha.errors %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <strong>{{ form.captcha.errors }}</strong>
+                                </div>
+                            {% endif %}
+
 							<div class="single-post-title">
 								<h2>{{ newsdetails.title }}</h2>
 							</div>
@@ -52,79 +78,78 @@
 							</div>
                             <br>
 
+
                             <!-- Comments -->
 
-							<div class="post-coments main" style="width: 100%;">
+							<div class="post-coments" style="width: 100%;">
 								<h4>Comments ({{ all_comment }} )</h4>
+                                {% for com in comments %}
 								<ul class="post-comments">
 									<li>
-                                        {% recursetree comments %}
-										<div class="comment-wrapper reply">
-                                            {% if node.user %}
+										<div class="comment-wrapper">
+                                            {% if com.user %}
 											<div class="comment-author">
                                                 <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ node.user }}
+                                                {{ com.user }}
                                             </div>
                                                 {% else %}
 											<div class="comment-author">
                                                 <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ node.user_name }}
+                                                {{ com.user_name }}
                                             </div>
                                             {% endif %}
                                                 <div class="comment-text">
-                                                    <p>{{ node.text|safe }}</p>
+                                                    <p>{{ com.text|safe }}</p>
                                                 </div>
 											<!-- Comment Controls -->
-											<div class="comment-actions reply" >
-												<span class="comment-date">{{ node.created }}</span>
+											<div class="comment-actions" >
+												<span class="comment-date">{{ com.created }}</span>
 
-                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ node.id }}">
+                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ com.id }}">
                                                     <i class="glyphicon glyphicon-thumbs-up"></i>
                                                 </span>
 
- 												<span class="label label-success">{{ node.like }}</span>
+ 												<span class="label label-success">{{ com.like }}</span>
 
-                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ node.id }}">
+                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ com.id }}">
                                                     <i class="glyphicon glyphicon-thumbs-down"></i>
                                                 </span>
 
-												<span class="label label-danger">{{ node.dislike }}</span>
+												<span class="label label-danger">{{ com.dislike }}</span>
 
-                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ node.id }})">
-                                                    <i class="glyphicon glyphicon-share-alt"></i> Reply
-                                                </div>
+{#                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ node.id }})">#}
+{#                                                    <i class="glyphicon glyphicon-share-alt"></i> Reply#}
+{#                                                </div>#}
                                                 <!-- Форма добавления ответа на комментарий -->
-                                                <div class="row">
-                                                    <div class="reply-comments" id="{{ node.id }}">
-                                                        <div class="col-12">
-                                                            {% if not node.is_leaf_node %}
-                                                                <ul class="children">
-                                                                    {{ children }}
-                                                                </ul>
-                                                            {% endif %}
-                                                        </div>
+{#                                                <div class="row">#}
+{#                                                    <div class="reply-comments" id="{{ node.id }}">#}
+{#                                                        <div class="col-12">#}
+{#                                                            {% if not node.is_leaf_node %}#}
+{#                                                                <ul class="children">#}
+{#                                                                    {{ children }}#}
+{#                                                                </ul>#}
+{#                                                            {% endif %}#}
+{#                                                        </div>#}
 {#                                                    {% if user.is_active and node.level < 4 %}#}
-                                                        <form class="" action="." method="post">
-                                                            {% csrf_token %}
-                                                            <div class="form-group">
-                                                                <input type="number" name="id" hidden value="{{ node.id }}">
-                                                                <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
-                                                                {{ form.text }}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
-                                                            </div>
-                                                            <div class="closebtn">
-                                                                <button class="btn btn-danger btn-sm" onclick="closeForm({{ node.id }})">close</button>
-                                                            </div>
-                                                        </form>
+{#                                                        <form class="" action="." method="post">#}
+{#                                                            {% csrf_token %}#}
+{#                                                            <div class="form-group">#}
+{#                                                                <input type="number" name="parent" hidden value="{{ node.id }}">#}
+{#                                                                <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>#}
+{#                                                                {{ form.text }}#}
+{#                                                            </div>#}
+{#                                                            <div class="form-group">#}
+{#                                                                <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>#}
+{#                                                            </div>#}
+{#                                                            <div class="closebtn">#}
+{#                                                                <button class="btn btn-danger btn-sm" onclick="closeForm({{ com.id }})">close</button>#}
+{#                                                            </div>#}
+{#                                                        </form>#}
 {#                                                    {% endif %}#}
-                                                    </div>
-                                                </div>
+{#                                                    </div>#}
+{#                                                </div>#}
 											</div>
 										</div>
-
-                                        {% endrecursetree %}
 									</li>
 {#									<li>#}
 {#										<ul>#}
@@ -163,6 +188,7 @@
 {#										</div>#}
 {#									</li>#}
 								</ul>
+                                {% endfor %}
 								<!-- Pagination -->
 								<div class="paginations-wrapper">
 									<ul class="paginations paginations-sm">
@@ -211,12 +237,25 @@
 											{{ form.text }}
 										</div>
                                         {% endif %}
+
+                                        {% if not user.is_authenticated %}
+                                            <div class="col-xs-12">
+                                                <label for="id_captcha">{{ form.captcha.label }}</label>
+                                            </div>
+                                            {{ form.captcha }}
+                                            <button class='captcha-refresh'>
+                                                <img src="{% static 'info/news/icon/reload.png' %}">
+                                            </button>
+                                        {% endif %}
+
 										<div class="form-group">
-											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
+                                            <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit" />
+{#											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>#}
 										</div>
 										<div class="clearfix"></div>
 				        			</form>
 								</div>
+
 								<!-- End Comment Form -->
 							</div>
 
@@ -227,6 +266,36 @@
 				</div>
 			</div>
         </section>
+
+
+{#<script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>#}
+
+{#<script type="text/javascript">#}
+{##}
+{#$(function() {#}
+{#    // Add refresh button after field (this can be done in the template as well)#}
+    {#$('img.captcha').after(#}
+    {#        $('<a href="#void" class="captcha-refresh">Refresh</a>')#}
+    {#        );#}
+{##}
+{#    // Click-handler for the refresh-link#}
+{#    $('.captcha-refresh').click(function(){#}
+{#        var $form = $(this).parents('form');#}
+{#        var url = location.protocol + "//" + window.location.hostname + ":"#}
+{#                  + location.port + "/captcha/refresh/";#}
+{##}
+{#        // Make the AJAX-call#}
+{#        $.getJSON(url, {}, function(json) {#}
+{#            $form.find('input[name="captcha_0"]').val(json.key);#}
+{#            $form.find('img.captcha').attr('src', json.image_url);#}
+{#        });#}
+{##}
+{#        return false;#}
+{#    });#}
+{#});#}
+{##}
+{##}
+{#</script>#}
 
 {% endblock %}
 

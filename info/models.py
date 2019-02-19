@@ -83,6 +83,7 @@ class Comment(MPTTModel):
     like = models.IntegerField(default=0, verbose_name='like')
     dislike = models.IntegerField(default=0, verbose_name='dislike')
     user_like = models.ManyToManyField(User, verbose_name='Кто поставил лайк', related_name='users_like', blank=True)
+    user_dislike = models.ManyToManyField(User, verbose_name='Кто поставил дизлайк', related_name='users_dislike', blank=True)
     count_comment = models.IntegerField(default=0, verbose_name='Количество комментариев')
     is_active = models.BooleanField(default=False, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
@@ -92,6 +93,7 @@ class Comment(MPTTModel):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Коментарии'
         ordering = ['-created']
+        #order_insertion_by = ['-created']
 
     def __str__(self):
         return '{} {}'.format(self.user, self.news)

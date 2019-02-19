@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 from django.forms import ModelForm
 from info.models import Comment
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
@@ -6,6 +7,7 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class CommentForm(forms.ModelForm):
     '''Форма комментариев к статьям'''
+    captcha = CaptchaField(label='Are you an human? ')
     class Meta:
         model = Comment
         fields = ['user', 'user_name', 'email', 'text']

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_cleanup',    # https://github.com/un1t/django-cleanup
     'django_summernote', # https://github.com/summernote/django-summernote
     'bootstrap3',
+    'captcha',
 
 ]
 
@@ -163,6 +164,19 @@ THUMBNAIL_ALIASES = {
 }
 
 THUMBNAIL_SUBDIR = 'thumbs'
+
+# Настройки капчи
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+CAPTCHA_IMAGE_SIZE = (150, 50)
+CAPTCHA_FONT_SIZE = (28)
+CAPTCHA_BACKGROUND_COLOR = '#cccccc'
+CAPTCHA_FOREGROUND_COLOR = '#001100'
+CAPTCHA_LENGTH = 6
+#CAPTCHA_OUTPUT_FORMAT = u'%(hidden_field)s%(text_field)s<br>%(image)s'
+
+
+
+
 
 
 # Подгружаем настройки из модуля local_settings.py.

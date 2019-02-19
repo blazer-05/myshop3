@@ -25,6 +25,7 @@ urlpatterns = [
     path('cart/', include('cart.urls', namespace='cart')),
     path('order/', include('orders.urls', namespace='order')),
     path('news/', include('info.urls', namespace='news')),
+    path('captcha/', include('captcha.urls')),
 ]
 
 if settings.DEBUG:

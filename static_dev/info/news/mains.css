@@ -3,11 +3,6 @@ body {
     font-size: 14px;
 }
 
-.main {
-    margin: 0 auto;
-    max-width: 100%;
-    box-shadow: 0px 2px 20px 1px #cddae2
-}
 
 .form-comment {
     width: 100%;
@@ -28,20 +23,6 @@ body {
 
 }
 
-.reply {
-    padding: 10px;
-    background: #fff;
-    border-left: 1px solid #e6ecf0;
-    border-right: 1px solid #e6ecf0;
-    border-bottom: 1px solid #e6ecf0;
-    margin-right: 0;
-    margin-left: 0;
-}
-
-.reply:hover {
-    background: #f5f8fa;
-    cursor: pointer;
-}
 
 .closebtn{
     /*margin-right: 300px;*/
@@ -306,3 +287,16 @@ label {
   background-color: #FFF;
   cursor: default;
 }
+
+/*Настройка поля ввода капчи*/
+#id_captcha_1{
+    height: 34px;
+    /*padding: 6px 12px;*/
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    }
