@@ -238,7 +238,7 @@
 										</div>
                                         {% endif %}
 
-                                        {% if not user.is_authenticated %}
+{#                                        {% if not user.is_authenticated %}#}
                                             <div class="col-xs-12">
                                                 <label for="id_captcha">{{ form.captcha.label }}</label>
                                             </div>
@@ -246,7 +246,9 @@
                                             <button class='captcha-refresh'>
                                                 <img src="{% static 'info/news/icon/reload.png' %}">
                                             </button>
-                                        {% endif %}
+{#                                            {% else %}#}
+{##}
+{#                                        {% endif %}#}
 
 										<div class="form-group">
                                             <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit" />

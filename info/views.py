@@ -7,7 +7,7 @@ from django.core.mail import EmailMessage
 from django.contrib import messages
 
 from info.models import News, Comment
-from info.forms import CommentForm
+from info.forms import CommentForm, CommentFormCaptcha
 
 
 def newslist(request):
@@ -31,40 +31,79 @@ def newsdetails(request, slug):
     page = request.GET.get('page')
     comments = paginator.get_page(page)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST or None)
-        if form.is_valid():
-            user = form.cleaned_data['user']
-            user_name = form.cleaned_data['user_name']
-            email = form.cleaned_data['email']
-            text = form.cleaned_data['text']
-            recepients = ['blazer-05@mail.ru']
+    form = CommentFormCaptcha()
+    form_user = CommentForm()
 
-            comment = form.save(commit=False)
-            # parent_pk = request.POST.get('parent')
-            # if parent_pk and parent_pk.isnumeric():
-            #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
-            comment.user = request.user if request.user.is_authenticated else None
-            comment.news = newsdetails
-            comment.save()
+    if not request.user.is_authenticated:
+        form = CommentFormCaptcha(request.POST or None)
 
-            context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
+        if request.method == 'POST':
+            if form.is_valid():
+                user = form.cleaned_data['user']
+                user_name = form.cleaned_data['user_name']
+                email = form.cleaned_data['email']
+                text = form.cleaned_data['text']
+                recepients = ['blazer-05@mail.ru']
 
-            message = render_to_string('news/admin_comment_email.html', context, request)
-            email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.news), message, 'blazer-05@mail.ru', recepients)
-            email.content_subtype = 'html'
-            email.send()
-            #messages.add_message(request, messages.INFO, 'Hello world.')
-            messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
-            #return HttpResponse('Hello World!!!!')
-            return redirect(newsdetails, slug)
+                comment = form.save(commit=False)
+                # parent_pk = request.POST.get('parent')
+                # if parent_pk and parent_pk.isnumeric():
+                #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
+                comment.user = request.user if request.user.is_authenticated else None
+                comment.news = newsdetails
+                comment.save()
+
+                context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
+
+                message = render_to_string('news/admin_comment_email.html', context, request)
+                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.news), message, 'blazer-05@mail.ru', recepients)
+                email.content_subtype = 'html'
+                email.send()
+                #messages.add_message(request, messages.INFO, 'Hello world.')
+                messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
+                #return HttpResponse('Hello World!!!!')
+                return redirect(newsdetails, slug)
+        else:
+            form = CommentFormCaptcha()
     else:
-        form = CommentForm()
+        form_user = CommentForm(request.POST or None)
+
+        if request.method == 'POST':
+            if form_user.is_valid():
+                user = form_user.cleaned_data['user']
+                user_name = form_user.cleaned_data['user_name']
+                email = form_user.cleaned_data['email']
+                text = form_user.cleaned_data['text']
+                recepients = ['blazer-05@mail.ru']
+
+                comment = form_user.save(commit=False)
+                # parent_pk = request.POST.get('parent')
+                # if parent_pk and parent_pk.isnumeric():
+                #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
+                comment.user = request.user if request.user.is_authenticated else None
+                comment.news = newsdetails
+                comment.save()
+
+                context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
+
+                message = render_to_string('news/admin_comment_email.html', context, request)
+                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.news), message, 'blazer-05@mail.ru', recepients)
+                email.content_subtype = 'html'
+                email.send()
+                #messages.add_message(request, messages.INFO, 'Hello world.')
+                messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
+                #return HttpResponse('Hello World!!!!')
+                return redirect(newsdetails, slug)
+        else:
+            form = CommentForm()
 
     return render(request, 'news/details.html', {'newsdetails': newsdetails,
                                                  'comments': comments,
                                                  'all_comment': all_comment,
-                                                 'form': form})
+                                                 'form': form,
+                                                 'form_user ': form_user,
+
+                                                 })
 
 def like(request):
     pk = request.POST.get('pk')

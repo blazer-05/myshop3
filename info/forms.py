@@ -7,7 +7,6 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class CommentForm(forms.ModelForm):
     '''Форма комментариев к статьям'''
-    captcha = CaptchaField(label='Are you an human? ')
     class Meta:
         model = Comment
         fields = ['user', 'user_name', 'email', 'text']
@@ -24,3 +23,15 @@ class CommentForm(forms.ModelForm):
         #
         # }
 
+class CommentFormCaptcha(forms.ModelForm):
+    '''Форма комментариев к статьям'''
+    captcha = CaptchaField(label='Are you an human? ')
+    class Meta:
+        model = Comment
+        fields = ['user', 'user_name', 'email', 'text']
+        widgets = {
+            'user_name': forms.TextInput(attrs={'placeholder':'login', 'class':'form-control', 'required': True}),
+            'email': forms.EmailInput(attrs={'placeholder':'e-mail', 'class':'form-control', 'required': False}),
+            'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
+
+        }

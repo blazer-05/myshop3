@@ -166,6 +166,7 @@ THUMBNAIL_ALIASES = {
 THUMBNAIL_SUBDIR = 'thumbs'
 
 # Настройки капчи
+# https://django-simple-captcha.readthedocs.io/en/latest/advanced.html
 CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
 CAPTCHA_IMAGE_SIZE = (150, 50)
 CAPTCHA_FONT_SIZE = (28)
