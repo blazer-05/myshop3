@@ -100,7 +100,7 @@
 											<td style="color: #153643; font-family: sans-serif; padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold; text-align: center;">
 
 												 Привет Админ! ...</br>
-                                                Поступил новый комментарий.
+                                                 Комментарий id: {{ instance.id }} к статье "{{ instance.content_object }}" был отредактирован пользователем "{{ instance.user }}".
 											</td>
 
 										</tr><!--/ВСТУПЛЕНИЕ-->
@@ -112,15 +112,11 @@
                                                 <p>
                                                 <ul>
 
-                                                    <li><b>id:</b> {{ comment.id }}</li>
+                                                    <li><b>id:</b> {{ instance.id }}</li>
 
-                                                    <li><b>Новость:</b> {{ comment.content_object }}</li>
+                                                    <li><b>Новость:</b> {{ instance.content_object }}</li>
 
-                                                    {% if comment.user.is_authenticated %}
-                                                        <li><b>Отправитель:</b> {{ comment.user }} </li>
-                                                    {% else %}
-                                                        <li><b>Отправитель:</b> {{ comment.user_name }}</li>
-                                                    {% endif %}
+                                                    <li><b>Отправитель:</b> {{ instance.user }} </li>
 
                                                     <li><b>Текст комментария:</b>
                                                         <hr/>
@@ -128,20 +124,15 @@
                                                         <hr/>
                                                     </li>
 
-                                                    {% if email %}
-                                                        <li><b>E-mail пользователя:</b> {{ email }}</li>
-                                                    {% else %}
-                                                        <li><b>E-mail пользователя:</b> Пользователь не указал свой e-mail</li>
-                                                    {% endif %}
 
-                                                    <li><b>Создан:</b> {{ comment.created }}</li>
+                                                    <li><b>Создан:</b> {{ instance.created }}</li>
 
                                                     {% if updated %}
-                                                        <li><b>Обновлен:</b> {{ comment.updated }}</li>
+                                                        <li><b>Обновлен:</b> {{ instance.updated }}</li>
                                                     {% endif %}
 
                                                     {% if created %}
-                                                        <li><b>Обновлен:</b> {{ comment.created }}</li>
+                                                        <li><b>Обновлен:</b> {{ instance.created }}</li>
                                                     {% endif %}
 
                                                 </ul>

@@ -26,7 +26,6 @@ SECRET_KEY = '*4tn&e7_af55ix$xe##57k@*ksl!7%(kdw!*0gxt&bo25z_5#)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,9 +42,10 @@ INSTALLED_APPS = [
     'mptt',              # https://django-mptt.readthedocs.io/en/latest/index.html
     'easy_thumbnails',   # https://pypi.org/project/easy-thumbnails/
     'django_cleanup',    # https://github.com/un1t/django-cleanup
-    'django_summernote', # https://github.com/summernote/django-summernote
-    'bootstrap3',
-    'captcha',
+    'django_summernote', # https://github.com/summernote/django-summernote , https://summernote.org/deep-dive/
+    'bootstrap3',        # https://django-bootstrap3.readthedocs.io/en/latest/
+    'captcha',           # https://django-simple-captcha.readthedocs.io/en/latest/index.html
+    'django.forms',
 
 ]
 
@@ -67,6 +67,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'shop/templates'),
+                 #os.path.join(BASE_DIR, 'info/templates/news/custom_field.html'),
 		],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -175,8 +176,33 @@ CAPTCHA_FOREGROUND_COLOR = '#001100'
 CAPTCHA_LENGTH = 6
 #CAPTCHA_OUTPUT_FORMAT = u'%(hidden_field)s%(text_field)s<br>%(image)s'
 
+#FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 
+'''
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    'summernote': {
+        # As an example, using Summernote Air-mode
+        'airMode': False,
+        'width': '90%',
+        'height': '300',
+        'toolbar': [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+             ['font', ['strikethrough', 'superscript', 'subscript']],
+             ['fontsize', ['fontsize']],
+             ['color', ['color']],
+             ['para', ['ul', 'ol', 'paragraph']],
+             ['height', ['height']],
+        ]
+
+
+    },
+    'disable_attachment': True,
+}
+
+'''
 
 
 

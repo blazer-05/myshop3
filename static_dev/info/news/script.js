@@ -81,6 +81,12 @@ $(document).ready(function() {
     });
 });
 
+// Подтверждение удаления комментария, id на кнопке Delete
+$('#delete').click(function () {
+    return confirm('Вы действительно хотите удалить комментарий?');
+});
+
+
 
 // $(document).ready(function () {
 //     like = function (el) {

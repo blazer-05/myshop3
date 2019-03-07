@@ -6,11 +6,219 @@
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
 
-{% block title %}
 
+{% block title %}
+    {{ newsdetails.title }}
 {% endblock %}
 
 {% block content %}
+
+<!-- START PAGE-CONTENT -->
+<section class="page-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="page-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="{% url 'news:newslist' %}">News list</a></li>
+                    <li class="active"><a href="{% url 'news:newsdetails' newsdetails.slug %}">{{ newsdetails.title }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+                {% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
+            </div>
+            <div class="col-md-9">
+                <div class="blog-post blog-single-post">
+
+                    <!-- Вывод сообщения об отправке комментария.  -->
+                    {% if messages %}
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                &times;
+                            </button>
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li{% if message.tags %}
+                                        class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <!-- Вывод сообщения о неверно введенной капчи  -->
+                    {% if form.captcha.errors %}
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                &times;
+                            </button>
+                            <strong>{{ form.captcha.errors }}</strong>
+                        </div>
+                    {% endif %}
+
+                    <div class="single-post-title">
+                        <h2>{{ newsdetails.title }}</h2>
+                    </div>
+                    <div class="post-info" style="font-size: .9em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
+                        <span class="postdate updated">{{ newsdetails.created }}</span>
+                        <span class="vcard author">
+                        <span class="fn">{{ newsdetails.user }}</span></span>
+                        <span class="view">Просмотрели: {{ newsdetails.count }}</span>
+                        <span class="comment">{{ newsdetails.comment_set.count }} комментария</span>
+                    </div>
+                    <br>
+                    <div class="single-post-image">
+                        <img src="{{ newsdetails.images.url }}" alt="{{ newsdetails.title }}" title="{{ newsdetails.title }}">
+                    </div>
+                    <br>
+                    <div class="single-post-content" style="font-size: 14px; text-align: justify">
+                        {{ newsdetails.text|safe }}
+                    </div>
+                    <br>
+
+
+                    <!-- Comments -->
+
+                    <div class="post-coments" style="width: 100%;">
+                        <h4>Comments ({{ all_comment }} )</h4>
+                        {% for com in comments %}
+                        <ul class="post-comments">
+                            <li>
+                                <div class="comment-wrapper">
+                                    {% if com.user %}
+                                    <div class="comment-author">
+                                        <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                        {{ com.user }}
+                                    </div>
+                                        {% else %}
+                                    <div class="comment-author">
+                                        <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
+                                        {{ com.user_name }}
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="comment-text">
+                                        {{ com.text|safe }}
+                                    </div>
+
+                                    <!-- Comment Controls -->
+                                    <div class="comment-actions" >
+                                        <span class="comment-date">{{ com.created }}</span>
+
+                                        <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ com.id }}">
+                                            <i class="glyphicon glyphicon-thumbs-up"></i>
+                                        </span>
+
+                                        <span class="label label-success">{{ com.like }}</span>
+
+                                        <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ com.id }}">
+                                            <i class="glyphicon glyphicon-thumbs-down"></i>
+                                        </span>
+
+                                        <span class="label label-danger" style="margin-right: 10px;">{{ com.dislike }}</span>
+
+                                        <!-- Проверям пользователя на аунтификацию и скрываем кнопки для не авторизированных -->
+                                        {% if user.is_authenticated %}
+                                            <!-- Проверям если пользователь добавил комментарий, то выводим ему кнопки редактирования/удаления комментария -->
+                                            {% if com.user == request.user %}
+                                                <a href="{% url 'news:edit_comment' pk=com.pk %}" title="Edit" style="margin-right: 5px;">
+                                                    <button type="button" class="btn btn-warning btn-xs label">Edit</button>
+                                                </a>
+
+                                                <a href="{% url 'news:delete_comment' pk=com.pk %}" id="delete" title="Delete">
+                                                    <button type="button" class="btn btn-danger btn-xs label">Delete</button>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        {% endfor %}
+                        <!-- Pagination -->
+
+                        <div class="pagination-area">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="pagination">
+                                        <ul>
+                                            {% bootstrap_pagination comments pages_to_show=3 %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="product-result">
+                                        <span>Showing 1 to {{ comments.number }} of ({{ comments.paginator.num_pages }} Pages)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Форма добавление нового комментария -->
+                        <h4>Leave a Comment</h4>
+                        <div class="comment-form-wrapper" style="width: 85%;">
+                            <form class="" action="." method="post">
+                                {% csrf_token %}
+                                {% if not user.is_authenticated %}
+                                <div class="form-group">
+                                    <label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
+                                    {{ form.user_name }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
+                                    {{ form.email }}
+                                </div>
+                                <div class="form-group">
+                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                    {{ form.text }}
+                                </div>
+                                    {% else %}
+                                <div class="form-group">
+                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                    {{ form.text }}
+                                </div>
+                                {% endif %}
+
+                                <!-- Вывод капчи и лейбла -->
+                                <div class="col-lg-12">
+                                    <label for="id_captcha">{{ form.captcha.label }}</label>
+                                </div>
+                                {{ form.captcha }}
+                                {% if user.is_authenticated %}
+                                {% else %}
+                                    <button class='captcha-refresh'>
+                                        <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
+                                    </button>
+                                {% endif %}
+
+
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit"/>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+
+                        <!-- End Comment Form -->
+                    </div>
+
+                    <!-- End Comments -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
+
+{% comment %}
+
 {#    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>#}
 
     <!-- START PAGE-CONTENT -->
@@ -190,29 +398,49 @@
 								</ul>
                                 {% endfor %}
 								<!-- Pagination -->
-								<div class="paginations-wrapper">
-									<ul class="paginations paginations-sm">
 
-                                        {% if comments.has_previous %}
-                                            <li><a href="?page=1">&laquo; First</a></li>
-                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>
-                                        {% endif %}
+                                <div class="pagination-area">
+                                    <div class="row">
+                                        <div class="col-xs-5">
+                                            <div class="pagination">
+                                                <ul>
+                                                    {% bootstrap_pagination comments pages_to_show=3 %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-7">
+                                            <div class="product-result">
+                                                <span>Showing {{ comments.number }} to 16 of 19 ({{ comments.paginator.num_pages }} Pages)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                        {% for i in comments.paginator.page_range %}
-                                            {% if comments.number == i %}
-                                                <li class="active"><span>{{ i }} </span></li>
-                                            {% else %}
-                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
 
-                                        {% if comments.has_next %}
-                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>
-                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>
-                                        {% endif %}
 
-									</ul>
-								</div>
+{#								<div class="paginations-wrapper">#}
+{#									<ul class="paginations paginations-sm">#}
+{##}
+{#                                        {% if comments.has_previous %}#}
+{#                                            <li><a href="?page=1">&laquo; First</a></li>#}
+{#                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>#}
+{#                                        {% endif %}#}
+{##}
+{#                                        {% for i in comments.paginator.page_range %}#}
+{#                                            {% if comments.number == i %}#}
+{#                                                <li class="active"><span>{{ i }} </span></li>#}
+{#                                            {% else %}#}
+{#                                                <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{##}
+{#                                        {% if comments.has_next %}#}
+{#                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>#}
+{#                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>#}
+{#                                        {% endif %}#}
+{##}
+{#									</ul>#}
+{#								</div>#}
 								<!-- Форма добавление нового комментария -->
 								<h4>Leave a Comment</h4>
 								<div class="comment-form-wrapper ">
@@ -238,22 +466,22 @@
 										</div>
                                         {% endif %}
 
-{#                                        {% if not user.is_authenticated %}#}
-                                            <div class="col-xs-12">
-                                                <label for="id_captcha">{{ form.captcha.label }}</label>
-                                            </div>
-                                            {{ form.captcha }}
+                                        <div class="col-lg-12">
+                                            <label for="id_captcha">{{ form.captcha.label }}</label>
+                                        </div>
+                                        {{ form.captcha }}
+                                        {% if user.is_authenticated %}
+                                        {% else %}
                                             <button class='captcha-refresh'>
                                                 <img src="{% static 'info/news/icon/reload.png' %}">
                                             </button>
-{#                                            {% else %}#}
-{##}
-{#                                        {% endif %}#}
+                                        {% endif %}
 
-										<div class="form-group">
-                                            <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit" />
-{#											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>#}
-										</div>
+
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit"/>
+{#                                            <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>#}
+                                        </div>
 										<div class="clearfix"></div>
 				        			</form>
 								</div>
@@ -298,203 +526,5 @@
 {##}
 {##}
 {#</script>#}
-
-{% endblock %}
-
-{% comment %}
-
-
-                            <!-- Comments -->
-
-							<div class="post-coments " style="width: 100%;">
-								<h4>Comments ({{ all_comment }} )</h4>
-								<ul class="post-comments">
-									<li>
-                                        {% for com in comments %}
-										<div class="comment-wrapper ">
-                                            {% if com.user %}
-											<div class="comment-author">
-                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ com.user }}
-                                            </div>
-                                                {% else %}
-											<div class="comment-author">
-                                                <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                                {{ com.user_name }}
-                                            </div>
-                                            {% endif %}
-                                                <div class="comment-text">
-                                                    <p>{{ com.text|safe }}</p>
-                                                </div>
-											<!-- Comment Controls -->
-											<div class="comment-actions ">
-												<span class="comment-date">{{ com.created }}</span>
-
-                                                <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ com.id }}">
-                                                    <i class="glyphicon glyphicon-thumbs-up"></i>
-                                                </span>
-
- 												<span class="label label-success">{{ com.like }}</span>
-
-                                                <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike(this)" data-comment-id="{{ com.id }}">
-                                                    <i class="glyphicon glyphicon-thumbs-down"></i>
-                                                </span>
-
-												<span class="label label-danger">{{ com.dislike }}</span>
-
-                                                <div class="btn btn-micro btn-grey comment-reply-btn" onclick="openForm({{ com.id }})">
-                                                    <i class="glyphicon glyphicon-share-alt"></i> Reply
-                                                </div>
-                                                <!-- Форма добавления ответа на комментарий -->
-{#                                                <div class="row">#}
-                                                    <div class="reply-comments" id="{{ com.id }}">
-{#                                                        <div class="col-12">#}
-{#                                                            {% if not node.is_leaf_node %}#}
-{#                                                                <ul class="children">#}
-{#                                                                    {{ children }}#}
-{#                                                                </ul>#}
-{#                                                            {% endif %}#}
-{#                                                        </div>#}
-{#                                                    {% if user.is_active and node.level < 4 %}#}
-                                                        <form class="" action="." method="post">
-                                                            {% csrf_token %}
-                                                            <div class="form-group">
-                                                                <input type="number" name="id" hidden value="{{ node.id }}">
-                                                                <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
-                                                                {{ form.text }}
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
-                                                            </div>
-                                                            <div class="closebtn">
-                                                                <button class="btn btn-danger btn-sm" onclick="closeForm({{ com.id }})">close</button>
-                                                            </div>
-                                                        </form>
-{#                                                    {% endif %}#}
-                                                    </div>
-{#                                                </div>#}
-											</div>
-										</div>
-
-                                        {% endfor %}
-									</li>
-{#									<li>#}
-{#										<ul>#}
-{#											<li>#}
-{#												<div class="comment-wrapper">#}
-{#													<div class="comment-author"><img src="{% static 'info/news/img/user2.jpg' %}" alt="User Name"> User Name</div>#}
-{#													<p>#}
-{#														Vivamus euismod elit ac libero facilisis tristique. Duis mollis non ligula vel tincidunt. Nulla consectetur libero id nunc ornare, vel vulputate tellus mollis. Sed quis nulla magna.#}
-{#													</p>#}
-{#													<!-- Comment Controls -->#}
-{#													<div class="comment-actions">#}
-{#														<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
-{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
-{#														<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
-{#														<span class="label label-danger">-2</span>#}
-{#														<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
-{#													</div>#}
-{#												</div>#}
-{#											</li>#}
-{#										</ul>#}
-{#									</li>#}
-{#									<li>#}
-{#										<div class="comment-wrapper">#}
-{#											<div class="comment-author"><img src="{% static 'info/news/img/user5.jpg' %}" alt="User Name"> User Name</div>#}
-{#											<p>#}
-{#												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel magna lectus.#}
-{#											</p>#}
-{#											<!-- Comment Controls -->#}
-{#											<div class="comment-actions">#}
-{#												<span class="comment-date">June 10th, 2013 3:16 pm</span>#}
-{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-up"></i></a>#}
-{#												<a href="#" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip"><i class="glyphicon glyphicon-thumbs-down"></i></a>#}
-{#												<span class="label label-success">+8</span>#}
-{#												<a href="#" class="btn btn-micro btn-grey comment-reply-btn"><i class="glyphicon glyphicon-share-alt"></i> Reply</a>#}
-{#											</div>#}
-{#										</div>#}
-{#									</li>#}
-								</ul>
-								<!-- Pagination -->
-								<div class="paginations-wrapper">
-									<ul class="paginations paginations-sm">
-
-                                        {% if comments.has_previous %}
-                                            <li><a href="?page=1">&laquo; First</a></li>
-                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>
-                                        {% endif %}
-
-                                        {% for i in comments.paginator.page_range %}
-                                            {% if comments.number == i %}
-                                                <li class="active"><span>{{ i }} </span></li>
-                                            {% else %}
-                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        {% if comments.has_next %}
-                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>
-                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>
-                                        {% endif %}
-
-									</ul>
-								</div>
-								<!-- Форма добавление нового комментария -->
-								<h4>Leave a Comment</h4>
-								<div class="comment-form-wrapper">
-									<form class="" action="." method="post">
-                                        {% csrf_token %}
-                                        {% if not user.is_active %}
-				        				<div class="form-group">
-				        				 	<label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
-											{{ form.user_name }}
-										</div>
-										<div class="form-group">
-											<label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
-                                            {{ form.email }}
-										</div>
-										<div class="form-group">
-											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
-											{{ form.text }}
-										</div>
-                                            {% else %}
-										<div class="form-group">
-											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
-											{{ form.text }}
-										</div>
-                                        {% endif %}
-										<div class="form-group">
-											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
-										</div>
-										<div class="clearfix"></div>
-				        			</form>
-								</div>
-								<!-- End Comment Form -->
-							</div>
-
-							<!-- End Comments -->
-
-
-								<div class="comment-form-wrapper">
-									<form class="" action="." method="post">
-                                        {% csrf_token %}
-				        				<div class="form-group">
-				        				 	<label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name</b></label>
-											<input class="form-control" name="user" type="text" placeholder="">
-										</div>
-										<div class="form-group">
-											<label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
-											<input class="form-control" name="email" type="text" placeholder="">
-										</div>
-										<div class="form-group">
-											<label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message</b></label>
-											<textarea class="form-control" rows="5" name="text"></textarea>
-										</div>
-										<div class="form-group">
-											<button type="submit" class="btn btn-primary btn-sm pull-right">Send</button>
-										</div>
-										<div class="clearfix"></div>
-				        			</form>
-								</div>
 
 {% endcomment %}

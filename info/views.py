@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, Http404
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib import messages
@@ -9,6 +10,7 @@ from django.contrib import messages
 from info.models import News, Comment
 from info.forms import CommentForm, CommentFormCaptcha
 
+from django.utils.safestring import mark_safe
 
 def newslist(request):
     ''' Вывод списка новостей '''
@@ -24,16 +26,19 @@ def newsdetails(request, slug):
     newsdetails = get_object_or_404(News, slug=slug, is_active=True)
     newsdetails.count += 1
     newsdetails.save()
-    comments = Comment.objects.filter(news=newsdetails, is_active=True).order_by('-created') # Получаем комментарии и связываем их с новостями(news - переменная из модели Comments)
+    #comments = Comment.objects.filter(news=newsdetails, is_active=True).order_by('-created') # Получаем комментарии и связываем их с новостями(news - переменная из модели Comments)
+    comments = newsdetails.comment.filter(is_active=True).order_by('-created') # Получаем комментарии и связываем их с новостями(news - переменная из модели Comments)
+
     all_comment = comments.count()
 
-    paginator = Paginator(comments, 3)
+    paginator = Paginator(comments, 5)
     page = request.GET.get('page')
     comments = paginator.get_page(page)
 
-    form = CommentFormCaptcha()
-    form_user = CommentForm()
+    form = CommentFormCaptcha() # Форма с капчей
+    form_user = CommentForm()   # Форма без капчи
 
+    # Если ползователь не авторизован то показываем форму с капчей
     if not request.user.is_authenticated:
         form = CommentFormCaptcha(request.POST or None)
 
@@ -50,13 +55,15 @@ def newsdetails(request, slug):
                 # if parent_pk and parent_pk.isnumeric():
                 #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
                 comment.user = request.user if request.user.is_authenticated else None
-                comment.news = newsdetails
+                #comment.news = newsdetails
+                comment.object_id = newsdetails.pk
+                comment.content_type = ContentType.objects.get_for_model(News)
                 comment.save()
 
                 context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
 
                 message = render_to_string('news/admin_comment_email.html', context, request)
-                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.news), message, 'blazer-05@mail.ru', recepients)
+                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.content_object), message, 'blazer-05@mail.ru', recepients)
                 email.content_subtype = 'html'
                 email.send()
                 #messages.add_message(request, messages.INFO, 'Hello world.')
@@ -65,6 +72,8 @@ def newsdetails(request, slug):
                 return redirect(newsdetails, slug)
         else:
             form = CommentFormCaptcha()
+
+    # Если ползователь авторизован то показываем форму без капчи
     else:
         form_user = CommentForm(request.POST or None)
 
@@ -81,13 +90,15 @@ def newsdetails(request, slug):
                 # if parent_pk and parent_pk.isnumeric():
                 #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
                 comment.user = request.user if request.user.is_authenticated else None
-                comment.news = newsdetails
+                # comment.news = newsdetails
+                comment.object_id = newsdetails.pk
+                comment.content_type = ContentType.objects.get_for_model(News)
                 comment.save()
 
                 context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
 
                 message = render_to_string('news/admin_comment_email.html', context, request)
-                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.news), message, 'blazer-05@mail.ru', recepients)
+                email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.content_object), message, 'blazer-05@mail.ru', recepients)
                 email.content_subtype = 'html'
                 email.send()
                 #messages.add_message(request, messages.INFO, 'Hello world.')
@@ -105,7 +116,51 @@ def newsdetails(request, slug):
 
                                                  })
 
+
+def edit_comment(request, pk):
+    '''Функция редактирование комментария к новости'''
+    comment = get_object_or_404(Comment, pk=pk, user=request.user) # user=request.user - передаем юзера т.е. юзер может редактировать только свои комментарии и ни какие другие. в противном случае ошибка 404
+    comm_news = comment.content_object  # comment.news получаем комментарии связанные с новостью
+    if request.method == 'POST':
+        form = CommentForm(request.POST or None, instance=comment)
+        if form.is_valid():
+            user = form.cleaned_data['user']
+            text = form.cleaned_data['text']
+            recepients = ['blazer-05@mail.ru']
+
+            instance = form.save(commit=False)
+            instance.user = request.user if request.user.is_authenticated else None
+            instance.save()
+
+            context = {'user': user, 'text': text, 'instance': instance, }
+            message = render_to_string('news/admin_edit_comment_email.html', context, request)
+            email = EmailMessage('Комментарий №"{}" к статье "{}" был отредактирован'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
+            email.content_subtype = 'html'
+            email.send()
+
+            messages.success(request, 'Ваш комментарий успешно отредактирован.')
+            return HttpResponseRedirect(comm_news.get_absolute_url()) # редиректим на страницу откуда был отредактирован комментарий
+    else:
+        form = CommentForm(instance=comment)
+
+    context = {'comment': comment, 'form': form}
+
+    return render(request, 'news/edit_comment.html', context)
+
+
+def delete_comment(request, pk):
+    '''Функция удвления комментария'''
+    comment = get_object_or_404(Comment, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
+    comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
+    comment.delete()
+    messages.success(request, 'Ваш комментарий успешно удален.')
+    return HttpResponseRedirect(comm_news.get_absolute_url())# редиректим на страницу откуда был удален комментарий
+
+
+
+
 def like(request):
+    '''Функция лайка'''
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
     if request.user in post.user_like.all():
@@ -122,6 +177,7 @@ def like(request):
 
 
 def dislike(request):
+    '''Функция дизлайка'''
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
     if request.user in post.user_dislike.all():
@@ -138,9 +194,9 @@ def dislike(request):
 
 
 
-def success(request):
-    return render(request, 'news/success.html')
+# def success(request):
+#     return render(request, 'news/success.html')
 
 
-def admin_comment_email(request):
-    return render(request, 'news/admin_comment_email.html')
+# def admin_comment_email(request):
+#     return render(request, 'news/admin_comment_email.html')

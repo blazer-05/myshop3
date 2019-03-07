@@ -1,8 +1,11 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django_summernote.admin import SummernoteModelAdmin
 
 from .models import Banners, News, Comment
 from .views import newsdetails
+
 
 # Функции фильтрации для массовой публикации/снятия с публикации новостей.
 def all_post(modeladmin, request, queryset):
@@ -50,11 +53,12 @@ class NewsAdmin(SummernoteModelAdmin):
 
 
 @admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'news', 'sender', 'is_authenticated', 'text', 'email', 'like', 'dislike', 'is_active', 'created', 'updated']
+class CommentAdmin(SummernoteModelAdmin):
+    list_display = ['id', 'content_object', 'sender', 'is_authenticated', 'text_format', 'email', 'like', 'dislike', 'is_active', 'created', 'updated']
     list_editable = ['is_active', ]
-    list_display_links = ['news']  # Выводит в админке какие поля будут в виде ссылок.
-    list_per_page = 10  # Вывод количества новостей в админке
+    list_display_links = ['content_object']  # Выводит в админке какие поля будут в виде ссылок.
+    list_per_page = 10  # Вывод количества комментариев в админке
+    actions = [complete_post, incomplete_post]  # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
     def sender(self, obj):
         '''Метод определяет в одном столбце кто добавил комментарий user или user_name (т.е. зарегистрированный или нет пользовватель)'''
@@ -68,5 +72,16 @@ class CommentAdmin(admin.ModelAdmin):
 
     is_authenticated.short_description = 'Зарегистрирован'
     is_authenticated.boolean = True
+
+    def text_format(self, obj):
+        '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''
+        return mark_safe(obj.text)
+
+    text_format.short_description = 'Комментарии'
+
+    def content_object(self, content_object):
+        return content_object
+
+    content_object.short_description = 'Новость'
 
 

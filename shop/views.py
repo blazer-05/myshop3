@@ -73,13 +73,14 @@ def productdetails(request, product_slug):
     products_from_this_category = Product.objects.filter(category=category).order_by('?')[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (товары из этой категории)
     hotdeals = Product.objects.filter(akciya=True, timer=True)
     #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
-    context['product'] = product
-    context['albom'] = albom
-    context['category'] = category
-    context['all_products'] = all_products
-    context['hotdeals'] = hotdeals
-    context['products_from_this_category'] = products_from_this_category
     context['cart'] = cart
+    context['albom'] = albom
+    context['product'] = product
+    context['category'] = category
+    context['hotdeals'] = hotdeals
+    context['all_products'] = all_products
+    context['products_from_this_category'] = products_from_this_category
+
     #context['attribute_and_value'] = attribute_and_value
     return render(request, 'shop/product-details.html', context)
 
