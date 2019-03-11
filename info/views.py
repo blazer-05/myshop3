@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator
@@ -132,7 +134,7 @@ def edit_comment(request, pk):
             instance.user = request.user if request.user.is_authenticated else None
             instance.save()
 
-            context = {'user': user, 'text': text, 'instance': instance, }
+            context = {'user': user, 'text': text, 'instance': instance, 'comment': comment}
             message = render_to_string('news/admin_edit_comment_email.html', context, request)
             email = EmailMessage('Комментарий №"{}" к статье "{}" был отредактирован'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
             email.content_subtype = 'html'
@@ -153,6 +155,14 @@ def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
     comment.delete()
+
+    recepients = ['blazer-05@mail.ru']
+    context = {'comment': comment, 'comm_news': comm_news, 'delete_date': datetime.now()}
+    message = render_to_string('news/admin_delete_comment_email.html', context, request)
+    email = EmailMessage('Комментарий №"{}" к статье "{}" был удален'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
+    email.content_subtype = 'html'
+    email.send()
+
     messages.success(request, 'Ваш комментарий успешно удален.')
     return HttpResponseRedirect(comm_news.get_absolute_url())# редиректим на страницу откуда был удален комментарий
 

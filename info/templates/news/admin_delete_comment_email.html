@@ -100,7 +100,7 @@
 											<td style="color: #153643; font-family: sans-serif; padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold; text-align: center;">
 
 												 Привет Админ! ...</br>
-                                                 Комментарий id: {{ comment.id }} к статье "{{ instance.content_object }}" был отредактирован пользователем "{{ instance.user }}".
+                                                 Комментарий id: {{ comment.id }} к статье "{{ comment.content_object }}" был удален пользователем "{{ comment.user }}".
 											</td>
 
 										</tr><!--/ВСТУПЛЕНИЕ-->
@@ -114,24 +114,18 @@
 
                                                     <li><b>id:</b> {{ comment.id }}</li>
 
-                                                    <li><b>Новость:</b> {{ instance.content_object }}</li>
+                                                    <li><b>Новость:</b> {{ comment.content_object }}</li>
 
-                                                    <li><b>Отредактировал:</b> {{ instance.user }} </li>
+                                                    <li><b>Удалил:</b> {{ comment.user }} </li>
 
                                                     <li><b>Текст комментария:</b>
                                                         <hr/>
-                                                        {{ text|safe }}
+                                                        {{ comment.text|safe }}
                                                         <hr/>
                                                     </li>
 
-
-{#                                                    <li><b>Создан:</b> {{ instance.created }}</li>#}
-
-                                                {% if instance.updated %}
-                                                    <li><b>Отредактирован:</b> {{ instance.updated }}</li>
-                                                {% else %}
-                                                    <li><b>Создан:</b> {{ instance.created }}</li>
-                                                {% endif %}
+                                                    <li><b>Создан:</b> {{ comment.created }}</li>
+                                                    <li><b>Удален:</b> {{ delete_date }}</li>
 
                                                 </ul>
                                                 </p>
