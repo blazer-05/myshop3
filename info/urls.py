@@ -12,8 +12,8 @@ urlpatterns = [
     path('dislike/', dislike, name='dislike'),
     #path('success/', success, name='success'),
 
-    path('edit-comment/<int:pk>', edit_comment, name='edit_comment'),
-    path('delete-comment/<int:pk>', delete_comment, name='delete_comment'),
+    path('comment/<int:pk>/edit-comment/', edit_comment, name='edit_comment'),
+    path('comment/<int:pk>/delete-comment/', delete_comment, name='delete_comment'),
 
 
 

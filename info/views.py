@@ -154,7 +154,6 @@ def delete_comment(request, pk):
     '''Функция удвления комментария'''
     comment = get_object_or_404(Comment, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
-    comment.delete()
 
     recepients = ['blazer-05@mail.ru']
     context = {'comment': comment, 'comm_news': comm_news, 'delete_date': datetime.now()}
@@ -163,6 +162,7 @@ def delete_comment(request, pk):
     email.content_subtype = 'html'
     email.send()
 
+    comment.delete()
     messages.success(request, 'Ваш комментарий успешно удален.')
     return HttpResponseRedirect(comm_news.get_absolute_url())# редиректим на страницу откуда был удален комментарий
 
