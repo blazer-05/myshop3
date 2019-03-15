@@ -22,7 +22,7 @@ $(document).ready(function () {
     like = function (el) {
          el = $(el)
         $.ajax({
-            url: "/news/like/",
+            url: "/comments/like/",
             type: "POST",
             data: {
                 pk: el.data('comment-id'),
@@ -42,7 +42,7 @@ $(document).ready(function () {
     dislike = function (el) {
          el = $(el)
         $.ajax({
-            url: "/news/dislike/",
+            url: "/comments/dislike/",
             type: "POST",
             data: {
                 pk: el.data('comment-id'),

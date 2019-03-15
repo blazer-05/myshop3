@@ -5,7 +5,7 @@
 {% load banner %}
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
-
+{% load comments %}
 
 {% block title %}
     {{ newsdetails.title }}
@@ -78,8 +78,9 @@
                     </div>
                     <br>
 
-                {% load comments %}
-                {% add_comment newsdetails request %}
+                    {% add_comment newsdetails request %}
+
+
                     {% comment %}
                     <!-- Comments -->
 
