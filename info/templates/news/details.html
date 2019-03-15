@@ -78,7 +78,9 @@
                     </div>
                     <br>
 
-
+                {% load comments %}
+                {% add_comment newsdetails request %}
+                    {% comment %}
                     <!-- Comments -->
 
                     <div class="post-coments" style="width: 100%;">
@@ -206,6 +208,7 @@
                     </div>
 
                     <!-- End Comments -->
+                    {% endcomment %}
 
                 </div>
             </div>

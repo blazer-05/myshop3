@@ -9,8 +9,8 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.contrib import messages
 
-from info.models import News, Comment
-from info.forms import CommentForm, CommentFormCaptcha
+from info.models import News
+#from info.forms import CommentForm, CommentFormCaptcha
 
 from django.utils.safestring import mark_safe
 
@@ -29,6 +29,8 @@ def newsdetails(request, slug):
     newsdetails.count += 1
     newsdetails.save()
     #comments = Comment.objects.filter(news=newsdetails, is_active=True).order_by('-created') # Получаем комментарии и связываем их с новостями(news - переменная из модели Comments)
+
+    '''
     comments = newsdetails.comment.filter(is_active=True).order_by('-created') # Получаем комментарии и связываем их с новостями(news - переменная из модели Comments)
 
     all_comment = comments.count()
@@ -110,7 +112,10 @@ def newsdetails(request, slug):
         else:
             form = CommentForm()
 
-    return render(request, 'news/details.html', {'newsdetails': newsdetails,
+'''
+
+    return render(request, 'news/details.html', {'newsdetails': newsdetails})
+'''
                                                  'comments': comments,
                                                  'all_comment': all_comment,
                                                  'form': form,
@@ -118,9 +123,11 @@ def newsdetails(request, slug):
 
                                                  })
 
+'''
 
+'''
 def edit_comment(request, pk):
-    '''Функция редактирование комментария к новости'''
+    Функция редактирование комментария к новости
     comment = get_object_or_404(Comment, pk=pk, user=request.user) # user=request.user - передаем юзера т.е. юзер может редактировать только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object  # comment.news получаем комментарии связанные с новостью
     if request.method == 'POST':
@@ -151,7 +158,7 @@ def edit_comment(request, pk):
 
 
 def delete_comment(request, pk):
-    '''Функция удвления комментария'''
+    Функция удвления комментария
     comment = get_object_or_404(Comment, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
 
@@ -170,7 +177,7 @@ def delete_comment(request, pk):
 
 
 def like(request):
-    '''Функция лайка'''
+    Функция лайка
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
     if request.user in post.user_like.all():
@@ -187,7 +194,7 @@ def like(request):
 
 
 def dislike(request):
-    '''Функция дизлайка'''
+    Функция дизлайка
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
     if request.user in post.user_dislike.all():
@@ -201,7 +208,7 @@ def dislike(request):
         post.save()
         return HttpResponse(status=201)
 
-
+'''
 
 
 # def success(request):

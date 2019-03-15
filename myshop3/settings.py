@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'bootstrap3',        # https://django-bootstrap3.readthedocs.io/en/latest/
     'captcha',           # https://django-simple-captcha.readthedocs.io/en/latest/index.html
     'django.forms',
+    'comments',
 
 ]
 
@@ -180,7 +181,7 @@ CAPTCHA_LENGTH = 6
 
 
 '''
-
+# НАстройки ждя всего проекта
 SUMMERNOTE_CONFIG = {
     'iframe': True,
     'summernote': {

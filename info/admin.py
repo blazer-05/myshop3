@@ -3,8 +3,8 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Banners, News, Comment
-from .views import newsdetails
+from .models import Banners, News
+#from .views import newsdetails
 
 
 # Функции фильтрации для массовой публикации/снятия с публикации новостей.
@@ -52,6 +52,7 @@ class NewsAdmin(SummernoteModelAdmin):
         return super().get_queryset(request).with_comments_count()
 
 
+'''
 @admin.register(Comment)
 class CommentAdmin(SummernoteModelAdmin):
     list_display = ['id', 'content_object', 'sender', 'is_authenticated', 'text_format', 'email', 'like', 'dislike', 'is_active', 'created', 'updated']
@@ -61,20 +62,20 @@ class CommentAdmin(SummernoteModelAdmin):
     actions = [complete_post, incomplete_post]  # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
     def sender(self, obj):
-        '''Метод определяет в одном столбце кто добавил комментарий user или user_name (т.е. зарегистрированный или нет пользовватель)'''
+        Метод определяет в одном столбце кто добавил комментарий user или user_name (т.е. зарегистрированный или нет пользовватель)
         return obj.user or obj.user_name
 
     sender.short_description = 'Отправитель'
 
     def is_authenticated(self, obj):
-        '''Метод определяет в одном столбце от кого был комментарий от авторизаванного или анонимного пользователя'''
+        Метод определяет в одном столбце от кого был комментарий от авторизаванного или анонимного пользователя
         return bool(obj.user)
 
     is_authenticated.short_description = 'Зарегистрирован'
     is_authenticated.boolean = True
 
     def text_format(self, obj):
-        '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''
+        Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.
         return mark_safe(obj.text)
 
     text_format.short_description = 'Комментарии'
@@ -85,3 +86,4 @@ class CommentAdmin(SummernoteModelAdmin):
     content_object.short_description = 'Новость'
 
 
+'''
