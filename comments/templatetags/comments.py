@@ -28,7 +28,7 @@ def add_comment(newsdetails, request):
     comments = paginator.get_page(page)
 
     form = CommentFormCaptcha() # Форма с капчей
-    form_user = CommentForm()   # Форма без капчи
+    form_user = CommentForm(initial={'content_type': ContentType.objects.get_for_model(newsdetails), 'object_id': newsdetails.pk})   # Форма без капчи
 
     # Если ползователь не авторизован то показываем форму с капчей
     if not request.user.is_authenticated:
@@ -64,7 +64,7 @@ def add_comment(newsdetails, request):
 
     # Если ползователь авторизован то показываем форму без капчи
     else:
-        form_user = CommentForm(initial={'content_type': ContentType.objects.get_for_model(newsdetails), 'object_id': newsdetails.pk})
+        form_user = CommentForm(request.POST or None)
 
 
         if request.method == 'POST':
