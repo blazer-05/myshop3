@@ -32,7 +32,7 @@ def add_comment(newsdetails, request):
 
     # Если ползователь не авторизован то показываем форму с капчей
     if not request.user.is_authenticated:
-        form = CommentFormCaptcha(request.POST or None)
+        form = CommentFormCaptcha(initial={'content_type': ContentType.objects.get_for_model(newsdetails), 'object_id': newsdetails.pk})
 
         if request.method == 'POST':
             if form.is_valid():
@@ -47,8 +47,8 @@ def add_comment(newsdetails, request):
                 # if parent_pk and parent_pk.isnumeric():
                 #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
                 comment.user = request.user if request.user.is_authenticated else None
-                comment.object_id = newsdetails.pk
-                comment.content_type = ContentType.objects.get_for_model(newsdetails)
+                # comment.object_id = newsdetails.pk
+                # comment.content_type = ContentType.objects.get_for_model(newsdetails)
                 comment.save()
 
                 context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment,}
@@ -64,7 +64,8 @@ def add_comment(newsdetails, request):
 
     # Если ползователь авторизован то показываем форму без капчи
     else:
-        form_user = CommentForm(request.POST or None)
+        form_user = CommentForm(initial={'content_type': ContentType.objects.get_for_model(newsdetails), 'object_id': newsdetails.pk})
+
 
         if request.method == 'POST':
             if form_user.is_valid():
@@ -79,8 +80,8 @@ def add_comment(newsdetails, request):
                 # if parent_pk and parent_pk.isnumeric():
                 #     comment.parent = Comment.objects.filter(pk=parent_pk).first()
                 comment.user = request.user if request.user.is_authenticated else None
-                comment.object_id = newsdetails.pk
-                comment.content_type = ContentType.objects.get_for_model(newsdetails)
+                # comment.object_id = newsdetails.pk
+                # comment.content_type = ContentType.objects.get_for_model(newsdetails)
                 comment.save()
 
                 context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment}

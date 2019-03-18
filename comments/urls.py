@@ -1,5 +1,6 @@
 from django.urls import path
 from comments.templatetags.comments import like, dislike, edit_comment, delete_comment
+from comments.views import create_comment
 
 app_name = 'comments'
 
