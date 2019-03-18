@@ -113,7 +113,7 @@
                         <!-- Форма добавление нового комментария -->
                         <h4>Leave a Comment</h4>
                         <div class="comment-form-wrapper" style="width: 85%;">
-                            <form class="" action="." method="post">
+                            <form class="" action="{% url 'comments:create_comment' %}" method="post">
                                 {% csrf_token %}
                                 {% if not request.user.is_authenticated %}
                                 <div class="form-group">
