@@ -73,11 +73,11 @@
                                                                     <div class="product-description" style="font-size: 15px">
                                                                         <h5><a href="{{ list.get_absolute_url }}">{{ list.title }}</a></h5>
                                                                         <div class="post-info" style="font-size: .8em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
-                                                                            <span class="postdate updated">{{ list.created }}</span>
                                                                             <span class="vcard author">
                                                                             <span class="fn">{{ list.user }}</span></span>
+                                                                            <span class="postdate updated">{{ list.created }}</span>
                                                                             <span class="view">Просмотрели: {{ list.count }}</span>
-{#                                                                            <span class="comment">0 комментария</span>#}
+                                                                            <span class="comment">{{ list.comments_count }} комментарии</span>
                                                                         </div>
                                                                         <p class="description" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:25|safe }}</p>
                                                                         <p><a href="{{ list.get_absolute_url }}">Read more ...</a></p>

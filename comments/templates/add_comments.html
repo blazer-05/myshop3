@@ -5,7 +5,15 @@
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
 
-
+                    <!-- Вывод сообщения о неверно введенной капчи  -->
+{#                    {% if form.captcha.errors %}#}
+{#                        <div class="alert alert-danger alert-dismissable">#}
+{#                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">#}
+{#                                &times;#}
+{#                            </button>#}
+{#                            <strong>{{ form.captcha.errors }}</strong>#}
+{#                        </div>#}
+{#                    {% endif %}#}
                     <!-- Comments -->
 
                     <div class="post-coments" style="width: 100%;">
@@ -27,7 +35,7 @@
                                     {% endif %}
 
                                     <div class="comment-text">
-                                        {{ com.text|safe }}
+                                        <p>{{ com.text|safe }}</p>
                                     </div>
 
                                     <!-- Comment Controls -->
@@ -67,54 +75,59 @@
                         {% endfor %}
                         <!-- Pagination -->
 
-								<div class="paginations-wrapper">
-									<ul class="paginations paginations-sm">
+{#								<div class="paginations-wrapper">#}
+{#									<ul class="paginations paginations-sm">#}
+{##}
+{#                                        {% if comments.has_previous %}#}
+{#                                            <li><a href="?page=1">&laquo; First</a></li>#}
+{#                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>#}
+{#                                        {% endif %}#}
+{##}
+{#                                        {% for i in comments.paginator.page_range %}#}
+{#                                            {% if comments.number == i %}#}
+{#                                                <li class="active"><span>{{ i }} </span></li>#}
+{#                                            {% else %}#}
+{#                                                <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{##}
+{#                                        {% if comments.has_next %}#}
+{#                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>#}
+{#                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>#}
+{#                                        {% endif %}#}
+{##}
+{#									</ul>#}
+{#								</div>#}
 
-                                        {% if comments.has_previous %}
-                                            <li><a href="?page=1">&laquo; First</a></li>
-                                            <li><a href="?page={{ comments.previous_page_number }}">Previous</a></li>
-                                        {% endif %}
-
-                                        {% for i in comments.paginator.page_range %}
-                                            {% if comments.number == i %}
-                                                <li class="active"><span>{{ i }} </span></li>
-                                            {% else %}
-                                                <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        {% if comments.has_next %}
-                                            <li><a href="?page={{ comments.next_page_number }}">Next</a></li>
-                                            <li><a href="?page={{ comments.paginator.num_pages }}">Last &raquo;</a></li>
-                                        {% endif %}
-
-									</ul>
-								</div>
 
 
-
-{#                        <div class="pagination-area">#}
-{#                            <div class="row">#}
-{#                                <div class="col-xs-5">#}
-{#                                    <div class="pagination">#}
-{#                                        <ul>#}
-{#                                            {% bootstrap_pagination comments pages_to_show=3 %}#}
-{#                                        </ul>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                                <div class="col-xs-7">#}
-{#                                    <div class="product-result">#}
-{#                                        <span>Showing 1 to {{ comments.number }} of ({{ comments.paginator.num_pages }} Pages)</span>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
+                        <div class="pagination-area">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <div class="pagination">
+                                        <ul>
+                                            {% bootstrap_pagination comments pages_to_show=3 %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xs-7">
+                                    <div class="product-result">
+                                        <span>Showing 1 to {{ comments.number }} of ({{ comments.paginator.num_pages }} Pages)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Форма добавление нового комментария -->
                         <h4>Leave a Comment</h4>
                         <div class="comment-form-wrapper" style="width: 85%;">
-                            <form class="" action="{% url 'comments:create_comment' %}" method="post">
+                            <form action="{% url 'comments:create_comment' %}" method="post" onsubmit="submit_comment_form(event)">
                                 {% csrf_token %}
+
+                            <!-- Скрытые поля формы для передачи id комментария -->
+                                {{ form.content_type }}
+                                {{ form.object_id }}
+
                                 {% if not request.user.is_authenticated %}
                                 <div class="form-group">
                                     <label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
@@ -133,19 +146,16 @@
                                     <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
                                     {{ form.text }}
                                 </div>
-                                 <div class="form-group">
-                                    {{ form.content_type }}
-                                </div>
-                                 <div class="form-group">
-                                    {{ form.object_id }}
-                                </div>
                                 {% endif %}
 
                                 <!-- Вывод капчи и лейбла -->
                                 <div class="col-lg-12">
                                     <label for="id_captcha">{{ form.captcha.label }}</label>
                                 </div>
-                                {{ form.captcha }}
+                                <div class="col-lg-12" id="captcha">
+                                    {{ form.captcha }}
+                                </div>
+
                                 {% if request.user.is_authenticated %}
                                 {% else %}
                                     <button class='captcha-refresh'>

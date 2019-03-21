@@ -2,11 +2,11 @@ from datetime import datetime
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
-from comments.forms import CommentFormCaptcha, CommentForm
+from comments.forms import CommentFormCaptcha, CommentForm, EditComment
 from comments.models import Comment
 
 
@@ -41,17 +41,28 @@ def create_comment(request):
         email.content_subtype = 'html'
         email.send()
         messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
-        return redirect(comment.content_object.get_absolute_url())
+        #return redirect(comment.content_object.get_absolute_url())
+        return HttpResponse(status=201)
+    else:
+        return JsonResponse({field: list(errors) for field, errors in form.errors.items()}, status=400)
+
+
+
+    # else:
+    #     print(form.errors)
+
+
 
 def edit_comment(request, pk):
     '''Функция редактирование комментария к новости'''
     comment = get_object_or_404(Comment, pk=pk, user=request.user) # user=request.user - передаем юзера т.е. юзер может редактировать только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object  # comment.news получаем комментарии связанные с новостью
     if request.method == 'POST':
-        form = CommentForm(request.POST or None, instance=comment)
+        form = EditComment(request.POST or None, instance=comment)
         if form.is_valid():
             user = form.cleaned_data['user']
             text = form.cleaned_data['text']
+
             recepients = ['blazer-05@mail.ru']
 
             instance = form.save(commit=False)
@@ -67,7 +78,7 @@ def edit_comment(request, pk):
             messages.success(request, 'Ваш комментарий успешно отредактирован.')
             return HttpResponseRedirect(comm_news.get_absolute_url()) # редиректим на страницу откуда был отредактирован комментарий
     else:
-        form = CommentForm(instance=comment)
+        form = EditComment(instance=comment)
 
     context = {'comment': comment, 'form': form}
 
@@ -81,7 +92,7 @@ def delete_comment(request, pk):
 
     recepients = ['blazer-05@mail.ru']
     context = {'comment': comment, 'comm_news': comm_news, 'delete_date': datetime.now()}
-    message = render_to_string('news/admin_delete_comment_email.html', context, request)
+    message = render_to_string('admin_delete_comment_email.html', context, request)
     email = EmailMessage('Комментарий №"{}" к статье "{}" был удален'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
     email.content_subtype = 'html'
     email.send()
@@ -122,3 +133,4 @@ def dislike(request):
         post.dislike += 1
         post.save()
         return HttpResponse(status=201)
+

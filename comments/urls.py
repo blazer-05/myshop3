@@ -1,6 +1,5 @@
 from django.urls import path
 from comments.views import like, dislike, edit_comment, delete_comment, create_comment
-
 app_name = 'comments'
 
 urlpatterns = [

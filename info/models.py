@@ -38,7 +38,7 @@ class Banners(models.Model):
 class NewsQuerySet(models.QuerySet):
     '''Для вывода колонки количества комментариев к статье в админке'''
     def with_comments_count(self):
-        return self.annotate(comments_count=models.Count('comment'))
+        return self.annotate(comments_count=models.Count('comments'))
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
@@ -50,7 +50,7 @@ class News(models.Model):
     video = models.URLField(blank=True, verbose_name='Ссылка на видео')
     count = models.IntegerField(default=0, verbose_name='Просмотры')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
-    #comments = GenericRelation('comments.comment')
+    comments = GenericRelation('comments.comment')
     is_active = models.BooleanField(default=False, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')

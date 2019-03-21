@@ -21,6 +21,10 @@
 
                     {% csrf_token %}
 
+                    <!-- Скрытые поля формы для передачи id комментария -->
+                    {{ form.content_type }}
+                    {{ form.object_id }}
+
                     {{ form.text }}
 
                     <button type="submit" class="btn btn-warning" style="margin-top: 10px; border-radius: 4px;">Edit</button>

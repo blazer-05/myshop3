@@ -14,25 +14,25 @@ class CommentForm(forms.ModelForm):
             'content_type': forms.HiddenInput(),
             'user_name': forms.TextInput(attrs={'placeholder':'login', 'class':'form-control', 'required': True}),
             'email': forms.EmailInput(attrs={'placeholder':'e-mail', 'class':'form-control', 'required': False}),
-            #'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
-            'text': SummernoteWidget(attrs={
-                'summernote': {
-                    'airMode': False,
-                    'width': '100%',
-                    'height': '300',
-                    'toolbar': [
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                        ['font', ['strikethrough', 'superscript', 'subscript']],
-                        ['fontsize', ['fontsize']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['height', ['height']],
-                        #['misc', ['codeview']], # кнопка </> исходного кода
-                    ],
-
-                },
-
-            }),
+            'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
+            # 'text': SummernoteWidget(attrs={
+            #     'summernote': {
+            #         'airMode': False,
+            #         'width': '100%',
+            #         'height': '250',
+            #         'toolbar': [
+            #             ['style', ['bold', 'italic', 'underline', 'clear']],
+            #             ['font', ['strikethrough', 'superscript', 'subscript']],
+            #             ['fontsize', ['fontsize']],
+            #             ['color', ['color']],
+            #             ['para', ['ul', 'ol', 'paragraph']],
+            #             ['height', ['height']],
+            #             ['misc', ['codeview']], # кнопка </> исходного кода
+            #         ],
+            #
+            #     },
+            #
+            # }),
 
         }
 
@@ -58,23 +58,55 @@ class CommentFormCaptcha(forms.ModelForm):
             'content_type': forms.HiddenInput(),
             'user_name': forms.TextInput(attrs={'placeholder':'login', 'class':'form-control', 'required': True}),
             'email': forms.EmailInput(attrs={'placeholder':'e-mail', 'class':'form-control', 'required': False}),
-            #'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
-            'text': SummernoteWidget(attrs={
-                'summernote': {
-                    'airMode': False,
-                    'width': '100%',
-                    'height': '300',
-                    'toolbar': [
-                        ['style', ['bold', 'italic', 'underline', 'clear']],
-                        ['font', ['strikethrough', 'superscript', 'subscript']],
-                        ['fontsize', ['fontsize']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['height', ['height']],
-                        #['misc', ['codeview']], # кнопка </> исходного кода
-                    ],
+            'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
+            # 'text': SummernoteWidget(attrs={
+            #     'summernote': {
+            #         'airMode': False,
+            #         'width': '100%',
+            #         'height': '250',
+            #         'toolbar': [
+            #             ['style', ['bold', 'italic', 'underline', 'clear']],
+            #             ['font', ['strikethrough', 'superscript', 'subscript']],
+            #             ['fontsize', ['fontsize']],
+            #             ['color', ['color']],
+            #             ['para', ['ul', 'ol', 'paragraph']],
+            #             ['height', ['height']],
+            #             ['misc', ['codeview']], # кнопка </> исходного кода
+            #         ],
+            #
+            #     },
+            #
+            # }),
+        }
 
-                },
+class EditComment(forms.ModelForm):
+    '''Форма редактирования комментария'''
+    class Meta:
+        model = Comment
+        fields = ['user', 'text', 'content_type', 'object_id']
+        widgets = {
+            'object_id': forms.HiddenInput(),
+            'content_type': forms.HiddenInput(),
+            'user_name': forms.TextInput(attrs={'placeholder':'login', 'class':'form-control', 'required': True}),
+            'email': forms.EmailInput(attrs={'placeholder':'e-mail', 'class':'form-control', 'required': False}),
+            'text': forms.Textarea(attrs={'rows': 5, 'placeholder':'message', 'class':'form-control', 'required': True}),
+            # 'text': SummernoteWidget(attrs={
+            #     'summernote': {
+            #         'airMode': False,
+            #         'width': '100%',
+            #         'height': '300',
+            #         'toolbar': [
+            #             ['style', ['bold', 'italic', 'underline', 'clear']],
+            #             ['font', ['strikethrough', 'superscript', 'subscript']],
+            #             ['fontsize', ['fontsize']],
+            #             ['color', ['color']],
+            #             ['para', ['ul', 'ol', 'paragraph']],
+            #             ['height', ['height']],
+            #             #['misc', ['codeview']], # кнопка </> исходного кода
+            #         ],
+            #
+            #     },
+            #
+            # }),
 
-            }),
         }

@@ -1,15 +1,6 @@
-
 from django import template
-from datetime import datetime
-from django.contrib import messages
-from django.contrib.auth.models import User
-from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.contenttypes.models import ContentType
-
-from django.shortcuts import redirect, get_object_or_404, render
-from django.template.loader import render_to_string
 
 from comments.models import Comment
 from comments.forms import CommentForm, CommentFormCaptcha
@@ -37,7 +28,6 @@ def add_comment(newsdetails, request):
     return {'comments': comments,
             'all_comment': all_comment,
             'form': form,
-            #'form_user ': form_user,
             'request': request,
             }
 
