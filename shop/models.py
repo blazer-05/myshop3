@@ -1,5 +1,7 @@
 import mptt
 import random
+
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
@@ -101,6 +103,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(verbose_name='Количество')
     vendor_code = models.IntegerField(default=0, verbose_name='Артикул товара')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
+    comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
 

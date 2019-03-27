@@ -3,10 +3,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
-from mptt.models import MPTTModel, TreeForeignKey
+from mptt.models import MPTTModel
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericRelation
 
 
 class Banners(models.Model):
@@ -36,7 +36,7 @@ class Banners(models.Model):
     image_img.allow_tags = True
 
 class NewsQuerySet(models.QuerySet):
-    '''Для вывода колонки количества комментариев к статье в админке'''
+    ''' Для вывода колонки количества комментариев к статье в админке '''
     def with_comments_count(self):
         return self.annotate(comments_count=models.Count('comments'))
 
@@ -50,17 +50,17 @@ class News(models.Model):
     video = models.URLField(blank=True, verbose_name='Ссылка на видео')
     count = models.IntegerField(default=0, verbose_name='Просмотры')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
-    comments = GenericRelation('comments.comment')
+    comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
     is_active = models.BooleanField(default=False, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
 
-    objects = NewsQuerySet.as_manager()     #'''Для вывода колонки количества комментариев к статье в админке'''
+    objects = NewsQuerySet.as_manager()     # Для вывода колонки количества комментариев к статье в админке
+
     class Meta:
         verbose_name = 'Новости'
         verbose_name_plural = 'Новости'
         ordering = ['-created']
-
 
     def __str__(self):
         return self.title
@@ -80,6 +80,6 @@ class News(models.Model):
 
 
 
-        
+
 
 

@@ -2,10 +2,10 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load bootstrap3 %}
-{% load banner %}
+{% load banner %}<!-- Загружаем темплейттег баннеров -->
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
-{% load comments %}
+{% load comments %} <!-- Загружаем темплейттег комментариев -->
 
 {% block title %}
     {{ newsdetails.title }}
@@ -78,7 +78,7 @@
                     </div>
                     <br>
 
-                        {% add_comment newsdetails request %}
+                        {% add_comment newsdetails request %} <!-- Выводим темплейттег комментариев newsdetails для полной новости -->
 
                 </div>
             </div>

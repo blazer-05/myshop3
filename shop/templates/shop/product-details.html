@@ -2,7 +2,7 @@
 {% extends 'shop/base.html' %}
 {% load thumbnail %}
 {% load staticfiles %}
-{% load comments %}
+{% load comments %} <!-- Загружаем темплейттег комментариев -->
 
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
 {% block description %}{{ product.meta_descriptions }}{% endblock %}
@@ -221,7 +221,7 @@
                                     </div>
                                     <div class="tab-pane fade in" id="comments"><h2 class="title-product"></h2>
 
-                                        {% add_comment product request %}
+                                        {% add_comment product request %} <!-- Вывод темплейттега с комментариями -->
 
                                     </div>
                                     <div class="tab-pane fade in" id="reviews"><h2 class="title-product">Отзывы: Текст описания 4</h2></div>

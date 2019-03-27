@@ -11,15 +11,19 @@ from comments.models import Comment
 
 
 def create_comment(request):
+    '''Создание комментария'''
 
+    '''Если запрос не POST, то выводим ошибку 404'''
     if request.method != 'POST':
         raise Http404()
 
+    '''Если пользователь авторизован, то в FormClass присвамваем форму без капчи, иначе в FormClass присваиваем форму с капчей'''
     if request.user.is_authenticated:
         FormClass = CommentForm
     else:
         FormClass = CommentFormCaptcha
 
+    '''Инициализация формы'''
     form = FormClass(request.POST or None)
 
     if form.is_valid():
@@ -31,7 +35,10 @@ def create_comment(request):
         recepients = ['blazer-05@mail.ru']
 
         comment = form.save(commit=False)
-        comment.user = request.user if request.user.is_authenticated else None
+        '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
+        так как request.user для авторизированного это инстанс User,
+        а для не авторизированного это инстанс AnonymousUser (это не модель бд)'''
+        comment.user = request.user if request.user.is_authenticated else None  # Без этой проверки анонимный пользователь не мог добавить комментарий
         comment.save()
 
         context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment}
@@ -42,15 +49,10 @@ def create_comment(request):
         email.send()
         messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
         #return redirect(comment.content_object.get_absolute_url())
+        '''Если капча введена с ошибкой, то возвращаем ошибку с помощью ajax. Код в script.js'''
         return HttpResponse(status=201)
     else:
         return JsonResponse({field: list(errors) for field, errors in form.errors.items()}, status=400)
-
-
-
-    # else:
-    #     print(form.errors)
-
 
 
 def edit_comment(request, pk):

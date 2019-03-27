@@ -18,11 +18,11 @@ def all_post(modeladmin, request, queryset):
 
 def complete_post(modeladmin, request, queryset):
     queryset.update(is_active=True)
-complete_post.short_description = 'Опубликовать новость'
+complete_post.short_description = 'Опубликовать'
 
 def incomplete_post(modeladmin, request, queryset):
     queryset.update(is_active=False)
-incomplete_post.short_description = 'Снять с публикации новость'
+incomplete_post.short_description = 'Снять с публикации'
 # Конец Функции фильтрации
 
 class BannersAdmin(admin.ModelAdmin):
