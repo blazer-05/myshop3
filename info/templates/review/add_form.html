@@ -1,0 +1,121 @@
+{% load staticfiles %}
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+          <div class="col-lg-8">
+
+
+            <form id="contact-form" method="post" action="" role="form">
+
+            <div class="messages"></div>
+
+            <div class="controls">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_name">Nickname *</label>
+                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your nickname *" required="required" data-error="Nickname is required.">
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_email">Email</label>
+                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email" >
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_city">City</label>
+                    <input id="form_city" type="city" name="city" class="form-control" placeholder="Please enter your city " >
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleSelect1">Period of use *</label>
+                    <select class="form-control" id="exampleSelect1" placeholder="Period of use *" required="required" >
+                      <option>select the period of use</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_merits">Merits *</label>
+                    <textarea id="form_merits" name="merits" class="form-control" placeholder="Merits *" rows="4" required data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_limitations">Limitations *</label>
+                    <textarea id="form_limitations" name="limitations" class="form-control" placeholder="Limitations *" rows="2" required data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_comment">Comment *</label>
+                    <textarea id="form_comment" name="comment" class="form-control" placeholder="Comment *" rows="2" required data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_uploading">Textbox for uploading an image</label>
+                      <div class="container-fluid">
+                        <div class="row">
+                            <input type='file' onchange="readURL(this);" />
+                        </div>
+                      </div>
+                      <br>
+                        <img id="blah" src="{% static 'info/reviews/150.png' %}" alt="your image" />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="id_captcha">Captcha {{ form.captcha.label }}</label>
+                      <div class="container-fluid">
+                        <div class="row">
+                            {{ form.captcha }}
+                        </div>
+                      </div>
+                        <button class='captcha-refresh'>
+                            <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
+                        </button>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                  <br>
+                <div class="col-md-12">
+                  <input type="submit" class="btn btn-success btn-send" value="Send message">
+
+                  <!-- Кнопка которая скрывает блок с формой -->
+                  <button class="btn btn-danger btn-sm pull-right" onclick="closeForm()">close</button>
+                </div>
+
+              </div>
+
+            </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+    </div>

@@ -2,7 +2,9 @@
 {% extends 'shop/base.html' %}
 {% load thumbnail %}
 {% load staticfiles %}
+{% load banner %}
 {% load comments %} <!-- Загружаем темплейттег комментариев -->
+{% load review %}
 
 {% block keywords %}{{ product.meta_keywords }}{% endblock %}
 {% block description %}{{ product.meta_descriptions }}{% endblock %}
@@ -32,14 +34,9 @@
 						{% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
 						<!-- START SIDEBAR-BANNER -->
 	                    <div class="sidebar-banner hidden-sm hidden-xs">
-	                    	<div class="active-sidebar-banner">
-	                    		<div class="single-sidebar-banner">
-	                    			<a href=""><img src="{% static 'shop/img/banner/1.jpg' %}" alt="Product Banner"></a>
-	                    		</div>
-	                    		<div class="single-sidebar-banner">
-	                    			<a href=""><img src="{% static 'shop/img/banner/2.jpg' %}" alt="Product Banner"></a>
-	                    		</div>
-	                    	</div>
+                            <div class="sidebar-banner">
+                                {% left_block_banner %} <!--Баннер из левого блока -->
+                            </div>
 	                    </div>
 	                    <!-- END SIDEBAR-BANNER -->
 					</div>
@@ -61,16 +58,6 @@
                         </div>
                     {% endif %}
 
-                    <!-- Вывод сообщения о неверно введенной капчи  -->
-                    {% if form.captcha.errors %}
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                &times;
-                            </button>
-                            <strong>{{ form.captcha.errors }}</strong>
-                        </div>
-                    {% endif %}
-
 						<!-- Start Toch-Prond-Area -->
 						<div class="toch-prond-area">
 							<div class="row jq-product-wrapper"> <!-- jq-product-wrapper - класс полето товара в корзину! -->
@@ -82,7 +69,7 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="{{ product.images.url }}" data-imagezoom="true" alt="" /></a>
+														<a href="#"><img src="{{ product.images|thumbnail_url:'product' }}" data-imagezoom="true" alt="" /></a>
 													</div>
 												</div>
 											</div>
@@ -224,7 +211,11 @@
                                         {% add_comment product request %} <!-- Вывод темплейттега с комментариями -->
 
                                     </div>
-                                    <div class="tab-pane fade in" id="reviews"><h2 class="title-product">Отзывы: Текст описания 4</h2></div>
+                                    <div class="tab-pane fade in" id="reviews"><h2 class="title-product"></h2>
+
+                                        {% review_list request %} <!-- Вывод темплейттега с отзывами -->
+
+                                    </div>
                                     <div class="tab-pane fade in" id="action"><h2 class="title-product">
                                         {% if product.need_timer %}
                                             <p>Для этого товара действует акция!</p>

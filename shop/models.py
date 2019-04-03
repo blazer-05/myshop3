@@ -1,6 +1,6 @@
 import mptt
 import random
-
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
@@ -50,6 +50,7 @@ class Category(MPTTModel):
 
 mptt.register(Category, order_insertion_by=['name'])
 
+
 # Модель брендов
 class Brand(models.Model):
     name = models.CharField(max_length=200, blank=True, unique=True, verbose_name='Бренд')
@@ -81,6 +82,7 @@ class Brand(models.Model):
 # def image_folder(instance, filename):
 #     filename = instance.slug + '.' + filename.split('.')[1]
 #     return '{0}/{1}'.format(instance.slug, filename)
+
 
 # Модель товара
 class Product(models.Model):
@@ -152,7 +154,6 @@ class Product(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
 
-
 # Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):
     name = models.CharField(max_length=200, verbose_name='Название')
@@ -201,6 +202,7 @@ class Attribute(MPTTModel):
 
 mptt.register(Attribute, order_insertion_by=['title'])
 
+
 # Модель значения товара связанная с моделью атрибута
 class Value(MPTTModel):
     attribute = models.ForeignKey(Attribute, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Атрибут')
@@ -223,6 +225,7 @@ class Value(MPTTModel):
 
 mptt.register(Value, order_insertion_by=['value'])
 
+
 # Для работы булевого is_activ нужно для модели Entry создать этот кверисет в котором метод activ возвращает по фильтру is_activ
 # Далее в модели Entry добавляем менеджер сделанный из этого кверисета objects = EntryQuerySet.as_manager(). В шаблоне product-details.html
 # проходимся циклом по этой переменной product.entry_set.active ({% for entry in product.entry_set.active %}) Таким образом во вьюхе productdetails
@@ -230,6 +233,7 @@ mptt.register(Value, order_insertion_by=['value'])
 class EntryQuerySet(models.QuerySet):
     def active(self):
         return self.filter(is_active=True)
+
 
 # Модель связанная с продуктом, атрибутом и значением. Выводится под товаром.
 class Entry(models.Model):
@@ -243,6 +247,7 @@ class Entry(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.attribute.title, self.value.value)
+
 
 # Модель и метод для вывода на главной всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:10]).
 class CategoryIndexPage(MPTTModel):
@@ -267,6 +272,7 @@ class CategoryIndexPage(MPTTModel):
             )
         return index_categories
 
+
 # Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
 class Bestseller(MPTTModel):
     bestseller = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
@@ -289,6 +295,7 @@ class Bestseller(MPTTModel):
                 {category: Product.objects.filter(is_active=True).order_by('?')[:4]} # category__in=best_descendants
             )
         return bestseller_categories
+
 
 # Модель и метод вывода на главной товаров по категориям в блоке распродажа
 class SaleCategory(MPTTModel):
@@ -313,6 +320,7 @@ class SaleCategory(MPTTModel):
                 {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?')[:9]} # category__in=best_descendants
             )
         return sale_categories
+
 
 # Модель и метод вывода на главной товаров по штучно в блоке распродажа
 class SaleProduct(MPTTModel):

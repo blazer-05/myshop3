@@ -49,7 +49,7 @@ def create_comment(request):
         email.send()
         messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
         #return redirect(comment.content_object.get_absolute_url())
-        '''Если капча введена с ошибкой, то возвращаем ошибку с помощью ajax. Код в script.js'''
+        '''Если капча введена с ошибкой, то возвращаем ошибку с помощью ajax. Код в review_script.js'''
         return HttpResponse(status=201)
     else:
         return JsonResponse({field: list(errors) for field, errors in form.errors.items()}, status=400)

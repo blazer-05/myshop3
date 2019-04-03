@@ -60,6 +60,8 @@
 
     <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/mains.css' %}"><!--Стили комментариев в полной новости-->
 
+    <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/reviews/style.css' %}"><!--Стили review - добавления отзыва к товару-->
+
 
 
 
@@ -537,7 +539,13 @@
 <!--Подключение файла скриптов для лайков и комментариев -->
 <script src="{% static 'info/news/script.js' %}" type="text/javascript"></script>
 
-<!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/script.js  -->
+<!--Подключение файла скриптов для отзывов о товаре в продукте -->
+<script src="{% static 'info/reviews/review_script.js' %}" type="text/javascript"></script>
+
+
+
+
+<!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/review_script.js  -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 </body>

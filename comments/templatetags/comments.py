@@ -6,9 +6,10 @@ from comments.forms import CommentForm, CommentFormCaptcha
 
 register = template.Library()
 
+
 @register.inclusion_tag('add_comments.html')
 def add_comment(obj, request):
-    '''Создаем темплейттег'''
+    """Создаем темплейттег"""
 
     '''Создание словаря для инициализации формы начальными значениями'''
     form_initial = {'content_type': ContentType.objects.get_for_model(obj), 'object_id': obj.pk}
@@ -24,12 +25,12 @@ def add_comment(obj, request):
     page = request.GET.get('page')
     comments = paginator.get_page(page)
 
-    '''Проверяем, если пользователь не авторизован то выводим форму с капчей иначе если авторизован, то выводим форму без капчи'''
+    '''Проверяем, если пользователь не авторизован то выводим форму с капчей иначе если авторизован,
+     то выводим форму без капчи'''
     if not request.user.is_authenticated:
         form = CommentFormCaptcha(initial=form_initial)  # Форма с капчей
     else:
         form = CommentForm(initial=form_initial)  # Форма без капчи
-
 
     return {'comments': comments,
             'all_comment': all_comment,

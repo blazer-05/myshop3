@@ -148,20 +148,21 @@ STATICFILES_DIRS = (
 # Настройки миниатюр для изображений https://pypi.org/project/easy-thumbnails/
 THUMBNAIL_ALIASES = {
     '': {
-        'slider': {'size': (500, 200), 'quality': 99},                  # index.html
-        'index': {'size': (200, 150), 'corp':True, 'quality': 99},      # index.html
-        'akciya': {'size': (200, 150), 'corp':True, 'quality': 99},     # index.html
-        'shop': {'size': (200, 150), 'corp':True, 'quality': 99},       # shop.html
-        'shop-list': {'size': (200, 150), 'corp':True, 'quality': 99},  # shop-list.html
-        'alb': {'size': (200, 150), 'corp':True, 'quality': 99},        # product-details.html
-        'pftc': {'size': (200, 150), 'corp':True, 'quality': 99},       # product-details.html
-        'allp': {'size': (200, 150), 'corp':True, 'quality': 99},       # product-details.html
-        'cart': {'size': (70, 90), 'corp':True, 'quality': 99},         # cart.html
-        'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},   # base.html
-        'bestsellers': {'size': (100, 100), 'corp':True, 'quality': 99},# bestseller.html
-        'sale': {'size': (100, 100), 'corp':True, 'quality': 99},       # sale.html
-        'news': {'size': (190, 130), 'corp':True, 'quality': 99},       # news/list.html
-        #'index_news': {'size': (270, 93), 'corp':True, 'quality': 99},  # index.html
+        'slider': {'size': (500, 200), 'quality': 99},                    # index.html
+        'index': {'size': (200, 150), 'corp':True, 'quality': 99},        # index.html
+        'akciya': {'size': (200, 150), 'corp':True, 'quality': 99},       # index.html
+        'shop': {'size': (200, 150), 'corp':True, 'quality': 99},         # shop.html
+        'shop-list': {'size': (200, 150), 'corp':True, 'quality': 99},    # shop-list.html
+        'product': {'size': (800, 800), 'corp':True, 'quality': 99},      # product-details.html
+        'alb': {'size': (200, 150), 'corp':True, 'quality': 99},          # product-details.html
+        'pftc': {'size': (200, 150), 'corp':True, 'quality': 99},         # product-details.html
+        'allp': {'size': (200, 150), 'corp':True, 'quality': 99},         # product-details.html
+        'cart': {'size': (70, 90), 'corp':True, 'quality': 99},           # cart.html
+        'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},     # base.html
+        'bestsellers': {'size': (100, 100), 'corp':True, 'quality': 99},  # bestseller.html
+        'sale': {'size': (100, 100), 'corp':True, 'quality': 99},         # sale.html
+        'news': {'size': (190, 130), 'corp':True, 'quality': 99},         # news/list.html
+        #'index_news': {'size': (270, 93), 'corp':True, 'quality': 99},   # index.html
     }
 }
 

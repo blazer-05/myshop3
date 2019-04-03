@@ -1,9 +1,11 @@
-
 from django.db import models
+from model_utils import Choices  # https://django-model-utils.readthedocs.io/en/latest/utilities.html
 from django.urls import reverse
+from mptt.models import MPTTModel
+
+from shop.models import Product
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
-from mptt.models import MPTTModel
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
@@ -35,10 +37,12 @@ class Banners(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
+
 class NewsQuerySet(models.QuerySet):
     ''' Для вывода колонки количества комментариев к статье в админке '''
     def with_comments_count(self):
         return self.annotate(comments_count=models.Count('comments'))
+
 
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
@@ -79,6 +83,51 @@ class News(models.Model):
         return reverse('news:newsdetails', kwargs={'slug': self.slug})
 
 
+class Review(models.Model):
+    '''Отзыв о товаре с оценкой'''
+
+    RATING_CHOICES = Choices(
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+    )
+
+    PERIOD_OF_USE = Choices(
+        (0, 'less_than_a_month', 'Меньше месяца'),
+        (1, 'one_month', '1 Месяц'),
+        (2, 'three_months', '3 Месяца'),
+        (3, 'six_months', '6 Месяцев'),
+        (4, 'one_year', '1 Год'),
+        (5, 'more_than_a_year', 'Больше года'),
+    )
+
+    product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE, verbose_name='Товар')
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Пользователь')
+    user_name = models.CharField(max_length=250, blank=True, verbose_name='Посетитель')
+    city = models.CharField(max_length=200, blank=True, verbose_name='Ваш город')
+    image = models.ImageField(upload_to='review/%y/%m/%d/', blank=True, verbose_name='Изображение')
+    merits = models.TextField(verbose_name='Достоинства', blank=True)
+    limitations = models.TextField(verbose_name='Недостатки', blank=True)
+    comment = models.TextField(verbose_name='Текст отзыва', blank=True)
+    email = models.EmailField(max_length=50, blank=True, verbose_name='e-mail')
+    video = models.URLField(max_length=500, blank=True, verbose_name='Ссылка на видео')
+    rating = models.IntegerField(choices=RATING_CHOICES, verbose_name='Рейтинг', blank=True)
+    period = models.IntegerField(choices=PERIOD_OF_USE, verbose_name='Период использования', blank=True)
+    user_like = models.ManyToManyField(User, verbose_name='Кто поставил лайк', related_name='review_users_like', blank=True)
+    user_dislike = models.ManyToManyField(User, verbose_name='Кто поставил дизлайк', related_name='review_users_dislike', blank=True)
+    is_active = models.BooleanField(default=False, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.product
 
 
 

@@ -8,14 +8,14 @@
 
 
 // Показать/скрыть форму ответа на коментарий - кнопка (reply)
-let openForm = function (id) {
-    $(`#${id}`).toggle()
-}
-
-// Скрыть форму ответа на комментарий - кнопка (close)
-let closeForm = function (id) {
-    $(`#${id}`).hide()
-}
+// let openForm = function (id) {
+//     $(`#${id}`).toggle()
+// }
+//
+// // Скрыть форму ответа на комментарий - кнопка (close)
+// let closeForm = function (id) {
+//     $(`#${id}`).hide()
+// }
 
 // Поставить лайк
 $(document).ready(function () {
@@ -138,7 +138,6 @@ function submit_comment_form(event) {
     }
   });
 }
-
 
 
 // $(document).ready(function () {
