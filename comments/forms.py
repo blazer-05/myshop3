@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from comments.models import Comment
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
+
 class CommentForm(forms.ModelForm):
     '''Форма комментариев к статьям без капчи даля авторизованных пользователей'''
     class Meta:
@@ -44,9 +45,6 @@ class CommentForm(forms.ModelForm):
         # }
 
 
-
-
-
 class CommentFormCaptcha(forms.ModelForm):
     '''Форма комментариев к статьям с капчей для не авторизованных пользователей'''
     captcha = CaptchaField(label='Are you an human? ',)
@@ -78,6 +76,7 @@ class CommentFormCaptcha(forms.ModelForm):
             #
             # }),
         }
+
 
 class EditComment(forms.ModelForm):
     '''Форма редактирования комментария'''

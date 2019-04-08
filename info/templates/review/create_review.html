@@ -12,7 +12,34 @@
             <div class="messages"></div>
 
             <div class="controls">
-
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="form_name">Rating *</label>
+                            <input type="hidden" id="selected_rating" name="selected_rating" value="">
+                            <h2 class="bold rating-header" style="">
+                            <span class="selected-rating">0</span><small> / 5</small>
+                            </h2>
+							<div class="review-block-rate">
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="1" id="rating-star-1">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="2" id="rating-star-2">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="3" id="rating-star-3">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="4" id="rating-star-4">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="5" id="rating-star-5">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+							</div>
+                        </div>
+                    </div>
+                </div>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -70,6 +97,13 @@
                   <div class="form-group">
                     <label for="form_comment">Comment *</label>
                     <textarea id="form_comment" name="comment" class="form-control" placeholder="Comment *" rows="2" required data-error="Please,leave us a message."></textarea>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                 <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_video">link to video</label>
+                    <input id="form_video" name="video" class="form-control" placeholder="link to video" rows="2" >
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
