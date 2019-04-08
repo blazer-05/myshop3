@@ -34,7 +34,6 @@ def create_review(request):
     reviews = Review.objects.filter(is_active=True)
     return render(request, 'review/create_review.html', {'reviews': reviews})
 
-# def success(request):
-#     return render(request, 'news/success.html')
+
 
 
