@@ -30,6 +30,7 @@ def newsdetails(request, slug):
 
 
 def create_review(request):
+    '''Создание отзыва'''
     reviews = Review.objects.filter(is_active=True)
     return render(request, 'review/create_review.html', {'reviews': reviews})
 
