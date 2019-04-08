@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 
 from info.models import News
-
+from info.models import Review
 
 def newslist(request):
     ''' Вывод списка новостей '''
@@ -28,6 +28,10 @@ def newsdetails(request, slug):
     all_comment = newsdetails.comments.count()
     return render(request, 'news/details.html', {'newsdetails': newsdetails, 'all_comment': all_comment})
 
+
+def create_review(request):
+    reviews = Review.objects.filter(is_active=True)
+    return render(request, 'review/create_review.html', {'reviews': reviews})
 
 # def success(request):
 #     return render(request, 'news/success.html')

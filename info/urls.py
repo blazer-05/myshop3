@@ -1,6 +1,6 @@
 from django.urls import path
-from info.views import newslist, newsdetails
-from info.templatetags.review import review_list, create_review
+from info.views import newslist, newsdetails, create_review
+
 
 app_name = 'info'
 
