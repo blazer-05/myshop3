@@ -127,8 +127,16 @@ class Review(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.product
+        return 'Отзыв добавил: {} - к продукту {}'.format(self.user, self.product)
 
 
-
+    # Вывод картинок в админке!
+    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
+    def image_img(self):
+        if self.image:
+            return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="80px" height="50px"/></a>'.format(self.image.url))
+        else:
+            return '(Нет изображения)'
+    image_img.short_description = 'Картинка'
+    image_img.allow_tags = True
 

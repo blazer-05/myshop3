@@ -1,5 +1,427 @@
 {% load staticfiles %}
+{% load thumbnail %}
+{% load bootstrap3 %}
 
-{% include 'review/create_review.html' %}
+
+
+
+<!-- Кнопка раскрывает скрытый блок -->
+<div class="container-fluid">
+    <button type="button" class="btn btn-info" onclick="openForm()" style="display: block">Add Review</button>
+</div>
+<br>
+
+
+
+<!-- Скрытый блок в котором выводиться форма отзыва-->
+<div class="reviews" style="display: none;">
+
+    <!-- Форма добавления отзыва-->
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8">
+
+            <form id="contact-form" method="post" role="form">
+                {% csrf_token %}
+
+            <div class="messages"></div>
+
+            <div class="controls">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="form_name">Rating *</label>
+                            <input type="hidden" id="selected_rating" name="selected_rating" value="">
+                            <h2 class="bold rating-header" style="">
+                            <span class="selected-rating">0</span><small> / 5</small>
+                            </h2>
+							<div class="review-block-rate">
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="1" id="rating-star-1">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="2" id="rating-star-2">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="3" id="rating-star-3">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="4" id="rating-star-4">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="5" id="rating-star-5">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+							</div>
+                        </div>
+                    </div>
+                </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_name">Nickname *</label>
+                      {{ form.user_name }}
+{#                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your nickname *" required="required" data-error="Nickname is required.">#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_email">Email</label>
+                      {{ form.email }}
+{#                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email" >#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="form_city">City</label>
+                      {{ form.city }}
+{#                    <input id="form_city" type="city" name="city" class="form-control" placeholder="Please enter your city " >#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="exampleSelect1">Period of use *</label>
+                      {{ form.period }}
+{#                      {% bootstrap_form form exclude='user,user_name,email,city,image,video,merits,limitations,comment' %}#}
+{#                    <select class="form-control" id="exampleSelect1" placeholder="Period of use *" required="required" >#}
+{#                      <option>select the period of use</option>#}
+{#                      <option>1</option>#}
+{#                      <option>2</option>#}
+{#                      <option>3</option>#}
+{#                      <option>4</option>#}
+{#                      <option>5</option>#}
+{#                    </select>#}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_merits">Merits *</label>
+                      {{ form.merits }}
+{#                    <textarea id="form_merits" name="merits" class="form-control" placeholder="Merits *" rows="4" required data-error="Please,leave us a message."></textarea>#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_limitations">Limitations *</label>
+                      {{ form.limitations }}
+{#                    <textarea id="form_limitations" name="limitations" class="form-control" placeholder="Limitations *" rows="2" required data-error="Please,leave us a message."></textarea>#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_comment">Comment *</label>
+                      {{ form.comment }}
+{#                    <textarea id="form_comment" name="comment" class="form-control" placeholder="Comment *" rows="2" required data-error="Please,leave us a message."></textarea>#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                 <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_video">link to video</label>
+                      {{ form.video }}
+{#                    <input id="form_video" name="video" class="form-control" placeholder="link to video" rows="2" >#}
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="form_uploading">Textbox for uploading an image</label>
+                      <div class="container-fluid">
+                        <div class="row">
+                            <input type='file' onchange="readURL(this);" />
+                        </div>
+                      </div>
+                      <br>
+                        <img id="blah" src="{% static 'info/reviews/150.png' %}" alt="your image" />
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="id_captcha">Captcha {{ form.captcha.label }}</label>
+                      <div class="container-fluid">
+                        <div class="row">
+                            {{ form.captcha }}
+                            <button class='captcha-refresh'>
+                                <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
+                            </button>
+                        </div>
+                       </div>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                  <br>
+                <div class="col-md-12">
+                  <input type="submit" class="btn btn-success btn-send" value="Send message">
+
+                  <!-- Кнопка которая скрывает блок с формой -->
+                  <button class="btn btn-danger btn-sm pull-right" onclick="closeForm()">close</button>
+                </div>
+
+              </div>
+
+            </div>
+
+            </form>
+
+          </div>
+
+        </div>
+
+    </div>
+    <!-- Конец формы -->
+
+
+{#    <div class="container-fluid">#}
+{#        <button class="btn btn-danger btn-sm" pull-right onclick="closeForm()">close</button>#}
+{#    </div>#}
+</div>
+<br>
+
+
+
+<!-- Вывод отзыва -->
+    <div>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="rating-block">
+					<h4>Average user rating</h4>
+					<h2 class="bold padding-bottom-7">4.3 <small>/ 5</small></h2>
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+					  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					</button>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<h4>Rating breakdown</h4>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">5 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="5" style="width: 1000%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">1</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">4 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="4" aria-valuemin="0" aria-valuemax="5" style="width: 80%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">1</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">3 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="3" aria-valuemin="0" aria-valuemax="5" style="width: 60%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">0</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">2 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="5" style="width: 40%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">0</div>
+				</div>
+				<div class="pull-left">
+					<div class="pull-left" style="width:35px; line-height:1;">
+						<div style="height:9px; margin:5px 0;">1 <span class="glyphicon glyphicon-star"></span></div>
+					</div>
+					<div class="pull-left" style="width:180px;">
+						<div class="progress" style="height:9px; margin:8px 0;">
+						  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="5" style="width: 20%">
+							<span class="sr-only">80% Complete (danger)</span>
+						  </div>
+						</div>
+					</div>
+					<div class="pull-right" style="margin-left:10px;">0</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-10">
+				<hr/>
+                {% for rev in review %}
+				<div class="review-block">
+					<div class="row">
+						<div class="col-sm-3">
+							<img src="{% static 'info/reviews/User_48x48.png' %}" class="img-rounded">
+                            {% if user %}
+							    <div class="review-block-name"><a href="#">{{ rev.user }}</a></div>
+                                {% else %}
+                                <div class="review-block-name"><a href="#">{{ rev.user_name }}</a></div>
+                            {% endif %}
+							<div class="review-block-date">Использование: {{ rev.period }}</div>
+							<div class="review-block-date">{{ rev.created }}</div>
+                            <div class="review-block-date">{{ rev.city }}</div>
+						</div>
+						<div class="col-sm-9">
+							<div class="review-block-rate">
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								</button>
+							</div>
+
+                            <div class="review-block-title">
+                                <img src="{% static 'info/reviews/green.png' %}" style="position: absolute; left: -5px;">Достоинства
+                            </div>
+                            <div class="review-block-description">{{ rev.merits|safe }}</div>&nbsp;
+
+                            <div class="review-block-title">Недостатки
+                                <img src="{% static 'info/reviews/read.png' %}" style="position: absolute; left: -5px;">
+                            </div>
+                            <div class="review-block-description">{{ rev.limitations|safe }}</div>&nbsp;
+
+                            <div class="review-block-title">Комментарий
+                                <img src="{% static 'info/reviews/comment.png' %}" style="position: absolute; left: -5px;">
+                            </div>
+                            <div class="review-block-description">{{ rev.comment|safe }}</div>
+                            &nbsp;<br>
+                            {% if rev.image %}
+                            <div class="review-block-description">
+                                <a href="#" data-toggle="modal" data-target=".dialog1">
+                                    <img id="blah" src="{{ rev.image.url }}" width="350" class="img-responsive img-rounded" alt="your image" />
+                                </a>
+                                <!--  Modal content for Image -->
+                                <div class="modal fade dialog1" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                                <h4 class="modal-title" id="myLargeModalLabel-1">...</h4>
+                                            </div>
+                                            <div class="modal-body active">
+                                                <img src="{{ rev.image.url }}" class="img-responsive img-rounded center-block" alt="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                {% else %}
+                                <img src="{% static 'info/reviews/150.png' %}" alt="no foto" title="no image">
+                            {% endif %}
+                            <br><br>
+                            {% if rev.video %}
+                            <div class="review-block-description">
+                                <iframe width="100%" height="250px" src="{{ rev.video }}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                                {% else %}
+                            {% endif %}
+                            <br>
+                            <div class="row">
+                              <div class="col-sm-6 col-md-8">
+
+                                  <div class="pull-left">
+                                        <a href="#" title="Edit" style="margin-right: 5px;">
+                                            <button type="button" class="btn btn-warning btn-xs label">Edit</button>
+                                        </a>
+
+                                        <a href="#" id="delete" title="Delete">
+                                            <button type="button" class="btn btn-danger btn-xs label">Delete</button>
+                                        </a>
+                                  </div>
+
+                              </div>
+                              <div class="col-xs-6 col-md-4 pull-right">
+
+                                  <div class="pull-right">
+                                      <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i
+                                              class="glyphicon glyphicon-thumbs-up"></i></span>
+                                      <span class="label label-success">0</span>
+
+                                      <span style="padding-left: 10px;" data-toggle="tooltip"
+                                            data-original-title="Vote Down" class="show-tooltip"><i
+                                              class="glyphicon glyphicon-thumbs-down"></i></span>
+                                      <span class="label label-danger">0</span>
+                                  </div>
+
+                              </div>
+                            </div>
+						</div>
+					</div>
+					<hr/>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+
+        <!-- Пагинация отзывов -->
+        <div class="pagination-area">
+            <div class="row">
+                <div class="col-xs-5">
+                    <div class="pagination">
+                        <ul>
+                            {% bootstrap_pagination review pages_to_show=3 %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="product-result">
+                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- /container -->
+
+
+
 
 

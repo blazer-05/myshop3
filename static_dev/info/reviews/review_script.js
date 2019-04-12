@@ -1,5 +1,13 @@
+// Установка csrf_token
+(function () {
+    let csrftoken = Cookies.get('csrftoken');
+    $.ajaxSetup({
+        headers: {"X-CSRFToken": csrftoken}
+    });
+})();
+
 // Показать и скрыть форму добавления отзыва, (openForm - в шаблоне review.html) и
-// (closeForm - в шаблоне create_review.html)
+// (closeForm - в шаблоне review.html)
 
     let openForm = function () {
     $('.reviews').show()

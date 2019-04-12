@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import OuterRef, Count, Subquery, IntegerField
 from django.db.models.functions import Coalesce
+from django.utils.safestring import mark_safe
 
 from django_summernote.admin import SummernoteModelAdmin
 
@@ -77,5 +78,33 @@ class NewsAdmin(SummernoteModelAdmin):
 
 
 @admin.register(Review)
-class ReviewAdmin(SummernoteModelAdmin):
-    pass
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['id', 'product', 'user', 'city', 'image_img', 'merits', 'limitations',
+                    'comment', 'email', 'video', 'rating', 'period',
+                    'is_active', 'created', 'updated']
+
+    list_editable = ['is_active', 'email', 'video']
+    readonly_fields = ['image_img']  # Выводит в карточке товара картинку товара!
+    list_display_links = ['product']   # Выводит в админке какие поля будут в виде ссылок.
+    search_fields = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']  # Выводит строку поиска в адинке
+    #list_filter = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']
+    actions = [complete_post, incomplete_post]  # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
+    list_per_page = 10  # Вывод количества новостей в админке
+
+    # def merits_format(self, obj):
+    #     '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''
+    #     return mark_safe(obj.merits)
+    #
+    # merits_format.short_description = 'Достоинства'
+    #
+    # def limitations_format(self, obj):
+    #     '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''
+    #     return mark_safe(obj.limitations)
+    #
+    # limitations_format.short_description = 'Недостатки'
+    #
+    # def comment_format(self, obj):
+    #     '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''
+    #     return mark_safe(obj.comment)
+    #
+    # comment_format.short_description = 'Комментарии'
