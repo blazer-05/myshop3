@@ -19,8 +19,7 @@ class ReviewForm(forms.ModelForm):
             'comment': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your city', 'class': 'form-control', 'required': True}),
             'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
-            'period': Choices(),
-            'rating': Choices(),
+            'period': forms.Select(attrs={'class': 'form-control','required': True}),
 
         }
 
@@ -42,6 +41,7 @@ class ReviewFormCaptcha(forms.ModelForm):
             'limitations': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your city', 'class': 'form-control', 'required': True}),
             'comment': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your city', 'class': 'form-control', 'required': True}),
             'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
-            'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False})
+            'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
+            'period': forms.Select(attrs={'class': 'form-control','required': True}),
 
         }

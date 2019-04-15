@@ -87,11 +87,11 @@ class Review(models.Model):
     '''Отзыв о товаре с оценкой'''
 
     RATING_CHOICES = Choices(
-        (1, 'terrible', 'Ужасно'),
+        (1, 'terrible', 'Ужасно!'),
         (2, 'badly', 'Плохо'),
         (3, 'normally', 'Нормально'),
         (4, 'good', 'Хорошо'),
-        (5, 'perfectly', 'Отлично'),
+        (5, 'perfectly', 'Отлично!'),
     )
 
     PERIOD_OF_USE = Choices(

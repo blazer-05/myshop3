@@ -5,6 +5,7 @@
 
 
 
+
 <!-- Кнопка раскрывает скрытый блок -->
 <div class="container-fluid">
     <button type="button" class="btn btn-info" onclick="openForm()" style="display: block">Add Review</button>
@@ -32,10 +33,7 @@
                         <div class="form-group">
                             <label for="form_name">Rating *</label>
                             {{ form.rating }}
-                            <input type="hidden" id="selected_rating" name="selected_rating" value="">
-                            <h2 class="bold rating-header" style="">
-                            <span class="selected-rating">0</span><small> / 5</small>
-                            </h2>
+
 							<div class="review-block-rate">
 								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="1" id="rating-star-1">
 								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -52,6 +50,7 @@
 								<button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="5" id="rating-star-5">
 								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
 								</button>
+                                <span class="selected-rating" style="font-size: 14px; margin-left: 15px;"></span>
 							</div>
                         </div>
                     </div>
@@ -287,7 +286,7 @@
 		<div class="row">
 			<div class="col-sm-10">
 				<hr/>
-                {% for rev in review %}
+                {% for rev in reviews %}
 				<div class="review-block">
 					<div class="row">
 						<div class="col-sm-3">
@@ -297,27 +296,33 @@
                                 {% else %}
                                 <div class="review-block-name"><a href="#">{{ rev.user_name }}</a></div>
                             {% endif %}
-							<div class="review-block-date">Использование: {{ rev.period }}</div>
+							<div class="review-block-date">Использование: {{ rev.get_period_display }}</div>
 							<div class="review-block-date">{{ rev.created }}</div>
                             <div class="review-block-date">{{ rev.city }}</div>
 						</div>
 						<div class="col-sm-9">
 							<div class="review-block-rate">
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
-								<button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-								</button>
+                            {% for x in '12345' %}
+                                    <button type="button" class="btn {% if forloop.counter <= rev.rating %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">
+                                      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                {% endfor %}
+{#								<button type="button" class="btn {% if rev.rating >= 1 %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">#}
+{#								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>#}
+{#								</button>#}
+{#								<button type="button" class="btn {% if rev.rating >= 2 %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">#}
+{#								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>#}
+{#								</button>#}
+{#								<button type="button" class="btn {% if rev.rating >= 3 %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">#}
+{#								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>#}
+{#								</button>#}
+{#								<button type="button" class="btn {% if rev.rating >= 4 %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">#}
+{#								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>#}
+{#								</button>#}
+{#								<button type="button" class="btn {% if rev.rating >= 5 %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">#}
+{#								  <span class="glyphicon glyphicon-star" aria-hidden="true"></span>#}
+{#								</button>#}
+                                <span class="selected-rating">{{ rev.get_rating_display }}</span>
 							</div>
 
                             <div class="review-block-title">
@@ -404,46 +409,46 @@
 		</div>
 
         <!-- Пагинация отзывов -->
-{#        <div class="pagination-area">#}
-{#            <div class="row">#}
-{#                <div class="col-xs-5">#}
-{#                    <div class="pagination">#}
-{#                        <ul>#}
-{#                            {% bootstrap_pagination review pages_to_show=3 %}#}
-{#                        </ul>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="col-xs-7">#}
-{#                    <div class="product-result">#}
-{#                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-
-        <div class="paginations-wrapper">
-            <ul class="paginations paginations-sm">
-
-                {% if review.has_previous %}
-                    <li><a href="?page=1">&laquo; First</a></li>
-                    <li><a href="?page={{ review.previous_page_number }}">Previous</a></li>
-                {% endif %}
-
-                {% for i in review.paginator.page_range %}
-                    {% if review.number == i %}
-                        <li class="active"><span>{{ i }} </span></li>
-                    {% else %}
-                        <li><a href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-
-                {% if review.has_next %}
-                    <li><a href="?page={{ review.next_page_number }}">Next</a></li>
-                    <li><a href="?page={{ review.paginator.num_pages }}">Last &raquo;</a></li>
-                {% endif %}
-
-            </ul>
+        <div class="pagination-area">
+            <div class="row">
+                <div class="col-xs-5">
+                    <div class="pagination">
+                        <ul>
+                            {% bootstrap_pagination reviews pages_to_show=3 %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="product-result">
+                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+{#        <div class="paginations-wrapper">#}
+{#            <ul class="paginations paginations-sm">#}
+{##}
+{#                {% if review.has_previous %}#}
+{#                    <li><a href="?page=1">&laquo; First</a></li>#}
+{#                    <li><a href="?page={{ review.previous_page_number }}">Previous</a></li>#}
+{#                {% endif %}#}
+{##}
+{#                {% for i in review.paginator.page_range %}#}
+{#                    {% if review.number == i %}#}
+{#                        <li class="active"><span>{{ i }} </span></li>#}
+{#                    {% else %}#}
+{#                        <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{##}
+{#                {% if review.has_next %}#}
+{#                    <li><a href="?page={{ review.next_page_number }}">Next</a></li>#}
+{#                    <li><a href="?page={{ review.paginator.num_pages }}">Last &raquo;</a></li>#}
+{#                {% endif %}#}
+{##}
+{#            </ul>#}
+{#        </div>#}
 
     </div> <!-- /container -->
 

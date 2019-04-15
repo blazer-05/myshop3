@@ -79,7 +79,7 @@ class NewsAdmin(SummernoteModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product', 'user', 'city', 'image_img', 'merits', 'limitations',
+    list_display = ['id', 'product', 'sender', 'is_authenticated', 'city', 'image_img', 'merits', 'limitations',
                     'comment', 'email', 'video', 'rating', 'period',
                     'is_active', 'created', 'updated']
 
@@ -90,6 +90,20 @@ class ReviewAdmin(admin.ModelAdmin):
     #list_filter = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']
     actions = [complete_post, incomplete_post]  # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
     list_per_page = 10  # Вывод количества новостей в админке
+
+    def sender(self, obj):
+        '''Метод определяет в одном столбце кто добавил комментарий user или user_name (т.е. зарегистрированный или нет пользовватель)'''
+        return obj.user or obj.user_name
+
+    sender.short_description = 'Отправитель'
+
+    def is_authenticated(self, obj):
+        '''Метод определяет в одном столбце от кого был комментарий от авторизаванного или анонимного пользователя'''
+        return bool(obj.user)
+
+    is_authenticated.short_description = 'Зарегистрирован'
+    is_authenticated.boolean = True
+
 
     # def merits_format(self, obj):
     #     '''Метод, который убирает в админке в поле text теги <p><br></p> от визуального редактора Summernote. В настройках суммернота не получилось это сделать.'''

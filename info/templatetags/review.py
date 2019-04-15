@@ -77,7 +77,7 @@ def review_list(request, product):
     else:
         form = FormClass()
 
-    return {'request': request, 'review': review, 'form': form}
+    return {'request': request, 'reviews': review, 'form': form}
 
     #     '''Если капча введена с ошибкой, то возвращаем ошибку с помощью ajax. Код в review_script.js'''
     #     return HttpResponse(status=201)
