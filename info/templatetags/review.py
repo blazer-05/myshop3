@@ -24,7 +24,7 @@ def review_list(request, product):
     В теге темплейттега добавляем второй параметр product {% review_list request product %}'''
     review = Review.objects.filter(is_active=True, product=product)
 
-    paginator = Paginator(review, 3)
+    paginator = Paginator(review, 5)
     page = request.GET.get('page')
     review = paginator.get_page(page)
 
@@ -42,7 +42,7 @@ def review_list(request, product):
     form = FormClass(request.POST or None)
 
     if form.is_valid():
-        user = form.cleaned_data['user']
+        #user = form.cleaned_data['user']
         user_name = form.cleaned_data['user_name']
         email = form.cleaned_data['email']
         city = form.cleaned_data['city']
@@ -61,9 +61,10 @@ def review_list(request, product):
         так как request.user для авторизированного это инстанс User,
         а для не авторизированного это инстанс AnonymousUser (это не модель бд)'''
         review.user = request.user if request.user.is_authenticated else None  # Без этой проверки анонимный пользователь не мог добавить комментарий
+        review.product = product
         review.save()
 
-        context = {'user': user, 'user_name': user_name, 'email': email, 'city': city,
+        context = {'user_name': user_name, 'email': email, 'city': city,
                    'image': image, 'merits': merits, 'limitations': limitations,
                    'comment': comment, 'video': video, 'rating': rating, 'period': period}
 

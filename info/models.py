@@ -87,11 +87,11 @@ class Review(models.Model):
     '''Отзыв о товаре с оценкой'''
 
     RATING_CHOICES = Choices(
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
+        (1, 'terrible', 'Ужасно'),
+        (2, 'badly', 'Плохо'),
+        (3, 'normally', 'Нормально'),
+        (4, 'good', 'Хорошо'),
+        (5, 'perfectly', 'Отлично'),
     )
 
     PERIOD_OF_USE = Choices(
@@ -127,7 +127,7 @@ class Review(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return 'Отзыв добавил: {} - к продукту {}'.format(self.user, self.product)
+        return self.city
 
 
     # Вывод картинок в админке!

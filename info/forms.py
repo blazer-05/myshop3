@@ -8,7 +8,7 @@ class ReviewForm(forms.ModelForm):
     '''Форма создания отзыва без капчи'''
     class Meta:
         model = Review
-        fields = ['user', 'user_name', 'city', 'image', 'merits', 'limitations', 'comment',
+        fields = ['user_name', 'city', 'image', 'merits', 'limitations', 'comment',
                   'email', 'video', 'rating', 'period']
         widgets = {
             'user_name': forms.TextInput(attrs={'placeholder': 'Nickname*', 'class': 'form-control', 'required': True}),
@@ -31,7 +31,7 @@ class ReviewFormCaptcha(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['user', 'user_name', 'city', 'image', 'merits', 'limitations', 'comment',
+        fields = ['user_name', 'city', 'image', 'merits', 'limitations', 'comment',
                   'email', 'video', 'rating', 'period']
 
         widgets = {

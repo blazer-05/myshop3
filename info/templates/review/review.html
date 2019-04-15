@@ -31,6 +31,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="form_name">Rating *</label>
+                            {{ form.rating }}
                             <input type="hidden" id="selected_rating" name="selected_rating" value="">
                             <h2 class="bold rating-header" style="">
                             <span class="selected-rating">0</span><small> / 5</small>
@@ -136,7 +137,8 @@
                     <label for="form_uploading">Textbox for uploading an image</label>
                       <div class="container-fluid">
                         <div class="row">
-                            <input type='file' onchange="readURL(this);" />
+{#                            {{ form.image }}#}
+                            <input type="file" name="image" onchange="readURL(this);">
                         </div>
                       </div>
                       <br>
@@ -149,7 +151,7 @@
                     <label for="id_captcha">Captcha {{ form.captcha.label }}</label>
                       <div class="container-fluid">
                         <div class="row">
-                            {{ form.captcha }}
+{#                            {{ form.captcha }}#}
                             <button class='captcha-refresh'>
                                 <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
                             </button>
@@ -402,21 +404,45 @@
 		</div>
 
         <!-- Пагинация отзывов -->
-        <div class="pagination-area">
-            <div class="row">
-                <div class="col-xs-5">
-                    <div class="pagination">
-                        <ul>
-                            {% bootstrap_pagination review pages_to_show=3 %}
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xs-7">
-                    <div class="product-result">
-                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>
-                    </div>
-                </div>
-            </div>
+{#        <div class="pagination-area">#}
+{#            <div class="row">#}
+{#                <div class="col-xs-5">#}
+{#                    <div class="pagination">#}
+{#                        <ul>#}
+{#                            {% bootstrap_pagination review pages_to_show=3 %}#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-xs-7">#}
+{#                    <div class="product-result">#}
+{#                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+        <div class="paginations-wrapper">
+            <ul class="paginations paginations-sm">
+
+                {% if review.has_previous %}
+                    <li><a href="?page=1">&laquo; First</a></li>
+                    <li><a href="?page={{ review.previous_page_number }}">Previous</a></li>
+                {% endif %}
+
+                {% for i in review.paginator.page_range %}
+                    {% if review.number == i %}
+                        <li class="active"><span>{{ i }} </span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if review.has_next %}
+                    <li><a href="?page={{ review.next_page_number }}">Next</a></li>
+                    <li><a href="?page={{ review.paginator.num_pages }}">Last &raquo;</a></li>
+                {% endif %}
+
+            </ul>
         </div>
 
     </div> <!-- /container -->
