@@ -22,7 +22,7 @@
         <div class="row">
           <div class="col-lg-8">
 
-            <form id="contact-form" method="post" role="form">
+            <form id="contact-form" method="post" role="form" enctype="multipart/form-data">
                 {% csrf_token %}
 
             <div class="messages"></div>
@@ -55,6 +55,7 @@
                         </div>
                     </div>
                 </div>
+              {% if not request.user.is_authenticated %}
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -73,6 +74,7 @@
                   </div>
                 </div>
               </div>
+              {% endif %}
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -137,7 +139,7 @@
                       <div class="container-fluid">
                         <div class="row">
 {#                            {{ form.image }}#}
-                            <input type="file" name="image" onchange="readURL(this);">
+                            <input type="file" id="id_image" name="image" onchange="readURL(this);">
                         </div>
                       </div>
                       <br>
@@ -145,12 +147,13 @@
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
+                {% if not request.user.is_authenticated %}
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="id_captcha">Captcha {{ form.captcha.label }}</label>
                       <div class="container-fluid">
                         <div class="row">
-{#                            {{ form.captcha }}#}
+                            {{ form.captcha }}
                             <button class='captcha-refresh'>
                                 <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
                             </button>
@@ -159,6 +162,7 @@
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
+                {% endif %}
                   <br>
                 <div class="col-md-12">
                   <input type="submit" class="btn btn-success btn-send" value="Send message">
@@ -185,8 +189,8 @@
 {#        <button class="btn btn-danger btn-sm" pull-right onclick="closeForm()">close</button>#}
 {#    </div>#}
 </div>
-<br>
-
+<br><br>
+<hr>
 
 
 <!-- Вывод отзыва -->
@@ -296,11 +300,12 @@
                                 {% else %}
                                 <div class="review-block-name"><a href="#">{{ rev.user_name }}</a></div>
                             {% endif %}
-							<div class="review-block-date">Использование: {{ rev.get_period_display }}</div>
-							<div class="review-block-date">{{ rev.created }}</div>
-                            <div class="review-block-date">{{ rev.city }}</div>
+							<div class="review-block-date"><strong><u>Срок использования:</u></strong><br>{{ rev.get_period_display }}</div>&nbsp;
+							<div class="review-block-date"><strong><u>Дата отзыва:</u></strong><br>{{ rev.created }}</div>&nbsp;
+                            <div class="review-block-date"><strong><u>Город пользователя:</u></strong><br>{{ rev.city }}</div>&nbsp;
 						</div>
 						<div class="col-sm-9">
+                          <div class="" style="margin-left: 10px">
 							<div class="review-block-rate">
                             {% for x in '12345' %}
                                     <button type="button" class="btn {% if forloop.counter <= rev.rating %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">
@@ -326,24 +331,24 @@
 							</div>
 
                             <div class="review-block-title">
-                                <img src="{% static 'info/reviews/green.png' %}" style="position: absolute; left: -5px;">Достоинства
+                                <img src="{% static 'info/reviews/green.png' %}" style="position: absolute; left: 3px;">Достоинства
                             </div>
                             <div class="review-block-description">{{ rev.merits|safe }}</div>&nbsp;
 
                             <div class="review-block-title">Недостатки
-                                <img src="{% static 'info/reviews/read.png' %}" style="position: absolute; left: -5px;">
+                                <img src="{% static 'info/reviews/read.png' %}" style="position: absolute; left: 3px;">
                             </div>
                             <div class="review-block-description">{{ rev.limitations|safe }}</div>&nbsp;
 
                             <div class="review-block-title">Комментарий
-                                <img src="{% static 'info/reviews/comment.png' %}" style="position: absolute; left: -5px;">
+                                <img src="{% static 'info/reviews/comment.png' %}" style="position: absolute; left: 3px;">
                             </div>
                             <div class="review-block-description">{{ rev.comment|safe }}</div>
                             &nbsp;<br>
                             {% if rev.image %}
                             <div class="review-block-description">
                                 <a href="#" data-toggle="modal" data-target=".dialog1">
-                                    <img id="blah" src="{{ rev.image.url }}" width="350" class="img-responsive img-rounded" alt="your image" />
+                                    <img id="blah" src="{{ rev.image.url }}" width="250" class="img-responsive img-rounded" alt="your image" />
                                 </a>
                                 <!--  Modal content for Image -->
                                 <div class="modal fade dialog1" tabindex="-1">
@@ -400,6 +405,7 @@
 
                               </div>
                             </div>
+                          </div>
 						</div>
 					</div>
 					<hr/>
@@ -420,35 +426,11 @@
                 </div>
                 <div class="col-xs-7">
                     <div class="product-result">
-                        <span>Showing 1 to {{ review.number }} of ({{ review.paginator.num_pages }} Pages)</span>
+                        <span>Showing 1 to {{ reviews.number }} of ({{ reviews.paginator.num_pages }} Pages)</span>
                     </div>
                 </div>
             </div>
         </div>
-
-{#        <div class="paginations-wrapper">#}
-{#            <ul class="paginations paginations-sm">#}
-{##}
-{#                {% if review.has_previous %}#}
-{#                    <li><a href="?page=1">&laquo; First</a></li>#}
-{#                    <li><a href="?page={{ review.previous_page_number }}">Previous</a></li>#}
-{#                {% endif %}#}
-{##}
-{#                {% for i in review.paginator.page_range %}#}
-{#                    {% if review.number == i %}#}
-{#                        <li class="active"><span>{{ i }} </span></li>#}
-{#                    {% else %}#}
-{#                        <li><a href="?page={{ i }}">{{ i }}</a></li>#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-{##}
-{#                {% if review.has_next %}#}
-{#                    <li><a href="?page={{ review.next_page_number }}">Next</a></li>#}
-{#                    <li><a href="?page={{ review.paginator.num_pages }}">Last &raquo;</a></li>#}
-{#                {% endif %}#}
-{##}
-{#            </ul>#}
-{#        </div>#}
 
     </div> <!-- /container -->
 

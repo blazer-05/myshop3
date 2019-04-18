@@ -1,6 +1,11 @@
+from django.contrib import messages
+from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
+from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 
+from info.forms import ReviewForm, ReviewFormCaptcha
 from info.models import News
 
 
@@ -30,7 +35,58 @@ def newsdetails(request, slug):
     return render(request, 'news/details.html', {'newsdetails': newsdetails, 'all_comment': all_comment})
 
 
+def create_review(request):
+    '''Создание отзыва'''
 
+    '''Если запрос не POST, то выводим ошибку 404'''
+    if request.method != 'POST':
+        raise Http404()
+
+    '''Если пользователь авторизован, то в FormClass присвамваем форму без капчи, иначе в FormClass присваиваем форму с капчей'''
+    if request.user.is_authenticated:
+        FormClass = ReviewForm
+    else:
+        FormClass = ReviewFormCaptcha
+
+    '''Инициализация формы'''
+    form = FormClass(request.POST or None, request.FILES or None)
+
+    if form.is_valid():
+        #user = form.cleaned_data['user']
+        user_name = form.cleaned_data['user_name']
+        email = form.cleaned_data['email']
+        city = form.cleaned_data['city']
+        image = form.cleaned_data['image']
+        merits = form.cleaned_data['merits']
+        limitations = form.cleaned_data['limitations']
+        comment = form.cleaned_data['comment']
+        video = form.cleaned_data['video']
+        rating = form.cleaned_data['rating']
+        period = form.cleaned_data['period']
+
+        recepients = ['blazer-05@mail.ru']
+
+        review = form.save(commit=False)
+        '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
+        так как request.user для авторизированного это инстанс User,
+        а для не авторизированного это инстанс AnonymousUser (это не модель бд)'''
+        review.user = request.user if request.user.is_authenticated else None  # Без этой проверки анонимный пользователь не мог добавить комментарий
+        review.product = product
+        review.save()
+
+        context = {'user_name': user_name, 'email': email, 'city': city,
+                   'image': image, 'merits': merits, 'limitations': limitations,
+                   'comment': comment, 'video': video, 'rating': rating, 'period': period}
+
+        message = render_to_string('review/admin_review_email.html', context, request)
+        email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(review.user), message, 'blazer-05@mail.ru', recepients)
+        email.content_subtype = 'html'
+        email.send()
+        messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
+
+        return HttpResponse(status=201)
+    else:
+        return JsonResponse({field: list(errors) for field, errors in form.errors.items()}, status=400)
 
 
 
