@@ -62,3 +62,56 @@ jQuery(document).ready(function ($) {
 
 
 });
+
+
+// Ошибка капчи при неправильном вводе кода капчи.
+function submit_review_form(event) {
+  event.preventDefault();
+
+  let formData = new FormData(event.target);
+  let data = {};
+  formData.forEach(function (value, key) {
+    data[key] = value;
+  });
+
+  $.ajax({
+    url: event.target.action,
+    type: "POST",
+    data: data,
+    success: function (data, textStatus, jqXHR) {
+      window.location.href = window.location.href
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      let json = jqXHR.responseJSON;
+
+      let review_form_errors_class = 'review_form_errors';
+      $(event.target).find('.'+review_form_errors_class).remove();
+
+      let labels = $(event.target).find('label');
+      for (let index in labels) {
+        let label = labels[index];
+
+        if (label.htmlFor === undefined)
+          continue;
+
+        let field = label.htmlFor.replace('id_', '');
+        if (json.hasOwnProperty(field)) {
+          $('<span>')
+            .addClass(review_form_errors_class)
+            .css('color', 'red')
+            .text(' '+json[field].join(', '))
+            .insertAfter($(label))
+        }
+      }
+      $('.form_errors').append($('<span>')
+        .addClass(review_form_errors_class)
+        .css('color', 'red')
+        .text('Проверьте правильность данных'))
+
+      $.getJSON("/captcha/refresh/", function (result) {
+        $('.captcha').attr('src', result['image_url']);
+        $('#id_captcha_0').val(result['key'])
+      });
+    }
+  });
+}

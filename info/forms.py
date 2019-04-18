@@ -8,7 +8,7 @@ class ReviewForm(forms.ModelForm):
     '''Форма создания отзыва без капчи'''
     class Meta:
         model = Review
-        fields = ['user_name', 'city', 'image', 'merits', 'limitations', 'comment',
+        fields = ['user_name', 'product', 'city', 'image', 'merits', 'limitations', 'comment',
                   'email', 'video', 'rating', 'period']
         widgets = {
             'user_name': forms.TextInput(attrs={'placeholder': 'Nickname*', 'class': 'form-control', 'required': True}),
@@ -20,6 +20,7 @@ class ReviewForm(forms.ModelForm):
             #'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'period': forms.Select(attrs={'class': 'form-control','required': True}),
+            'product': forms.HiddenInput()
 
         }
 
@@ -30,7 +31,7 @@ class ReviewFormCaptcha(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['user_name', 'city', 'image', 'merits', 'limitations', 'comment',
+        fields = ['user_name', 'product', 'city', 'image', 'merits', 'limitations', 'comment',
                   'email', 'video', 'rating', 'period']
 
         widgets = {
@@ -43,5 +44,6 @@ class ReviewFormCaptcha(forms.ModelForm):
             #'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'period': forms.Select(attrs={'class': 'form-control','required': True}),
+            'product': forms.HiddenInput()
 
         }

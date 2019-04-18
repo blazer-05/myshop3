@@ -1,3 +1,5 @@
+
+
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
@@ -71,7 +73,6 @@ def create_review(request):
         так как request.user для авторизированного это инстанс User,
         а для не авторизированного это инстанс AnonymousUser (это не модель бд)'''
         review.user = request.user if request.user.is_authenticated else None  # Без этой проверки анонимный пользователь не мог добавить комментарий
-        review.product = product
         review.save()
 
         context = {'user_name': user_name, 'email': email, 'city': city,
