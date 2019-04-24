@@ -100,7 +100,7 @@
 											<td style="color: #153643; font-family: sans-serif; padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold; text-align: center;">
 
 												 Привет Админ! ...</br>
-                                                 Отзыв id: {{ review.id }} к статье "{{ review.product }}" был отредактирован пользователем "{{ review.user }}".
+                                                 Комментарий id: {{ review.id }} к статье "{{ review.product }}" был удален пользователем "{{ review.user }}".
 											</td>
 
 										</tr><!--/ВСТУПЛЕНИЕ-->
@@ -110,11 +110,11 @@
 										<tr>
                                             <td style="color: #153643; font-family: sans-serif; font-size: 16px; line-height: 22px;">
                                                 <p>
-                                                <ul>
+<ul>
 
                                                     <li><b>id:</b> {{ review.id }}</li>
 
-                                                    <li><b>Товар:</b> {{ product }}</li>
+                                                    <li><b>Товар:</b> {{ review.product }}</li>
                                                     <li><b>Рейтинг:</b> {{ review.get_rating_display }}</li>
                                                     <li><b>Период:</b> {{ review.get_period_display}}</li>
 
@@ -125,16 +125,16 @@
                                                     {% endif %}
 
                                                     {% if city %}
-                                                        <li><b>Город:</b> {{ city }}</li>
+                                                        <li><b>Город:</b> {{ review.city }}</li>
                                                     {% else %}
                                                         <li><b>Город:</b> Пользователь не указал свой город</li>
                                                     {% endif %}
 
                                                     <li><b>Текст отзыва:</b>
                                                         <hr/>
-                                                        <li><b>Достоинства:</b> {{ merits|safe }}</li><br><hr/>
-                                                        <li><b>Недостатки:</b> {{ limitations|safe }}</li><br><hr/>
-                                                        <li><b>Комментарий:</b> {{ comment|safe }}</li><br>
+                                                        <li><b>Достоинства:</b> {{ review.merits|safe }}</li><br><hr/>
+                                                        <li><b>Недостатки:</b> {{ review.limitations|safe }}</li><br><hr/>
+                                                        <li><b>Комментарий:</b> {{ review.comment|safe }}</li><br>
                                                         <hr/>
                                                     </li>
 
@@ -144,27 +144,8 @@
                                                         <li><b>E-mail пользователя:</b> Пользователь не указал свой e-mail</li>
                                                     {% endif %}
 
-{#                                                    {% if image %}#}
-{#                                                        <li><b>Изображение:</b> <img src="{{ review.image.url }}" class="img-responsive img-rounded center-block" alt="" /></li>#}
-{#                                                        {% else %}#}
-{#                                                        <li><b>Изображение:</b> Пользователь не добавил изображение</li>#}
-{#                                                    {% endif %}#}
-{##}
-{#                                                    {% if video %}#}
-{#                                                        <li><b>Видео:</b> <iframe width="100%" height="250px" src="{{ review.video }}" frameborder="0" allowfullscreen></iframe></li>#}
-{#                                                        {% else %}#}
-{#                                                        <li><b>Видео:</b> Пользователь не добавил ссылку на видео</li>#}
-{#                                                    {% endif %}#}
-
                                                     <li><b>Создан:</b> {{ review.created }}</li>
-
-                                                    {% if updated %}
-                                                        <li><b>Обновлен:</b> {{ review.updated }}</li>
-                                                    {% endif %}
-
-                                                    {% if created %}
-                                                        <li><b>Обновлен:</b> {{ review.created }}</li>
-                                                    {% endif %}
+                                                    <li><b>Удален:</b> {{ delete_date }}</li>
 
                                                 </ul>
                                                 </p>

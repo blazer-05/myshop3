@@ -386,7 +386,7 @@
                                                 <button type="button" class="btn btn-warning btn-xs label">Edit</button>
                                             </a>
 
-                                            <a href="#" id="delete" title="Delete">
+                                            <a href="{% url 'reviews:delete_review' pk=rev.pk %}" id="review_delete" title="Delete">
                                                 <button type="button" class="btn btn-danger btn-xs label">Delete</button>
                                             </a>
                                       </div>

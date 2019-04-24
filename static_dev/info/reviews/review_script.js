@@ -117,3 +117,9 @@ $("#close").click(function(e) {
   e.preventDefault();
   location.href = "/";
 });
+
+
+// Подтверждение удаления комментария, id на кнопке Delete
+$('#review_delete').click(function () {
+    return confirm('Вы действительно хотите удалить отзыв?');
+});

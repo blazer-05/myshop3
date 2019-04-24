@@ -1,5 +1,5 @@
 
-
+from datetime import datetime
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
@@ -135,3 +135,20 @@ def edit_review(request, pk):
         form = EditReviewForm(instance=review)
 
     return render(request, 'review/edit_review.html', {'form': form, 'review': review})
+
+
+def delete_review(request, pk):
+    '''Функция удаления отзыва'''
+    review = get_object_or_404(Review, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
+    rev_prod = review.product # получаем комментарии связанные с новостью
+
+    recepients = ['blazer-05@mail.ru']
+    context = {'review': review, 'rev_prod': rev_prod, 'delete_date': datetime.now()}
+    message = render_to_string('review/admin_delete_review_email.html', context, request)
+    email = EmailMessage('Отзыв №"{}" к статье "{}" был удален'.format(review.id, review.product), message, 'blazer-05@mail.ru', recepients)
+    email.content_subtype = 'html'
+    email.send()
+
+    review.delete()
+    messages.success(request, 'Ваш отзыв успешно удален!')
+    return HttpResponseRedirect(rev_prod.get_absolute_url())# редиректим на страницу откуда был удален комментарий
