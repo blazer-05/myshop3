@@ -86,6 +86,10 @@ class News(models.Model):
 class Review(models.Model):
     '''Отзыв о товаре с оценкой'''
 
+    '''Для вывода в шаблоне нужного значения
+    https://djbook.ru/rel1.8/ref/models/instances.html#extra-instance-methods
+    использовать get_period_display где period - это поле селекта в модели. 
+    '''
     RATING_CHOICES = Choices(
         (1, 'terrible', 'Ужасно!'),
         (2, 'badly', 'Плохо'),
@@ -127,7 +131,7 @@ class Review(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.city
+        return self.product
 
 
     # Вывод картинок в админке!

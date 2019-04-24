@@ -155,16 +155,15 @@
                                     <label for="id_captcha">{{ form.captcha.label }}</label>
                                 </div>
                                 <div class="col-lg-12">
-                                    {{ form.captcha }}
+                                        {{ form.captcha }}
+
+                                    {% if request.user.is_authenticated %}
+                                    {% else %}
+                                        <button class='captcha-refresh'>
+                                            <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
+                                        </button>
+                                    {% endif %}
                                 </div>
-
-                                {% if request.user.is_authenticated %}
-                                {% else %}
-                                    <button class='captcha-refresh'>
-                                        <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
-                                    </button>
-                                {% endif %}
-
 
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit"/>

@@ -68,6 +68,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'shop/templates'),
+                 os.path.join(BASE_DIR, 'info/templates'),
                  #os.path.join(BASE_DIR, 'info/templates/news/custom_field.html'),
 		],
         'APP_DIRS': True,
@@ -205,7 +206,6 @@ SUMMERNOTE_CONFIG = {
 }
 
 '''
-
 
 
 # Подгружаем настройки из модуля local_settings.py.

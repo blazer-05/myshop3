@@ -32,7 +32,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="form_name">Rating *</label>
-                            {{ form.product }}
+                            {{ form.product }}<!-- Скрытое поле product в forms.py в виджете-->
                             {{ form.rating }}
 
 							<div class="review-block-rate">
@@ -296,12 +296,12 @@
 					<div class="row">
 						<div class="col-sm-3">
 							<img src="{% static 'info/reviews/User_48x48.png' %}" class="img-rounded">
-                            {% if user %}
+                            {% if rev.user %}
 							    <div class="review-block-name"><a href="#">{{ rev.user }}</a></div>
                                 {% else %}
                                 <div class="review-block-name"><a href="#">{{ rev.user_name }}</a></div>
                             {% endif %}
-							<div class="review-block-date"><strong><u>Срок использования:</u></strong><br>{{ rev.get_period_display }}</div>&nbsp;
+							<div class="review-block-date"><strong><u>Срок использования:</u></strong><br>{{ rev.get_period_display }}</div>&nbsp; <!-- get_period_display метод который выводит из модели нужное значение Choices, period - это поле из модели -->
 							<div class="review-block-date"><strong><u>Дата отзыва:</u></strong><br>{{ rev.created }}</div>&nbsp;
                             <div class="review-block-date"><strong><u>Город пользователя:</u></strong><br>{{ rev.city }}</div>&nbsp;
 						</div>
@@ -379,17 +379,19 @@
                             <br>
                             <div class="row">
                               <div class="col-sm-6 col-md-8">
+                                {% if request.user.is_authenticated %}
+                                    {% if rev.user == request.user %}
+                                      <div class="pull-left">
+                                            <a href="{% url 'reviews:edit_review' pk=rev.pk %}" title="Edit" style="margin-right: 5px;">
+                                                <button type="button" class="btn btn-warning btn-xs label">Edit</button>
+                                            </a>
 
-                                  <div class="pull-left">
-                                        <a href="#" title="Edit" style="margin-right: 5px;">
-                                            <button type="button" class="btn btn-warning btn-xs label">Edit</button>
-                                        </a>
-
-                                        <a href="#" id="delete" title="Delete">
-                                            <button type="button" class="btn btn-danger btn-xs label">Delete</button>
-                                        </a>
-                                  </div>
-
+                                            <a href="#" id="delete" title="Delete">
+                                                <button type="button" class="btn btn-danger btn-xs label">Delete</button>
+                                            </a>
+                                      </div>
+                                    {% endif %}
+                                {% endif %}
                               </div>
                               <div class="col-xs-6 col-md-4 pull-right">
 

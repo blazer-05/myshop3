@@ -1,10 +1,3 @@
-// Установка csrf_token
-(function () {
-    let csrftoken = Cookies.get('csrftoken');
-    $.ajaxSetup({
-        headers: {"X-CSRFToken": csrftoken}
-    });
-})();
 
 // Показать и скрыть форму добавления отзыва, (openForm - в шаблоне review.html) и
 // (closeForm - в шаблоне review.html)
@@ -64,7 +57,7 @@ jQuery(document).ready(function ($) {
 });
 
 
-// Ошибка капчи при неправильном вводе кода капчи.
+// Ошибка капчи при неправильном вводе кода капчи - форма отзывов.
 function submit_review_form(event) {
   event.preventDefault();
 
@@ -77,7 +70,9 @@ function submit_review_form(event) {
   $.ajax({
     url: event.target.action,
     type: "POST",
-    data: data,
+    data: formData,
+    processData: false,
+    contentType: false,
     success: function (data, textStatus, jqXHR) {
       window.location.href = window.location.href
     },
@@ -115,3 +110,10 @@ function submit_review_form(event) {
     }
   });
 }
+
+
+// Скрипт кнопки close в шаблоне edit_review.html
+$("#close").click(function(e) {
+  e.preventDefault();
+  location.href = "/";
+});

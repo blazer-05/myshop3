@@ -87,7 +87,7 @@ $('#delete').click(function () {
 });
 
 
-// Ошибка капчи при неправильном вводе кода капчи.
+// Ошибка капчи при неправильном вводе кода капчи - форма комментарев.
 function submit_comment_form(event) {
   event.preventDefault();
 
@@ -98,7 +98,7 @@ function submit_comment_form(event) {
   });
 
   $.ajax({
-    url: event.target.action,
+    url: event.target.action, // возможно нужно будет изменить аякс запрос как в скрипте отзывов submit_review_form
     type: "POST",
     data: data,
     success: function (data, textStatus, jqXHR) {
@@ -138,6 +138,8 @@ function submit_comment_form(event) {
     }
   });
 }
+
+
 
 
 // $(document).ready(function () {

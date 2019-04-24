@@ -80,10 +80,10 @@ class NewsAdmin(SummernoteModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ['id', 'product', 'sender', 'is_authenticated', 'city', 'image_img', 'merits', 'limitations',
-                    'comment', 'email', 'video', 'rating', 'period',
+                    'comment', 'rating', 'period',
                     'is_active', 'created', 'updated']
 
-    list_editable = ['is_active', 'email', 'video']
+    list_editable = ['is_active']
     readonly_fields = ['image_img']  # Выводит в карточке товара картинку товара!
     list_display_links = ['product']   # Выводит в админке какие поля будут в виде ссылок.
     search_fields = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']  # Выводит строку поиска в адинке

@@ -15,7 +15,9 @@ def review_list(request, product):
 
     review = Review.objects.filter(is_active=True, product=product)
 
-    paginator = Paginator(review, 2)
+    total_review = review.count()
+
+    paginator = Paginator(review, 10)
     page = request.GET.get('page')
     review = paginator.get_page(page)
 
@@ -24,7 +26,7 @@ def review_list(request, product):
     else:
         form = ReviewForm(initial=form_initial)  # Форма без капчи
 
-    return {'request': request, 'reviews': review, 'form': form}
+    return {'request': request, 'reviews': review, 'form': form, 'total_review': total_review}
 
 
 
