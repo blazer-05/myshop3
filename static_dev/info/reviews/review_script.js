@@ -57,7 +57,7 @@ jQuery(document).ready(function ($) {
 });
 
 
-// Ошибка капчи при неправильном вводе кода капчи - форма отзывов.
+// Ошибка капчи и редирект при неправильном вводе кода капчи - форма отзывов.
 function submit_review_form(event) {
   event.preventDefault();
 
@@ -119,7 +119,48 @@ $("#close").click(function(e) {
 });
 
 
-// Подтверждение удаления комментария, id на кнопке Delete
+// Подтверждение удаления комментария, id на кнопке Delete в шаблоне admin_delete_review_email.html
 $('#review_delete').click(function () {
     return confirm('Вы действительно хотите удалить отзыв?');
 });
+
+
+// Поставить лайк
+$(document).ready(function () {
+    like_review = function (el) {
+         el = $(el)
+        $.ajax({
+            url: "/reviews/like_review/",
+            type: "POST",
+            data: {
+                pk: el.data('review-id'),
+            },
+            success: function (data, textStatus, jqXHR ) {
+                let i = jqXHR.status == 201 ? 1 : -1
+                let el_counter = el.parent().find('.label-success')
+                let count = parseInt(el_counter.text()) + i
+                el_counter.text(count)
+            }
+        })
+    }
+})
+
+// Поставить дизлайк
+$(document).ready(function () {
+    dislike_review = function (el) {
+         el = $(el)
+        $.ajax({
+            url: "/reviews/dislike_review/",
+            type: "POST",
+            data: {
+                pk: el.data('review-id'),
+            },
+            success: function (data, textStatus, jqXHR ) {
+                let i = jqXHR.status == 201 ? 1 : -1
+                let el_counter = el.parent().find('.label-danger')
+                let count = parseInt(el_counter.text()) + i
+                el_counter.text(count)
+            }
+        })
+    }
+})

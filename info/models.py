@@ -131,7 +131,7 @@ class Review(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.product
+        return self.city
 
 
     # Вывод картинок в админке!

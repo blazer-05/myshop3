@@ -396,14 +396,19 @@
                               <div class="col-xs-6 col-md-4 pull-right">
 
                                   <div class="pull-right">
-                                      <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip"><i
-                                              class="glyphicon glyphicon-thumbs-up"></i></span>
-                                      <span class="label label-success">0</span>
 
-                                      <span style="padding-left: 10px;" data-toggle="tooltip"
-                                            data-original-title="Vote Down" class="show-tooltip"><i
-                                              class="glyphicon glyphicon-thumbs-down"></i></span>
-                                      <span class="label label-danger">0</span>
+                                    <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like_review(this)" data-review-id="{{ rev.id }}">
+                                        <i class="glyphicon glyphicon-thumbs-up"></i>
+                                    </span>
+
+                                    <span class="label label-success">0</span>
+
+                                    <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike_review(this)" data-review-id="{{ rev.id }}">
+                                        <i class="glyphicon glyphicon-thumbs-down"></i>
+                                    </span>
+
+                                    <span class="label label-danger" style="margin-right: 10px;">0</span>
+
                                   </div>
 
                               </div>

@@ -22,7 +22,7 @@
                         <div class="row">
                           <div class="col-lg-8">
 
-                            <form id="contact-form" action="{% url 'reviews:edit_review' pk=review.pk %}" method="post" role="form" enctype="multipart/form-data" onsubmit="submit_review_form(event)">
+                            <form id="contact-form" action="{% url 'reviews:edit_review' pk=review.pk %}" method="post" role="form" enctype="multipart/form-data">
                                 {% csrf_token %}
 
                             <div class="messages"></div>
@@ -32,9 +32,9 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="form_name">Rating *</label>
+{#                                            {{ form.errors }}#}
                                             {{ form.product }}<!-- Скрытое поле product в forms.py в виджете-->
                                             {{ form.rating }}
-
                                             <div class="review-block-rate">
                                                 <button type="button" class="btnrating btn btn-default btn-xs" aria-label="Left Align" data-attr="1" id="rating-star-1">
                                                   <span class="glyphicon glyphicon-star" aria-hidden="true"></span>

@@ -1,6 +1,7 @@
 
 from datetime import datetime
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
@@ -152,3 +153,35 @@ def delete_review(request, pk):
     review.delete()
     messages.success(request, 'Ваш отзыв успешно удален!')
     return HttpResponseRedirect(rev_prod.get_absolute_url())# редиректим на страницу откуда был удален комментарий
+
+
+def like_review(request):
+    '''Функция лайка'''
+    pk = request.POST.get('pk')
+    post = Review.objects.get(id=pk)
+    if request.user in post.user_like.all():
+        post.user_like.remove(User.objects.get(id=request.user.id))
+        post.like -= 1
+        post.save()
+        return HttpResponse(status=204)
+    else:
+        post.user_like.add(User.objects.get(id=request.user.id))
+        post.like += 1
+        post.save()
+        return HttpResponse(status=201)
+
+
+def dislike_review(request):
+    '''Функция дизлайка'''
+    pk = request.POST.get('pk')
+    post = Review.objects.get(id=pk)
+    if request.user in post.user_dislike.all():
+        post.user_dislike.remove(User.objects.get(id=request.user.id))
+        post.dislike -= 1
+        post.save()
+        return HttpResponse(status=204)
+    else:
+        post.user_dislike.add(User.objects.get(id=request.user.id))
+        post.dislike += 1
+        post.save()
+        return HttpResponse(status=201)
