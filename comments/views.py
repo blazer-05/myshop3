@@ -108,6 +108,10 @@ def like(request):
     '''Функция лайка'''
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
+
+    if request.user in post.user_dislike.all():
+        return HttpResponse(status=400)
+
     if request.user in post.user_like.all():
         post.user_like.remove(User.objects.get(id=request.user.id))
         post.like -= 1
@@ -125,6 +129,10 @@ def dislike(request):
     '''Функция дизлайка'''
     pk = request.POST.get('pk')
     post = Comment.objects.get(id=pk)
+
+    if request.user in post.user_like.all():
+        return HttpResponse(status=400)
+
     if request.user in post.user_dislike.all():
         post.user_dislike.remove(User.objects.get(id=request.user.id))
         post.dislike -= 1

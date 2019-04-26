@@ -401,13 +401,13 @@
                                         <i class="glyphicon glyphicon-thumbs-up"></i>
                                     </span>
 
-                                    <span class="label label-success">0</span>
+                                    <span class="label label-success">{{ rev.user_like.count }}</span>
 
                                     <span style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Vote Down" class="show-tooltip" onclick="dislike_review(this)" data-review-id="{{ rev.id }}">
                                         <i class="glyphicon glyphicon-thumbs-down"></i>
                                     </span>
 
-                                    <span class="label label-danger" style="margin-right: 10px;">0</span>
+                                    <span class="label label-danger" style="margin-right: 10px;">{{ rev.user_dislike.count }}</span>
 
                                   </div>
 

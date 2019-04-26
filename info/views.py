@@ -159,14 +159,17 @@ def like_review(request):
     '''Функция лайка'''
     pk = request.POST.get('pk')
     post = Review.objects.get(id=pk)
+
+    '''Если юзер поставил лайк, то дизлайк поставить нельзя'''
+    if request.user in post.user_dislike.all():
+        return HttpResponse(status=400)
+
     if request.user in post.user_like.all():
         post.user_like.remove(User.objects.get(id=request.user.id))
-        post.like -= 1
         post.save()
         return HttpResponse(status=204)
     else:
         post.user_like.add(User.objects.get(id=request.user.id))
-        post.like += 1
         post.save()
         return HttpResponse(status=201)
 
@@ -175,13 +178,16 @@ def dislike_review(request):
     '''Функция дизлайка'''
     pk = request.POST.get('pk')
     post = Review.objects.get(id=pk)
+
+    '''Если юзер поставил дизлайк, то лайк поставить нельзя'''
+    if request.user in post.user_like.all():
+        return HttpResponse(status=400)
+
     if request.user in post.user_dislike.all():
         post.user_dislike.remove(User.objects.get(id=request.user.id))
-        post.dislike -= 1
         post.save()
         return HttpResponse(status=204)
     else:
         post.user_dislike.add(User.objects.get(id=request.user.id))
-        post.dislike += 1
         post.save()
         return HttpResponse(status=201)

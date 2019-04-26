@@ -130,7 +130,7 @@ $(document).ready(function () {
     like_review = function (el) {
          el = $(el)
         $.ajax({
-            url: "/reviews/like_review/",
+            url: "/reviews/like-review/",
             type: "POST",
             data: {
                 pk: el.data('review-id'),
@@ -150,7 +150,7 @@ $(document).ready(function () {
     dislike_review = function (el) {
          el = $(el)
         $.ajax({
-            url: "/reviews/dislike_review/",
+            url: "/reviews/dislike-review/",
             type: "POST",
             data: {
                 pk: el.data('review-id'),
