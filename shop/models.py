@@ -3,6 +3,7 @@ import random
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.db.models import Avg
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
@@ -84,6 +85,12 @@ class Brand(models.Model):
 #     return '{0}/{1}'.format(instance.slug, filename)
 
 
+
+class ProductQueryset(models.QuerySet):
+    def with_rating(self):
+        return self.annotate(rating=Avg('reviews__rating'))
+
+
 # Модель товара
 class Product(models.Model):
     category = TreeForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
@@ -108,6 +115,7 @@ class Product(models.Model):
     comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
+    objects = ProductQueryset.as_manager()
 
     class Meta:
         verbose_name = 'Товар'

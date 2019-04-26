@@ -269,11 +269,9 @@
                                                                         {% endif %}
                                                                     {% endif %}
 																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
+                                                                        {% for x in '12345' %}
+                                                                        <i class="fa fa-star{% if forloop.counter <= products.rating %}{% else %}-o{% endif %}" ></i>
+                                                                        {% endfor %}
 																	</span><br><br>
                                                                     <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
 																</div>

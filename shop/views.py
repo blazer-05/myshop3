@@ -7,9 +7,9 @@ from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
 def index(request):
     context = {}
     cart = request.cart
-    products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
+    products = Product.objects.filter(is_active=True).order_by('?').with_rating()[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True)
-    slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
+    slider_product = Product.objects.filter(is_active=True).order_by('?').with_rating()[:50] # Рандомный вывод в слайдер товаров из всей базы.
     news_list = News.objects.filter(is_active=True).order_by('-created')[:5]
     context['cart'] = cart
     context['products'] = products
@@ -69,7 +69,7 @@ def productdetails(request, product_slug):
     product = get_object_or_404(Product, slug=product_slug)
     albom = ProductAlbomImages.objects.filter(is_active=True, product=product)
     category = product.category
-    all_products = Product.objects.all().exclude(slug=product_slug).order_by('?')[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары)
+    all_products = Product.objects.all().exclude(slug=product_slug).order_by('?').with_rating()[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары)
     products_from_this_category = Product.objects.filter(category=category).order_by('?')[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (товары из этой категории)
     hotdeals = Product.objects.filter(akciya=True, timer=True)
     #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet

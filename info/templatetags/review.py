@@ -1,4 +1,5 @@
 from django import template
+from django.db.models import Avg, Count, Q
 from django.core.paginator import Paginator
 from info.models import Review
 from info.forms import ReviewForm, ReviewFormCaptcha
@@ -26,7 +27,24 @@ def review_list(request, product):
     else:
         form = ReviewForm(initial=form_initial)  # Форма без капчи
 
-    return {'request': request, 'reviews': review, 'form': form, 'total_review': total_review}
+    contex = {
+        'request': request,
+        'reviews': review,
+        'form': form,
+        'total_review': total_review,
+        'rating_info': get_rating_info(product)
+    }
+
+    return contex
 
 
-
+def get_rating_info(product):
+    return Review.objects.filter(is_active=True, product=product).aggregate(
+        avg=Avg('rating'),
+        stars=Count('pk'),
+        stars1=Count('pk', filter=Q(rating=Review.RATING_CHOICES.terrible)),
+        stars2=Count('pk', filter=Q(rating=Review.RATING_CHOICES.badly)),
+        stars3=Count('pk', filter=Q(rating=Review.RATING_CHOICES.normally)),
+        stars4=Count('pk', filter=Q(rating=Review.RATING_CHOICES.good)),
+        stars5=Count('pk', filter=Q(rating=Review.RATING_CHOICES.perfectly)),
+    )
