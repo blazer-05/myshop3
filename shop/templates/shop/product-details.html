@@ -106,11 +106,10 @@
 									<div class="about-toch-prond">
 										<p>
 											<span class="rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
+                                                <!--Вывод звезд рейтинга-->
+                                                {% for x in '12345' %}
+                                                <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>
+                                                {% endfor %}
 											</span>
                                             <!-- Якорная ссылка на блок табов "menu" и вкладку "reviews" с прокруткой -->
 											<a href="#menu" onclick="$('a[href=#reviews]').tab('show');"> {{ product.reviews.count }} reviews</a>
@@ -299,11 +298,10 @@
                                                             {% endif %}
                                                         {% endif %}
                                                         <span class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o"></i>
+                                                            <!--Вывод звезд рейтинга-->
+                                                            {% for x in '12345' %}
+                                                            <i class="fa fa-star{% if forloop.counter <= pftc.rating %}{% else %}-o{% endif %}" ></i>
+                                                            {% endfor %}
                                                         </span><br><br>
                                                         <span>Vendor code: <span class="text-stock">{{ pftc.vendor_code }}</span></span>
 													</div>
@@ -393,11 +391,10 @@
                                                             {% endif %}
                                                         {% endif %}
                                                         <span class="rating">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-o"></i>
+                                                            <!--Вывод звезд рейтинга-->
+                                                            {% for x in '12345' %}
+                                                            <i class="fa fa-star{% if forloop.counter <= allp.rating %}{% else %}-o{% endif %}" ></i>
+                                                            {% endfor %}
                                                         </span><br><br>
                                                         <span>Vendor code: <span class="text-stock">{{ allp.vendor_code }}</span></span>
 														</div>

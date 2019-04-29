@@ -200,7 +200,7 @@
 			<div class="col-sm-4">
 				<div class="rating-block">
 					<h4>Average user rating</h4>
-					<h2 class="bold padding-bottom-7">{{ rating_info.avg }} <small>/ на основе {{ rating_info.stars }} оценок</small></h2>
+					<h2 class="bold padding-bottom-7">{{ rating_info.avg }} <small>/ {{ rating_info.stars }}</small></h2>
 
                     {% for x in '12345' %}
                         <button type="button" class="btnrating {% if forloop.counter <= rating_info.avg %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-sm" aria-label="Left Align">

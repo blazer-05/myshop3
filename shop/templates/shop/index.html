@@ -112,7 +112,12 @@
 
 			                    			<div class="hot-deals-text">
 			                    				<h5><a href="{{ hd.get_absolute_url }}" class="name-group">{{ hd.title }}</a></h5>
-			                    				<span class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></span>
+			                    				<span class="rating">
+                                                    <!--Вывод звезд рейтинга-->
+                                                    {% for x in '12345' %}
+                                                    <i class="fa fa-star{% if forloop.counter <= hd.rating %}{% else %}-o{% endif %}" ></i>
+                                                    {% endfor %}
+                                                </span>
                                                 {% if hd.discount %}
 			                    				<div class="price-box">
 			                    					<span class="price gfont-2">${{ hd.get_sale }}</span>
@@ -269,8 +274,9 @@
                                                                         {% endif %}
                                                                     {% endif %}
 																	<span class="rating">
+                                                                        <!--Вывод звезд рейтинга-->
                                                                         {% for x in '12345' %}
-                                                                        <i class="fa fa-star{% if forloop.counter <= products.rating %}{% else %}-o{% endif %}" ></i>
+                                                                        <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>
                                                                         {% endfor %}
 																	</span><br><br>
                                                                     <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>

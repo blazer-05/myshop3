@@ -87,6 +87,11 @@ class Brand(models.Model):
 
 
 class ProductQueryset(models.QuerySet):
+    '''Класс кверисета для модели Product - для вывода рейтинга в шаблонах сайта'''
+
+    '''with_rating() добавлен в словари методов get_index_categories,get_bestseller_category,get_sale_category
+       в шаблоне index.html рейтинг звезд выводится переменной product.rating
+    '''
     def with_rating(self):
         return self.annotate(rating=Avg('reviews__rating'))
 
@@ -115,7 +120,7 @@ class Product(models.Model):
     comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
-    objects = ProductQueryset.as_manager()
+    objects = ProductQueryset.as_manager() # Относится к классу ProductQueryset
 
     class Meta:
         verbose_name = 'Товар'
@@ -276,7 +281,7 @@ class CategoryIndexPage(MPTTModel):
         for category in cls.objects.filter(is_active=True):
             cat_descendants = category.sortcategory.get_descendants(include_self=True)
             index_categories.update(
-                {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?')[:10]}
+                {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?').with_rating()[:10]} # .with_rating() для вывода на главной звезд рейтинга
             )
         return index_categories
 
@@ -300,7 +305,7 @@ class Bestseller(MPTTModel):
         for category in self.objects.filter(is_active=True):
             #best_descendants = category.bestseller.get_descendants(include_self=True) # Тут товары отсортированы по категориям
             bestseller_categories.update(
-                {category: Product.objects.filter(is_active=True).order_by('?')[:4]} # category__in=best_descendants
+                {category: Product.objects.filter(is_active=True).order_by('?').with_rating()[:4]} # category__in=best_descendants #.with_rating() для вывода на главной звезд рейтинга
             )
         return bestseller_categories
 
@@ -325,7 +330,7 @@ class SaleCategory(MPTTModel):
         for category in self.objects.filter(is_active=True):
             sale_descendants = category.sale_category.get_descendants(include_self=True) # Тут товары отсортированы по категориям
             sale_categories.update(
-                {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?')[:9]} # category__in=best_descendants
+                {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?').with_rating()[:9]} # category__in=best_descendants # .with_rating() для вывода на главной звезд рейтинга
             )
         return sale_categories
 
@@ -346,4 +351,5 @@ class SaleProduct(MPTTModel):
     @classmethod
     def get_sale_product(self):
         return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке
+
 

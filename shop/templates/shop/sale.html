@@ -60,12 +60,11 @@
                                                                             </div>
                                                                             {% endif %}
                                                                     {% endif %}
-																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
+                                                                    <span class="rating">
+                                                                        <!--Вывод звезд рейтинга-->
+                                                                        {% for x in '12345' %}
+                                                                        <i class="fa fa-star{% if forloop.counter <= sale.rating %}{% else %}-o{% endif %}" ></i>
+                                                                        {% endfor %}
 																	</span>
                                                                     <div class="">
                                                                     <span>Vendor code: <span class="text-stock">{{ sale.vendor_code }}</span></span>
@@ -129,11 +128,10 @@
                                                                             {% endif %}
                                                                     {% endif %}
 																	<span class="rating">
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star"></i>
-																		<i class="fa fa-star-o"></i>
+                                                                        <!--Вывод звезд рейтинга-->
+                                                                        {% for x in '12345' %}
+                                                                        <i class="fa fa-star{% if forloop.counter <= sale.rating %}{% else %}-o{% endif %}" ></i>
+                                                                        {% endfor %}
 																	</span>
                                                                     <div class="">
                                                                     <span>Vendor code: <span class="text-stock">{{ sale.sale_product.vendor_code }}</span></span>
