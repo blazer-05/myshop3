@@ -200,7 +200,13 @@
 			<div class="col-sm-4">
 				<div class="rating-block">
 					<h4>Average user rating</h4>
-					<h2 class="bold padding-bottom-7">{{ rating_info.avg }} <small>/ {{ rating_info.stars }}</small></h2>
+					<h2 class="bold padding-bottom-7">
+                        {% if rating_info.avg %}
+                        {{ rating_info.avg|floatformat }} <small>/ 5</small>
+                            {% else %}
+                            0 <small>/ 5</small>
+                        {% endif %}
+                    </h2>
 
                     {% for x in '12345' %}
                         <button type="button" class="btnrating {% if forloop.counter <= rating_info.avg %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-sm" aria-label="Left Align">
@@ -225,7 +231,7 @@
 {#					</button>#}
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-5">
 				<h4>Rating breakdown</h4>
 				<div class="pull-left">
 					<div class="pull-left" style="width:35px; line-height:1;">
@@ -238,7 +244,7 @@
 						  </div>
 						</div>
 					</div>
-					<div class="pull-right" style="margin-left:10px;">{{ rating_info.stars5 }}</div>
+					<div class="pull-right" style="margin-left:10px; color: #0094D9;">{{ rating_info.stars5 }} - отзывов</div>
 				</div>
 				<div class="pull-left">
 					<div class="pull-left" style="width:35px; line-height:1;">
@@ -251,7 +257,7 @@
 						  </div>
 						</div>
 					</div>
-					<div class="pull-right" style="margin-left:10px;">{{ rating_info.stars4 }}</div>
+					<div class="pull-right" style="margin-left:10px; color: #0094D9;">{{ rating_info.stars4 }} - отзывов</div>
 				</div>
 				<div class="pull-left">
 					<div class="pull-left" style="width:35px; line-height:1;">
@@ -264,7 +270,7 @@
 						  </div>
 						</div>
 					</div>
-					<div class="pull-right" style="margin-left:10px;">{{ rating_info.stars3 }}</div>
+					<div class="pull-right" style="margin-left:10px; color: #0094D9;">{{ rating_info.stars3 }} - отзывов</div>
 				</div>
 				<div class="pull-left">
 					<div class="pull-left" style="width:35px; line-height:1;">
@@ -277,7 +283,7 @@
 						  </div>
 						</div>
 					</div>
-					<div class="pull-right" style="margin-left:10px;">{{ rating_info.stars2 }}</div>
+					<div class="pull-right" style="margin-left:10px; color: #0094D9;">{{ rating_info.stars2 }} - отзывов</div>
 				</div>
 				<div class="pull-left">
 					<div class="pull-left" style="width:35px; line-height:1;">
@@ -290,7 +296,10 @@
 						  </div>
 						</div>
 					</div>
-					<div class="pull-right" style="margin-left:10px;">{{ rating_info.stars1 }}</div>
+					<div class="pull-right" style="margin-left:10px; color: #0094D9;">{{ rating_info.stars1 }} - отзывов</div>
+				</div>
+				<div class="pull-left" style="margin-top: 5px; color: #0094D9;">
+					<p>Всего голосов: {{ rating_info.stars }}</p>
 				</div>
 			</div>
 		</div>
@@ -315,6 +324,9 @@
 						<div class="col-sm-9">
                           <div class="" style="margin-left: 10px">
 							<div class="review-block-rate">
+                                <div class="pull-right">
+                                    <span>id:</span><span style="color: #0094D9;"> <u>{{ rev.id }}</u></span>
+                                </div>
                             {% for x in '12345' %}
                                     <button type="button" class="btn {% if forloop.counter <= rev.rating %}btn-warning{% else %}btn-default btn-grey{% endif %} btn-xs" aria-label="Left Align">
                                       <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -355,11 +367,11 @@
                             &nbsp;<br>
                             {% if rev.image %}
                             <div class="review-block-description">
-                                <a href="#" data-toggle="modal" data-target=".dialog1">
+                                <a href="#" data-toggle="modal" data-target=".dialog{{ forloop.counter }}">
                                     <img id="blah" src="{{ rev.image.url }}" width="250" class="img-responsive img-rounded" alt="your image" />
                                 </a>
                                 <!--  Modal content for Image -->
-                                <div class="modal fade dialog1" tabindex="-1">
+                                <div class="modal fade dialog{{ forloop.counter }}" tabindex="-1">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">

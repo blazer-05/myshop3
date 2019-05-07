@@ -107,23 +107,23 @@
 														<div class="col-xs-12">
 															<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
 																<div class="product-img" style="width: 105px; height: 160px" align="center">
-																	<a href="{{ sale.sale_product.get_absolute_url }}">
-																		<img class="primary-img" src="{{ sale.sale_product.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product.title }}" title="{{ sale.sale_product.title }}">
+																	<a href="{{ sale.get_absolute_url }}">
+																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product.title }}" title="{{ sale.sale_product.title }}">
 																	</a>
 																</div>
 																<div class="product-description">
-																	<h5><a href="{{ sale.sale_product.get_absolute_url }}">{{ sale.sale_product.title|truncatechars:15 }}</a></h5>
-                                                                    {% if sale.sale_product.stock == 0 %}
+																	<h5><a href="{{ sale.get_absolute_url }}">{{ sale.title|truncatechars:15 }}</a></h5>
+                                                                    {% if sale.stock == 0 %}
                                                                         <p>Out of stock</p>
                                                                         {% else %}
-                                                                            {% if sale.sale_product.discount %}
+                                                                            {% if sale.discount %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.sale_product.get_sale }}</span>
-                                                                                <span class="old-price">${{ sale.sale_product.price }}</span>
+                                                                                <span class="price">${{ sale.get_sale }}</span>
+                                                                                <span class="old-price">${{ sale.price }}</span>
                                                                             </div>
                                                                                 {% else %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.sale_product.price}}</span>
+                                                                                <span class="price">${{ sale.price}}</span>
                                                                             </div>
                                                                             {% endif %}
                                                                     {% endif %}
@@ -134,15 +134,15 @@
                                                                         {% endfor %}
 																	</span>
                                                                     <div class="">
-                                                                    <span>Vendor code: <span class="text-stock">{{ sale.sale_product.vendor_code }}</span></span>
+                                                                    <span>Vendor code: <span class="text-stock">{{ sale.vendor_code }}</span></span>
                                                                     </div>
 																	<div class="product-action">
                                                                         <div class="button-group">
-                                                                            {% if sale.sale_product.stock == 0 %}
+                                                                            {% if sale.stock == 0 %}
                                                                                 {% else %}
                                                                             <div class="product-button-2">
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
-                                                                                    <input type="hidden" name="product" value="{{ sale.sale_product.slug }}">
+                                                                                    <input type="hidden" name="product" value="{{ sale.slug }}">
                                                                                     <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
                                                                                         <i class="fa fa-shopping-cart"></i>
                                                                                     </button>

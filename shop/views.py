@@ -42,8 +42,8 @@ def catlist(request, slug):
 def shop(request):
     context = {}
     cart = request.cart
-    products = Product.objects.filter(is_active=True)
-    paginator = Paginator(products, 5)
+    products = Product.objects.filter(is_active=True).with_rating()
+    paginator = Paginator(products, 10)
     page = request.GET.get('page')
     products = paginator.get_page(page)
     context['products'] = products
@@ -54,7 +54,7 @@ def shoplist(request, slug):
     context = {}
     cart = request.cart
     category = Category.objects.get(slug=slug)
-    products = Product.objects.filter(category=category, is_active=True)
+    products = Product.objects.filter(category=category, is_active=True).with_rating()
     paginator = Paginator(products, 5)
     page = request.GET.get('page')
     products = paginator.get_page(page)
@@ -66,7 +66,7 @@ def shoplist(request, slug):
 def productdetails(request, product_slug):
     context = {}
     cart = request.cart
-    product = get_object_or_404(Product.objects.with_rating(), slug=product_slug) # Добавил objects.with_rating() из модели Product для вывода рейтинга звезд
+    product = get_object_or_404(Product.objects.with_rating().with_review_count(), slug=product_slug) # Добавил objects.with_rating() и .with_review_count() из модели Product для вывода рейтинга звезд
     albom = ProductAlbomImages.objects.filter(is_active=True, product=product)
     category = product.category
     all_products = Product.objects.all().exclude(slug=product_slug).order_by('?').with_rating()[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары) .with_rating() - рейтинг звезд
@@ -83,6 +83,16 @@ def productdetails(request, product_slug):
 
     #context['attribute_and_value'] = attribute_and_value
     return render(request, 'shop/product-details.html', context)
+
+
+def modalproduct(request, slug):
+    context = {}
+    cart = request.cart
+    modal_product = get_object_or_404(Product, slug=slug)
+    context['cart'] = cart
+    context['modal_product'] = modal_product
+    return render(request, 'shop/modal-product.html', context)
+
 
 def wishlist(request):
     return render(request, 'shop/wishlist.html')

@@ -112,10 +112,15 @@
                                                 {% endfor %}
 											</span>
                                             <!-- Якорная ссылка на блок табов "menu" и вкладку "reviews" с прокруткой -->
-											<a href="#menu" onclick="$('a[href=#reviews]').tab('show');"> {{ product.reviews.count }} reviews</a>
-											/
-											<a href="#menu" onclick="$('a[href=#reviews]').tab('show');">Write a review</a>
+                                            <span class="text-stock">
+                                                <a href="#menu" onclick="$('a[href=#reviews]').tab('show');"> {{ product.review_count }} reviews</a>
+                                                /
+                                                <a href="#menu" onclick="$('a[href=#reviews]').tab('show');">Write a review</a>
+                                            </span>
 										</p>
+                                        <p>
+                                            Оценка товара: <span class="text-stock">{% if product.rating %}{{ product.rating|floatformat }}{% else %}0{% endif %}</span> из <span class="text-stock">5</span>
+                                        </p>
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>

@@ -1,5 +1,7 @@
 from django.urls import path
-from .views import index, catalog, catlist, catlinks, shop, shoplist, productdetails, wishlist, myaccount, contact, registration, about
+from .views import (index, catalog, catlist, catlinks,
+                    shop, shoplist, productdetails, wishlist,
+                    myaccount, contact, registration, about, modalproduct)
 from shop.context_processors import menucategory
 
 app_name = 'shop'
@@ -17,5 +19,6 @@ urlpatterns = [
     path('contact/', contact, name='contact'),
     path('registration/', registration, name='registration'),
     path('about/', about, name='about'),
+    path('modal-product/<slug>/', modalproduct, name='modal-product'),
 
 ]

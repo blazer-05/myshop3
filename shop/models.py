@@ -3,7 +3,7 @@ import random
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import Avg
+from django.db.models import Avg, Q, Count
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
@@ -11,8 +11,8 @@ from django.utils import timezone
 from decimal import Decimal
 
 
-# Модель категорий
 class Category(MPTTModel):
+    '''Категории'''
     name = models.CharField(max_length=250, unique=True, verbose_name='Катагория')
     slug = models.SlugField(max_length=250, verbose_name='Транслит')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
@@ -52,8 +52,9 @@ class Category(MPTTModel):
 mptt.register(Category, order_insertion_by=['name'])
 
 
-# Модель брендов
+
 class Brand(models.Model):
+    '''Бренды'''
     name = models.CharField(max_length=200, blank=True, unique=True, verbose_name='Бренд')
     slug = models.SlugField(max_length=200, verbose_name='Транслит')
     description = models.TextField(blank=True, verbose_name='Описание')
@@ -89,15 +90,22 @@ class Brand(models.Model):
 class ProductQueryset(models.QuerySet):
     '''Класс кверисета для модели Product - для вывода рейтинга в шаблонах сайта'''
 
-    '''with_rating() добавлен в словари методов get_index_categories,get_bestseller_category,get_sale_category
-       в шаблоне index.html рейтинг звезд выводится переменной product.rating
+    '''Метод with_rating() - выводит количество звезд. Добавлен в словари методов get_index_categories,get_bestseller_category,get_sale_category
+       в шаблоне index.html рейтинг звезд выводится переменной product.rating. Добавлен во вьюху productdetails
+       Product.objects.with_rating() и выводит в шаблоне product-details.html звезды {% if forloop.counter <= product.rating %}
     '''
     def with_rating(self):
-        return self.annotate(rating=Avg('reviews__rating'))
+        return self.annotate(rating=Avg('reviews__rating', filter=Q(reviews__is_active=True)))
+
+    '''Метод with_review_count() используется во вьюхе productdetails и в шаблоне product-details.html
+       {{ product.review_count }} выводит общее количество отзывов. 
+    '''
+    def with_review_count(self):
+        return self.annotate(review_count=Count('reviews__rating', filter=Q(reviews__is_active=True)))
 
 
-# Модель товара
 class Product(models.Model):
+    '''Модель продукта'''
     category = TreeForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, blank=True, null=True, verbose_name='Бренд', on_delete=models.CASCADE)
     title = models.CharField(max_length=250, unique=True, verbose_name='Название товара')
@@ -140,23 +148,22 @@ class Product(models.Model):
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
-
     def get_absolute_url(self):
         return reverse('shop:product-details', kwargs={'product_slug': self.slug})
 
-
-    # Расчет скидки
     def get_sale(self):
         '''Расчитать стоимость со скидкой'''
         price = Decimal(self.price * (100 - self.discount) / 100)
         return price
 
-    # Функция для вывода таймера
     def need_timer(self):
+        '''Таймер для акции'''
         return self.timer and self.timer_before and timezone.now() < self.timer_before
 
-    #Переопределен метод save() для генерации случайных чисел для поля vendor_code (Артикул товара), в параметре numbers=6 можно задать количество чисел.
     def generate_vendor_code(self, numbers=5):
+        '''Переопределен метод save() для генерации случайных чисел для поля vendor_code (Артикул товара),
+        в параметре numbers=6 можно задать количество чисел.
+        '''
         while not self.vendor_code:
             vendor_code = random.randint(10**numbers, 10**(numbers+1) - 1)
             if not Product.objects.filter(vendor_code=vendor_code).exists():
@@ -349,7 +356,14 @@ class SaleProduct(MPTTModel):
         return '{}'.format(self.sale_product)
 
     @classmethod
-    def get_sale_product(self):
-        return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке
+    def get_sale_product(cls):
+        return Product.objects.filter(
+            is_active=True,
+            pk__in=cls.objects.filter(is_active=True).values_list('sale_product')
+        ).with_rating()
+
+    # @classmethod
+    # def get_sale_product(self):
+    #     return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке
 
 

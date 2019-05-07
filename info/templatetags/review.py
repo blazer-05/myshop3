@@ -32,13 +32,14 @@ def review_list(request, product):
         'reviews': review,
         'form': form,
         'total_review': total_review,
-        'rating_info': get_rating_info(product)
+        'rating_info': get_rating_info(product) # Рейтинг звезд
     }
 
     return contex
 
 
 def get_rating_info(product):
+    '''Рейтинг звезд'''
     return Review.objects.filter(is_active=True, product=product).aggregate(
         avg=Avg('rating'),
         stars=Count('pk'),

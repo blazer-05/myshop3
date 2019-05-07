@@ -79,9 +79,9 @@ class NewsAdmin(SummernoteModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product', 'sender', 'is_authenticated', 'city', 'image_img', 'merits', 'limitations',
+    list_display = ['id', 'product', 'is_active', 'sender', 'is_authenticated', 'city', 'image_img', 'merits', 'limitations',
                     'comment', 'rating', 'period',
-                    'is_active', 'created', 'updated']
+                    'created', 'updated']
 
     list_editable = ['is_active']
     readonly_fields = ['image_img']  # Выводит в карточке товара картинку товара!
