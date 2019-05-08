@@ -139,7 +139,18 @@ function submit_comment_form(event) {
   });
 }
 
-
+// Скрипт который выводит в модальном окне товар на главной странице если нажать на значок лупы.
+$('#productModal').on('show.bs.modal', function (event) {
+  let button = $(event.relatedTarget);
+  let url = button.data('url');
+  let container = $(this).find('.modal-product');
+  container.html('');
+  $.ajax({
+    url: url,
+  }).done(function(data){
+    container.html(data);
+  });
+});
 
 
 // $(document).ready(function () {

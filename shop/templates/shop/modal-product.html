@@ -3,15 +3,7 @@
 
 
 
- <!-- Modal -->
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-product">
+
                         <div class="product-images">
                             <div class="main-image images">
                                 <img alt="#" src="{{ modal_product.images.url }}"/>
@@ -27,17 +19,33 @@
                                 </div>
                                 <hr />
                             </div>
-                            <a href="shop.html" class="see-all">See all features</a>
+                            <a href="{{ modal_product.get_absolute_url }}" class="see-all">See all features</a>
                             <div class="quick-add-to-cart">
-                                <form method="post" class="cart">
-                                    <div class="numbers-row">
-                                        <input type="number" id="french-hens" value="3">
-                                    </div>
-                                    <button class="single_add_to_cart_button" type="submit">Add to cart</button>
+                                <form class="product-quantity" onsubmit="return addToCart(event)">
+                                        <div style="display: inline-block; width: 110px">
+                                            <div class="input-group plus-minus-widget">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, -1)">-</button>
+                                                </span>
+                                                <input type="text" placeholder="1" value="1" name="quantity" class="form-control" style="height: 40px">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" style="height: 40px; width: 35px" onclick="quantityChange(event, +1)">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <div class="input-group">
+                                                <input type="hidden" name="product" value="{{ modal_product.slug }}"/>
+                                                {% if product.stock == 0 %}
+                                                    {% else %}
+                                                <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                 </form>
                             </div>
                             <div class="quick-desc">
-                                {{ modal_product.descriptions|safe }}
+                                {{ modal_product.descriptions|truncatewords:25|safe }}
                             </div>
                             <div class="social-sharing">
                                 <div class="widget widget_socialsharing_widget">
@@ -52,9 +60,3 @@
                                 </div>
                             </div>
                         </div><!-- .product-info -->
-                    </div><!-- .modal-product -->
-                </div><!-- .modal-body -->
-            </div><!-- .modal-content -->
-        </div><!-- .modal-dialog -->
-    </div>
-    <!-- END Modal -->

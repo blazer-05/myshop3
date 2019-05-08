@@ -86,10 +86,9 @@ def productdetails(request, product_slug):
 
 
 def modalproduct(request, slug):
+    '''Вьюха для вывода товара в модальном окне на главной странице если нажать на товаре кнопку лупы!'''
     context = {}
-    cart = request.cart
     modal_product = get_object_or_404(Product, slug=slug)
-    context['cart'] = cart
     context['modal_product'] = modal_product
     return render(request, 'shop/modal-product.html', context)
 
