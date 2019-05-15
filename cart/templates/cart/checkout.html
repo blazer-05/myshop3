@@ -7,6 +7,8 @@
     Checkout
 {% endblock %}
 
+{#<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>#}
+
 {% block content %}
 <!-- START PAGE-CONTENT -->
 		<section class="page-content">
@@ -49,29 +51,36 @@
 													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Checkout Options  <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
-											<div id="checkout-options" class="collapse">
+											<div id="checkout-options" class="collapse in">
 												<div class="panel-body">
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
-																<h3 class="title-group-3 gfont-1">New Customer</h3>
-																<p>Checkout Options</p>
-																<div class="radio">
-																	<label>
-																		<input type="radio" value="register" name="account" checked/>
-																		Register Account
-																	</label>
-																</div>
-																<div class="radio">
-																	<label>
-																		<input type="radio" value="guest" name="account"/>
-																		Guest Checkout
-																	</label>
-																</div>
-																<p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
-																<input type="submit" class="btn btn-primary" value="Continue"/>
+                                                                <form id="radio_button">
+                                                                    <h3 class="title-group-3 gfont-1">New Customer</h3>
+                                                                    <p>Checkout Options</p>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" value="register" href="{% url 'shop:registration' %}" name="account" checked/>
+                                                                            Register Account
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="radio">
+                                                                        <label>
+                                                                            <input type="radio" value="guest" name="account"/>
+                                                                            Guest Checkout
+                                                                        </label>
+                                                                    </div>
+                                                                    <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
+                                                                    <input type="submit" class="btn btn-primary" value="Continue"/>
+                                                                </form>
 															</div>
 														</div>
+                                                        <script>
+                                                            $('#radio_button input').on('change', function() {
+                                                                $('#link').attr("href", location.href.substring(0, location.href.lastIndexOf("/")+1)+$('input[name=account]:checked', '#radio_button').val());
+                                                            });
+                                                        </script>
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
 																<h3 class="title-group-3 gfont-1">Returning Customer</h3>

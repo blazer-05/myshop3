@@ -1781,7 +1781,7 @@ ul.footer-content.box-information li a {
 /*=========================== 
  15. Product Modal
 ============================= */   
-.modal { z-index: 13000 }
+/*.modal { z-index: 13000 }*/
 #productModal .modal-dialog {
   margin: 5% auto;
   max-width: 96%;

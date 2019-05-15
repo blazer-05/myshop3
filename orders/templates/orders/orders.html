@@ -90,8 +90,10 @@
                                                     {% csrf_token %}
                                                     <div class="col-sm-13">
 {#                                                    {% bootstrap_form form layout='inline' %}#}
-                                                        {% bootstrap_field form.full_name show_label=False %}
-                                                        {% bootstrap_field form.phone show_label=False %}
+                                                        {% if not request.user.is_authenticated %}
+                                                            {% bootstrap_field form.full_name show_label=False %}
+                                                            {% bootstrap_field form.phone show_label=False %}
+                                                        {% endif %}
                                                         {% bootstrap_field form.buying_type show_label=False %}
                                                         {% bootstrap_field form.address show_label=False %}
                                                         {% bootstrap_field form.delivery_date show_label=False %}

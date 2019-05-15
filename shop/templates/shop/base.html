@@ -21,6 +21,7 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 
+
     <!-- Bootstrap CSS
     ============================================ -->
     <link rel="stylesheet" href="{% static 'shop/css/bootstrap.min.css' %}">
@@ -61,7 +62,6 @@
     <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/news/mains.css' %}"><!--Стили комментариев в полной новости-->
 
     <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/reviews/style.css' %}"><!--Стили review - добавления отзыва к товару-->
-
 
 
 
@@ -107,6 +107,12 @@
                             <li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
                             <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i> Checkout</a></li>
                             <li><a href="registration-account.html"><i class="fa fa-unlock-alt"></i> Login</a></li>
+
+                            {% if not request.user.is_authenticated %}
+                                <li><p class="navbar-text">Здравствуйте, гость!</p></li>
+                            {% else %}
+                                <li><p class="navbar-text">Здравствуйте, {{ request.user }}</p></li>
+                            {% endif %}
                         </ul>
                     </div>
                     <!-- End Top-Link -->
@@ -174,7 +180,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-12">
                     <div class="logo">
-                        <a href="index.html" title="Malias"><img src="{% static 'shop/img/logo.png' %}" alt="Malias"></a>
+                        <a href="/" title="TechnoStyle"><img src="{% static 'shop/img/logo.png' %}" alt="Malias"></a>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-12">
@@ -429,7 +435,8 @@
 <!-- FOOTER-AREA END -->
 <!-- QUICKVIEW PRODUCT -->
 <div id="quickview-wrapper">
-    <!-- Modal -->
+    <!-- Modal Модальное окно выводится в base.html, shop.html и shop-list.html
+для допросмотра и добавления товара в корзину. Вызывается по всплывающей кнопке лупы на товаре -->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -504,10 +511,16 @@
 <script src="{% static 'info/reviews/review_script.js' %}" type="text/javascript"></script>
 
 
+<!-- Подключение файла Modernizr для страницы сравнения продуктов shop/compare.html -->
+<script src="{% static 'compare-products/js/modernizr.js' %}"></script>
+
+<!-- Подключение файла Resource jQuery для страницы сравнения продуктов shop/compare.html -->
+<script src="{% static 'compare-products/js/main.js' %}"></script>
 
 
 <!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/script.js  -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
 
 </body>
 </html>

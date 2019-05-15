@@ -17,6 +17,7 @@ BUYING_TYPE = Choices(
     ('delivery', 'Доставка'),
 )
 
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, verbose_name='Корзина')
@@ -29,6 +30,7 @@ class Order(models.Model):
     delivery_date = models.DateField(blank=True, null=True, verbose_name='Дата доставки')
     comment = models.TextField(verbose_name='Комментарий к заказу')
     status = models.IntegerField(choices=STATUS, default=STATUS.registration, verbose_name='Статус заказа')
+
 
     class Meta:
         verbose_name = 'Заказ'

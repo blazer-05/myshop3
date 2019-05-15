@@ -93,6 +93,10 @@ def modalproduct(request, slug):
     return render(request, 'shop/modal-product.html', context)
 
 
+def compareproducts(request):
+    '''Сравнение товаров'''
+    return render(request, 'shop/compare.html')
+
 def wishlist(request):
     return render(request, 'shop/wishlist.html')
 

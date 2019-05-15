@@ -60,6 +60,7 @@ def order_create(request):
 
     return render(request, 'orders/orders.html', {'form': form, 'cart': cart})
 
+
 def adminemail(request):
     cart = request.cart
     return render(request, 'orders/admin_email.html', {'cart': cart})
