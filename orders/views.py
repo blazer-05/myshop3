@@ -13,11 +13,13 @@ def order_create(request):
         if form.is_valid():
             full_name = form.cleaned_data['full_name']
             phone = form.cleaned_data['phone']
+            email = form.cleaned_data['email']
             buying_type = form.cleaned_data['buying_type']
             delivery_date = form.cleaned_data['delivery_date']
             address = form.cleaned_data['address']
             comment = form.cleaned_data['comment']
             recepients = ['blazer-05@mail.ru']
+            user_recepients = ['email']
             cart = request.cart
             order = Order.objects.create(
                 #user=request.user,
@@ -25,6 +27,7 @@ def order_create(request):
                 total=cart.discount_price,
                 full_name=full_name,
                 phone=phone,
+                email=email,
                 address=address,
                 buying_type=buying_type,
                 delivery_date=delivery_date,
@@ -36,6 +39,7 @@ def order_create(request):
             context = {
                 'full_name': full_name,
                 'phone': phone,
+                'email': email,
                 'buying_type': buying_type,
                 'delivery_date': delivery_date,
                 'address': address,
@@ -47,10 +51,14 @@ def order_create(request):
             }
 
             message = render_to_string('orders/admin_email.html', context, request)
+            user_message = render_to_string('orders/user_order_email.html', context, request)
             #email = EmailMessage('Поступил новый заказ: №' + str(order.id) + ' ' + full_name, message, 'blazer-05@mail.ru', recepients)
             email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients)
+            user_email = EmailMessage('Ваш заказ. {}'.format(order), user_message, user_recepients)
             email.content_subtype = 'html'
+            user_email.content_subtype = 'html'
             email.send()
+            user_email.send()
 
             request.cart.clear()
 

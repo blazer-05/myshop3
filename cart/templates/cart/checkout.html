@@ -44,6 +44,7 @@
 									</div>
 									<!-- Accordion start -->
 									<div class="panel-group" id="accordion">
+                                        {% if not request.user.is_authenticated %}
 										<!-- Start 1 Checkout-options -->
 										<div class="panel panel_default">
 											<div class="panel-heading">
@@ -55,32 +56,26 @@
 												<div class="panel-body">
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
-															<div class="checkout-collapse">
-                                                                <form id="radio_button">
-                                                                    <h3 class="title-group-3 gfont-1">New Customer</h3>
-                                                                    <p>Checkout Options</p>
-                                                                    <div class="radio">
-                                                                        <label>
-                                                                            <input type="radio" value="register" href="{% url 'shop:registration' %}" name="account" checked/>
-                                                                            Register Account
-                                                                        </label>
-                                                                    </div>
-                                                                    <div class="radio">
-                                                                        <label>
-                                                                            <input type="radio" value="guest" name="account"/>
-                                                                            Guest Checkout
-                                                                        </label>
-                                                                    </div>
-                                                                    <p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
-                                                                    <input type="submit" class="btn btn-primary" value="Continue"/>
-                                                                </form>
-															</div>
+                                                            <div class="checkout-collapse">
+                                                                <h3 class="title-group-3 gfont-1">New Customer</h3>
+                                                                <p>Checkout Options</p>
+                                                                <a href="{% url 'shop:registration' %}">
+                                                                    <button class="btn btn-primary">Register Account
+                                                                    </button>
+                                                                </a>
+                                                                    <br><br>
+                                                                <p>By creating an account you will be able to shop
+                                                                    faster, be up to date on an order's status, and keep
+                                                                    track of the orders you have previously made.</p>
+                                                                <br><br>
+                                                                <a href="{% url 'order:create_orders' %}">
+                                                                    <button class="btn btn-primary">Guest Checkout
+                                                                    </button>
+                                                                </a>
+                                                                    <br><br>
+                                                                <p>Order as guest</p>
+                                                            </div>
 														</div>
-                                                        <script>
-                                                            $('#radio_button input').on('change', function() {
-                                                                $('#link').attr("href", location.href.substring(0, location.href.lastIndexOf("/")+1)+$('input[name=account]:checked', '#radio_button').val());
-                                                            });
-                                                        </script>
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
 																<h3 class="title-group-3 gfont-1">Returning Customer</h3>
@@ -101,279 +96,280 @@
 												</div>
 											</div>
 										</div>
+                                        {% endif %}
 										<!-- End Checkout-options -->
-										<!-- Start 2 Payment-Address -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Step 2: Account & Billing Details <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="payment-address" class="collapse">
-												<div class="panel-body">
-													<div class="row">
-														<div class="col-md-6 col-xs-12">
-															<fieldset id="account">
-																<legend>Your Personal Details</legend>
-																<div class="form-group">
-																	<label><sup>*</sup>First Name</label>
-																	<input type="text" class="form-control" placeholder="First Name" name="firstname" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Last Name</label>
-																	<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>E-mail</label>
-																	<input type="email" class="form-control" placeholder="E-mail" name="email" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Telephone</label>
-																	<input type="text" class="form-control" placeholder="Telephone" name="telephone" />
-																</div>
-																<div class="form-group">
-																	<label>Fax</label>
-																	<input type="text" class="form-control" placeholder="Fax" name="fax" />
-																</div>
-															</fieldset>
-															<fieldset>
-																<legend>Your Password</legend>
-																<div class="form-group">
-																	<label><sup>*</sup>Password</label>
-																	<input type="password" class="form-control" placeholder="Password" name="password" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Password Confirm</label>
-																	<input type="password" class="form-control" placeholder="Password Confirm" name="confirm" />
-																</div>
-															</fieldset>
-														</div>
-														<div class="col-md-6 col-xs-12">
-															<fieldset id="address">
-																<legend>Your Address</legend>
-																<div class="form-group">
-																	<label>Company</label>
-																	<input type="text" class="form-control" placeholder="Company" name="company" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Address 1</label>
-																	<input type="text" class="form-control" placeholder="Address 1" name="Address_1" />
-																</div>
-																<div class="form-group">
-																	<label>Address 2</label>
-																	<input type="text" class="form-control" placeholder="Address 2" name="Address_2" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>City</label>
-																	<input type="text" class="form-control" placeholder="City" name="city" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Post Code</label>
-																	<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Country</label>
-																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Bangladesh </option>
-																		<option> United States </option>
-																		<option> United Kingdom </option>
-																		<option> Canada </option>
-																		<option> Malaysia </option>
-																		<option> United Arab Emirates </option>
-																	</select>
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Region / State</label>
-																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Aberdeen </option>
-																		<option> Bedfordshire </option>
-																		<option> Caerphilly </option>
-																		<option> Denbighshire </option>
-																		<option> East Ayrshire </option>
-																		<option> Falkirk </option>
-																	</select>
-																</div>
-															</fieldset>
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-xs-12">
-															<div class="checkbox">
-																<label>
-																	<input type="checkbox" name="newsletter" />
-																	 I wish to subscribe to the Malias1 newsletter.
-																</label>
-															</div>
-															<div class="checkbox">
-																<label>
-																	<input type="checkbox" name="shipping_address" checked/>
-																	 My delivery and billing addresses are the same.
-																</label>
-															</div>
-															<div class="buttons clearfix">
-																<div class="pull-right">
-																	I have read and agree to the 
-																	<a href="#"><b>Privacy Policy</b></a>
-																	<input type="checkbox" name="agree" />
-																	<input type="button" class="btn btn-primary" value="Continue" />
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Payment-Address -->
-										<!-- Start 3 shipping-Address -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-address">Step 3: Delivery Details <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="shipping-address" class="collapse">
-												<div class="panel-body">
-													<div class="form-horizontal">
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>First Name</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="First Name" name="firstname" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Last Name</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label">Company</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Company" name="company" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Address 1</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Address 1" name="address_1" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label">Address 2</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Address 2" name="address_2" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>City</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="City" name="city" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Post Code</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Country</label>
-															<div class="col-sm-10">
-																<select class="form-control">
-																	<option> --- Please Select --- </option>
-																	<option> Bangladesh </option>
-																	<option> United States </option>
-																	<option> United Kingdom </option>
-																	<option> Canada </option>
-																	<option> Malaysia </option>
-																	<option> United Arab Emirates </option>
-																</select>
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Region / State</label>
-															<div class="col-sm-10">
-																<select class="form-control">
-																	<option> --- Please Select --- </option>
-																	<option> Dhaka </option>
-																	<option> New York </option>
-																	<option> London </option>
-																	<option> Canada </option>
-																	<option> Malaysia </option>
-																	<option> United Arab Emirates </option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End shipping-Address -->
-										<!-- Start 4 shipping-Method -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Step 4: Delivery Method <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="shipping-method" class="collapse">
-												<div class="panel-body">
-													<p>Please select the preferred shipping method to use on this order.</p>
-													<p><strong>Flat Rate</strong></p>
-													<div class="radio">
-														<label>
-															<input type="radio" name="shipping_method" checked/>
-															Flat Shipping Rate - $5.00
-														</label>
-													</div>
-													<p><strong>Add Comments About Your Order</strong></p>
-													<p>
-														<textarea class="form-control" name="comment" rows="8"></textarea>
-													</p>
-													<div class="buttons pull-right">
-														<input type="button" class="btn btn-primary" value="Continue" />
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End shipping-Method -->
-										<!-- Start 5 Payment-Method -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-method">Step 5: Payment Method  <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="payment-method" class="collapse">
-												<div class="panel-body">
-													<p>Please select the preferred payment method to use on this order.</p>
-													<div class="radio">
-														<label>
-															<input type="radio" name="payment_method" checked/>
-															Cash On Delivery      
-														</label>
-													</div>
-													<p><strong>Add Comments About Your Order</strong></p>
-													<p>
-														<textarea class="form-control" name="comment" rows="8"></textarea>
-													</p>
-													<div class="buttons pull-right">
-														I have read and agree to the 
-														<a href="#"><b>Terms & Conditions</b></a>
-														<input type="checkbox" name="agree" />
-														<input type="button" class="btn btn-primary" value="Continue" />
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Payment-Method -->
+{#										<!-- Start 2 Payment-Address -->#}
+{#										<div class="panel panel_default">#}
+{#											<div class="panel-heading">#}
+{#												<h4 class="panel-title">#}
+{#													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Step 2: Account & Billing Details <i class="fa fa-caret-down"></i> </a>#}
+{#												</h4>#}
+{#											</div>#}
+{#											<div id="payment-address" class="collapse">#}
+{#												<div class="panel-body">#}
+{#													<div class="row">#}
+{#														<div class="col-md-6 col-xs-12">#}
+{#															<fieldset id="account">#}
+{#																<legend>Your Personal Details</legend>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>First Name</label>#}
+{#																	<input type="text" class="form-control" placeholder="First Name" name="firstname" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Last Name</label>#}
+{#																	<input type="text" class="form-control" placeholder="Last Name" name="lastname" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>E-mail</label>#}
+{#																	<input type="email" class="form-control" placeholder="E-mail" name="email" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Telephone</label>#}
+{#																	<input type="text" class="form-control" placeholder="Telephone" name="telephone" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label>Fax</label>#}
+{#																	<input type="text" class="form-control" placeholder="Fax" name="fax" />#}
+{#																</div>#}
+{#															</fieldset>#}
+{#															<fieldset>#}
+{#																<legend>Your Password</legend>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Password</label>#}
+{#																	<input type="password" class="form-control" placeholder="Password" name="password" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Password Confirm</label>#}
+{#																	<input type="password" class="form-control" placeholder="Password Confirm" name="confirm" />#}
+{#																</div>#}
+{#															</fieldset>#}
+{#														</div>#}
+{#														<div class="col-md-6 col-xs-12">#}
+{#															<fieldset id="address">#}
+{#																<legend>Your Address</legend>#}
+{#																<div class="form-group">#}
+{#																	<label>Company</label>#}
+{#																	<input type="text" class="form-control" placeholder="Company" name="company" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Address 1</label>#}
+{#																	<input type="text" class="form-control" placeholder="Address 1" name="Address_1" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label>Address 2</label>#}
+{#																	<input type="text" class="form-control" placeholder="Address 2" name="Address_2" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>City</label>#}
+{#																	<input type="text" class="form-control" placeholder="City" name="city" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Post Code</label>#}
+{#																	<input type="text" class="form-control" placeholder="Post Code" name="postcode" />#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Country</label>#}
+{#																	<select class="form-control">#}
+{#																		<option> --- Please Select --- </option>#}
+{#																		<option> Bangladesh </option>#}
+{#																		<option> United States </option>#}
+{#																		<option> United Kingdom </option>#}
+{#																		<option> Canada </option>#}
+{#																		<option> Malaysia </option>#}
+{#																		<option> United Arab Emirates </option>#}
+{#																	</select>#}
+{#																</div>#}
+{#																<div class="form-group">#}
+{#																	<label><sup>*</sup>Region / State</label>#}
+{#																	<select class="form-control">#}
+{#																		<option> --- Please Select --- </option>#}
+{#																		<option> Aberdeen </option>#}
+{#																		<option> Bedfordshire </option>#}
+{#																		<option> Caerphilly </option>#}
+{#																		<option> Denbighshire </option>#}
+{#																		<option> East Ayrshire </option>#}
+{#																		<option> Falkirk </option>#}
+{#																	</select>#}
+{#																</div>#}
+{#															</fieldset>#}
+{#														</div>#}
+{#													</div>#}
+{#													<div class="row">#}
+{#														<div class="col-xs-12">#}
+{#															<div class="checkbox">#}
+{#																<label>#}
+{#																	<input type="checkbox" name="newsletter" />#}
+{#																	 I wish to subscribe to the Malias1 newsletter.#}
+{#																</label>#}
+{#															</div>#}
+{#															<div class="checkbox">#}
+{#																<label>#}
+{#																	<input type="checkbox" name="shipping_address" checked/>#}
+{#																	 My delivery and billing addresses are the same.#}
+{#																</label>#}
+{#															</div>#}
+{#															<div class="buttons clearfix">#}
+{#																<div class="pull-right">#}
+{#																	I have read and agree to the #}
+{#																	<a href="#"><b>Privacy Policy</b></a>#}
+{#																	<input type="checkbox" name="agree" />#}
+{#																	<input type="button" class="btn btn-primary" value="Continue" />#}
+{#																</div>#}
+{#															</div>#}
+{#														</div>#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#										<!-- End Payment-Address -->#}
+{#										<!-- Start 3 shipping-Address -->#}
+{#										<div class="panel panel_default">#}
+{#											<div class="panel-heading">#}
+{#												<h4 class="panel-title">#}
+{#													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-address">Step 3: Delivery Details <i class="fa fa-caret-down"></i> </a>#}
+{#												</h4>#}
+{#											</div>#}
+{#											<div id="shipping-address" class="collapse">#}
+{#												<div class="panel-body">#}
+{#													<div class="form-horizontal">#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>First Name</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="First Name" name="firstname" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>Last Name</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="Last Name" name="lastname" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label">Company</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="Company" name="company" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>Address 1</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="Address 1" name="address_1" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label">Address 2</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="Address 2" name="address_2" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>City</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="City" name="city" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>Post Code</label>#}
+{#															<div class="col-sm-10">#}
+{#																<input type="text" class="form-control" placeholder="Post Code" name="postcode" />#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>Country</label>#}
+{#															<div class="col-sm-10">#}
+{#																<select class="form-control">#}
+{#																	<option> --- Please Select --- </option>#}
+{#																	<option> Bangladesh </option>#}
+{#																	<option> United States </option>#}
+{#																	<option> United Kingdom </option>#}
+{#																	<option> Canada </option>#}
+{#																	<option> Malaysia </option>#}
+{#																	<option> United Arab Emirates </option>#}
+{#																</select>#}
+{#															</div>#}
+{#														</div>#}
+{#														<div class="form-group">#}
+{#															<label class="col-sm-2 control-label"><sup>*</sup>Region / State</label>#}
+{#															<div class="col-sm-10">#}
+{#																<select class="form-control">#}
+{#																	<option> --- Please Select --- </option>#}
+{#																	<option> Dhaka </option>#}
+{#																	<option> New York </option>#}
+{#																	<option> London </option>#}
+{#																	<option> Canada </option>#}
+{#																	<option> Malaysia </option>#}
+{#																	<option> United Arab Emirates </option>#}
+{#																</select>#}
+{#															</div>#}
+{#														</div>#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#										<!-- End shipping-Address -->#}
+{#										<!-- Start 4 shipping-Method -->#}
+{#										<div class="panel panel_default">#}
+{#											<div class="panel-heading">#}
+{#												<h4 class="panel-title">#}
+{#													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Step 4: Delivery Method <i class="fa fa-caret-down"></i> </a>#}
+{#												</h4>#}
+{#											</div>#}
+{#											<div id="shipping-method" class="collapse">#}
+{#												<div class="panel-body">#}
+{#													<p>Please select the preferred shipping method to use on this order.</p>#}
+{#													<p><strong>Flat Rate</strong></p>#}
+{#													<div class="radio">#}
+{#														<label>#}
+{#															<input type="radio" name="shipping_method" checked/>#}
+{#															Flat Shipping Rate - $5.00#}
+{#														</label>#}
+{#													</div>#}
+{#													<p><strong>Add Comments About Your Order</strong></p>#}
+{#													<p>#}
+{#														<textarea class="form-control" name="comment" rows="8"></textarea>#}
+{#													</p>#}
+{#													<div class="buttons pull-right">#}
+{#														<input type="button" class="btn btn-primary" value="Continue" />#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#										<!-- End shipping-Method -->#}
+{#										<!-- Start 5 Payment-Method -->#}
+{#										<div class="panel panel_default">#}
+{#											<div class="panel-heading">#}
+{#												<h4 class="panel-title">#}
+{#													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-method">Step 5: Payment Method  <i class="fa fa-caret-down"></i> </a>#}
+{#												</h4>#}
+{#											</div>#}
+{#											<div id="payment-method" class="collapse">#}
+{#												<div class="panel-body">#}
+{#													<p>Please select the preferred payment method to use on this order.</p>#}
+{#													<div class="radio">#}
+{#														<label>#}
+{#															<input type="radio" name="payment_method" checked/>#}
+{#															Cash On Delivery      #}
+{#														</label>#}
+{#													</div>#}
+{#													<p><strong>Add Comments About Your Order</strong></p>#}
+{#													<p>#}
+{#														<textarea class="form-control" name="comment" rows="8"></textarea>#}
+{#													</p>#}
+{#													<div class="buttons pull-right">#}
+{#														I have read and agree to the #}
+{#														<a href="#"><b>Terms & Conditions</b></a>#}
+{#														<input type="checkbox" name="agree" />#}
+{#														<input type="button" class="btn btn-primary" value="Continue" />#}
+{#													</div>#}
+{#												</div>#}
+{#											</div>#}
+{#										</div>#}
+{#										<!-- End Payment-Method -->#}
 										<!-- Start 6 Checkout-Confirm -->
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 6: Confirm Order <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 2: Confirm Order <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-confirm" class="collapse in">

@@ -24,6 +24,7 @@ class Order(models.Model):
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Всего')
     full_name = models.CharField(max_length=250, default='', verbose_name='Фио')
     phone = models.CharField(max_length=25, verbose_name='Телефон')
+    email = models.EmailField(max_length=100, verbose_name='email', blank=True)
     address = models.CharField(max_length=250, verbose_name='Адрес', blank=True)
     buying_type = models.CharField(max_length=100, verbose_name='Тип заказа', choices=BUYING_TYPE, default='take_out')
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата')

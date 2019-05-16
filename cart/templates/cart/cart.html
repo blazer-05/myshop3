@@ -46,7 +46,9 @@
                                     </div>
 									<div class="shopping-checkout">
 										<a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue Shopping</a>
-										<a href="{% url 'cart:checkout' %}" class="btn btn-primary pull-right">Checkout</a>
+                                        {%  if not request.cart.is_empty %}
+                                            <a href="{% url 'cart:checkout' %}" id="btn-checkout" class="btn btn-primary pull-right">Checkout</a>
+                                        {% endif %}
 									</div>
 								</div>
 							</div>

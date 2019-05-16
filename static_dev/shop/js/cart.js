@@ -41,11 +41,15 @@ function renderCartTemplate(data) {
     '                <span class="total">' +
     '                    TOTAL:' +
     '                    <span class="amount cart-total-price">&#8381;' + data.discount_price + '</span>' +
-    '                </span>' +
-    '                <span class="cart-button-top">' +
-    '                    <a href="/cart/">View cart</a>' +
-    '                    <a href="/cart/checkout/">Checkout</a>' +
-    '                </span>' +
+    '                </span>';
+    if(products.length) {
+        tmpl = tmpl +
+        '                <span class="cart-button-top">' +
+        '                    <a href="/cart/">View cart</a>' +
+        '                    <a href="/cart/checkout/">Checkout</a>' +
+        '                </span>';
+    }
+    tmpl = tmpl +
     '            </div>' +
     '        </div>' +
     '    </li>' +
@@ -56,8 +60,10 @@ function renderCartTemplate(data) {
 
 function renderCartTableTemplate(data) {
     var products = data.products;
-    if(products.length == 0)
-      return '<h3 class="text-left"><strong>Your basket is empty</strong></h3>';
+    if(products.length == 0) {
+          document.getElementById('btn-checkout').style.display = "none";
+          return '<h3 class="text-left"><strong>Your basket is empty</strong></h3>';
+        }
 
     var tmpl = '' +
       '<div class="table-responsive">' +

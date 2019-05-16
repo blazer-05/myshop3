@@ -11,6 +11,7 @@ BUYING_TYPE = Choices(
 class OrderForm(forms.Form):
     full_name = forms.CharField(required=False)
     phone = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
     buying_type = forms.ChoiceField(widget=forms.Select(), choices=BUYING_TYPE)
     address = forms.CharField(required=False)
     delivery_date = forms.DateField(widget=forms.SelectDateWidget(), initial=timezone.now())
@@ -21,6 +22,8 @@ class OrderForm(forms.Form):
         self.fields['full_name'].label = '*ФИО'
         self.fields['phone'].label = '*Контактный телефон'
         self.fields['phone'].help_text = 'Пожалуйста, указывайте реальный номер телефона, по которому с Вами можно связаться'
+        self.fields['email'].label = '*e-mail'
+        self.fields['email'].help_text = 'Ваш e-mail адрес'
         self.fields['buying_type'].label = 'Способ получения'
         self.fields['address'].label = 'Укажите адрес доставки'
         self.fields['address'].help_text = '*Обязательно указывайте город, почтовый индекс, улица, дом, квартира!'

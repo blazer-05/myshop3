@@ -46,6 +46,11 @@ class Cart(models.Model):
     ).get('total')
 
 
+    @property
+    def is_empty(self):
+        return not self.count
+
+
 class CartProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
