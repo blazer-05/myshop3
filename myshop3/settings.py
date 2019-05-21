@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
     'django.contrib.staticfiles',
     'shop',
     'cart',
@@ -47,6 +48,12 @@ INSTALLED_APPS = [
     'captcha',           # https://django-simple-captcha.readthedocs.io/en/latest/index.html
     'django.forms',
     'comments',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    'profiles',
 
 ]
 
@@ -68,6 +75,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'shop/templates'),
+                 os.path.join(BASE_DIR, 'profiles/templates/allauth'),
                  os.path.join(BASE_DIR, 'info/templates'),
                  #os.path.join(BASE_DIR, 'info/templates/news/custom_field.html'),
 		],
@@ -91,6 +99,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myshop3.wsgi.application'
+
+
+AUTHENTICATION_BACKENDS = (
+
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
 
 
 # Database
@@ -129,6 +145,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

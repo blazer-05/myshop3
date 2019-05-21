@@ -15,7 +15,7 @@ class OrderAdmin(admin.ModelAdmin):
         'sender',
         'is_authenticated',
         'total',
-        'full_name',
+        #'full_name',
         'phone',
         'address',
         'buying_type',

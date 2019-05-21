@@ -103,15 +103,17 @@
                     <!-- Start Top-Link -->
                     <div class="top-link">
                         <ul class="link">
-                            <li><a href="my-account.html"><i class="fa fa-user"></i> My Account</a></li>
-                            <li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
-                            <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i> Checkout</a></li>
-                            <li><a href="registration-account.html"><i class="fa fa-unlock-alt"></i> Login</a></li>
-
                             {% if not request.user.is_authenticated %}
-                                <li><p class="navbar-text">Здравствуйте, гость!</p></li>
+                                <li><a href="{% url 'account_login' %}"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="{% url 'account_signup' %}"><i class="fa fa-sign-in"></i> Sign Up</a></li>
+                                <li>Здравствуйте, гость!</li>
                             {% else %}
-                                <li><p class="navbar-text">Здравствуйте, {{ request.user }}</p></li>
+                                <li><a href="my-account.html"><i class="fa fa-user"></i> My Account</a></li>
+                                <li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
+                                <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i>
+                                    Checkout</a></li>
+                                <li><a href="{% url 'account_logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
+                                <li>Здравствуйте, {{ request.user }}
                             {% endif %}
                         </ul>
                     </div>

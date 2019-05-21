@@ -31,16 +31,19 @@ def incomplete_post(modeladmin, request, queryset):
 incomplete_post.short_description = 'Снять с публикации товар'
 # Конец Функции фильтрации
 
+
 class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
     readonly_fields = ['image_img']
     fields = ['image_img', 'name', 'image', 'parent', 'is_active'] # Порядок вывода объектов в карточке товара слева направо.
     extra = 0 # Количество видимых полей для добавления картинки
 
+
 class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
+
 
 # Класс модели Entry для вывода атрибута и значения
 class EntryInline(admin.TabularInline):

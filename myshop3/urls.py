@@ -28,6 +28,7 @@ urlpatterns = [
     path('reviews/', include('info.urls', namespace='reviews')),
     path('comments/', include('comments.urls', namespace='comments')),
     path('captcha/', include('captcha.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 if settings.DEBUG:

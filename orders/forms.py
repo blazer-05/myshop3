@@ -22,7 +22,7 @@ class OrderForm(forms.Form):
         self.fields['full_name'].label = '*ФИО'
         self.fields['phone'].label = '*Контактный телефон'
         self.fields['phone'].help_text = 'Пожалуйста, указывайте реальный номер телефона, по которому с Вами можно связаться'
-        self.fields['email'].label = '*e-mail'
+        self.fields['email'].label = 'Ваш e-mail на него придет копия заказа'
         self.fields['email'].help_text = 'Ваш e-mail адрес'
         self.fields['buying_type'].label = 'Способ получения'
         self.fields['address'].label = 'Укажите адрес доставки'

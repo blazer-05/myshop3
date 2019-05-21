@@ -19,7 +19,7 @@ def order_create(request):
             address = form.cleaned_data['address']
             comment = form.cleaned_data['comment']
             recepients = ['blazer-05@mail.ru']
-            user_recepients = ['email']
+            user_recepients = [email]
             cart = request.cart
             order = Order.objects.create(
                 #user=request.user,
@@ -50,14 +50,17 @@ def order_create(request):
                 #'date': order.date,
             }
 
+            '''Отправляем письмо админу'''
             message = render_to_string('orders/admin_email.html', context, request)
-            user_message = render_to_string('orders/user_order_email.html', context, request)
             #email = EmailMessage('Поступил новый заказ: №' + str(order.id) + ' ' + full_name, message, 'blazer-05@mail.ru', recepients)
-            email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients)
-            user_email = EmailMessage('Ваш заказ. {}'.format(order), user_message, user_recepients)
+            email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             email.content_subtype = 'html'
-            user_email.content_subtype = 'html'
             email.send()
+
+            '''Отправляем письмо пользователю'''
+            user_message = render_to_string('orders/user_order_email.html', context, request)
+            user_email = EmailMessage('Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru', user_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+            user_email.content_subtype = 'html'
             user_email.send()
 
             request.cart.clear()
