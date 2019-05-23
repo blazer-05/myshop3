@@ -1,114 +1,262 @@
 {% extends "account/base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
 
 {% load i18n %}
+{% load account socialaccount %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block title %}{% trans "Sign Up" %}{% endblock %}
 
 {% block content %}
-{#<h1>{% trans "Sign Up" %}</h1>#}
+    <!-- Стили для фокуса в placeholder-->
+    <style>
+        :focus::-webkit-input-placeholder {color: transparent}
+        :focus::-moz-placeholder          {color: transparent}
+        :focus:-moz-placeholder           {color: transparent}
+        :focus:-ms-input-placeholder      {color: transparent}
+    </style>
+
+<div class="container">
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">{% trans "Sign Up" %}</div>
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#"></a></div>
+                    </div>
+
+                    <div style="padding-top:30px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                        <form id="loginform" class="form-horizontal" role="form" method="post" action="{% url 'account_signup' %}" >
+                            {% csrf_token %}
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <p>Логин <sup>*</sup></p>
+                                            <!-- Вывод ошибок о неверно заполненом поле -->
+                                            {{ form.non_field_errors }}
+                                            <div class="fieldWrapper">
+                                                {% if form.username.errors %}
+                                                    <div class="alert alert-warning">{{ form.username.errors }}</div>
+                                                {% endif %}
+                                                    <div style="margin-bottom: 25px" class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                        <input value="{{ form.username.value|default:'' }}" type="text" name="username" id="id_username" class="form-control input-lg" placeholder="Login*" tabindex="1" required>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <p>Имя <sup></sup></p>
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" name="firstname" id="id_firstname" class="form-control input-lg" placeholder="First Name" tabindex="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <p>Фамилия <sup></sup></p>
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                            <input type="text" name="lastname" id="id_lastname" class="form-control input-lg" placeholder="Last Name" tabindex="2">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p>e-mail <sup>*</sup></p>
+                                    <!-- Вывод ошибок о неверно заполненом поле -->
+                                    <div class="fieldWrapper">
+                                        {% if form.email.errors %}
+                                            <div class="alert alert-warning">{{ form.email.errors }}</div>
+                                        {% endif %}
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                                    <input value="{{ form.email.value|default:'' }}" id="id_email" type="email" class="form-control" name="email" value="" placeholder="e-mail*" required>
+                                        </div>
+                                    </div>
+
+                                <p>Пароль не менее 8 символов <sup>*</sup></p>
+                                    <!-- Вывод ошибок о неверно заполненом поле -->
+                                    <div class="fieldWrapper">
+                                        {% if form.password1.errors %}
+                                            <div class="alert alert-warning">{{ form.password1.errors }}</div>
+                                        {% endif %}
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                    <input id="id-password1" type="password" class="form-control" name="password1" placeholder="password*" required>
+                                        </div>
+
+                                    </div>
+
+                                <p>Подтверждение пароля <sup>*</sup></p>
+                                    <!-- Вывод ошибок о неверно заполненом поле -->
+                                    <div class="fieldWrapper">
+                                        {% if form.password2.errors %}
+                                            <div class="alert alert-warning">{{ form.password2.errors }}</div>
+                                        {% endif %}
+                                        <div style="margin-bottom: 25px" class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                                    <input id="id-password2" type="password" class="form-control" name="password2" placeholder="password2*" required>
+                                        </div>
+                                    </div>
+
+                                <p>Проверочный код <sup>*</sup></p>
+                                <div class="input-group">
+                                    {{ form.captcha }}
+                                    <button class='captcha-refresh'>
+                                        <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
+                                    </button>
+                                </div>
+                                <br>
+                                <!-- Вывод сообщения о неверно введенной капчи  -->
+                                {% if form.captcha.errors %}
+                                    <div class="alert alert-danger alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <strong>{{ form.captcha.errors }}</strong>
+                                    </div>
+                                {% endif %}
+
+                                    <!-- Вывод ошибок о неверно введенном пароле -->
+{##}
+{#                                        <div class="alert alert-warning">#}
+{#                                            {{ form.non_field_errors }}#}
+{#                                            <div class="fieldWrapper">#}
+{#                                                {{ form.username.errors }}#}
+{#                                                <label for="{{ form.username.id_for_label }}">Login username:</label>#}
+{#                                                {{ form.username }}#}
+{#                                            </div>#}
+{#                                            <div class="fieldWrapper">#}
+{#                                                {{ form.email.errors }}#}
+{#                                                <label for="{{ form.email.id_for_label }}">Your email:</label>#}
+{#                                                {{ form.email }}#}
+{#                                            </div>#}
+{#                                            <div class="fieldWrapper">#}
+{#                                                {{ form.password1.errors }}#}
+{#                                                <label for="{{ form.password1.id_for_label }}">Your password1:</label>#}
+{#                                                {{ form.password1 }}#}
+{#                                            </div>#}
+{#                                            <div class="fieldWrapper">#}
+{#                                                {{ form.password2.errors }}#}
+{#                                                <label for="{{ form.password2.id_for_label }}">Your password2:</label>#}
+{#                                                {{ form.password2 }}#}
+{#                                            </div>#}
+{#                                        </div>#}
 
 
-		<!-- START PAGE-CONTENT -->
-		<section class="page-content">
-			<!-- Start Account-Create-Area -->
-			<div class="account-create-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12">
-							<ul class="page-menu">
-								<li><a href="index.html">Home</a></li>
-								<li class="active"><a href="registration-account.html">Account</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="area-title">
-								<h3 class="title-group gfont-1">Регистрация</h3>
-							</div>
-						</div>
-					</div>
-					<div class="account-create">
-						<form action="#">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="account-create-box">
-										<h2 class="box-info">Персональная информация</h2>
-										<div class="row">
-											<div class="col-sm-4 col-xs-12">
-												<div class="single-create">
-													<p>Имя <sup>*</sup></p>
-													<input class="form-control" type="text" name="firstname"/>
-												</div>
-											</div>
-											<div class="col-sm-4 col-xs-12">
-												<div class="single-create">
-													<p>Фамилия <sup>*</sup></p>
-													<input class="form-control" type="text" name="lastname"/>
-												</div>
-											</div>
-											<div class="col-sm-4 col-xs-12">
-												<div class="single-create">
-													<p>Email Адрес <sup>*</sup></p>
-													<input class="form-control" type="email" name="email"/>
-												</div>
-											</div>
-											<div class="col-xs-12">
-												<p class="for-newsletter"><input type="checkbox" /> Подписаться на рассылку</p>
-											</div>
-										</div>
-									</div>
-									<div class="account-create-box">
-										<h2 class="box-info">Вход в систему</h2>
-										<div class="row">
-											<div class="col-md-4 col-sm-6 col-xs-12">
-												<div class="single-create">
-													<p>Пароль <sup>*</sup></p>
-													<input class="form-control" type="password" name="firstname"/>
-												</div>
-											</div>
-											<div class="col-md-4 col-sm-6 col-xs-12">
-												<div class="single-create">
-													<p>Повторить пароль <sup>*</sup></p>
-													<input class="form-control" type="password" name="firstname"/>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="submit-area">
-										<p class="required text-right">* Обязательное поле</p>
-										<button type="submit" class="btn btn-primary floatright">Отправить</button>
-										<a href="login.html" class="float-left"><span><i class="fa fa-angle-double-left"></i></span> Назад</a>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<!-- End Account-Create-Area -->
-        </section>
+
+                                    <p style="padding-top:15px; font-size:85%">
+                                        Нажимая на кнопку «Регистрация» я подтверждаю, что даю разрешение на <a href="#myModal" data-toggle="modal" data-target="#myModal">обработку своих персональных данных</a>.
+                                    </p>
+                                    <div style="margin-top:10px" class="form-group">
+                                        <!-- Button -->
+
+                                        <div class="col-sm-12 controls">
+                                          <button class="btn btn-success" type="submit">{% trans "Sign Up" %}  </button>
+                                        </div>
+                                    </div>
+
+
+
+                                      {% if redirect_field_value %}
+                                          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                                      {% endif %}
+
+
+                        </form>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 control">
+                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                                            <p>Поля отмеченные <sup>*</sup> обязательны к заполнению!
+                                            <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+                    </div>
+        </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Политика</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+
+
+<div class="brick-column">
+<h1>Политика конфиденциальности интернет-магазина Технопарк.ру</h1>
+
+<p>Политика конфиденциальности интернет-магазина &laquo;Технопарк&raquo; основана на законе &laquo;О защите персональных данных&raquo; РФ. Мы сохраняем конфиденциальность любой предоставляемой и получаемой от Вас информации и защиту персональных данных от всевозможных видов мошенничества. Все полученные данные используются в строгом соответствии с Федеральным Законом от 27.07.2006 № 152-ФЗ &laquo;О персональных данных&raquo; и Положением о персональных данных, установленных ООО &laquo;ТЕХНОПАРК-Центр&raquo; и являющихся неотъемлемой частью настоящей Политики конфиденциальности интернет-магазина Технопарк.ру (<a href="https://www.technopark.ru">www.technopark.ru</a>).</p>
+
+<h2>Какую информацию мы собираем?</h2>
+
+<ul>
+	<li>Персональная информация, предоставляемая Вами при регистрации или во время совершения покупки: телефон, e-mail, имя и фамилия, адрес доставки.</li>
+	<li>Данные, передающиеся автоматически при посещении сайта: IP-адрес, информация о браузере, продолжительности пребывания на сайте, адрес сайта, с которого был осуществлен переход и т.д.</li>
+</ul>
+
+<h2>Как мы используем полученную информацию?</h2>
+
+<ul>
+	<li>Для предоставления услуг (регистрации, оформления заказа, осуществления доставки и т.д.)</li>
+	<li>Для информирования о статусе заказа, новых акциях и предложениях, в том числе посредством e-mail.</li>
+	<li>Для улучшения качества работы сайта, оценки его удобства и пользы, анализа эффективности продуктов и услуг.</li>
+	<li>Для осуществления акций, конкурсов (при условии Вашего участия в них).</li>
+</ul>
+
+<h2>Политика защиты персональных данных</h2>
+
+<ul>
+	<li>Мы принимаем все необходимые организационные и технические меры для защиты персональной информации от случайного и мошеннического доступа, уничтожения, изменения или других неправомерных действий.</li>
+	<li>Мы гарантируем конфиденциальность и защиту персональных данных от третьих лиц. Доступ к персональным данным предоставляется только тем сервисам и партнерам, которым она необходима для осуществления операций (оформления заказа, доставки, e-mail подписки). Все эти лица выполняют обязательства по сохранению конфиденциальных данных и могут подвергаться взысканиям за нарушение обязательств, вплоть до увольнения и уголовного преследования.</li>
+	<li>Передача персональных данных третьим лицам также может осуществляться в случаях, предусмотренных законодательством РФ, например, при передаче бизнеса. Новый владелец при этом берет на себя обязательства по защите полученной информации. Также передача данных возможна для пресечения мошенничества.</li>
+	<li>При переходе из нашего интернет-магазина на другие источники компания не несет ответственности за конфиденциальность представленных на этих ресурсах данных.</li>
+</ul>
+
+<h2>Безопасность платежей</h2>
+
+<p>Безопасность платежей обеспечивается с помощью Банка-эквайера, функционирующего на основе современных протоколов и технологий, разработанных международными платежными системами Visa International и MasterCard Worldwide (3D-Secure: Verified by VISA, MasterCard SecureCode). Обработка полученных конфиденциальных данных Держателя карты производится в процессинговом центре Банка-эквайера, сертифицированном по стандарту PCI DSS. Безопасность передаваемой информации обеспечивается с помощью современных протоколов обеспечения безопасности в сети Интернет.</p>
+
+<h2>Защита информации на сайте</h2>
+
+<ul>
+	<li>Цель представленной на сайте информации &ndash; информирование покупателя о деятельности интернет-магазина, товарах и услугах, а также помощь в работе с сайтом.</li>
+	<li>Все содержимое сайта является собственностью &laquo;ООО Технопарк- Центр&raquo; и защищено законодательно. Пользователи вправе использовать информацию, представленную на сайте, в личных и некоммерческих целях. Запрещено любое использование информации в коммерческих целях.</li>
+	<li>Компания оставляет за собой право на изменение, удаление или другую работу с информацией, представленной на сайте, а также на ограничение доступа к сайту.</li>
+	<li>Компания не несет ответственности за сведения, представленные покупателями на сайте в общедоступной форме.</li>
+</ul>
+
+<blockquote>Компания оставляет за собой право на изменение Политики конфиденциальности для дальнейшего совершенствования системы безопасности в соответствии с действующим законодательством.</blockquote>
+</div>
 
 
 
 
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 
-
-
-
-
-
-
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-
-<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-  {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
-</form>
 
 {% endblock %}

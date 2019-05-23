@@ -224,6 +224,22 @@ SUMMERNOTE_CONFIG = {
 
 '''
 
+LOGIN_REDIRECT_URL = '/accounts/profile/'
+LOGIN_URL = '/accounts/login/'
+
+# НАстройки для django-allauth - добавление свои полей
+ACCOUNT_FORMS = {
+
+    'login': 'profiles.forms.SignIn',
+    'signup': 'profiles.forms.SignUp',
+    # 'add_email': 'allauth.account.forms.AddEmailForm',
+    # 'change_password': 'allauth.account.forms.ChangePasswordForm',
+    # 'set_password': 'allauth.account.forms.SetPasswordForm',
+    # 'reset_password': 'allauth.account.forms.ResetPasswordForm',
+    # 'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
+    # 'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
+}
+
 
 # Подгружаем настройки из модуля local_settings.py.
 try:

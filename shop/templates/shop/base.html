@@ -104,8 +104,8 @@
                     <div class="top-link">
                         <ul class="link">
                             {% if not request.user.is_authenticated %}
-                                <li><a href="{% url 'account_login' %}"><i class="fa fa-lock"></i> Login</a></li>
-                                <li><a href="{% url 'account_signup' %}"><i class="fa fa-sign-in"></i> Sign Up</a></li>
+                                <li><a href="{% url 'account_login' %}" title="sign in"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="{% url 'account_signup' %}" title="sign up"><i class="fa fa-sign-in"></i> Sign Up</a></li>
                                 <li>Здравствуйте, гость!</li>
                             {% else %}
                                 <li><a href="my-account.html"><i class="fa fa-user"></i> My Account</a></li>
