@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.forms',
     'comments',
 
-    'allauth',
+    'allauth',           # https://django-allauth.readthedocs.io/en/latest/configuration.html
     'allauth.account',
     'allauth.socialaccount',
 
@@ -194,6 +194,11 @@ CAPTCHA_FONT_SIZE = (28)
 CAPTCHA_BACKGROUND_COLOR = '#cccccc'
 CAPTCHA_FOREGROUND_COLOR = '#001100'
 CAPTCHA_LENGTH = 6
+
+# CAPTCHA_LETTER_ROTATION = (-15, 15)
+# CAPTCHA_NOISE_FUNCTIONS = None
+# CAPTCHA_BACKGROUND_COLOR = '#ffffff'
+
 #CAPTCHA_OUTPUT_FORMAT = u'%(hidden_field)s%(text_field)s<br>%(image)s'
 
 #FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
@@ -224,13 +229,21 @@ SUMMERNOTE_CONFIG = {
 
 '''
 
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+# django-allauth
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5 # Определяет срок действия писем с подтверждением по электронной почте
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # Вход на сайт по логину и почте
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Когда установлено «mandatory», пользователь блокируется от входа, пока адрес электронной почты не будет подтвержден.
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 2
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 100000
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SESSION_REMEMBER = None
+LOGIN_REDIRECT_URL = '/accounts/profile/' # редирект после успешной авторизации
 LOGIN_URL = '/accounts/login/'
 
-# НАстройки для django-allauth - добавление свои полей
+# НАстройки для django-allauth - добавление своих полей
 ACCOUNT_FORMS = {
 
-    'login': 'profiles.forms.SignIn',
+    #'login': 'profiles.forms.SignIn',
     'signup': 'profiles.forms.SignUp',
     # 'add_email': 'allauth.account.forms.AddEmailForm',
     # 'change_password': 'allauth.account.forms.ChangePasswordForm',
