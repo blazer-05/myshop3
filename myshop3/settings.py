@@ -137,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -233,17 +233,16 @@ SUMMERNOTE_CONFIG = {
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5 # Определяет срок действия писем с подтверждением по электронной почте
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # Вход на сайт по логину и почте
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Когда установлено «mandatory», пользователь блокируется от входа, пока адрес электронной почты не будет подтвержден.
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 2
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 100000
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 2 # Количество попыток не удачного ввода логина и пароля. После пользователь блокируется.
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300 # Время блокировки пользователя в секундах после количества не удачного ввода логина и пароля.
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_SESSION_REMEMBER = None
 LOGIN_REDIRECT_URL = '/accounts/profile/' # редирект после успешной авторизации
 LOGIN_URL = '/accounts/login/'
 
 # НАстройки для django-allauth - добавление своих полей
 ACCOUNT_FORMS = {
 
-    #'login': 'profiles.forms.SignIn',
+    'login': 'profiles.forms.SignIn',
     'signup': 'profiles.forms.SignUp',
     # 'add_email': 'allauth.account.forms.AddEmailForm',
     # 'change_password': 'allauth.account.forms.ChangePasswordForm',

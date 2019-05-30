@@ -285,9 +285,10 @@
     <!-- End Mobile-menu -->
 </header>
 <!-- HEADER AREA END -->
-{% block content %}
+{% block content %}{% endblock %}
 
-{% endblock %}
+{% block body %}{% endblock %} <!-- Для django-allauth -->
+{% block extra_body %}{% endblock %} <!-- Для django-allauth -->
 
 {% csrf_token %}
 
