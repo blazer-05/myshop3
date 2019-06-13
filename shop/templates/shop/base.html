@@ -108,12 +108,15 @@
                                 <li><a href="{% url 'account_signup' %}" title="sign up"><i class="fa fa-sign-in"></i> Sign Up</a></li>
                                 <li>Здравствуйте, (гость!)</li>
                             {% else %}
-                                <li><a href="my-account.html"><i class="fa fa-user"></i> My Account</a></li>
+                                <li><a href="{% url 'user_profile' %}"><i class="fa fa-user"></i> My Account</a></li>
                                 <li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
                                 <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i>
                                     Checkout</a></li>
                                 <li><a href="{% url 'account_logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
                                 <li>Здравствуйте, ({{ request.user }})</li>
+                                {% if request.user.is_superuser %}
+                                <li><a href="/admin/" target="_blank"><i class="fa fa-gear"></i>Админка</a></li>
+                                {% endif %}
                             {% endif %}
                         </ul>
                     </div>

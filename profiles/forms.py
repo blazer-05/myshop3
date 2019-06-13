@@ -1,6 +1,7 @@
 from allauth.account.forms import LoginForm, SignupForm, ChangePasswordForm
 from django import forms
 from captcha.fields import CaptchaField
+from profiles.models import Profile
 
 
 class SignIn(LoginForm):
@@ -22,5 +23,13 @@ class SignUp(SignupForm):
         #user.phone = self.cleaned_data['phone']
         user.save()
         return user
+
+
+class ProfileForm(forms.ModelForm):
+    '''Редактирование профиля'''
+    captcha = CaptchaField(label='Are you an human? ', )
+    class Meta:
+        model = Profile
+        fields = ['user', 'first_name', 'last_name', 'avatar', 'email_two', 'phone', 'date_birth']
 
 

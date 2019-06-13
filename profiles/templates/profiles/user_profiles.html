@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 {% load thumbnail %}
+{% load banner %}
 
 {% block title %}
 
@@ -9,10 +10,368 @@
 
 {% block content %}
 
-    <div class="container">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-5405524651500158",
+          enable_page_level_ads: true
+     });
 
-        <h1>Страница профиля пользователя!</h1>
+</script>
 
-    </div>
+<style>
+    .my_profile{    float: left;
+    width: 100%;
+    margin: 20px 0;
+}
+.pro_left_ii .nav-tabs>li.active>a{     background: #26ACCE;
+    border: none;
+    color: #fff;
+	   border: 1px solid #26ACCE;
+}
+.pro_left_ii  .nav-tabs>li>a {
+    border: 1px solid #e3e3e3;
+}
+.my_profile .media-body,
+.my_profile h4,
+.my_profileh5{    display: inherit;
+    width:100%;
+}
+
+
+
+.glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+small {
+display: block;
+line-height: 1.428571429;
+color: #999;
+}
+
+
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+
+
+</style>
+
+	<!-- START PAGE-CONTENT -->
+		<section class="page-content">
+			<div class="container">
+	            <div class="row">
+					<div class="col-md-12">
+						<ul class="page-menu">
+							<li><a href="/">Home</a></li>
+							<li class="active"><a href="{% url 'user_profile' %}">My Account</a></li>
+						</ul>
+					</div>
+				</div>
+
+                {% if messages %}
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            &times;
+                        </button>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %}
+                                    class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="container">
+                    <div class="my_profile">
+                        <div class="col-md-3">
+                            <div class="well" style="background: #fff;">
+                                <div class="media text-center">
+                                    <div class="media-center media-bottom">
+
+                                        <img src="{% static 'info/reviews/150.png' %}" style="width: 150px; margin:0 auto;" class="avatar media-object img-rounded" alt="avatar">
+{#                                        <img src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/profile-pic-male_2fd3e8.svg"#}
+{#                                             class="media-object" style="width:60px; margin:0 auto;">#}
+                                    </div>
+                                    <div class="media-body">
+
+                                        <h5 style="width:100%">{{ request.user }}</h5>
+                                        <br>
+                                        <h4 style="width:100%" class="media-heading">Welcome to Project</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="well pro_left_ii" style="background: #fff;">
+                                <ul class="nav nav-tabs  nav-stacked">
+                                    <li class="active"><a data-toggle="tab" href="#info">MY INFO</a></li>
+                                    <li><a data-toggle="tab" href="#my_orders">MY ORDERS</a></li>
+                                    <li><a data-toggle="tab" href="#menu2">MY WISH LIST</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">ACCOUNT SETTINGS</a></li>
+                                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="tab-content">
+
+                                <div id="info" class="tab-pane fade in active">
+                                    <div class="well" style="background:#fff;">
+                                        <h4>My Info</h4>
+                                        <hr>
+
+                                        <h4>{{ request.user }}</h4>
+                                        <small><cite title="San Francisco, USA">San Francisco, USA <i
+                                                class="glyphicon glyphicon-map-marker">
+                                        </i></cite></small>
+                                        <p>
+
+                                            <i class="glyphicon glyphicon-user"></i>Name
+                                            <br/>
+                                            <i class="glyphicon glyphicon-phone"></i>Phone
+                                            <br/>
+                                            <i class="glyphicon glyphicon-envelope"></i>Email@example.com
+                                            <br/>
+                                            <i class="glyphicon glyphicon-globe"></i>My ip
+                                            <br/>
+                                            <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
+                                        <!-- Split button -->
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary">
+                                                Social
+                                            </button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown">
+                                                <span class="caret"></span><span class="sr-only">Social</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Twitter</a></li>
+                                                <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google
+                                                    +</a></li>
+                                                <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li><a href="#">Github</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div id="my_orders" class="tab-pane fade">
+                                    <div class="well" style="background:#fff;">
+                                        <h4>Order Details</h4>
+                                        <hr>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover bmw">
+                                                <thead>
+                                                <tr>
+                                                    <td class="text-center">Images</td>
+                                                    <td class="text-left">Product Name</td>
+                                                    <td class="text-center">Quantity</td>
+                                                    <td class="text-right">Unit Price</td>
+                                                    <td class="text-right">Total</td>
+                                                </tr>
+                                                </thead>
+                                                {% for item in request.cart.cartproduct_set.all %}
+                                                    <tbody>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <img class="img-thumbnail"
+                                                                 src="{{ item.product.images|thumbnail_url:'cart' }}"
+                                                                 alt="{{ item.product.title }}"/>
+                                                        </td>
+                                                        <td class="text-left">{{ item.product.title }}<br><br>
+                                                            <small>Vendor code: <span
+                                                                    class="text-stock">{{ item.product.vendor_code }}</span>
+                                                            </small>
+                                                        </td>
+                                                        <td class="text-center">{{ item.quantity }}</td>
+                                                        <td class="text-right">&#8381; {{ item.product.price }}</td>
+                                                        <td class="text-right">&#8381; {{ item.discount_price }}</td>
+                                                    </tr>
+                                                    </tbody>
+                                                {% endfor %}
+                                                <tfoot>
+                                                <tr>
+                                                    <td class="text-right" colspan="4">
+                                                        <strong>Total:</strong>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-right" colspan="4">
+                                                        <strong>Total amount:</strong>
+                                                    </td>
+                                                    <td class="text-right">{{ request.cart.count_products }} шт.</td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+
+                                    </div> <!-- card.// -->
+                                </div>
+                                <div id="menu1" class="tab-pane fade">
+                                    <div class="well" style="background:#fff;">
+                                        <h4>Change Password</h4>
+                                        <hr>
+                                        <label>Current Password</label>
+                                        <form>
+                                            <div class="form-group pass_show">
+                                                <input type="password" value="" class="form-control"
+                                                       placeholder="Current Password">
+                                            </div>
+                                            <label>New Password</label>
+                                            <div class="form-group pass_show">
+                                                <input type="password" value="" class="form-control"
+                                                       placeholder="New Password">
+                                            </div>
+                                            <label>Confirm Password</label>
+                                            <div class="form-group pass_show">
+                                                <input type="password" value="" class="form-control"
+                                                       placeholder="Confirm Password">
+                                            </div>
+                                            <hr>
+                                            <div class="form-group pass_show">
+                                                <input type="submit" class="btn btn-info" value="submit">
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="well" style="background:#fff;">
+                                        <h4>Edit Profile</h4>
+                                        <hr>
+
+                                        <form role="form">
+                                          <div class="form-group">
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" class="form-control" id="first_name" placeholder="first_name">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name" placeholder="last_name">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="phone">Phone</label>
+                                            <input type="text" class="form-control" id="phone" placeholder="phone">
+                                          </div>
+
+                                          <div class="form-group">
+                                            <label for="exampleInputEmail1">Email</label>
+                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="date_birth">Date birth</label>
+                                            <input type="date" class="form-control" id="date_birth" placeholder="date_birth">
+                                          </div>
+{#                                          <div class="form-group">#}
+{#                                            <label for="exampleInputFile">Avatar</label>#}
+{#                                            <input type="file" id="exampleInputFile">#}
+{#                                          </div>#}
+
+                                          <label for="avatar">Upload Avatar</label>
+                                          <div class="form-group">
+                                            <img src="{% static 'info/reviews/150.png' %}" style="width: 150px; height: 100px;" class="avatar img-rounded" alt="avatar">
+                                            <h6>Upload a different avatar...</h6>
+                                            <input type="file" class="text-left left-block file-upload">
+                                          </div>
+                                            <br>
+
+                                          <button type="submit" class="btn btn-primary">Отправить</button>
+                                        </form>
+                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                                        <script>
+                                            $(document).ready(function() {
+
+                                                var readURL = function(input) {
+                                                    if (input.files && input.files[0]) {
+                                                        var reader = new FileReader();
+
+                                                        reader.onload = function (e) {
+                                                            $('.avatar').attr('src', e.target.result);
+                                                        }
+
+                                                        reader.readAsDataURL(input.files[0]);
+                                                    }
+                                                }
+
+
+                                                $(".file-upload").on('change', function(){
+                                                    readURL(this);
+                                                });
+                                            });
+                                        </script>
+
+                                    </div>
+                                </div>
+                                <div id="menu2" class="tab-pane fade">
+                                    <div class="well" style="background:#fff;">
+                                        <h3>MY WISH LIST</h3>
+                                        <hr>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover bmw">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="text-center">Images</td>
+                                                        <td class="text-left">Product Name</td>
+                                                        <td class="text-center">Quantity</td>
+                                                        <td class="text-right">Unit Price</td>
+                                                        <td class="text-right">Total</td>
+                                                        <td class="text-right">Action</td>
+                                                    </tr>
+                                                </thead>
+                                                {% for item in request.cart.cartproduct_set.all %}
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
+                                                        </td>
+                                                        <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
+                                                        <td class="text-center">{{ item.quantity }}</td>
+                                                        <td class="text-right">&#8381; {{ item.product.price }}</td>
+                                                        <td class="text-right">&#8381; {{ item.discount_price }}</td>
+                                                        <td class="text-right">
+                                                            <button class="btn btn-primary" data-toggle="tooltip" title="Add to Cart" type="button">
+                                                                <i class="fa fa-shopping-cart"></i>
+                                                            </button>
+                                                            <a href="#" class="btn btn-danger" data-toggle="tooltip" title="Remove">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                {% endfor %}
+                                                <tfoot>
+                                                    <tr>
+                                                        <td class="text-right" colspan="4">
+                                                            <strong>Total:</strong>
+                                                        </td>
+                                                        <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-right" colspan="4">
+                                                            <strong>Total amount:</strong>
+                                                        </td>
+                                                        <td class="text-right">{{ request.cart.count_products }} шт.</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+			</div>
+        </section>
 
 {% endblock %}

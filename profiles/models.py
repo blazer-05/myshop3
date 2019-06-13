@@ -11,16 +11,16 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=50, verbose_name="Имя", blank=True)
     last_name = models.CharField(max_length=50, verbose_name="Фамилия", blank=True)
     avatar = models.ImageField(upload_to="profile/avatar/%y/%m/%d/", blank=True, verbose_name="Аватар")
-    # email_two = models.EmailField(verbose_name="Доп. email", blank=True)
+    email_two = models.EmailField(verbose_name="Доп. email", blank=True)
     phone = models.CharField(max_length=25, verbose_name="Телефон", blank=True)
-    date_birth = models.DateTimeField(verbose_name='Дата рождения', blank=True, null=True)
+    date_birth = models.DateField(verbose_name='Дата рождения', blank=True, null=True)
     slug = models.SlugField("URL", max_length=50, default='')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated = models. DateTimeField(auto_now=True, verbose_name='дата обновления')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     def __str__(self):
-        return self.first_name
+        return self.user.username
 
 
     class Meta:
