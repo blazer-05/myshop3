@@ -89,11 +89,13 @@ color: #999;
                             <div class="well" style="background: #fff;">
                                 <div class="media text-center">
                                     <div class="media-center media-bottom">
-
+                                        {% if user.profile.avatar %}
+                                          <img src="{{ user.profile.avatar.url }}" style="width: 150px; height: 150px; margin:0 auto;" class="avatar media-object img-rounded" alt="avatar">
+                                            {% else %}
                                         <img src="{% static 'info/reviews/150.png' %}" style="width: 150px; margin:0 auto;" class="avatar media-object img-rounded" alt="avatar">
-{#                                        <img src="https://img1a.flixcart.com/www/linchpin/fk-cp-zion/img/profile-pic-male_2fd3e8.svg"#}
-{#                                             class="media-object" style="width:60px; margin:0 auto;">#}
+                                        {% endif %}
                                     </div>
+                                <br>
                                     <div class="media-body">
 
                                         <h5 style="width:100%">{{ request.user }}</h5>
@@ -108,9 +110,14 @@ color: #999;
                                     <li class="active"><a data-toggle="tab" href="#info">MY INFO</a></li>
                                     <li><a data-toggle="tab" href="#my_orders">MY ORDERS</a></li>
                                     <li><a data-toggle="tab" href="#menu2">MY WISH LIST</a></li>
-                                    <li><a data-toggle="tab" href="#menu1">ACCOUNT SETTINGS</a></li>
-                                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                                    <li><a href="{% url 'user_profile_edit' %}">EDIT PROFILE</a></li>
+                                    <li><a href="{% url 'account_logout' %}">LOGOUT</a></li>
                                 </ul>
+
+
+
+
+
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -127,15 +134,17 @@ color: #999;
                                         </i></cite></small>
                                         <p>
 
-                                            <i class="glyphicon glyphicon-user"></i>Name
+                                            <i class="glyphicon glyphicon-user"></i>{{ user.profile.first_name }} {{ user.profile.last_name }}
                                             <br/>
-                                            <i class="glyphicon glyphicon-phone"></i>Phone
+                                            <i class="glyphicon glyphicon-phone"></i>{{ user.profile.phone }}
                                             <br/>
-                                            <i class="glyphicon glyphicon-envelope"></i>Email@example.com
+                                            <i class="glyphicon glyphicon-envelope"></i>{{ request.user.email }}
                                             <br/>
-                                            <i class="glyphicon glyphicon-globe"></i>My ip
+                                            <i class="glyphicon glyphicon-home"></i>{{ user.profile.city }}
                                             <br/>
-                                            <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
+                                            <i class="glyphicon glyphicon-globe"></i>{{ ip }}
+                                            <br/>
+                                            <i class="glyphicon glyphicon-gift"></i>{{ user.profile.date_birth }}</p>
                                         <!-- Split button -->
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary">
@@ -216,99 +225,37 @@ color: #999;
                                     </div> <!-- card.// -->
                                 </div>
                                 <div id="menu1" class="tab-pane fade">
-                                    <div class="well" style="background:#fff;">
-                                        <h4>Change Password</h4>
-                                        <hr>
-                                        <label>Current Password</label>
-                                        <form>
-                                            <div class="form-group pass_show">
-                                                <input type="password" value="" class="form-control"
-                                                       placeholder="Current Password">
-                                            </div>
-                                            <label>New Password</label>
-                                            <div class="form-group pass_show">
-                                                <input type="password" value="" class="form-control"
-                                                       placeholder="New Password">
-                                            </div>
-                                            <label>Confirm Password</label>
-                                            <div class="form-group pass_show">
-                                                <input type="password" value="" class="form-control"
-                                                       placeholder="Confirm Password">
-                                            </div>
-                                            <hr>
-                                            <div class="form-group pass_show">
-                                                <input type="submit" class="btn btn-info" value="submit">
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <div class="well" style="background:#fff;">
-                                        <h4>Edit Profile</h4>
-                                        <hr>
-
-                                        <form role="form">
-                                          <div class="form-group">
-                                            <label for="first_name">First Name</label>
-                                            <input type="text" class="form-control" id="first_name" placeholder="first_name">
-                                          </div>
-
-                                          <div class="form-group">
-                                            <label for="last_name">Last Name</label>
-                                            <input type="text" class="form-control" id="last_name" placeholder="last_name">
-                                          </div>
-
-                                          <div class="form-group">
-                                            <label for="phone">Phone</label>
-                                            <input type="text" class="form-control" id="phone" placeholder="phone">
-                                          </div>
-
-                                          <div class="form-group">
-                                            <label for="exampleInputEmail1">Email</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                                          </div>
-                                          <div class="form-group">
-                                            <label for="date_birth">Date birth</label>
-                                            <input type="date" class="form-control" id="date_birth" placeholder="date_birth">
-                                          </div>
-{#                                          <div class="form-group">#}
-{#                                            <label for="exampleInputFile">Avatar</label>#}
-{#                                            <input type="file" id="exampleInputFile">#}
-{#                                          </div>#}
-
-                                          <label for="avatar">Upload Avatar</label>
-                                          <div class="form-group">
-                                            <img src="{% static 'info/reviews/150.png' %}" style="width: 150px; height: 100px;" class="avatar img-rounded" alt="avatar">
-                                            <h6>Upload a different avatar...</h6>
-                                            <input type="file" class="text-left left-block file-upload">
-                                          </div>
-                                            <br>
-
-                                          <button type="submit" class="btn btn-primary">Отправить</button>
-                                        </form>
-                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                                        <script>
-                                            $(document).ready(function() {
-
-                                                var readURL = function(input) {
-                                                    if (input.files && input.files[0]) {
-                                                        var reader = new FileReader();
-
-                                                        reader.onload = function (e) {
-                                                            $('.avatar').attr('src', e.target.result);
-                                                        }
-
-                                                        reader.readAsDataURL(input.files[0]);
-                                                    }
-                                                }
+{#                                    <div class="well" style="background:#fff;">#}
+{#                                        <h4>Change Password</h4>#}
+{#                                        <hr>#}
+{#                                        <label>Current Password</label>#}
+{#                                        <form>#}
+{#                                            <div class="form-group pass_show">#}
+{#                                                <input type="password" value="" class="form-control"#}
+{#                                                       placeholder="Current Password">#}
+{#                                            </div>#}
+{#                                            <label>New Password</label>#}
+{#                                            <div class="form-group pass_show">#}
+{#                                                <input type="password" value="" class="form-control"#}
+{#                                                       placeholder="New Password">#}
+{#                                            </div>#}
+{#                                            <label>Confirm Password</label>#}
+{#                                            <div class="form-group pass_show">#}
+{#                                                <input type="password" value="" class="form-control"#}
+{#                                                       placeholder="Confirm Password">#}
+{#                                            </div>#}
+{#                                            <hr>#}
+{#                                            <div class="form-group pass_show">#}
+{#                                                <input type="submit" class="btn btn-info" value="submit">#}
+{#                                            </div>#}
+{#                                        </form>#}
+{#                                    </div>#}
 
 
-                                                $(".file-upload").on('change', function(){
-                                                    readURL(this);
-                                                });
-                                            });
-                                        </script>
 
-                                    </div>
+
+
+
                                 </div>
                                 <div id="menu2" class="tab-pane fade">
                                     <div class="well" style="background:#fff;">
