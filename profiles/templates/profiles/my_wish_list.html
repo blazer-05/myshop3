@@ -56,9 +56,9 @@
                 {% endif %}
             </div>
 
-{#        {% if my_wish_list %}#}
+        {% if wish_list %}
             <div class="table-responsive">
-{#                {% for i in my_wish_list %}#}
+                {% for i in wish_list %}
                     <div class="row-fluid ">
                     <div class=""></div>
                     <div class="panel panel-info" style="width: 95%; margin-left: auto; margin-right: auto;">
@@ -79,14 +79,15 @@
                                 <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#"><span
                                         class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li style="align:justify;"><a href="" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>
+                                    <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Add To Cart</a>
                                     </li>
-                                    {#                                <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Sign#}
-                                    {#                                    Out</a></li>#}
+
+                                    <li style="align:justify;"><a href="{% url 'delete_my_wish_list' pk=i.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body jq-product-wrapper">
                             <table class="table table-bordered table-hover bmw">
                                 <thead>
                                 <tr>
@@ -98,7 +99,7 @@
                                     <td class="text-right">Action</td>
                                 </tr>
                                 </thead>
-{#                                {% for item in i.cart.cartproduct_set.all %}#}
+                                {% for item in i.cart.cartproduct_set.all %}
                                     <tbody>
                                     <tr>
                                         <td class="text-center">
@@ -113,16 +114,26 @@
                                         <td class="text-right">&#8381; {{ item.product.price }}</td>
                                         <td class="text-right">&#8381; {{ item.discount_price }}</td>
                                         <td class="text-right">
-                                            <button class="btn btn-primary" data-toggle="tooltip" title="Add to Cart" type="button">
-                                                <i class="fa fa-shopping-cart"></i>
-                                            </button>
-                                            <a href="#" class="btn btn-danger" data-toggle="tooltip" title="Remove">
-                                                <i class="fa fa-times"></i>
-                                            </a>
+
+
+                                                <div class="button-group">
+                                                    {% if product.stock == 0 %}
+                                                        {% else %}
+                                                    <div class="product-button" style="display: inherit;">
+                                                        <form class="product-button" onsubmit="return addToCart(event)">
+                                                            <input type="hidden" name="product" value="{{ item.product.slug }}">
+                                                            <button type="submit" style="width: 1cm; height: 1cm;"><i class="fa fa-shopping-cart"></i></button>
+                                                        </form>
+                                                    </div>
+                                                    {% endif %}
+                                                    <a a href="{% url 'delete_my_wish_list' pk=i.pk %}" id="delete_my_orders" style="" class="btn btn-danger" data-toggle="tooltip" title="Remove">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
+                                                </div>
                                         </td>
                                     </tr>
                                     </tbody>
-{#                                {% endfor %}#}
+                                {% endfor %}
                                 <tfoot>
                                 <tr>
                                     <td class="text-right" colspan="4">
@@ -140,29 +151,30 @@
                             </table>
                         </div>
                     </div>
-{#                {% endfor %}#}
+                {% endfor %}
             </div>
-{#            {% else %}#}
+            {% else %}
             <p style="width: 95%; margin-left: auto; margin-right: auto;">У вас пока нет избранных товаров.</p>
-{#        {% endif %}#}
-{#                <!-- Start Pagination Area -->#}
-{#                <div class="pagination-area" style="width: 95%; margin-left: auto; margin-right: auto;">#}
-{#                    <div class="row">#}
-{#                        <div class="col-xs-5">#}
-{#                            <div class="pagination" id="pag_my_orders">#}
-{#                                <ul>#}
-{#                                    {% bootstrap_pagination my_order pages_to_show=3 %}#}
-{#                                </ul>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                        <div class="col-xs-7">#}
-{#                            <div class="product-result">#}
-{#                                <span>Showing 1 to {{ my_order.number }} of ({{ my_order.paginator.num_pages }} Pages)</span>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+        {% endif %}
+
+            <!-- Start Pagination Area -->
+            <div class="pagination-area" style="width: 95%; margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="pagination" id="pag_my_orders">
+                            <ul>
+                                {% bootstrap_pagination wish_list pages_to_show=3 %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-7">
+                        <div class="product-result">
+                            <span>Showing 1 to {{ my_order.number }} of ({{ my_order.paginator.num_pages }} Pages)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

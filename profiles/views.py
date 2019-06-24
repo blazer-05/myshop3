@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 
 from profiles.forms import EditProfileForm
 from orders.models import Order
+from shop.models import Product
 
 
 
@@ -62,13 +63,6 @@ def my_orders(request):
 
 
 @login_required
-def my_wish_list(request):
-    '''Список избранных товаров'''
-    context = {}
-    return render(request, 'profiles/my_wish_list.html', context)
-
-
-@login_required
 def delete_my_orders(request, pk):
     '''Функция удаления товара в личном кабинете'''
 
@@ -76,6 +70,30 @@ def delete_my_orders(request, pk):
     delete.delete()
     messages.success(request, 'Данный товар успешно удален!')
     return HttpResponseRedirect('/accounts/profile/my-orders/')# редиректим на страницу откуда был удален товар
+
+
+@login_required
+def my_wish_list(request):
+    '''Список избранных товаров'''
+    context = {}
+    wish_list = Order.objects.filter(user=request.user).order_by('-date')
+    paginator = Paginator(wish_list, 3)
+    page = request.GET.get('page')
+    wish_list = paginator.get_page(page)
+
+    context['wish_list'] = wish_list
+
+    return render(request, 'profiles/my_wish_list.html', context)
+
+
+@login_required
+def delete_my_wish_list(request, pk):
+    '''Функция удаления товара в личном кабинете'''
+
+    delete = get_object_or_404(Order, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
+    delete.delete()
+    messages.success(request, 'Данный товар успешно удален!')
+    return HttpResponseRedirect('/accounts/profile/my_wish_list/')# редиректим на страницу откуда был удален товар
 
 
 class CustomPasswordChangeView(PasswordChangeView):
