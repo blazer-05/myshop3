@@ -1,0 +1,190 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+
+    <style>
+
+        :focus::-webkit-input-placeholder {
+            color: transparent
+        }
+
+        :focus::-moz-placeholder {
+            color: transparent
+        }
+
+        :focus:-moz-placeholder {
+            color: transparent
+        }
+
+        :focus:-ms-input-placeholder {
+            color: transparent
+        }
+
+    </style>
+
+
+<!-- START PAGE-CONTENT -->
+{#    <section class="page-content">#}
+{#        <div class="container">#}
+            <div class="row" style="width: 93.4%; margin-left: auto; margin-right: auto;">
+                <div class="col-md-12">
+                    <ul class="page-menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="{% url 'user_profile' %}">My Account</a></li>
+                        <li class="active"><a href="{% url 'my_orders' %}">My Orders</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="width: 95%; margin-left: auto; margin-right: auto;">
+                {% if messages %}
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                            &times;
+                        </button>
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %}
+                                    class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+
+        {% if my_order %}
+            <div class="table-responsive">
+                {% for i in my_order %}
+                    <div class="row-fluid ">
+                    <div class=""></div>
+                    <div class="panel panel-info" style="width: 95%; margin-left: auto; margin-right: auto;">
+                        <div class="panel-heading">
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-4">Заказ № {{ i.id }}</div>
+                                <div class="col-xs-6 col-sm-4">Date: {{ i.date }}</div>
+                                <!-- Optional: clear the XS cols if their content doesn't match in height -->
+        {#                        <div class="clearfix visible-xs"></div>#}
+        {#                        <div class="col-xs-6 col-sm-4">.</div>#}
+                            </div>
+
+                        </div>
+
+                        <div class="span2" style="margin-top:-37px; margin-right: 15px; float:right;">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#"><span
+                                        class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li style="align:justify;"><a href="{% url 'delete_my_orders' pk=i.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>
+                                    </li>
+                                    {#                                <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Sign#}
+                                    {#                                    Out</a></li>#}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-hover bmw">
+                                <thead>
+                                <tr>
+                                    <td class="text-center">Images</td>
+                                    <td class="text-left">Product Name</td>
+                                    <td class="text-center">Quantity</td>
+                                    <td class="text-right">Unit Price</td>
+                                    <td class="text-right">Total</td>
+                                </tr>
+                                </thead>
+                                {% for item in i.cart.cartproduct_set.all %}
+                                    <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}"
+                                                 alt="{{ item.product.title }}"/>
+                                        </td>
+                                        <td class="text-left">{{ item.product.title|truncatechars:22 }}<br><br>
+                                            <small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span>
+                                            </small>
+                                        </td>
+                                        <td class="text-center">{{ item.quantity }}</td>
+                                        <td class="text-right">&#8381; {{ item.product.price }}</td>
+                                        <td class="text-right">&#8381; {{ item.discount_price }}</td>
+
+                                    </tr>
+                                    </tbody>
+                                {% endfor %}
+                                <tfoot>
+                                <tr>
+                                    <td class="text-right" colspan="4">
+                                        <strong>Total:</strong>
+                                    </td>
+                                    <td class="text-right"><strong>&#8381; {{ i.cart.discount_price }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right" colspan="4">
+                                        <strong>Total amount:</strong>
+                                    </td>
+                                    <td class="text-right">{{ i.cart.count_products }} шт.</td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="width: 95%; margin-left: auto; margin-right: auto;">У вас пока нет товаров.</p>
+        {% endif %}
+                <!-- Start Pagination Area -->
+                <div class="pagination-area" style="width: 95%; margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="pagination" id="pag_my_orders">
+                                <ul>
+                                    {% bootstrap_pagination my_order pages_to_show=3 %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xs-7">
+                            <div class="product-result">
+                                <span>Showing 1 to {{ my_order.number }} of ({{ my_order.paginator.num_pages }} Pages)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+{#            <div class="paginations-wrapper">#}
+{#                <ul class="paginations paginations-sm">#}
+{##}
+{#                    {% if my_order.has_previous %}#}
+{#                        <li><a href="?page=1">&laquo; First</a></li>#}
+{#                        <li><a href="?page={{ my_order.previous_page_number }}">Previous</a></li>#}
+{#                    {% endif %}#}
+{##}
+{#                    {% for i in my_order.paginator.page_range %}#}
+{#                        {% if my_order.number == i %}#}
+{#                            <li class="active"><span>{{ i }} </span></li>#}
+{#                        {% else %}#}
+{#                            <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{##}
+{#                    {% if my_order.has_next %}#}
+{#                        <li><a href="?page={{ my_order.next_page_number }}">Next</a></li>#}
+{#                        <li><a href="?page={{ my_order.paginator.num_pages }}">Last &raquo;</a></li>#}
+{#                    {% endif %}#}
+{##}
+{#                </ul>#}
+{#            </div>#}
+
+
+
+                <!-- End Pagination Area -->
+{#    </section>#}
+
+{% endblock %}

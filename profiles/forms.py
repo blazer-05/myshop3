@@ -15,21 +15,20 @@ class SignUp(SignupForm):
     first_name = forms.CharField(max_length=30, label='First Name', required=False)
     last_name = forms.CharField(max_length=30, label='Last Name', required=False)
 
-    # def signup(self, request, user):
-    #     '''Сохранение в базу данных'''
-    #     user.first_name = self.cleaned_data['first_name']
-    #     user.last_name = self.cleaned_data['last_name']
-    #     #user.phone = self.cleaned_data['phone']
-    #     user.save()
-    #     return user
-
 
 class EditProfileForm(forms.ModelForm):
     '''Редактирование профиля'''
-    captcha = CaptchaField(label='Are you an human? ', )
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'avatar', 'phone', 'date_birth', 'city']
+        fields = ['first_name', 'last_name', 'phone', 'date_birth', 'city', 'avatar']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'first_name', 'class': 'form-control', 'required': True}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'last_name', 'class': 'form-control', 'required': True}),
+            'phone': forms.TextInput(attrs={'placeholder': 'phone', 'class': 'form-control', 'required': True}),
+            'city': forms.TextInput(attrs={'placeholder': 'city', 'class': 'form-control', 'required': True}),
+            'date_birth': forms.DateInput(attrs={'placeholder': 'date_birth', 'class': 'form-control', 'required': True}),
+            #'avatar': forms.FileInput(attrs={'placeholder': 'avatar', 'class': 'form-control', 'required': True}),
+        }
 
 

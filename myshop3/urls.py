@@ -29,6 +29,7 @@ urlpatterns = [
     path('comments/', include('comments.urls', namespace='comments')),
     path('accounts/profile/', include('profiles.urls')),
     path('captcha/', include('captcha.urls')),
+    path('accounts/', include('profiles.accounts_urls')),
     path('accounts/', include('allauth.urls')),
 ]
 

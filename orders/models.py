@@ -6,6 +6,7 @@ from shop.models import Product
 
 from model_utils import Choices  #https://django-model-utils.readthedocs.io/en/latest/utilities.html
 
+
 STATUS = Choices(
     (0, 'registration', 'На регистрации'),
     (1, 'execution', 'На исполнении'),

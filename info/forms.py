@@ -34,7 +34,7 @@ class ReviewFormCaptcha(forms.ModelForm):
                   'email', 'video', 'rating', 'period']
 
         widgets = {
-            'user_name': forms.TextInput(attrs={'placeholder': 'Nickname*', 'class': 'form-control', 'required': True}),
+            'user_name': forms.TextInput(attrs={'placeholder': 'Nickname or first and last name*', 'class': 'form-control', 'required': True}),
             'email': forms.EmailInput(attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'required': False}),
             'city': forms.TextInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
             'merits': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your merits', 'class': 'form-control', 'required': True}),

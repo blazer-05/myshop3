@@ -22,10 +22,10 @@
                         <ul class="post-comments">
                             <li>
                                 <div class="comment-wrapper">
-                                    {% if com.user %}
+                                    {% if com.user.profile.avatar %}
                                     <div class="comment-author">
-                                        <img src="{% static 'info/news/img/user1.jpg' %}" alt="User Name">
-                                        {{ com.user }}
+                                        <img src="{{ com.user.profile.avatar.url }}" alt="User Name">
+                                        {{ com.user.profile }}
                                     </div>
                                         {% else %}
                                     <div class="comment-author">

@@ -1,9 +1,12 @@
 from django.urls import path
-from profiles.views import user_profile, user_profile_edit
+from profiles.views import user_profile, user_profile_edit, my_orders, delete_my_orders, my_wish_list
 
 urlpatterns = [
     path('', user_profile, name='user_profile'),
+    path('my-orders/', my_orders, name='my_orders'),
+    path('my_wish_list/', my_wish_list, name='my_wish_list'),
     path('edit/', user_profile_edit, name='user_profile_edit'),
+    path('delete/<int:pk>/delete_my_orders/', delete_my_orders, name='delete_my_orders'),
 
 
 ]

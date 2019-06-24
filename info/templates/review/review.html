@@ -60,7 +60,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="form_name">Nickname *</label>
+                    <label for="form_name">Nickname or first and last name*</label>
                       {{ form.user_name }}
 {#                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your nickname *" required="required" data-error="Nickname is required.">#}
                     <div class="help-block with-errors"></div>
@@ -311,9 +311,15 @@
 				<div class="review-block">
 					<div class="row">
 						<div class="col-sm-3">
-							<img src="{% static 'info/reviews/User_48x48.png' %}" class="img-rounded">
-                            {% if rev.user %}
-							    <div class="review-block-name"><a href="#">{{ rev.user }}</a></div>
+                            {% if rev.user.profile.avatar %}
+                                <div class="comment-author">
+                                    <img src="{{ rev.user.profile.avatar.url }}" class="img-rounded">
+                                </div>
+                            {% else %}
+                                <img src="{% static 'info/reviews/User_48x48.png' %}" style="width: 48px; height: 48px;" class="img-rounded">
+                            {% endif %}
+                            {% if rev.user.profile %}
+							    <div class="review-block-name"><a href="#">{{ rev.user.profile }}</a></div>
                                 {% else %}
                                 <div class="review-block-name"><a href="#">{{ rev.user_name }}</a></div>
                             {% endif %}

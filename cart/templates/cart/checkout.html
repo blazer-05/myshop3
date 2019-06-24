@@ -369,6 +369,7 @@
 {#										<!-- End Payment-Method -->#}
 
 										<!-- Start 6 Checkout-Confirm -->
+                                        {% if request.cart.cartproduct_set.all %}
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
@@ -425,7 +426,14 @@
 													</div>
 												</div>
 											</div>
+                                            {% else %}
+                                            <div class="shopping-checkout">
+                                                <h2 class="entry-title">Your basket is empty</h2>
+                                                <a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue
+                                                    Shopping</a>
+                                            </div>
 										</div>
+                                        {% endif %}
 										<!-- End Checkout-Confirm -->
 									</div>
 									<!-- Accordion end -->

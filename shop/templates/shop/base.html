@@ -109,7 +109,7 @@
                                 <li>Здравствуйте, (гость!)</li>
                             {% else %}
                                 <li><a href="{% url 'user_profile' %}"><i class="fa fa-user"></i> My Account</a></li>
-                                <li><a href="wishlist.html"><i class="fa fa-heart"></i> Wish List (0)</a></li>
+                                <li><a href="{% url 'my_wish_list' %}"><i class="fa fa-heart"></i> Wish List (0)</a></li>
                                 <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i>
                                     Checkout</a></li>
                                 <li><a href="{% url 'account_logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
@@ -516,6 +516,8 @@
 <!--Подключение файла скриптов для отзывов о товаре в продукте -->
 <script src="{% static 'info/reviews/review_script.js' %}" type="text/javascript"></script>
 
+<!--Подключение файла скриптов для профиля пользователя -->
+<script src="{% static 'profiles/js/scripts.js' %}" type="text/javascript"></script>
 
 <!-- Подключение файла Modernizr для страницы сравнения продуктов shop/compare.html -->
 <script src="{% static 'compare-products/js/modernizr.js' %}"></script>

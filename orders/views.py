@@ -53,7 +53,10 @@ def order_create(request):
             '''Отправляем письмо админу'''
             message = render_to_string('orders/admin_email.html', context, request)
             #email = EmailMessage('Поступил новый заказ: №' + str(order.id) + ' ' + full_name, message, 'blazer-05@mail.ru', recepients)
-            email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+            if request.user.is_authenticated:
+                email = EmailMessage('Поступил новый заказ. {} от пользователя "{}" '.format(order, request.user), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+            else:
+                email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             email.content_subtype = 'html'
             email.send()
 

@@ -239,6 +239,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 LOGIN_REDIRECT_URL = '/accounts/profile/' # редирект после успешной авторизации
 LOGIN_URL = '/accounts/login/'
 
+
+
 # НАстройки для django-allauth - добавление своих полей
 ACCOUNT_FORMS = {
 
