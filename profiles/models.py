@@ -4,12 +4,13 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils.safestring import mark_safe
-
+from shop.models import Product
 
 
 class Profile(models.Model):
     """Модель профиля пользователя"""
     user = models.OneToOneField(User, unique=True, verbose_name="Пользователь", on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, verbose_name='Продукты')
     first_name = models.CharField(max_length=50, verbose_name="Имя", blank=True)
     last_name = models.CharField(max_length=50, verbose_name="Фамилия", blank=True)
     avatar = models.ImageField(upload_to="profile/avatar/%y/%m/%d/", blank=True, verbose_name="Аватар")

@@ -3,6 +3,10 @@
 {% load thumbnail %}
 {% load bootstrap3 %}
 
+{% block title %}
+    {{ title }}
+{% endblock %}
+
 
 {% block content %}
 
@@ -39,6 +43,11 @@
                     </ul>
                 </div>
             </div>
+
+            <div style="width: 95%; margin-left: auto; margin-right: auto; text-align: center;" >
+                <h3>My Orders</h3>
+            </div>
+
 
             <div style="width: 95%; margin-left: auto; margin-right: auto;">
                 {% if messages %}
@@ -109,9 +118,19 @@
                                             </small>
                                         </td>
                                         <td class="text-center">{{ item.quantity }}</td>
-                                        <td class="text-right">&#8381; {{ item.product.price }}</td>
+                                            <td class="text-right">&#8381;
+                                                {% if item.product.stock == 0 %}
+                                                    <p>Out of stock</p>
+                                                {% else %}
+                                                    {% if item.product.discount %}
+                                                        <span class="">{{ item.product.get_sale }}</span><br>
+                                                        <span class="old-price">&#8381; {{ item.product.price }}</span>
+                                                    {% else %}
+                                                        <span class="">{{ item.product.price }}</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
                                         <td class="text-right">&#8381; {{ item.discount_price }}</td>
-
                                     </tr>
                                     </tbody>
                                 {% endfor %}

@@ -120,7 +120,7 @@ $("#close").click(function(e) {
 });
 
 
-// Подтверждение удаления комментария, id на кнопке Delete в шаблоне admin_delete_review_email.html
+// Подтверждение удаления отзыва, id на кнопке Delete в шаблоне admin_delete_review_email.html
 $('#review_delete').click(function () {
     return confirm('Вы действительно хотите удалить отзыв?');
 });

@@ -32,7 +32,7 @@
 							</div>
 						</div>
 						<!-- END PRODUCT-BANNER -->
-
+                    {% if request.cart.cartproduct_set.all %}
 						<div class="Wishlist-area">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel_default">
@@ -135,6 +135,13 @@
                                 </div>
                             </div>
 						</div>
+                        {% else %}
+                           <div class="shopping-checkout">
+                                <h2 class="entry-title">Your basket is empty</h2>
+                                <a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue
+                                    Shopping</a>
+                            </div>
+                    {% endif %}
 					</div>
 				</div>
 			</div>

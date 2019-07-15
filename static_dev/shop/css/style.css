@@ -124,7 +124,7 @@ body {
 .zero {margin: 0;padding: 0;}
 .right-5 {margin-right: 5px;}
 .left-5 {margin-left: 5px;}
-.btn {border-radius: 0;}
+.btn {border-radius: 4px;}
 .btn-primary {
   background-color: #229ac8;
   background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);

@@ -13,7 +13,7 @@ urlpatterns = [
     path('my_wish_list/', my_wish_list, name='my_wish_list'),
     path('edit/', user_profile_edit, name='user_profile_edit'),
     path('delete/<int:pk>/delete_my_orders/', delete_my_orders, name='delete_my_orders'),
-    path('delete_my_wish_list/<int:pk>/delete_my_wish_list/', delete_my_wish_list, name='delete_my_wish_list'),
+    path('delete/<int:pk>/delete_my_wish_list/', delete_my_wish_list, name='delete_my_wish_list'),
 
 
 ]

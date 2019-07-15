@@ -56,13 +56,13 @@ def order_create(request):
             if request.user.is_authenticated:
                 email = EmailMessage('Поступил новый заказ. {} от пользователя "{}" '.format(order, request.user), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             else:
-                email = EmailMessage('Поступил новый заказ. {} от {}'.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+                email = EmailMessage('Поступил новый заказ. {} от анонимного пользователя "{}" '.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             email.content_subtype = 'html'
             email.send()
 
             '''Отправляем письмо пользователю'''
             user_message = render_to_string('orders/user_order_email.html', context, request)
-            user_email = EmailMessage('Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru', user_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+            user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru', user_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             user_email.content_subtype = 'html'
             user_email.send()
 
