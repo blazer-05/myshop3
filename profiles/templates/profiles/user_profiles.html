@@ -98,9 +98,9 @@ color: #999;
                                 <br>
                                     <div class="media-body">
 
-                                        <h5 style="width:100%">{{ request.user }}</h5>
+                                        <h5 style="width:100%"></h5>
                                         <br>
-                                        <h4 style="width:100%" class="media-heading">Welcome to Project</h4>
+                                        <h4 style="width:100%" class="media-heading">Welcome {{ request.user }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -108,9 +108,9 @@ color: #999;
                             <div class="well pro_left_ii" style="background: #fff;">
                                 <ul class="nav nav-tabs  nav-stacked">
                                     <li class="active"><a data-toggle="tab" href="#info">MY INFO</a></li>
-                                    <li><a href="{% url 'my_orders' %}">MY ORDERS <span class="badge">42</span></a></li>
+                                    <li><a href="{% url 'my_orders' %}">MY ORDERS <span class="badge">{{ my_order_count }}</span></a></li>
 {#                                    <li><a data-toggle="tab" href="#menu2">MY WISH LIST</a></li>#}
-                                    <li><a href="{% url 'my_wish_list' %}">MY WISH LIST</a></li>
+                                    <li><a href="{% url 'my_wish_list' %}">MY WISH LIST <span class="badge">{{ prod_count }}</span></a></li>
                                     <li><a href="{% url 'user_profile_edit' %}">EDIT PROFILE</a></li>
                                     <li><a href="{% url 'account_change_password' %}">CHANGE PASSWORD</a></li>
                                     <li><a href="{% url 'account_logout' %}">LOGOUT</a></li>

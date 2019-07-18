@@ -79,7 +79,13 @@
                                                                                     <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
                                                                                         <i class="fa fa-shopping-cart"></i>
                                                                                     </button>
-                                                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                                    {% if request.user.is_authenticated %}
+                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                                            <i class="fa {% if sale.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                                                                                        </a>
+                                                                                        {% else %}
+                                                                                        <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
+                                                                                    {% endif %}
                                                                                 <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
                                                                                 </form>
                                                                             </div>
@@ -146,7 +152,13 @@
                                                                                     <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
                                                                                         <i class="fa fa-shopping-cart"></i>
                                                                                     </button>
-                                                                                <a href="#" data-toggle="tooltip" title="Wishlist"><i class="fa fa-heart-o"></i></a>
+                                                                                    {% if request.user.is_authenticated %}
+                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                                            <i class="fa {% if sale.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                                                                                        </a>
+                                                                                        {% else %}
+                                                                                        <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
+                                                                                    {% endif %}
                                                                                 <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
                                                                                 </form>
                                                                             </div>

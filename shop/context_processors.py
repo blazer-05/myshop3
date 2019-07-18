@@ -2,6 +2,7 @@
 
 from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct
 
+
 def menucategory(request): # Вывод главного блока меню на всех страницах.
     context = {}
     nodes = Category.objects.filter(is_active=True)
@@ -10,11 +11,13 @@ def menucategory(request): # Вывод главного блока меню н�
     context['product'] = product
     return context
 
+
 def filters(request): # Вывод фильтра в шаблон filters.html
     context = {}
     filters = Product.objects.all()
     context['filters'] = filters
     return context
+
 
 def bestseller(request): # Вывод блока bestseller в шаблон bestseller.html
     # context = {}
@@ -24,10 +27,12 @@ def bestseller(request): # Вывод блока bestseller в шаблон best
     # context['product_two'] = product_two
     return {'bestseller_categories': Bestseller.get_bestseller_category()} # Из модели shop/Bestseller, выводим в контекст метод get_bestseller_category()
 
+
 def sale(request):
     context = {}
-    context['sale_categories'] = SaleCategory.get_sale_category() # Из модели shop/SaleCategory выводим в контекст метод get_sale_category()
-    context['sale_product'] = SaleProduct.get_sale_product() # Из модели shop/SaleProduct выводим в контекст метод get_sale_product()
+
+    context['sale_categories'] = SaleCategory.get_sale_category(request.user) # Из модели shop/SaleCategory выводим в контекст метод get_sale_category()
+    context['sale_product'] = SaleProduct.get_sale_product(request.user) # Из модели shop/SaleProduct выводим в контекст метод get_sale_product()
     #context['sale_product_all'] = SaleProduct.get_sale_product_all() # Из модели shop/SaleProduct выводим в контекст метод get_sale_product_all()
     return context
 

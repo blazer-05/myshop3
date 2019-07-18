@@ -2995,4 +2995,13 @@ blockquote {
     background-clip: border-box;
 }
 
+/* Кнопка (сердечко) добавления товара в вишлист */
+.add_to_wishlist i.fa.fa-heart {
+    color: #e95668;
+}
 
+/* Большая кнопка (сердечко) добавления товара в вишлист на странице продукта (product-details.html)*/
+.toch-button.toch-wishlist {
+    height: 40px;
+    display: inline-block;
+}

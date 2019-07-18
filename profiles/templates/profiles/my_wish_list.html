@@ -44,7 +44,7 @@
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto; text-align: center;" >
-                <h3>My Wish List</h3>
+                <h3>My Wish List ({{ prod_count }})</h3>
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto;">
@@ -85,13 +85,13 @@
                             <div class="btn-group">
                                 <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#"><span
                                         class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Add To Cart</a>
-                                    </li>
-
-                                    <li style="align:justify;"><a href="{% url 'delete_my_wish_list' pk=wl.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>
-                                    </li>
-                                </ul>
+{#                                <ul class="dropdown-menu">#}
+{#                                    <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Add To Cart</a>#}
+{#                                    </li>#}
+{##}
+{#                                    <li style="align:justify;"><a href="{% url 'delete_my_wish_list' pk=wl.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>#}
+{#                                    </li>#}
+{#                                </ul>#}
                             </div>
                         </div>
                         <div class="panel-body jq-product-wrapper">

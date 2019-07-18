@@ -45,7 +45,7 @@
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto; text-align: center;" >
-                <h3>My Orders</h3>
+                <h3>My Orders ({{ my_order_count }})</h3>
             </div>
 
 
@@ -85,7 +85,7 @@
 
                         <div class="span2" style="margin-top:-37px; margin-right: 15px; float:right;">
                             <div class="btn-group">
-                                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#"><span
+                                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" title="delete" ><span
                                         class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li style="align:justify;"><a href="{% url 'delete_my_orders' pk=i.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>

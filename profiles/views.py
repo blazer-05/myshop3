@@ -2,14 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from allauth.account.views import PasswordChangeView
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_http_methods
 
 from profiles.forms import EditProfileForm
 from orders.models import Order
 from profiles.models import Profile
+from shop.models import Product
 
 
 @login_required
@@ -18,6 +21,14 @@ def user_profile(request):
 
     context = {}
 
+    '''Получаем объекты модели Order и сумируем их для вывода в шаблоне общего количества ордеров'''
+    my_order = Order.objects.filter(user=request.user).order_by('-date')
+    my_order_count = my_order.count()
+
+    '''Получаем объекты вишлиста и сумируем их для вывода в шаблоне общего количества товаров в вишлисте'''
+    wish_list = request.user.profile.products.all()
+    prod_count = wish_list.count()
+
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -25,6 +36,8 @@ def user_profile(request):
         ip = request.META.get('REMOTE_ADDR')
 
     context['ip'] = ip
+    context['prod_count'] = prod_count
+    context['my_order_count'] = my_order_count
 
     return render(request, 'profiles/user_profiles.html', context)
 
@@ -56,14 +69,18 @@ def my_orders(request):
     '''Вывод всех заказов пользователя'''
 
     context = {}
+
     my_order = Order.objects.filter(user=request.user).order_by('-date')
+    my_order_count = my_order.count()
+
     title = 'Мои ордера'
-    paginator = Paginator(my_order, 3)
+    paginator = Paginator(my_order, 15)
     page = request.GET.get('page')
     my_order = paginator.get_page(page)
 
-    context['my_order'] = my_order
     context['title'] = title
+    context['my_order'] = my_order
+    context['my_order_count'] = my_order_count
 
     return render(request, 'profiles/my_orders.html', context)
 
@@ -85,16 +102,34 @@ def my_wish_list(request):
     context = {}
 
     wish_list = request.user.profile.products.all()
+    prod_count = wish_list.count()
     title = 'Мой лист желаний'
 
-    paginator = Paginator(wish_list, 3)
+    paginator = Paginator(wish_list, 15)
     page = request.GET.get('page')
     wish_list = paginator.get_page(page)
 
     context['wish_list'] = wish_list
+    context['prod_count'] = prod_count
     context['title'] = title
 
     return render(request, 'profiles/my_wish_list.html', context)
+
+
+@require_http_methods(['POST'])
+def my_wish_list_add(request, pk):
+    '''Сохранение товара в вишлист (избранное) с главной и др.страниц'''
+    if not request.user.is_authenticated:
+        raise PermissionDenied()
+
+    product = get_object_or_404(Product, pk=pk)
+    wish_list = request.user.profile.products
+    if wish_list.filter(pk=pk).exists():
+        wish_list.remove(product)
+        return HttpResponse(status=204)
+    else:
+        wish_list.add(product)
+        return HttpResponse(status=201)
 
 
 @login_required

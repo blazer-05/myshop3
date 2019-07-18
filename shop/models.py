@@ -3,7 +3,7 @@ import random
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
-from django.db.models import Avg, Q, Count
+from django.db.models import Avg, Q, Count, Exists, OuterRef, Value as ExpressionValue
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
@@ -52,7 +52,6 @@ class Category(MPTTModel):
 mptt.register(Category, order_insertion_by=['name'])
 
 
-
 class Brand(models.Model):
     '''Бренды'''
     name = models.CharField(max_length=200, blank=True, unique=True, verbose_name='Бренд')
@@ -86,7 +85,6 @@ class Brand(models.Model):
 #     return '{0}/{1}'.format(instance.slug, filename)
 
 
-
 class ProductQueryset(models.QuerySet):
     '''Класс кверисета для модели Product - для вывода рейтинга в шаблонах сайта'''
 
@@ -102,6 +100,21 @@ class ProductQueryset(models.QuerySet):
     '''
     def with_review_count(self):
         return self.annotate(review_count=Count('reviews__rating', filter=Q(reviews__is_active=True)))
+
+    '''Метод with_in_wishlist используется для вишлиста, при добавлении товара в вишлист кнопка имеет вид красного
+    цвета 
+    '''
+    def with_in_wishlist(self, user):
+        if user.is_authenticated:
+            return self.annotate(
+                in_wishlist=Exists(
+                    user.profile.products.filter(pk=OuterRef('pk'))
+                )
+            )
+        else:
+            return self.annotate(
+                in_wishlist = ExpressionValue(False, output_field=models.BooleanField())
+            )
 
 
 class Product(models.Model):
@@ -283,14 +296,18 @@ class CategoryIndexPage(MPTTModel):
         return '{}'.format(self.sortcategory)
 
     @classmethod
-    def get_index_categories(cls):
+    def get_index_categories(cls, user):
         index_categories = {}
         for category in cls.objects.filter(is_active=True):
             cat_descendants = category.sortcategory.get_descendants(include_self=True)
             index_categories.update(
-                {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?').with_rating()[:10]} # .with_rating() для вывода на главной звезд рейтинга
+                {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?').with_rating().with_in_wishlist(user)[:10]}
             )
         return index_categories
+    '''
+    # .with_rating() для вывода на главной звезд рейтинга. 
+    # .with_in_wishlist(user) для вывода на главной и др.стр. кнопки вишлиста
+    '''
 
 
 # Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
@@ -330,14 +347,13 @@ class SaleCategory(MPTTModel):
     def __str__(self):
         return '{}'.format(self.sale_category)
 
-
     @classmethod
-    def get_sale_category(self):
+    def get_sale_category(self, user):
         sale_categories = {}
         for category in self.objects.filter(is_active=True):
             sale_descendants = category.sale_category.get_descendants(include_self=True) # Тут товары отсортированы по категориям
             sale_categories.update(
-                {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?').with_rating()[:9]} # category__in=best_descendants # .with_rating() для вывода на главной звезд рейтинга
+                {category: Product.objects.filter(category__in=sale_descendants, is_active=True).order_by('?').with_rating().with_in_wishlist(user)[:9]} # category__in=best_descendants # .with_rating() для вывода на главной звезд рейтинга
             )
         return sale_categories
 
@@ -356,11 +372,11 @@ class SaleProduct(MPTTModel):
         return '{}'.format(self.sale_product)
 
     @classmethod
-    def get_sale_product(cls):
+    def get_sale_product(cls, user):
         return Product.objects.filter(
             is_active=True,
             pk__in=cls.objects.filter(is_active=True).values_list('sale_product')
-        ).with_rating()
+        ).with_rating().with_in_wishlist(user)
 
     # @classmethod
     # def get_sale_product(self):
