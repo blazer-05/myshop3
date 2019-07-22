@@ -223,7 +223,6 @@
                                             {% for brand in category.brands.all %}
 										    <li role="presentation"><a href="" data-url="{% url 'shop:products-by-brand' category.pk brand.slug %}" class="jq_sort_brand">{{ brand.name }}</a></li>
                                             {% endfor %}
-                                            <li role="presentation">all</li>
 										</ul>
 									</div>
 								</div>
