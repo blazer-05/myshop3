@@ -1,3 +1,17 @@
+function set_owl_on_active_product_carosel(elements) {
+    elements.owlCarousel({
+      autoPlay: false,
+      slideSpeed: 2000,
+      pagination: false,
+      navigation: true,
+      items: 4,
+      navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+      itemsDesktop: [1169, 3],
+      itemsTablet: [991, 2],
+      itemsTabletSmall: [767, 2],
+      itemsMobile: [479, 1],
+    });
+  }
 
 // Скрипт подтверждение удаления товара
 $('#delete_my_orders').click(function () {
@@ -23,6 +37,46 @@ $(function ($) {
         heart_button.addClass('fa-heart-o');
         heart_button.removeClass('fa-heart');
       }
+    });
+  });
+});
+
+$(function ($) {
+  $('.jq_sort_brand').click(function (event) {
+    event.preventDefault();
+    let url = '';
+    let a = $(this);
+    let li = a.parent();
+    if(li.hasClass('active')) {
+      url = li.parent().data('default-url');
+    } else {
+      li.siblings().removeClass('active');
+      url = a.data('url')
+    }
+    li.toggleClass('active');
+
+    fetch(url, {
+      method: 'GET',
+    }).then(function (res) {
+      res.text().then(function (text) {
+        a.closest('.product-area')
+          .find('.active-product-carosel')
+          .unbind()
+          .removeData()
+          .html(text)
+          .owlCarousel({
+            autoPlay: false,
+            slideSpeed: 2000,
+            pagination: false,
+            navigation: true,
+            items: 4,
+            navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+            itemsDesktop: [1169, 3],
+            itemsTablet: [991, 2],
+            itemsTabletSmall: [767, 2],
+            itemsMobile: [479, 1],
+          });
+      })
     });
   });
 });

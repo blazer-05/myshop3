@@ -20,13 +20,24 @@ def index(request):
     return render(request, 'shop/index.html', context)
 
 
+def products_by_brand(request, pk, slug=None):
+    category = get_object_or_404(CategoryIndexPage, pk=pk)
+    products = Product.objects.filter(
+        is_active=True,
+        category__in=category.sortcategory.get_descendants(include_self=True)
+    ).order_by('?')
+    if slug:
+        products = products.filter(brand__slug=slug)
+    return render(request, 'shop/index-carousel.html', {'products': products[:10]})
+
+
 def catlinks(request, slug):
     context = {}
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
     context['thiscat'] = thiscat
     context['category_list'] = category_list
-    return render(request, 'shop/catlinks.html', context )
+    return render(request, 'shop/catlinks.html', context)
 
 
 def catalog(request):

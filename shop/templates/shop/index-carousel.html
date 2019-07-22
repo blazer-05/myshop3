@@ -1,0 +1,74 @@
+{% load thumbnail %}
+
+{% for product in products %}
+<div class="col-xs-12">
+    <div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
+        <div class="label_new">
+            {% if product.new %}
+            <span class="new">new</span>
+            {% endif %}
+        </div>
+        <div class="sale-off">
+            {% if product.discount %}
+            <span class="sale-percent">-{{ product.discount }}%</span>
+            {% endif %}
+        </div>
+        <div class="product-img" align="center" style="width: 190px; height: 150px">
+            <a href="{{ product.get_absolute_url }}">
+                <img class="primary-img" src="{{ product.images|thumbnail_url:'index' }}" alt="{{ product.title }}" title="{{ product.title }}">
+            </a>
+        </div>
+        <br>
+        <div class="product-description">
+            <h5><a href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:22 }}</a></h5>
+            {% if product.stock == 0 %}
+                <p>Out of stock</p>
+            {% else %}
+                {% if product.discount %}
+                <div class="price-box">
+                    <span class="price">${{ product.get_sale }}</span>
+                    <span class="old-price">${{ product.price }}</span>
+                </div>
+                    {% else %}
+                <div class="price-box">
+                    <span class="price">${{ product.price}}</span>
+                </div>
+                {% endif %}
+            {% endif %}
+            <span class="rating">
+                <!--Вывод звезд рейтинга-->
+                {% for x in '12345' %}
+                <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>
+                {% endfor %}
+            </span><br><br>
+            <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
+        </div>
+        <div class="product-action">
+            <div class="button-group">
+                {% if product.stock == 0 %}
+                    {% else %}
+                <div class="product-button">
+                    <form class="product-button" onsubmit="return addToCart(event)">
+                        <input type="hidden" name="product" value="{{ product.slug }}">
+                        <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                    </form>
+                </div>
+                {% endif %}
+                <div class="product-button-2">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                            <i class="fa {% if product.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
+                    {% endif %}
+                    <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                    <a href="" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}" title="Быстрый заказ">
+                        <i class="fa fa-search-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

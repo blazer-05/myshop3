@@ -2,13 +2,16 @@ from django.urls import path
 from .views import (index, catalog, catlist, catlinks,
                     shop, shoplist, productdetails, wishlist,
                     myaccount, contact, registration, about, modalproduct,
-                    compareproducts)
-from shop.context_processors import menucategory
+                    compareproducts, products_by_brand
+                    )
+
 
 app_name = 'shop'
 
 urlpatterns = [
     path('', index, name='index_page'),
+    path('category/<int:pk>/sort/brand/', products_by_brand, name='products-all'),
+    path('category/<int:pk>/sort/brand/<slug>/', products_by_brand, name='products-by-brand'),
     path('catalog/', catalog, name='catalog'),
     path('catalog/catlist/<slug>', catlist, name='catlist'),
     path('catlinks/<slug>', catlinks, name='catlinks'),

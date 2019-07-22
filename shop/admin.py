@@ -24,11 +24,11 @@ def all_post(modeladmin, request, queryset):
 
 def complete_post(modeladmin, request, queryset):
     queryset.update(is_active=True)
-complete_post.short_description = 'Опубликовать товар'
+complete_post.short_description = 'Опубликовать'
 
 def incomplete_post(modeladmin, request, queryset):
     queryset.update(is_active=False)
-incomplete_post.short_description = 'Снять с публикации товар'
+incomplete_post.short_description = 'Снять с публикации'
 # Конец Функции фильтрации
 
 
@@ -43,6 +43,7 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
+    actions = [complete_post, incomplete_post]
 
 
 # Класс модели Entry для вывода атрибута и значения

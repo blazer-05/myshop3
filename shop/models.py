@@ -286,6 +286,7 @@ class Entry(models.Model):
 class CategoryIndexPage(MPTTModel):
     sortcategory = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Вывод категорий на главной странице')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
+    brands = models.ManyToManyField(Brand, blank=True, verbose_name='Сортировать по брендам')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
@@ -308,6 +309,14 @@ class CategoryIndexPage(MPTTModel):
     # .with_rating() для вывода на главной звезд рейтинга. 
     # .with_in_wishlist(user) для вывода на главной и др.стр. кнопки вишлиста
     '''
+
+    def category_brands(self):
+        cat_descendants = self.sortcategory.get_descendants(include_self=True)
+        brands_pks = Product.objects.filter(
+            category__in=cat_descendants,
+            is_active=True
+        ).values('brand').order_by('brand').distinct()
+        return Brand.objects.filter(pk__in=brands_pks).order_by('name')
 
 
 # Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
