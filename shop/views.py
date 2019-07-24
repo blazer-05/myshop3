@@ -1,18 +1,20 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-from info.views import News
+from info.views import News, Review
 from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
 
 
 def index(request):
+    '''Вывод на главной стр. корзины, акции, главного слайдера, новостей и категорий товаров'''
     context = {}
     cart = request.cart
-    products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
+    #products = Product.objects.filter(is_active=True).order_by('?')[:10] # Рандомный вывод 10 товаров на главнй в первом блоке где все товары
     hotdeals = Product.objects.filter(akciya=True).with_rating() # Для вывода рейтинга звезд!
     slider_product = Product.objects.filter(is_active=True).order_by('?')[:50] # Рандомный вывод в слайдер товаров из всей базы.
     news_list = News.objects.filter(is_active=True).order_by('-created')[:5]
     context['cart'] = cart
-    context['products'] = products
+    #context['products'] = products
     context['hotdeals'] = hotdeals
     context['news_list'] = news_list
     context['slider_product'] = slider_product
@@ -21,6 +23,7 @@ def index(request):
 
 
 def products_by_brand(request, pk, slug=None):
+    '''Получаем категории и товары и сортируем по брендам'''
     category = get_object_or_404(CategoryIndexPage, pk=pk)
     products = Product.objects.filter(
         is_active=True,
@@ -32,6 +35,7 @@ def products_by_brand(request, pk, slug=None):
 
 
 def catlinks(request, slug):
+    '''Получаем и выводим основные категории товаров'''
     context = {}
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
@@ -41,11 +45,13 @@ def catlinks(request, slug):
 
 
 def catalog(request):
+    '''Выводим списком весь каталог товаров по категориям'''
     categories = Category.objects.filter(is_active=True)
     return render(request, 'shop/catalog.html', {'categories': categories})
 
 
 def catlist(request, slug):
+    '''Получаем и выводим подкатегории товаров'''
     context = {}
     thiscat = Category.objects.get(slug=slug)
     category_list = thiscat.get_descendants(include_self=True)
@@ -55,6 +61,7 @@ def catlist(request, slug):
 
 
 def shop(request):
+    '''Все товары списком без сортировки по категориям'''
     context = {}
     cart = request.cart
     products = Product.objects.filter(is_active=True).with_rating().with_in_wishlist(request.user)
@@ -67,6 +74,7 @@ def shop(request):
 
 
 def shoplist(request, slug):
+    '''Получаем и отображаем списком товары принадлежащие данной категории'''
     context = {}
     cart = request.cart
     category = Category.objects.get(slug=slug)
@@ -81,6 +89,8 @@ def shoplist(request, slug):
 
 
 def productdetails(request, product_slug):
+    '''Страница детального описания товара(карточка товара). Получаем и выводим на этой странице, товар,
+    альбом изображений товара, корзина, категория к которой принадлежит данный товар, все товары, остальные товары из данной категории, акция'''
     context = {}
     cart = request.cart
     product = get_object_or_404(Product.objects.with_rating().with_in_wishlist(request.user).with_review_count(), slug=product_slug) # Добавил objects.with_rating() и .with_review_count() из модели Product для вывода рейтинга звезд
@@ -115,20 +125,32 @@ def compareproducts(request):
     return render(request, 'shop/compare.html')
 
 
-def wishlist(request):
-    return render(request, 'shop/wishlist.html')
+def search(request):
+    '''Поиск по товарам'''
+    query = request.GET.get('q')
+    search_product = Product.objects.filter(
+        Q(title__icontains=query)|
+        Q(brand__name__icontains=query)|
+        Q(descriptions__icontains=query)|
+        Q(category__name__icontains=query)|
+        Q(vendor_code__icontains=query)
 
+    )
 
-def myaccount(request):
-    return render(request, 'shop/my-account.html')
+    paginator = Paginator(search_product, 5)
+    page = request.GET.get('page')
+    search_product = paginator.get_page(page)
+
+    context = {
+        'search_product': search_product,
+
+    }
+
+    return render(request, 'shop/search.html', context)
 
 
 def contact(request):
     return render(request, 'shop/contact.html')
-
-
-def registration(request):
-    return render(request, 'shop/registration-account.html')
 
 
 def about(request):

@@ -14,10 +14,16 @@
                             <h1>{{ modal_product.title }}</h1>
                             <div class="price-box-3">
                                 <hr />
+                                {% if modal_product.discount %}
                                 <div class="s-price-box">
-                                    <span class="new-price">${{ modal_product.get_sale }}</span>
+                                    <span class="price">${{ modal_product.get_sale }}</span>
                                     <span class="old-price">${{ modal_product.price }}</span>
                                 </div>
+                                    {% else %}
+                                    <div class="price-box">
+                                        <span class="price">${{ modal_product.price}}</span>
+                                    </div>
+                                {% endif %}
                                 <hr />
                             </div>
                             <a href="{{ modal_product.get_absolute_url }}" class="see-all">See all features</a>

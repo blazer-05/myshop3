@@ -1,17 +1,3 @@
-function set_owl_on_active_product_carosel(elements) {
-    elements.owlCarousel({
-      autoPlay: false,
-      slideSpeed: 2000,
-      pagination: false,
-      navigation: true,
-      items: 4,
-      navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
-      itemsDesktop: [1169, 3],
-      itemsTablet: [991, 2],
-      itemsTabletSmall: [767, 2],
-      itemsMobile: [479, 1],
-    });
-  }
 
 // Скрипт подтверждение удаления товара
 $('#delete_my_orders').click(function () {
@@ -41,6 +27,25 @@ $(function ($) {
   });
 });
 
+// Для owl карусели которая в шаблоне index-carousel.html и выводится на главной
+// в блоке категорий
+function set_owl_on_active_product_carosel(elements) {
+    elements.owlCarousel({
+      autoPlay: false,
+      slideSpeed: 2000,
+      pagination: false,
+      navigation: true,
+      items: 4,
+      navigationText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+      itemsDesktop: [1169, 3],
+      itemsTablet: [991, 2],
+      itemsTabletSmall: [767, 2],
+      itemsMobile: [479, 1],
+    });
+  }
+
+// аякс запрос для вывода на главной ссылок списка брендов, по клику отображается товар данного бренда
+// второй клик по текущему бренду отображает все товары.
 $(function ($) {
   $('.jq_sort_brand').click(function (event) {
     event.preventDefault();

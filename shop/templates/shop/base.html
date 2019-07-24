@@ -63,7 +63,14 @@
 
     <link rel="stylesheet" type="text/css" media="all" href="{% static 'info/reviews/style.css' %}"><!--Стили review - добавления отзыва к товару-->
 
+<style>
 
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+
+</style>
 
 </head>
 <body>
@@ -98,7 +105,11 @@
                             </li>
                         </ul>
                         <!-- End Currency -->
-                        <p class="welcome-msg">Default welcome msg!</p>
+                        {% if not request.user.is_authenticated %}
+                        <p class="welcome-msg">Здравствуйте, (гость!)</p>
+                            {% else %}
+                            <p class="welcome-msg">Здравствуйте, ({{ request.user }}!)</p>
+                        {% endif %}
                     </div>
                     <!-- Start Top-Link -->
                     <div class="top-link">
@@ -106,14 +117,14 @@
                             {% if not request.user.is_authenticated %}
                                 <li><a href="{% url 'account_login' %}" title="sign in"><i class="fa fa-lock"></i> Login</a></li>
                                 <li><a href="{% url 'account_signup' %}" title="sign up"><i class="fa fa-sign-in"></i> Sign Up</a></li>
-                                <li>Здравствуйте, (гость!)</li>
+{#                                <li>Здравствуйте, (гость!)</li>#}
                             {% else %}
                                 <li><a href="{% url 'user_profile' %}"><i class="fa fa-user"></i> My Account</a></li>
                                 <li><a href="{% url 'my_wish_list' %}"><i class="fa fa-heart"></i> Wish List (0)</a></li>
                                 <li><a href="../../../cart/templates/cart/checkout.html"><i class="fa fa-share"></i>
                                     Checkout</a></li>
                                 <li><a href="{% url 'account_logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
-                                <li>Здравствуйте, ({{ request.user }})</li>
+{#                                <li>Здравствуйте, ({{ request.user }})</li>#}
                                 {% if request.user.is_superuser %}
                                 <li><a href="/admin/" target="_blank"><i class="fa fa-gear"></i>Админка</a></li>
                                 {% endif %}
@@ -206,8 +217,8 @@
                                 </select>
                             </div>
                             <div class="header-search">
-                                <form action="#">
-                                    <input type="text" placeholder="Search">
+                                <form action="{% url 'shop:search' %}" method="get">
+                                    <input type="text" placeholder="Search" name="q">
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                             </div>
@@ -230,28 +241,12 @@
                         <nav>
                             <ul>
                                 <li><a href="/">Home</a>
-                                    {#											<ul>#}
-                                        {#												<li><a href="index.html">Home Versions 1</a></li>#}
-                                        {#												<li><a href="index-2.html">Home Versions 2</a></li>#}
-                                        {#											</ul>#}
                                 </li>
                                 <li><a href="{% url 'news:newslist' %}">News</a></li>
                                 <li><a href="about.html">About Us</a></li>
                                 <li class="hot"><a href="shop.html">Bestseller Products</a></li>
                                 <li class="new"><a href="shop-list.html">New Products</a></li>
                                 <li><a href="shop.html">Special Products</a></li>
-                                <li><a href="#">Pages</a>
-                                    <ul>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="../../../cart/templates/cart/checkout.html">Checkout</a></li>
-                                        <li><a href="registration-account.html">Create Account</a></li>
-                                        <li><a href="my-account.html">My Account</a></li>
-                                        <li><a href="product-details.html">Product details</a></li>
-                                        <li><a href="shop.html">Shop Grid View</a></li>
-                                        <li><a href="shop-list.html">Shop List View</a></li>
-                                        <li><a href="wishlist.html">Wish List</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="contact.html">Contact Us</a></li>
                             </ul>
                         </nav>

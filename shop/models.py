@@ -310,14 +310,6 @@ class CategoryIndexPage(MPTTModel):
     # .with_in_wishlist(user) для вывода на главной и др.стр. кнопки вишлиста
     '''
 
-    def category_brands(self):
-        cat_descendants = self.sortcategory.get_descendants(include_self=True)
-        brands_pks = Product.objects.filter(
-            category__in=cat_descendants,
-            is_active=True
-        ).values('brand').order_by('brand').distinct()
-        return Brand.objects.filter(pk__in=brands_pks).order_by('name')
-
 
 # Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
 class Bestseller(MPTTModel):

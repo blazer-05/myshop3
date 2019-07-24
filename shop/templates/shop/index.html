@@ -208,6 +208,7 @@
                         {% if index_categories %}
                         {% for category, products in index_categories.items %} <!-- Цикл по категориям и продуктам -->
 						<div class="product-area">
+                            &nbsp;
 							<!-- Start Product-Menu -->
 							<div class="row">
 								<div class="col-xs-12 col-md-12">
@@ -219,7 +220,7 @@
                                                     </a>
                                                 </h3>
                                             </div>
-										<ul data-default-url="{% url 'shop:products-all' category.pk %}">
+										<ul data-default-url="{% url 'shop:products-all' category.pk %}"><!-- Сортировка категорий по брендам -->
                                             {% for brand in category.brands.all %}
 										    <li role="presentation"><a href="" data-url="{% url 'shop:products-by-brand' category.pk brand.slug %}" class="jq_sort_brand">{{ brand.name }}</a></li>
                                             {% endfor %}

@@ -1,8 +1,9 @@
 from django.urls import path
 from .views import (index, catalog, catlist, catlinks,
-                    shop, shoplist, productdetails, wishlist,
-                    myaccount, contact, registration, about, modalproduct,
-                    compareproducts, products_by_brand
+                    shop, shoplist, productdetails,
+                    contact, about, modalproduct,
+                    compareproducts, products_by_brand,
+                    search
                     )
 
 
@@ -18,12 +19,10 @@ urlpatterns = [
     path('shop/', shop, name='shop'),
     path('shop-list/<slug>', shoplist, name='shop-list'),
     path('product-details/<product_slug>', productdetails, name='product-details'),
-    path('wishlist/', wishlist, name='wishlist'),
-    path('my-account/', myaccount, name='my-account'),
     path('contact/', contact, name='contact'),
-    path('registration/', registration, name='registration'),
     path('about/', about, name='about'),
     path('modal-product/<slug>/', modalproduct, name='modal-product'),
     path('compare-products/', compareproducts, name='compare-products'),
+    path('search/',search, name='search'),
 
 ]
