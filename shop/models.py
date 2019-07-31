@@ -34,7 +34,6 @@ class Category(MPTTModel):
     def get_absolute_url(self):
         return reverse('shop:shop-list', kwargs={'slug': self.slug})
 
-
     # Вывод картинок в админке!
     # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
     def image_img(self):

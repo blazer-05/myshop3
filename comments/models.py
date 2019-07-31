@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+
 class Comment(MPTTModel):
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False) # editable=False (Скрыл поле parent в админке)
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')

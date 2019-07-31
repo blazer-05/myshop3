@@ -1,0 +1,186 @@
+
+{% load staticfiles %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+		<title>HTML шаблон письма</title>
+
+		<style type="text/css">
+        @media only screen and (min-device-width: 601px) {.content {width: 600px !important;}}
+		body[yahoo] .class {}
+		.button {text-align: center; font-size: 18px; font-family: sans-serif; font-weight: bold; padding: 0 30px 0 30px;}
+		.button a {color: #ffffff!important; text-decoration: none;}
+		.button a:hover {text-decoration: underline;}
+
+		@media only screen and (max-width: 550px), screen and (max-device-width: 550px) {}
+		body[yahoo] .buttonwrapper {background-color: transparent!important;}
+		body[yahoo] .button a {background-color: #e05443; padding: 15px 15px 13px!important; display: block!important;}
+
+        li {
+        list-style-type: none; /* Убираем маркеры */
+       }
+       ul {
+        margin-left: 0; /* Отступ слева в браузере IE и Opera */
+        padding-left: 0; /* Отступ слева в браузере Firefox, Safari, Chrome */
+       }
+
+        </style>
+    </head>
+
+    <body yahoo bgcolor="#f6f8f1" style="margin: 0; padding: 0; min-width: 100%; background-color: #f6f8f1;">
+     <!--[if (gte mso 9)|(IE)]>
+	<table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+    <tr> <td><![endif]-->
+	<table class="content" align="center" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px;">
+					<!--Header-->
+                        <tr>
+                             <td bgcolor="#c7d8a7" style="padding: 40px 30px 20px 30px;">
+
+							   <!--LOGO-->
+							   <table width="95" align="left" border="0" cellpadding="0" cellspacing="0">
+									<tr>
+										<td height="70" style="padding: 0 20px 20px 0;">
+
+								<!--ТУТ ССЫЛКА НА ЛОГО-->
+											<img src="http://myshop3.sharelink.ru:8080/static/info/news/icon/logo.png" width="100"  border="0" alt="" / >
+										</td>
+									</tr>
+								</table><!--END-LOGO-->
+
+								<!--Заглавие-->
+								<!--[if (gte mso 9)|(IE)]>
+								<table width="425" align="left" cellpadding="0" cellspacing="0" border="0">
+									<tr>
+										<td>
+										<![endif]-->
+
+								 <table class="col425" align="left" border="0" cellpadding="0" style="width: 100%; max-width: 400px;">
+									<tr>
+										<td height="70">
+										  <table width="100%" border="0" cellspacing="0">
+												<tr>
+													<td style="padding: 0 0 0 3px; font-size: 20px; color: #ffffff; font-family: sans-serif; letter-spacing: 5px; font-weight: bold;"> Для администратора</td>
+												</tr>
+                                              <tr>
+                                                  <td class="h1"
+                                                      style="padding: 5px 0 0 0; font-size: 33px; line-height: 38px; font-weight: bold; color: #153643; font-family: sans-serif;">
+{#                                                      <a href="http://myshop3.sharelink.ru:8080/" target="_blank">#}
+                                                          TehnoPoint.ru
+{#                                                      </a>#}
+                                                  </td>
+                                              </tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							<!--[if (gte mso 9)|(IE)]>
+								</td>
+							</tr>
+							</table>
+							<![endif]--><!--END-ЗАГЛАВИЕ-->
+
+							</td>
+						</tr>
+
+
+					<!--ТЕЛО ПИСЬМА-->
+						<tr>
+							<td class="content" bgcolor="#ffffff" style="width: 100%; max-width: 600px; padding: 30px 30px 30px 30px; border-bottom: 1px solid #f2eeed;">
+
+							  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+										<!--ВСТУПЛЕНИЕ-->
+										<tr>
+											<td style="color: #153643; font-family: sans-serif; padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold; text-align: center;">
+
+												 Привет Админ! ...</br>
+                                                Поступило новое сообщение с сайта.
+											</td>
+
+										</tr><!--/ВСТУПЛЕНИЕ-->
+
+
+										<!--НАЧАЛО-->
+										<tr>
+                                            <td style="color: #153643; font-family: sans-serif; font-size: 16px; line-height: 22px;">
+                                                <p>
+                                                <ul>
+
+                                                    <li><b>id:</b> {{ contact.id }}</li>
+
+                                                    <li><b>Отправитель:</b> {{ contact.full_name }}</li>
+                                                    <li><b>Телефон:</b> {{ contact.phone }}</li>
+                                                    <li><b>email:</b> {{ contact.email }}</li>
+                                                    <li><b>Сообщение:</b> {{ contact.text }}</li>
+                                                    <li><b>Дата:</b> {{ contact.created }}</li>
+
+                                                </ul>
+                                                </p>
+                                            </td>
+										</tr><!--/НАЧАЛО-->
+
+										<!--ОКОНЧАНИЕ ПИСЬМА-->
+										<tr> </tr><!--/ОКОНЧАНИЕ ПИСЬМА-->
+
+								</table>
+                            </td>
+						 </tr>
+
+
+					<!--Footer-->
+         				<tr>
+						 <td class="footer" bgcolor="#44525f" style="padding: 20px 30px 15px 30px;">
+
+
+									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+										<tr>
+											<td align="center" style="font-family: sans-serif; font-size: 14px; color: #ffffff;">
+												&reg;Все права защищены<br/>
+												<a href="http://myshop3.sharelink.ru:8080/" style="color: #ffffff; text-decoration: underline;"target="_blank">TehnoPoint</a>
+												</td>
+										</tr>
+										<tr>
+											<td align="center" style="padding: 20px 0 0 0;">
+												<table border="0" cellspacing="0" cellpadding="0">
+													<tr>
+														<td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+															<a href="#"target="_blank">
+																<img src="http://myshop3.sharelink.ru:8080/static/info/news/icon/facebook.png" width="37" height="37" alt="Facebook" border="0" />
+															</a>
+														</td>
+														<td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+															<a href="#"target="_blank">
+																<img src="http://myshop3.sharelink.ru:8080/static/info/news/icon/twitter.png" width="37" height="37" alt="Twitter" border="0" />
+															</a>
+														</td>
+														<td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+															<a href="#"target="_blank">
+																<img src="http://myshop3.sharelink.ru:8080/static/info/news/icon/youtube.png" width="37" height="37" alt="Youtube" border="0" />
+															</a>
+														</td>
+														<td width="37" style="text-align: center; padding: 0 10px 0 10px;">
+															<a href="#"target="_blank">
+																<img src="http://myshop3.sharelink.ru:8080/static/info/news/icon/vkontakte.png" width="37" height="37" alt="VK" border="0" />
+															</a>
+														</td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+									</table>
+                <!--[if (gte mso 9)|(IE)]>
+        </td>
+    </tr>
+</table>
+<![endif]-->
+
+    </body>
+</html>
+
+

@@ -31,6 +31,9 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('profiles.accounts_urls')),
     path('accounts/', include('allauth.urls')),
+
+    path('contact/', include('contacts.urls')),
+
 ]
 
 if settings.DEBUG:

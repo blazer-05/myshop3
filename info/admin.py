@@ -89,7 +89,7 @@ class ReviewAdmin(admin.ModelAdmin):
     search_fields = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']  # Выводит строку поиска в адинке
     #list_filter = ['id', 'product', 'user', 'merits', 'limitations', 'comment', 'rating', 'period', 'created']
     actions = [complete_post, incomplete_post]  # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
-    list_per_page = 10  # Вывод количества новостей в админке
+    list_per_page = 20  # Вывод количества новостей в админке
 
     def sender(self, obj):
         '''Метод определяет в одном столбце кто добавил комментарий user или user_name (т.е. зарегистрированный или нет пользовватель)'''

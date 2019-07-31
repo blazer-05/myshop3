@@ -128,14 +128,21 @@ def compareproducts(request):
 def search(request):
     '''Поиск по товарам'''
     query = request.GET.get('q')
-    search_product = Product.objects.filter(
-        Q(title__icontains=query)|
-        Q(brand__name__icontains=query)|
-        Q(descriptions__icontains=query)|
-        Q(category__name__icontains=query)|
-        Q(vendor_code__icontains=query)
 
-    )
+    '''Проверяем, если запрос был (http://localhost:8001/search/) то выводим пустой кверисет'''
+    if query:
+        search_product = Product.objects.filter(
+            Q(title__icontains=query)|
+            Q(brand__name__icontains=query)|
+            Q(descriptions__icontains=query)|
+            Q(category__name__icontains=query)|
+            Q(vendor_code__icontains=query)
+
+        )
+    else:
+        search_product = Product.objects.none()
+
+    count_product = search_product.count()
 
     paginator = Paginator(search_product, 5)
     page = request.GET.get('page')
@@ -143,15 +150,11 @@ def search(request):
 
     context = {
         'search_product': search_product,
+        'count_product': count_product,
+        'query': query,
 
     }
 
     return render(request, 'shop/search.html', context)
 
 
-def contact(request):
-    return render(request, 'shop/contact.html')
-
-
-def about(request):
-    return render(request, 'shop/about.html')

@@ -131,7 +131,7 @@ class Review(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.city
+        return 'Отзыв к товару {} ({})'.format(self.product.title, self.get_rating_display())
 
 
     # Вывод картинок в админке!

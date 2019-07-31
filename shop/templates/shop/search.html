@@ -8,23 +8,6 @@
 
 {% block content %}
 
-{#    <div class="container">#}
-{#        <div class="row">#}
-{#            <div class="col-sm-12">#}
-{#                <h3>Найденные результаты: {{ search_product.count }}</h3>#}
-{#            {% if search_product %}#}
-{#                {% for product in search_product %}#}
-{#                    <h4><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h4>#}
-{#                    <p>{{ product.descriptions|truncatewords:30|safe }}</p>#}
-{#                {% endfor %}#}
-{#                {% else %}#}
-{#                <p>Ничего не найдено.</p>#}
-{#            {% endif %}#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-
 		<!-- START PAGE-CONTENT -->
 		<section class="page-content">
 			<div class="container">
@@ -42,16 +25,12 @@
 							</div>
 						</div>
 						<!-- END PRODUCT-BANNER -->
+                        <h3>{% if search_product %}Найденные результаты: {{ count_product }}{% else %}По запросу "{{ query }}" ничего не найдено.{% endif %}</h3>
 						<!-- START PRODUCT-AREA -->
 						<div class="product-area">
 							<div class="row">
 								<div class="col-xs-12">
 									<!-- Start Product-Menu -->
-									<div class="product-menu">
-										<div class="product-title">
-											<h3 class="title-group-3 gfont-1">{{ category.name }}</h3>
-										</div>
-									</div>
 									<div class="product-filter">
 										<ul role="tablist" style="margin-top: -3px;">
 											<li role="presentation" class="list active">
@@ -103,7 +82,7 @@
 													<div class="listview">
 
 														<!-- Start Single-Product -->
-                                                        {% if search_product %}
+
                                                             {% for product in search_product %}
                                                             <div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полето товара в корзину! -->
                                                                 <div class="col-md-3 col-sm-4 col-xs-12">
@@ -175,9 +154,9 @@
                                                                 </div>
                                                             </div>
                                                             {% empty %}
-                                                            <li align="center" style="font-size: 14px;">Ничего не найдено.</li>
+                                                                <h3 align="center" >По запросу "{{ query }}" ничего не найдено.</h3>
                                                             {% endfor %}
-                                                        {% endif %}
+
 														<!-- End Single-Product -->
 													</div>
                                                     <!-- Start Single-Product -->
@@ -208,7 +187,7 @@
 											<div role="tabpanel" class="tab-pane fade" id="display-1-2">
 												<div class="row">
 													<!-- Start Single-Product -->
-                                                {% if search_product %}
+
                                                     {% for product in search_product %}
 													<div class="col-md-3 col-sm-4 col-xs-12">
 														<div class="single-product jq-product-wrapper">
@@ -278,10 +257,10 @@
 															</div>
 														</div>
 													</div>
+                                                    {% empty %}
+                                                            <h3 align="center" >По запросу "{{ query }}" ничего не найдено.</h3>
                                                     {% endfor %}
-                                                    {% else %}
-                                                        <p align="center" style="font-size: 14px;">Ничего не найдено</p>
-                                                {% endif %}
+
 													<!-- End Single-Product -->
 
 												</div>
@@ -291,7 +270,7 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-                                                                    {% bootstrap_pagination search_product pages_to_show=3 %}
+                                                                    {% bootstrap_pagination search_product extra=request.GET.urlencode pages_to_show=3 %}
 																</ul>
 														    </div>
 														</div>

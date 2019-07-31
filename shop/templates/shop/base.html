@@ -243,11 +243,11 @@
                                 <li><a href="/">Home</a>
                                 </li>
                                 <li><a href="{% url 'news:newslist' %}">News</a></li>
-                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="{% url 'contacts:about' %}">About Us</a></li>
                                 <li class="hot"><a href="shop.html">Bestseller Products</a></li>
                                 <li class="new"><a href="shop-list.html">New Products</a></li>
                                 <li><a href="shop.html">Special Products</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="{% url 'contacts:contact' %}">Contact Us</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -273,7 +273,7 @@
                                 </ul>
                             </li>
                             {% endrecursetree %}
-                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="../../../contacts/templates/contact.html">Contact Us</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -371,8 +371,8 @@
                     </div>
                     <nav>
                         <ul class="footer-content">
-                            <li><a href="contact.html">Contact Us</a></li>
-                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="../../../contacts/templates/contact.html">Contact Us</a></li>
+                            <li><a href="../../../contacts/templates/about.html">About Us</a></li>
                             <li><a href="#">Delivery Information</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms & Conditions</a></li>
@@ -403,7 +403,7 @@
                                 <i class="fa fa-home"></i><span>Towerthemes, 1234 Stret Lorem, LPA States, Libero</span>
                             </li>
                             <li>
-                                <i class="fa fa-envelope-o"></i><p><a href="contact.html">admin@bootexperts.com</a></p>
+                                <i class="fa fa-envelope-o"></i><p><a href="../../../contacts/templates/contact.html">admin@bootexperts.com</a></p>
                             </li>
                             <li>
                                 <i class="fa fa-phone"></i>
@@ -422,7 +422,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
-                        <p>Copyright &copy; Взято с <a href="http://bayguzin.ru" target="_blank"> bayguzin.ru</a> All rights reserved.</p>
+                        <p>Copyright &copy; <a href="http://tehnopoint.pp.ua/" target="_blank"> technostyle.pp.ua </a> All rights reserved.</p>
                         <div class="payment">
                             <a href="#"><img src="{% static 'shop/img/payment.png' %}" alt="Payment"></a>
                         </div>

@@ -1,0 +1,20 @@
+from django import forms
+from captcha.fields import CaptchaField
+from contacts.models import Contacts
+
+
+class ContactForm(forms.ModelForm):
+    '''Форма обратной связи с капчей'''
+    captcha = CaptchaField(label='Are you an human? ', )
+
+    class Meta:
+        model = Contacts
+        fields = ['full_name', 'phone', 'email', 'text']
+
+        widgets = {
+            'full_name': forms.TextInput(attrs={'placeholder': 'full_name*', 'class': 'form-control', 'required': True}),
+            'phone': forms.TextInput(attrs={'placeholder': 'phone*', 'class': 'form-control', 'required': True}),
+            'email': forms.EmailInput(attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'required': True}),
+            'text': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your enquiry', 'class': 'form-control', 'required': True}),
+
+        }
