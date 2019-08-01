@@ -12,8 +12,8 @@ class ContactForm(forms.ModelForm):
         fields = ['full_name', 'phone', 'email', 'text']
 
         widgets = {
-            'full_name': forms.TextInput(attrs={'placeholder': 'full_name*', 'class': 'form-control', 'required': True}),
-            'phone': forms.TextInput(attrs={'placeholder': 'phone*', 'class': 'form-control', 'required': True}),
+            'full_name': forms.TextInput(attrs={'placeholder': 'Your Name', 'class': 'form-control', 'required': True}),
+            'phone': forms.TextInput(attrs={'placeholder': 'Your Phone', 'class': 'form-control', 'required': True}),
             'email': forms.EmailInput(attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'required': True}),
             'text': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your enquiry', 'class': 'form-control', 'required': True}),
 
