@@ -139,6 +139,7 @@ function submit_comment_form(event) {
   });
 }
 
+
 // Скрипт который выводит в модальном окне товар на главной странице если нажать на значок лупы.
 $('#productModal').on('show.bs.modal', function (event) {
   let button = $(event.relatedTarget);
@@ -152,6 +153,20 @@ $('#productModal').on('show.bs.modal', function (event) {
   });
 });
 
+
+$('#back_call').on('click', function (event) {
+  let button = $(event.relatedTarget);
+  let url = button.data('url');
+  let container = $(this).find('.modal-back_call');
+  container.html('');
+  $.ajax({
+      type: "POST",
+      url: "/contacts/backcall/",
+      dataType: "html",
+      }).done(function(data){
+        container.html(data);
+      });
+});
 
 // $(document).ready(function () {
 //     like = function (el) {

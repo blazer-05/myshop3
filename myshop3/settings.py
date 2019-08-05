@@ -94,6 +94,7 @@ TEMPLATES = [
                 'shop.context_processors.brendlogo',    # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.bestseller',   # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.sale',         # Сквозной вывод нижнего блока sale на главной
+                'contacts.context_processors.privacy_policy',
 
             ],
         },

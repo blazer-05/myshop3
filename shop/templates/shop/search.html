@@ -25,7 +25,7 @@
 							</div>
 						</div>
 						<!-- END PRODUCT-BANNER -->
-                        <h3>{% if search_product %}Найденные результаты: {{ count_product }}{% else %}По запросу "{{ query }}" ничего не найдено.{% endif %}</h3>
+                        <h3>{% if search_product %}По запросу "{{ query }}" найдено {{ count_product }} результатов. {% else %}По запросу "{{ query }}" ничего не найдено.{% endif %}</h3>
 						<!-- START PRODUCT-AREA -->
 						<div class="product-area">
 							<div class="row">

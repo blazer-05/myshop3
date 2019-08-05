@@ -18,10 +18,10 @@
 .box > .icon:hover > .image { background: #333; }
 .box > .icon > .image > i { font-size: 36px !important; color: #fff !important; }
 .box > .icon:hover > .image > i { color: white !important; }
-.box > .icon > .info { margin-top: -24px; background: rgba(0, 0, 0, 0.04); border: 1px solid #e0e0e0; padding: 15px 0 10px 0; min-height:163px;}
+.box > .icon > .info { margin-top: -24px; background: rgba(0, 0, 0, 0.04); border: 1px solid #e0e0e0; padding: 15px 0 10px 0; min-height:185px;}
 .box > .icon:hover > .info { background: rgba(0, 0, 0, 0.04); border-color: #e0e0e0; color: white; }
 .box > .icon > .info > h3.title { font-family: "Robot",sans-serif !important; font-size: 16px; color: #222; font-weight: 700; }
-.box > .icon > .info > p { font-family: "Robot",sans-serif !important; font-size: 13px; color: #666; line-height: 1.5em; margin: 20px;}
+.box > .icon > .info > p { font-family: "Robot",sans-serif !important; font-size: 15px; color: #666; line-height: 1.5em; margin: 20px; margin-left: 10px;}
 .box > .icon:hover > .info > h3.title, .box > .icon:hover > .info > p, .box > .icon:hover > .info > .more > a { color: #222; }
 .box > .icon > .info > .more a { font-family: "Robot",sans-serif !important; font-size: 12px; color: #222; line-height: 12px; text-transform: uppercase; text-decoration: none; }
 .box > .icon:hover > .info > .more > a { color: #fff; padding: 6px 8px; background-color: #63B76C; }
@@ -70,6 +70,7 @@
                         {% for map in map_url %}
                             <div class="map-area">
                                 <iframe src="{{ map.maps }}" width="100%" height="350px" frameborder="1" allowfullscreen="true"></iframe>
+
     {#							<div id="googleMap" style="width:100%;height:350px;"></div>#}
                             </div>
                         {% endfor %}
@@ -77,6 +78,7 @@
 						<!-- End Map area -->
 
                             <!-- Блок MAIL & WEBSITE, CONTACT, ADDRESS -->
+{#                    {% for adres in address %}#}
                             <div class="row">
                                 <!-- Boxes de Acoes -->
                                 <div class="col-xs-12 col-sm-6 col-lg-4">
@@ -87,11 +89,11 @@
                                                 <h3 class="title">MAIL & WEBSITE</h3>
                                                 <p>
                                                     <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp
-                                                    sda2404751@gmail.com
+                                                    {{ address.email_one }}
                                                     <br>
                                                     <br>
-                                                    <i class="fa fa-globe" aria-hidden="true"></i> &nbsp
-                                                    www.tehnopoint.pp.ua
+                                                    <i class="fa fa-globe" aria-hidden="true" style="margin-right: 5px;"></i> &nbsp
+                                                    {{ address.website }}
                                                 </p>
 
                                             </div>
@@ -108,11 +110,11 @@
                                                 <h3 class="title">CONTACT</h3>
                                                 <p>
                                                     <i class="fa fa-mobile" aria-hidden="true"></i> &nbsp
-                                                    +380505206569 Viber, WhatsApp
+                                                    {{ address.phone_one }}
                                                     <br>
                                                     <br>
                                                     <i class="fa fa-mobile" aria-hidden="true"></i> &nbsp
-                                                    +79381017681
+                                                    {{ address.phone_two }}
                                                 </p>
                                             </div>
                                         </div>
@@ -128,7 +130,7 @@
                                                 <h3 class="title">ADDRESS</h3>
                                                 <p>
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp
-                                                     г.Луганск квартал Лиховида 2
+                                                     {{ address.address }}
                                                 </p>
                                             </div>
                                         </div>
@@ -137,6 +139,7 @@
                                 </div>
                                 <!-- /Boxes de Acoes -->
                             </div>
+{#                    {% endfor %}#}
                             <!-- / Блок MAIL & WEBSITE, CONTACT, ADDRESS -->
 
 
@@ -199,7 +202,9 @@
 											</div>
 										</div>
 									</div>
-
+                                    <div class="row">
+                                        <label class="col-sm-12 control-label"><sup>*</sup>Fields marked with an asterisk are required!</label>
+                                    </div>
                                     <div class="col-md-12">
                                       <div class="form-group pull-right">
                                         <label for="id_captcha">Captcha {{ form.captcha.label }}
@@ -216,10 +221,14 @@
                                         <div class="help-block with-errors"></div>
                                       </div>
                                     </div>
-
-									<div class="buttons pull-right">
-										<input class="btn btn-primary" type="submit" value="submit" name="submit"/>
-									</div>
+                                    <div class="pull-right">
+                                        <input name="agree" type="checkbox" id="form">
+                                            <label for="form">
+                                                I have read and agree to the
+                                            </label>
+                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><b>Privacy Policy</b></a>
+                                        <input class="btn btn-primary" type="submit" value="submit" name="submit" disabled="" style="margin-left: 5px;">
+                                    </div>
 								</form>
 							</fieldset>
 						</div>
@@ -228,7 +237,21 @@
 				</div>
 			</div>
 
+            <!-- Скрипт чекбокса политики конфидециальности, если флаг не установле, то кнопка submit не активна! -->
+            <script>
+                    //JavaScript
+                form.onchange = function(){
+                  var button = document.body.getElementsByClassName('btn')[0];
+                  if(button.disabled) button.disabled = false;
+                  else button.disabled = true;
+                }
 
+                //Jquery
+                $('#form').on('change', function(){
+                  if($(this).is(':checked')) $('.btn').attr('disabled', false);
+                  else $('.btn').attr('disabled', true);
+                });
+            </script>
 
 		<!-- Google Map js -->
 {#        <script src="https://maps.googleapis.com/maps/api/js"></script>#}
