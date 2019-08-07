@@ -1,31 +1,17 @@
 
-// Скрипт подтверждение удаления товара
-$('#delete_my_orders').click(function () {
-    return confirm('Вы действительно хотите удалить товар?');
-});
-
-// Скрипт добавления товара в вишлист
-$(function ($) {
-  $('.add_to_wishlist').click(function (event) {
-    event.preventDefault();
-    let heart_button = $(this).children();
-    let url = $(this).attr('href');
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': Cookies.get('csrftoken')
-      },
-    }).then(function (res) {
-      if(res.status === 201) {
-        heart_button.addClass('fa-heart');
-        heart_button.removeClass('fa-heart-o');
-      } else if(res.status === 204) {
-        heart_button.addClass('fa-heart-o');
-        heart_button.removeClass('fa-heart');
-      }
-    });
+// Скрипт который выводит в модальном окне товар на главной странице если нажать на значок лупы.
+$('#productModal').on('show.bs.modal', function (event) {
+  let button = $(event.relatedTarget);
+  let url = button.data('url');
+  let container = $(this).find('.modal-product');
+  container.html('');
+  $.ajax({
+    url: url,
+  }).done(function(data){
+    container.html(data);
   });
 });
+
 
 // Для owl карусели которая в шаблоне index-carousel.html и выводится на главной
 // в блоке категорий
@@ -43,6 +29,7 @@ function set_owl_on_active_product_carosel(elements) {
       itemsMobile: [479, 1],
     });
   }
+
 
 // аякс запрос для вывода на главной ссылок списка брендов, по клику отображается товар данного бренда
 // второй клик по текущему бренду отображает все товары.
@@ -85,4 +72,3 @@ $(function ($) {
     });
   });
 });
-

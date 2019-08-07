@@ -140,33 +140,28 @@ function submit_comment_form(event) {
 }
 
 
-// Скрипт который выводит в модальном окне товар на главной странице если нажать на значок лупы.
-$('#productModal').on('show.bs.modal', function (event) {
-  let button = $(event.relatedTarget);
-  let url = button.data('url');
-  let container = $(this).find('.modal-product');
-  container.html('');
-  $.ajax({
-    url: url,
-  }).done(function(data){
-    container.html(data);
-  });
-});
 
 
-$('#back_call').on('click', function (event) {
-  let button = $(event.relatedTarget);
-  let url = button.data('url');
-  let container = $(this).find('.modal-back_call');
-  container.html('');
-  $.ajax({
-      type: "POST",
-      url: "/contacts/backcall/",
-      dataType: "html",
-      }).done(function(data){
-        container.html(data);
-      });
-});
+
+
+// $(document).ready(function() {
+//     $('#back_call').submit(function(event) { // catch the form's submit event
+//         let button = $(event.relatedTarget);
+//
+//         let container = $(this).find('.modal-back_call');
+//         container.html('');
+//         $.ajax({ // create an AJAX call...
+//             data: $(this).serialize(), // get the form data
+//             type: "POST", // GET or POST
+//             url: "/contact/backcall/", // the file to call
+//             success: function(response) { // on success..
+//                 $('#DIV_CONTAINING_FORM').html(response); // update the DIV
+//             }
+//         });
+//         return false;
+//     });
+// });
+
 
 // $(document).ready(function () {
 //     like = function (el) {

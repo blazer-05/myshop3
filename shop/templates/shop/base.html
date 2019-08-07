@@ -458,9 +458,7 @@
         <h4 class="modal-title" id="myModalLabel">Обратный звонок</h4>
       </div>
         <div class="modal-body">
-            <div class="modal-back_call">
-                {% include 'modal_backcall.html' %} <!-- Подгружаем шаблон обратного звонка из приложения contacts -->
-            </div>
+            <div class="modal-back_call"></div>
         </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -545,14 +543,20 @@
 
 {#<script src="{% static 'info/news/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>#}
 
+<!--Подключение файла скриптов для приложения shop -->
+<script src="{% static 'shop/js/shop_script.js' %}" type="text/javascript"></script>
+
 <!--Подключение файла скриптов для лайков и комментариев -->
-<script src="{% static 'info/news/script.js' %}" type="text/javascript"></script>
+<script src="{% static 'info/news/news_script.js' %}" type="text/javascript"></script>
 
 <!--Подключение файла скриптов для отзывов о товаре в продукте -->
 <script src="{% static 'info/reviews/review_script.js' %}" type="text/javascript"></script>
 
 <!--Подключение файла скриптов для профиля пользователя -->
-<script src="{% static 'profiles/js/scripts.js' %}" type="text/javascript"></script>
+<script src="{% static 'profiles/js/profiles_scripts.js' %}" type="text/javascript"></script>
+
+<!--Подключение файла скриптов для приложения contacts -->
+<script src="{% static 'contacts/js/contacts_script.js' %}" type="text/javascript"></script>
 
 <!-- Подключение файла Modernizr для страницы сравнения продуктов shop/compare.html -->
 <script src="{% static 'compare-products/js/modernizr.js' %}"></script>
@@ -561,7 +565,7 @@
 <script src="{% static 'compare-products/js/main.js' %}"></script>
 
 
-<!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/script.js  -->
+<!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/news_script.js  -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 

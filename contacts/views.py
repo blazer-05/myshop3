@@ -64,32 +64,27 @@ def about(request):
 
 def backcall(request):
     '''Обратный звонок'''
-    if request.method == 'POST':
-        form = BackcallForm(request.POST)
-        if form.is_valid():
-            full_name = form.cleaned_data['full_name']
-            phone = form.cleaned_data['phone']
-            text = form.cleaned_data['text']
-            recepients = [DEFAULT_FROM_EMAIL]
-            backcall = form.save(commit=False)
-            backcall.save()
+    form = BackcallForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        full_name = form.cleaned_data['full_name']
+        phone = form.cleaned_data['phone']
+        text = form.cleaned_data['text']
+        recepients = [DEFAULT_FROM_EMAIL]
+        backcall = form.save(commit=False)
+        backcall.save()
 
-            context = {
-                'full_name': full_name,
-                'phone': phone,
-                'text': text,
-                'backall': backcall,
-            }
+        context = {
+            'full_name': full_name,
+            'phone': phone,
+            'text': text,
+            'backall': backcall,
+        }
 
-            message = render_to_string('admin_contact_email.html', context, request)
-            email = EmailMessage('Поступил обратный звонок', message, DEFAULT_FROM_EMAIL, recepients)
-            email.content_subtype = 'html'
-            email.send()
-            messages.success(request, 'Ваше сообщение успешно отправлено!')
-            return HttpResponseRedirect('/')
-        else:
-            messages.error(request, 'Произошла ошибка, попробуйте отправить еще раз.')
-    else:
+        message = render_to_string('admin_contact_email.html', context, request)
+        email = EmailMessage('Поступил заказ на обратный звонок №{} от "{}" '.format(backcall.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
+        email.content_subtype = 'html'
+        email.send()
+        messages.success(request, 'Ваше сообщение успешно отправлено!')
         form = BackcallForm()
 
     return render(request, 'modal_backcall.html', {'form': form})

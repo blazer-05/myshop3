@@ -100,7 +100,7 @@
 											<td style="color: #153643; font-family: sans-serif; padding: 0 0 15px 0; font-size: 24px; line-height: 28px; font-weight: bold; text-align: center;">
 
 												 Привет Админ! ...</br>
-                                                Поступил обратный звонок.
+                                                Был заказан обратный звонок для "{{ backcall.full_name }}".
 											</td>
 
 										</tr><!--/ВСТУПЛЕНИЕ-->
@@ -112,12 +112,12 @@
                                                 <p>
                                                 <ul>
 
-                                                    <li><b>id:</b> {{ backall.id }}</li>
+                                                    <li><b>id:</b> {{ backcall.id }}</li>
 
-                                                    <li><b>Отправитель:</b> {{ backall.full_name }}</li>
-                                                    <li><b>Телефон:</b> {{ backall.phone }}</li>
-                                                    <li><b>Сообщение:</b> {{ backall.text }}</li>
-                                                    <li><b>Дата:</b> {{ backall.created }}</li>
+                                                    <li><b>Отправитель:</b> {{ backcall.full_name }}</li>
+                                                    <li><b>Телефон:</b> {{ backcall.phone }}</li>
+                                                    <li><b>Сообщение:</b> {{ backcall.text }}</li>
+                                                    <li><b>Дата:</b> {{ backcall.created }}</li>
 
                                                 </ul>
                                                 </p>

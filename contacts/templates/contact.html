@@ -222,11 +222,11 @@
                                       </div>
                                     </div>
                                     <div class="pull-right">
-                                        <input name="agree" type="checkbox" id="form">
+                                        <input name="agree" type="checkbox" id="form"><!-- Скрипт чекбокса в contacts_scripts.js -->
                                             <label for="form">
                                                 I have read and agree to the
                                             </label>
-                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><b>Privacy Policy</b></a>
+                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><b>Privacy Policy</b></a><!-- Модальное окно в шаблоне modal_privacy_policy.html -->
                                         <input class="btn btn-primary" type="submit" value="submit" name="submit" disabled="" style="margin-left: 5px;">
                                     </div>
 								</form>
@@ -237,21 +237,6 @@
 				</div>
 			</div>
 
-            <!-- Скрипт чекбокса политики конфидециальности, если флаг не установле, то кнопка submit не активна! -->
-            <script>
-                    //JavaScript
-                form.onchange = function(){
-                  var button = document.body.getElementsByClassName('btn')[0];
-                  if(button.disabled) button.disabled = false;
-                  else button.disabled = true;
-                }
-
-                //Jquery
-                $('#form').on('change', function(){
-                  if($(this).is(':checked')) $('.btn').attr('disabled', false);
-                  else $('.btn').attr('disabled', true);
-                });
-            </script>
 
 		<!-- Google Map js -->
 {#        <script src="https://maps.googleapis.com/maps/api/js"></script>#}
