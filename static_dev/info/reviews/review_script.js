@@ -31,7 +31,7 @@ function readURL(input) {
 
 
 
-    // Скрипт выбора количества звезд в форме создания отзыва
+// Скрипт выбора количества звезд в форме создания отзыва
 jQuery(document).ready(function ($) {
 
     let raiting_field = $("#id_rating");

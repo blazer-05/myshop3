@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 
     'profiles',
     'contacts',
+    'newsletter',
 
 ]
 
@@ -94,7 +95,8 @@ TEMPLATES = [
                 'shop.context_processors.brendlogo',    # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.bestseller',   # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.sale',         # Сквозной вывод нижнего блока sale на главной
-                'contacts.context_processors.privacy_policy',
+                'shop.context_processors.footer',       # Сквозной вывод футера сайта на всех страницах
+                'contacts.context_processors.privacy_policy', # Сквозной вывод политики конф. modal_privacy_policy.html
 
             ],
         },

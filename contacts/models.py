@@ -37,6 +37,7 @@ class Maps(models.Model):
 
 class Address(models.Model):
     '''Контактные данные магазина'''
+    title = models.CharField(max_length=150, blank=True, verbose_name='Заголовок')
     email_one = models.EmailField(max_length=100, blank=True, verbose_name='Email-1')
     email_two = models.EmailField(max_length=100, blank=True, verbose_name='Email-2')
     website = models.URLField(max_length=150, blank=True, verbose_name='Сайт')
@@ -99,8 +100,8 @@ class Delivery(models.Model):
     update = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
 
     class Meta:
-        verbose_name = 'Политика'
-        verbose_name_plural = 'Политика'
+        verbose_name = 'Доставка'
+        verbose_name_plural = 'Доставка'
         ordering = ['-created']
 
     def __str__(self):

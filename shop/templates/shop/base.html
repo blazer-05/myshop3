@@ -254,6 +254,7 @@
                                     <ul>
                                         <li><a href="{% url 'contacts:about' %}">About Us</a></li>
                                         <li><a href="{% url 'contacts:contact' %}">Contact Us</a></li>
+                                        <li><a href="{% url 'contacts:delivery' %}">Delivery Information</a></li>
                                         <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Privacy Policy</a></li>
                                     </ul>
                                 </li>
@@ -328,128 +329,64 @@
     </div>
 </div>
 <!-- END BRAND-LOGO-AREA -->
-<!-- START SUBSCRIBE-AREA -->
-<div class="subscribe-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-sm-7 col-xs-12">
-                <label class="hidden-sm hidden-xs">Sign Up for Our Newsletter:</label>
-                <div class="subscribe">
-                    <form action="#">
-                        <input type="text" placeholder="Ваш E-mail">
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-5 col-xs-12">
-                <div class="social-media">
-                    <a href="#"><i class="fa fa-facebook fb"></i></a>
-                    <a href="#"><i class="fa fa-google-plus gp"></i></a>
-                    <a href="#"><i class="fa fa-twitter tt"></i></a>
-                    <a href="#"><i class="fa fa-youtube yt"></i></a>
-                    <a href="#"><i class="fa fa-linkedin li"></i></a>
-                    <a href="#"><i class="fa fa-rss rs"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- END SUBSCRIBE-AREA -->
-{#		</section>#}
-<!-- END HOME-PAGE-CONTENT -->
-<!-- FOOTER-AREA START -->
-<footer class="footer-area">
-    <!-- Footer Start -->
-    <div class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <div class="footer-title">
-                        <h5>My Account</h5>
-                    </div>
-                    <nav>
-                        <ul class="footer-content">
-                            <li><a href="my-account.html">My Account</a></li>
-                            <li><a href="#">Order History</a></li>
-                            <li><a href="wishlist">Wish List</a></li>
-                            <li><a href="#">Search Terms</a></li>
-                            <li><a href="#">Returns</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <div class="footer-title">
-                        <h5>Customer Service</h5>
-                    </div>
-                    <nav>
-                        <ul class="footer-content">
-                            <li><a href="../../../contacts/templates/contact.html">Contact Us</a></li>
-                            <li><a href="../../../contacts/templates/about.html">About Us</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-xs-12 hidden-sm col-md-3">
-                    <div class="footer-title">
-                        <h5>Payment & Shipping</h5>
-                    </div>
-                    <nav>
-                        <ul class="footer-content">
-                            <li><a href="#">Brands</a></li>
-                            <li><a href="#">Gift Vouchers</a></li>
-                            <li><a href="#">Affiliates</a></li>
-                            <li><a href="shop-list.html">Specials</a></li>
-                            <li><a href="#">Search Terms</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-xs-12 col-sm-4 col-md-3">
-                    <div class="footer-title">
-                        <h5>Contacts</h5>
-                    </div>
-                    <nav>
-                        <ul class="footer-content box-information">
-                            <li>
-                                <i class="fa fa-home"></i><span>Towerthemes, 1234 Stret Lorem, LPA States, Libero</span>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope-o"></i><p><a href="../../../contacts/templates/contact.html">admin@bootexperts.com</a></p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone"></i>
-                                <span>01234-56789</span> <br> <span> 01234-56789</span>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
-    <!-- Copyright-area Start -->
-    <div class="copyright-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="copyright">
-                        <p>Copyright &copy; <a href="http://tehnopoint.pp.ua/" target="_blank"> technostyle.pp.ua </a> All rights reserved.</p>
-                        <div class="payment">
-                            <a href="#"><img src="{% static 'shop/img/payment.png' %}" alt="Payment"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Copyright-area End -->
-</footer>
-<!-- FOOTER-AREA END -->
-
+<!-- START SUBSCRIBE-AREA. Подгружаем шаблонным тегом форму подписки из signup.html -->
+{% load signup %}
+{% newsletter_signup request %}
 
 
 <!-- Modal -->
+<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Название модали</h4>
+      </div>
+      <div class="modal-body">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary">Сохранить изменения</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{#<script type="text/javascript">#}
+{#	var delay_popup = 2000;#}
+{#	setTimeout("document.getElementById('signup').style.display='block'", delay_popup);#}
+{#</script>#}
+
+{#<script>$(document).ready(function(){  $('#signup').modal('show'); })</script>#}
+
+{#<script>#}
+{#    $(window).load(function () {#}
+{#        $('#signup').modal('show');#}
+{#    });#}
+{#</script>#}
+
+
+
+
+<!-- END SUBSCRIBE-AREA -->
+
+{#		</section>#}
+<!-- END HOME-PAGE-CONTENT -->
+
+<!-- Подгружаем код футера из шаблона shop/footer.html -->
+{% include 'shop/footer.html' %}
+
+<!-- Modal Модальное окно выводит форму заказа обратного звонка (шаблон modal_backcall.html)-->
 <div class="modal fade" id="back_call" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -466,11 +403,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
 
 <!-- QUICKVIEW PRODUCT -->
 <div id="quickview-wrapper">

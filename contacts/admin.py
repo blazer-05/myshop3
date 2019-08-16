@@ -1,5 +1,5 @@
 from django.contrib import admin
-from contacts.models import Contacts, Maps, About, Address, PrivacyPolicy, Backcall
+from contacts.models import Contacts, Maps, About, Address, PrivacyPolicy, Backcall, Delivery
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -30,4 +30,9 @@ class PrivacyPolicyAdmin(SummernoteModelAdmin):
 
 @admin.register(Backcall)
 class BackcallAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Delivery)
+class DeliveryAdmin(SummernoteModelAdmin):
     pass

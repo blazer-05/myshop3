@@ -17,11 +17,18 @@ def newslist(request):
     ''' Вывод списка новостей '''
 
     '''Использование annotate (with_comments_count()) для вывода в шаблоне info/list.html количество комментариев к посту {{ list.comments_count }} без запросов к бд'''
+    title = 'Список новостей'
     news_list = News.objects.filter(is_active=True).with_comments_count()
     paginator = Paginator(news_list, 2)
     page = request.GET.get('page')
     news_list = paginator.get_page(page)
-    return render(request, 'news/list.html', {'news_list': news_list})
+
+    context = {
+        'news_list': news_list,
+        'title': title,
+
+    }
+    return render(request, 'news/list.html', context)
 
 
 def newsdetails(request, slug):

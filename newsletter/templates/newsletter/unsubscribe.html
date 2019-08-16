@@ -1,0 +1,66 @@
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<style>
+    .intro-header {
+        color: #f8f8f8;
+        text-align: center;
+    }
+
+    .container {
+        margin-top: 250px;
+        background-color: #00bfff;
+        width: 100%;
+        position: absolute;
+        height: 220px;
+    }
+
+    .custom-tab-content {
+        color: #fff;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+
+</style>
+
+<div class="intro-header">
+    <div class="container">
+
+        <div class="tab-content custom-tab-content" align="center">
+            <div class="subscribe-panel">
+                <h1>Unsubscribe</h1>
+                <p>To unsubscribe, insert your email in the field and click the unsubscribe button.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"
+                                                               aria-hidden="true"></i></span>
+                            <input type="email" class="form-control input-lg" name="email" id="id_email"
+                                   placeholder="Enter your Email"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <br/><br/><br/>
+                    <button class="btn btn-warning btn-lg">Unsubscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

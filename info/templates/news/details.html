@@ -7,9 +7,9 @@
 {% load i18n mptt_tags %}
 {% load comments %} <!-- Загружаем темплейттег комментариев -->
 
-{% block title %}
-    {{ newsdetails.title }}
-{% endblock %}
+{% block title %}{{ newsdetails.title }}{% endblock %}
+{% block keywords %}{{ newsdetails.metakeywords }}{% endblock %}
+{% block description %}{{ newsdetails.metadescription }}{% endblock %}
 
 {% block content %}
 

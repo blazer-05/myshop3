@@ -1,18 +1,4 @@
 
-<!-- Скрипт чекбокса политики конфидециальности, если флаг не установле, то кнопка submit не активна! contact.html и signup.html -->
-        //JavaScript
-    // form.onchange = function(){
-    //   var button = document.body.getElementsByClassName('btn')[0];
-    //   if(button.disabled) button.disabled = false;
-    //   else button.disabled = true;
-    // }
-    //
-    // //Jquery
-    // $('#form').on('change', function(){
-    //   if($(this).is(':checked')) $('.btn').attr('disabled', false);
-    //   else $('.btn').attr('disabled', true);
-    // });
-
 
 // Вывод и отправка формы обратного звонка в модальном окне
 
@@ -29,6 +15,22 @@ $('#back_call').on('shown.bs.modal', function () {
     });
   }
 })
+
+function refreshCaptcha(element) {
+  element.click(function () {
+    var $form = $(this).parents('form');
+    var url = location.protocol + "//" + window.location.hostname + ":"
+      + location.port + "/captcha/refresh/";
+
+    // Make the AJAX-call
+    $.getJSON(url, {}, function (json) {
+      $form.find('input[name="captcha_0"]').val(json.key);
+      $form.find('img.captcha').attr('src', json.image_url);
+    });
+
+    return false;
+  });
+}
 
 function bind_form_submit(form) {
   form.on('submit', (function (event) {

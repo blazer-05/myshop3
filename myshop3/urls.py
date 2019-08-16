@@ -33,6 +33,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     path('contact/', include('contacts.urls')),
+    path('newsletter/', include('newsletter.urls')),
 
 ]
 

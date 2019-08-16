@@ -1,6 +1,8 @@
 {% extends 'shop/base.html' %}
 {% load staticfiles %}
 
+{% block title %}{{ address.title }}{% endblock %}
+
 {% block content %}
 
 <style>
@@ -143,16 +145,6 @@
                             <!-- / Блок MAIL & WEBSITE, CONTACT, ADDRESS -->
 
 
-
-{#                    	<!-- Contact Info -->#}
-{#	        			<p class="contact-us-details">#}
-{#	        				<b>Address:</b> 123 Fake Street, LN1 2ST, London, United Kingdom<br/>#}
-{#	        				<b>Phone:</b> +44 123 654321<br/>#}
-{#	        				<b>Fax:</b> +44 123 654321<br/>#}
-{#	        				<b>Email:</b> <a href="mailto:getintoutch@yourcompanydomain.com">getintoutch@yourcompanydomain.com</a>#}
-{#	        			</p>#}
-{#	        			<!-- End Contact Info -->#}
-
                         {% if messages %}
                             {% for message in messages %}
                               <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -222,12 +214,12 @@
                                       </div>
                                     </div>
                                     <div class="pull-right">
-                                        <input name="agree" type="checkbox" id="form"><!-- Скрипт чекбокса в contacts_scripts.js -->
+                                        <input id="checkbox" type="checkbox" name="checkbox" onchange="document.getElementById('submit').disabled = !this.checked;" />
                                             <label for="form">
                                                 I have read and agree to the
                                             </label>
                                         <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><b>Privacy Policy</b></a><!-- Модальное окно в шаблоне modal_privacy_policy.html -->
-                                        <input class="btn btn-primary" type="submit" value="submit" name="submit" disabled="" style="margin-left: 5px;">
+                                        <input class="btn btn-primary" type="submit" disabled="disabled" name="submit" id="submit" value="Submit" style="margin-left: 5px;">
                                     </div>
 								</form>
 							</fieldset>

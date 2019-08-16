@@ -10,7 +10,7 @@
 {% block description %}{{ product.meta_descriptions }}{% endblock %}
 
 {% block title %}
-    {{ product.title }}
+    Купить {{ product.title }} в интернет магазине Tehnostyle. Характеристики, цена на {{ category.name }} {{ product.title }}
 {% endblock %}
 
 {% block content %}
@@ -262,7 +262,7 @@
 										<!-- Start Product-Menu -->
 										<div class="product-menu">
 											<div class="product-title">
-                                                <h3 class="title-group-2 gfont-1"><a href="{{ category.get_absolut_url }}">Товары из этой категории</a></h3>
+                                                <h3 class="title-group-2 gfont-1"><a href="{{ category.get_absolute_url }}">Другие товары из категории: {{ category }}</a></h3>
 											</div>
 										</div>
 									</div>

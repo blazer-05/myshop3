@@ -61,19 +61,18 @@
                                 <input class="btn btn-primary" type="submit" value="submit" name="submit">
                             </div>
                         </form>
-                        {% if messages %}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <ul>
-                                        {% for message in messages %}
-                                            <li{% if message.tags %}
-                                                class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        {% endif %}
                     </fieldset>
+                    <br>
+                        {% if messages %}
+                            {% for message in messages %}
+                              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                              </div>
+                            {% endfor %}
+                        {% endif %}
                 </div>
                 <!-- End Contact-Message -->
 

@@ -1,0 +1,41 @@
+{% extends 'shop/base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ delivery.last }}{% endblock %}
+
+{% block content %}
+
+
+    <!-- START PAGE-CONTENT -->
+    <section class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="page-menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="{% url 'contacts:delivery' %}">Delivery Information</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!-- Подгружаем код из шаблона shop/menu-category.html -->
+                    {% include 'shop/bestseller.html' %} <!--Подгружаем код из файла shop/bestseller.html -->
+                </div>
+                <div class="col-md-9">
+                    {% if delivery %}
+
+                        {% for del in delivery %}
+                            <h1 class="text-center">{{ del.title }}</h1>
+                            <p>{{ del.text|safe }}</p>
+                        {% endfor %}
+                        {% else %}
+                        <p class="text-center">Страница временно не доступна.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

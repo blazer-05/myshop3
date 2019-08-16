@@ -1,11 +1,19 @@
 {% extends 'shop/base.html' %}
 {% load staticfiles %}
 
+{% block title %}{{ about.last }}{% endblock %}
+
 {% block content %}
 <!-- START PAGE-CONTENT -->
 <section class="page-content">
     <div class="container">
         <div class="row">
+                <div class="col-md-12">
+                    <ul class="page-menu">
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="{% url 'contacts:about' %}">About Us</a></li>
+                    </ul>
+                </div>
             {% for abt in about %}
             <div class="text-center">
                 <h1>{{ abt.title }}</h1>

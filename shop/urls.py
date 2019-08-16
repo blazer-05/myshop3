@@ -22,4 +22,5 @@ urlpatterns = [
     path('compare-products/', compareproducts, name='compare-products'),
     path('search/', search, name='search'),
 
+
 ]

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect
-from contacts.models import Contacts, Maps, About, Address
+from contacts.models import Contacts, Maps, About, Address, Delivery
 from contacts.forms import ContactForm, BackcallForm
 
 # Подгружаем настройки из модуля local_settings.py.
@@ -36,7 +36,7 @@ def contact(request):
             }
 
             message = render_to_string('admin_contact_email.html', context, request)
-            email = EmailMessage('Поступило новое сообщение с сайта', message, DEFAULT_FROM_EMAIL, recepients)
+            email = EmailMessage('Поступило новое сообщение с сайта №{} от "{}" ' .format(contact.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
             email.content_subtype = 'html'
             email.send()
             messages.success(request, 'Ваше сообщение успешно отправлено!')
@@ -64,27 +64,36 @@ def about(request):
 
 def backcall(request):
     '''Обратный звонок'''
-    form = BackcallForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        full_name = form.cleaned_data['full_name']
-        phone = form.cleaned_data['phone']
-        text = form.cleaned_data['text']
-        recepients = [DEFAULT_FROM_EMAIL]
-        backcall = form.save(commit=False)
-        backcall.save()
+    if request.method == 'POST':
+        form = BackcallForm(request.POST or None)
+        if request.method == 'POST' and form.is_valid():
+            full_name = form.cleaned_data['full_name']
+            phone = form.cleaned_data['phone']
+            text = form.cleaned_data['text']
+            recepients = [DEFAULT_FROM_EMAIL]
+            backcall = form.save(commit=False)
+            backcall.save()
 
-        context = {
-            'full_name': full_name,
-            'phone': phone,
-            'text': text,
-            'backall': backcall,
-        }
+            context = {
+                'full_name': full_name,
+                'phone': phone,
+                'text': text,
+                'backcall': backcall,
+            }
 
-        message = render_to_string('admin_contact_email.html', context, request)
-        email = EmailMessage('Поступил заказ на обратный звонок №{} от "{}" '.format(backcall.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
-        email.content_subtype = 'html'
-        email.send()
-        messages.success(request, 'Ваше сообщение успешно отправлено!')
+            message = render_to_string('admin_backall_email.html', context, request)
+            email = EmailMessage('Поступил заказ обратного звонка №{} от "{}" '.format(backcall.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
+            email.content_subtype = 'html'
+            email.send()
+            messages.success(request, 'Ваше сообщение успешно отправлено!')
+        else:
+            messages.error(request, 'Произошла ошибка, попробуйте отправить еще раз.')
+    else:
         form = BackcallForm()
 
     return render(request, 'modal_backcall.html', {'form': form})
+
+
+def delivery(request):
+    delivery = Delivery.objects.filter(is_active=True)
+    return render(request, 'delivery.html', {'delivery': delivery})

@@ -5,6 +5,7 @@ from info.views import News, Review
 from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
 
 
+
 def index(request):
     '''Вывод на главной стр. корзины, акции, главного слайдера, новостей и категорий товаров'''
     context = {}
@@ -156,5 +157,4 @@ def search(request):
     }
 
     return render(request, 'shop/search.html', context)
-
 
