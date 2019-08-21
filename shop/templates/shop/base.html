@@ -329,54 +329,9 @@
     </div>
 </div>
 <!-- END BRAND-LOGO-AREA -->
-<!-- START SUBSCRIBE-AREA. Подгружаем шаблонным тегом форму подписки из signup.html -->
-{% load signup %}
-{% newsletter_signup request %}
+<!-- START SUBSCRIBE-AREA. -->
 
-
-<!-- Modal -->
-<div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Название модали</h4>
-      </div>
-      <div class="modal-body">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-        <button type="button" class="btn btn-primary">Сохранить изменения</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-{#<script type="text/javascript">#}
-{#	var delay_popup = 2000;#}
-{#	setTimeout("document.getElementById('signup').style.display='block'", delay_popup);#}
-{#</script>#}
-
-{#<script>$(document).ready(function(){  $('#signup').modal('show'); })</script>#}
-
-{#<script>#}
-{#    $(window).load(function () {#}
-{#        $('#signup').modal('show');#}
-{#    });#}
-{#</script>#}
-
-
-
+{% include 'newsletter/sign_up.html' %}<!-- Форма подписки на рассылку -->
 
 <!-- END SUBSCRIBE-AREA -->
 
@@ -495,6 +450,9 @@
 
 <!-- Подключение файла Resource jQuery для страницы сравнения продуктов shop/compare.html -->
 <script src="{% static 'compare-products/js/main.js' %}"></script>
+
+<!-- Подключение файла скриптов для приложения newsletter -->
+<script src="{% static 'newsletter/js/newsletter_script.js' %}"></script>
 
 
 <!--Подключение библиотеки js для установк csrf_token для всего проекта.Утановлен в этом файле base.html стр.282 и прописан здесь info/news/news_script.js  -->

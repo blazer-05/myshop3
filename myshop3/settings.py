@@ -80,6 +80,7 @@ TEMPLATES = [
                  os.path.join(BASE_DIR, 'profiles/templates/allauth'),
                  os.path.join(BASE_DIR, 'info/templates'),
                  os.path.join(BASE_DIR, 'contacts/templates'),
+                 os.path.join(BASE_DIR, 'newsletter/templates/newsletter/user_email'),
                  #os.path.join(BASE_DIR, 'info/templates/news/custom_field.html'),
 		],
         'APP_DIRS': True,

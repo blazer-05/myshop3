@@ -14,13 +14,14 @@
             <div class="col-md-8 col-sm-7 col-xs-12">
                 <label class="hidden-sm hidden-xs">Sign Up for Our Newsletter:</label>
                 <div class="subscribe">
-                    <form method="post">
+                    <form method="post" id="subscribe_form">
                         {% csrf_token %}
 
                         <input type="email" id="id_email" name="email" placeholder="Ваш E-mail">
 
-                        <button type="submit" href="signup">Subscribe</button>
-                     </form>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    <div id="subscribe_form_message" style="margin: 0 10px; width: 290px" class="alert alert-dismissable"></div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-5 col-xs-12">

@@ -1,0 +1,1 @@
+Welcome to TehnoStyle. If you would like to unsubscribe visit http://localhost:8001/newsletter/unsubscribe/
