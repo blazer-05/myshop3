@@ -13,9 +13,11 @@
                 <a href="{% url 'control_newsletter' %}"><button type="button" class="btn-success">New Newsletter</button></a>
             </div>
         </div>
+        {% if newsletters %}
         <div class="table-responsive table-hover">
             <table class="table">
                 <thead>
+                    <th>id</th>
                     <th>Subject</th>
                     <th>Status</th>
                     <th>Created</th>
@@ -26,6 +28,7 @@
                 <tbody>
                 {% for item in newsletters %}
                     <tr>
+                        <td>{{ item.id }}</td>
                         <td><a href="{% url 'control_newsletter_detail' pk=item.pk %}">{{ item.subject }}</a></td>
                         <td>{{ item.get_status_display }}</td>
                         <td>{{ item.created }}</td>
@@ -37,6 +40,9 @@
                 </tbody>
             </table>
         </div>
+            {% else %}
+            <h2>У вас пока нет рассылок.</h2>
+        {% endif %}
             <!-- Пагинация -->
         <div class="pagination-area">
             <div class="row">

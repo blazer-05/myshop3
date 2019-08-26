@@ -5,8 +5,9 @@
 
     <h1 class="page-header">Dashboard</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
         {% bootstrap_form form %}
     <button class="btn btn-default" type="submit">Save</button>
     </form>

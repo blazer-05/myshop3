@@ -246,7 +246,6 @@ LOGIN_REDIRECT_URL = '/accounts/profile/' # редирект после успе
 LOGIN_URL = '/accounts/login/'
 
 
-
 # НАстройки для django-allauth - добавление своих полей
 ACCOUNT_FORMS = {
 

@@ -25,8 +25,9 @@ class Newsletter(models.Model):
 
     subject = models.CharField(max_length=250, verbose_name='Заголовок')
     body = models.TextField(verbose_name='Содержимое')
-    email = models.ManyToManyField(NewsletterUser, verbose_name='email')
+    users_email = models.ManyToManyField(NewsletterUser, verbose_name='email')
     status = models.IntegerField(choices=EMAIL_STATUS_CHOICES, verbose_name='Статус')
+    file = models.FileField(upload_to='newsletter_files/%Y/%m/%d', blank=True, verbose_name='Файл')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
 

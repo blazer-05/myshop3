@@ -25,4 +25,8 @@ class NewsletterCreationForm(forms.ModelForm):
 
     class Meta:
         model = Newsletter
-        fields = ['subject', 'body', 'email', 'status']
+        fields = ['subject', 'body', 'users_email', 'file', 'status']
+
+        widgets = {
+            'users_email': forms.CheckboxSelectMultiple(attrs={'class': 'checkbox'})
+        }

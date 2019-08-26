@@ -6,6 +6,7 @@ from profiles.views import (user_profile,
                             my_wish_list,
                             my_wish_list_add,
                             delete_my_wish_list,
+
                             )
 
 urlpatterns = [

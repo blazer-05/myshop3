@@ -49,6 +49,53 @@ color: #999;
 }
 
 
+.TriSea-technologies-Switch > input[type="checkbox"] {
+    display: none;
+}
+
+.TriSea-technologies-Switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative;
+    width: 40px;
+}
+
+.TriSea-technologies-Switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.TriSea-technologies-Switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.TriSea-technologies-Switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.TriSea-technologies-Switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+
+
+
 :focus::-webkit-input-placeholder {color: transparent}
 :focus::-moz-placeholder          {color: transparent}
 :focus:-moz-placeholder           {color: transparent}
@@ -108,9 +155,11 @@ color: #999;
                             <div class="well pro_left_ii" style="background: #fff;">
                                 <ul class="nav nav-tabs  nav-stacked">
                                     <li class="active"><a data-toggle="tab" href="#info">MY INFO</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">NEWSLETTER</a></li>
                                     <li><a href="{% url 'my_orders' %}">MY ORDERS <span class="badge">{{ my_order_count }}</span></a></li>
-{#                                    <li><a data-toggle="tab" href="#menu2">MY WISH LIST</a></li>#}
                                     <li><a href="{% url 'my_wish_list' %}">MY WISH LIST <span class="badge">{{ prod_count }}</span></a></li>
+{#                                    <li><a href="{% url 'settings' %}">SETTINGS</a></li>#}
+{#                                    <li><a data-toggle="tab" href="#menu2">SETTINGS</a></li>#}
                                     <li><a href="{% url 'user_profile_edit' %}">EDIT PROFILE</a></li>
                                     <li><a href="{% url 'account_change_password' %}">CHANGE PASSWORD</a></li>
                                     <li><a href="{% url 'account_logout' %}">LOGOUT</a></li>
@@ -222,88 +271,90 @@ color: #999;
 
                                     </div> <!-- card.// -->
                                 </div>
-{#                                <div id="menu1" class="tab-pane fade">#}
-{#                                    <div class="well" style="background:#fff;">#}
-{#                                        <h4>Change Password</h4>#}
-{#                                        <hr>#}
-{#                                        <label>Current Password</label>#}
-{#                                        <form>#}
-{#                                            <div class="form-group pass_show">#}
-{#                                                <input type="password" value="" class="form-control"#}
-{#                                                       placeholder="Current Password">#}
-{#                                            </div>#}
-{#                                            <label>New Password</label>#}
-{#                                            <div class="form-group pass_show">#}
-{#                                                <input type="password" value="" class="form-control"#}
-{#                                                       placeholder="New Password">#}
-{#                                            </div>#}
-{#                                            <label>Confirm Password</label>#}
-{#                                            <div class="form-group pass_show">#}
-{#                                                <input type="password" value="" class="form-control"#}
-{#                                                       placeholder="Confirm Password">#}
-{#                                            </div>#}
-{#                                            <hr>#}
-{#                                            <div class="form-group pass_show">#}
-{#                                                <input type="submit" class="btn btn-info" value="submit">#}
-{#                                            </div>#}
-{#                                        </form>#}
-{#                                    </div>#}
-{#                                </div>#}
-                                <div id="menu2" class="tab-pane fade">
+
+                                <div id="menu1" class="tab-pane fade">
                                     <div class="well" style="background:#fff;">
-                                        <h3>MY WISH LIST</h3>
+                                        <h4>SUBSCRIBE</h4>
                                         <hr>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-hover bmw">
-                                                <thead>
-                                                    <tr>
-                                                        <td class="text-center">Images</td>
-                                                        <td class="text-left">Product Name</td>
-                                                        <td class="text-center">Quantity</td>
-                                                        <td class="text-right">Unit Price</td>
-                                                        <td class="text-right">Total</td>
-                                                        <td class="text-right">Action</td>
-                                                    </tr>
-                                                </thead>
-                                                {% for item in request.cart.cartproduct_set.all %}
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-center">
-                                                            <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
-                                                        </td>
-                                                        <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
-                                                        <td class="text-center">{{ item.quantity }}</td>
-                                                        <td class="text-right">&#8381; {{ item.product.price }}</td>
-                                                        <td class="text-right">&#8381; {{ item.discount_price }}</td>
-                                                        <td class="text-right">
-                                                            <button class="btn btn-primary" data-toggle="tooltip" title="Add to Cart" type="button">
-                                                                <i class="fa fa-shopping-cart"></i>
-                                                            </button>
-                                                            <a href="#" class="btn btn-danger" data-toggle="tooltip" title="Remove">
-                                                                <i class="fa fa-times"></i>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                                {% endfor %}
-                                                <tfoot>
-                                                    <tr>
-                                                        <td class="text-right" colspan="4">
-                                                            <strong>Total:</strong>
-                                                        </td>
-                                                        <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-right" colspan="4">
-                                                            <strong>Total amount:</strong>
-                                                        </td>
-                                                        <td class="text-right">{{ request.cart.count_products }} шт.</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12 ">
+                                                    <div class="panel panel-default">
+                                                        <!-- Default panel contents -->
+
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">
+                                                                Subscribe to Email Newsletter
+                                                                <div class="TriSea-technologies-Switch pull-right">
+                                                                    <input id="TriSeaSuccess" name="TriSea1" type="checkbox"/>
+                                                                    <label for="TriSeaSuccess" class="label-success"></label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                     </div>
                                 </div>
+
+{#                                <div id="menu2" class="tab-pane fade">#}
+{#                                    <div class="well" style="background:#fff;">#}
+{#                                        <h3>MY WISH LIST</h3>#}
+{#                                        <hr>#}
+{#                                        <div class="table-responsive">#}
+{#                                            <table class="table table-bordered table-hover bmw">#}
+{#                                                <thead>#}
+{#                                                    <tr>#}
+{#                                                        <td class="text-center">Images</td>#}
+{#                                                        <td class="text-left">Product Name</td>#}
+{#                                                        <td class="text-center">Quantity</td>#}
+{#                                                        <td class="text-right">Unit Price</td>#}
+{#                                                        <td class="text-right">Total</td>#}
+{#                                                        <td class="text-right">Action</td>#}
+{#                                                    </tr>#}
+{#                                                </thead>#}
+{#                                                {% for item in request.cart.cartproduct_set.all %}#}
+{#                                                <tbody>#}
+{#                                                    <tr>#}
+{#                                                        <td class="text-center">#}
+{#                                                            <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />#}
+{#                                                        </td>#}
+{#                                                        <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>#}
+{#                                                        <td class="text-center">{{ item.quantity }}</td>#}
+{#                                                        <td class="text-right">&#8381; {{ item.product.price }}</td>#}
+{#                                                        <td class="text-right">&#8381; {{ item.discount_price }}</td>#}
+{#                                                        <td class="text-right">#}
+{#                                                            <button class="btn btn-primary" data-toggle="tooltip" title="Add to Cart" type="button">#}
+{#                                                                <i class="fa fa-shopping-cart"></i>#}
+{#                                                            </button>#}
+{#                                                            <a href="#" class="btn btn-danger" data-toggle="tooltip" title="Remove">#}
+{#                                                                <i class="fa fa-times"></i>#}
+{#                                                            </a>#}
+{#                                                        </td>#}
+{#                                                    </tr>#}
+{#                                                </tbody>#}
+{#                                                {% endfor %}#}
+{#                                                <tfoot>#}
+{#                                                    <tr>#}
+{#                                                        <td class="text-right" colspan="4">#}
+{#                                                            <strong>Total:</strong>#}
+{#                                                        </td>#}
+{#                                                        <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>#}
+{#                                                    </tr>#}
+{#                                                    <tr>#}
+{#                                                        <td class="text-right" colspan="4">#}
+{#                                                            <strong>Total amount:</strong>#}
+{#                                                        </td>#}
+{#                                                        <td class="text-right">{{ request.cart.count_products }} шт.</td>#}
+{#                                                    </tr>#}
+{#                                                </tfoot>#}
+{#                                            </table>#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+
                             </div>
                         </div>
 

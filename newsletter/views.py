@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
+from django.contrib.admin.views.decorators import staff_member_required
 
 from myshop3 import local_settings
 from .models import NewsletterUser, Newsletter
@@ -31,10 +32,10 @@ def subscribe(request):
         to_email = [email]
         with open(local_settings.BASE_DIR + '/newsletter/templates/newsletter/user_email/sign_up_email.txt') as f:
             signup_message = f.read()
-        messages = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
+        messages_sub = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
         html_template = get_template('newsletter/user_email/sign_up_email.html').render()
-        messages.attach_alternative(html_template, 'text/html')
-        messages.send()
+        messages_sub.attach_alternative(html_template, 'text/html')
+        messages_sub.send()
 
     return JsonResponse({'message': message}, status=201)
 
@@ -69,19 +70,23 @@ def newsletter_unsubscribe(request):
     return render(request, 'newsletter/unsubscribe.html', context)
 
 
+@staff_member_required # этот декоратор закрывает доступ к странице всех кроме superuser
 def control_newsletter(request):
     '''Рассылка'''
-    form = NewsletterCreationForm(request.POST or None)
+    form = NewsletterCreationForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
         instance = form.save()
         newsletter = Newsletter.objects.get(id=instance.id)
-        if newsletter.status == 'Published':
+        if newsletter.status == Newsletter.EMAIL_STATUS_CHOICES.Published:
             subject = newsletter.subject
             body = newsletter.body
             from_email = local_settings.DEFAULT_FROM_EMAIL
-            for email in newsletter.email.all():
-                send_mail(subject=subject, from_email=from_email, recipient_list=[email], message=body, fail_silently=True)
+            for email in newsletter.users_email.all():
+                # send_mail(subject=subject, from_email=from_email, recipient_list=[email.email], message=body, fail_silently=True)
+                mail = EmailMultiAlternatives(subject, body, from_email, [email.email])
+                mail.attach_file(instance.file.path)
+                mail.send(fail_silently=True)
 
     context = {
         'form': form
@@ -92,9 +97,9 @@ def control_newsletter(request):
 
 def control_newsletter_list(request):
     '''Список всех рассылок'''
-    newsletters = Newsletter.objects.all()
+    newsletters = Newsletter.objects.all().order_by('-created')
 
-    paginator = Paginator(newsletters, 2)
+    paginator = Paginator(newsletters, 20)
     page = request.GET.get('page')
     newsletters = paginator.get_page(page)
 
