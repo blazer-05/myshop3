@@ -1,7 +1,9 @@
+import datetime
 from django.db import models
 from model_utils import Choices  # https://django-model-utils.readthedocs.io/en/latest/utilities.html
 from django.urls import reverse
 from mptt.models import MPTTModel
+from django.utils import timezone
 
 from shop.models import Product
 from django.utils.safestring import mark_safe
@@ -81,6 +83,11 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('news:newsdetails', kwargs={'slug': self.slug})
+
+    '''Этим методом можно узнать была ли данная статья опубликована недавно, 
+    например за последние 7 дней (возвращает True/Folse). https://youtu.be/w4nrT7emiVc пример смотреть с 1:33:10'''
+    def was_published_recently(self):
+        return self.created >= (timezone.now() - datetime.timedelta(days=7))
 
 
 class Review(models.Model):

@@ -1,3 +1,15 @@
+// Скрипт подписки/отписки на новости из личного кабинета.
+jQuery(document).ready(function ($) {
+  $('#TriSeaSuccess').on('change', function (el) {
+    $.ajax({
+      url: "/accounts/profile/subscribe/",
+      type: "POST",
+      data: {
+        need_to_subscribe: $(this).is(":checked") ? '1' : '',
+      },
+    });
+  });
+});
 
 // Скрипт подтверждение удаления товара
 $('#delete_my_orders').click(function () {

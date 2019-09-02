@@ -1,5 +1,5 @@
-
 from datetime import datetime
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
@@ -12,14 +12,19 @@ from info.forms import ReviewForm, ReviewFormCaptcha, EditReviewForm
 from info.models import News, Review
 
 
-
 def newslist(request):
     ''' Вывод списка новостей '''
 
-    '''Использование annotate (with_comments_count()) для вывода в шаблоне info/list.html количество комментариев к посту {{ list.comments_count }} без запросов к бд'''
+    '''Использование annotate (with_comments_count()) для вывода в шаблоне info/list.html 
+    количество комментариев к посту {{ list.comments_count }} без запросов к бд'''
     title = 'Список новостей'
+
+    #current_year = timezone.now().year # определяем текущий год
+    '''в фильтр добавляем created__year=current_year - говорим отобразить посты за текущий год, если нужно за прошлый год, 
+    то created__year=current_year - 1. на данный момент не используется эта выборка.'''
     news_list = News.objects.filter(is_active=True).with_comments_count()
-    paginator = Paginator(news_list, 2)
+
+    paginator = Paginator(news_list, 10)
     page = request.GET.get('page')
     news_list = paginator.get_page(page)
 

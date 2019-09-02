@@ -6,6 +6,7 @@ from profiles.views import (user_profile,
                             my_wish_list,
                             my_wish_list_add,
                             delete_my_wish_list,
+                            subscribe,
 
                             )
 
@@ -17,6 +18,7 @@ urlpatterns = [
     path('edit/', user_profile_edit, name='user_profile_edit'),
     path('delete/<int:pk>/delete_my_orders/', delete_my_orders, name='delete_my_orders'),
     path('delete/<int:pk>/delete_my_wish_list/', delete_my_wish_list, name='delete_my_wish_list'),
+    path('subscribe/', subscribe, name='user_profile_subscribe'),
 
 
 ]

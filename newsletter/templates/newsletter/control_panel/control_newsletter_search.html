@@ -1,0 +1,61 @@
+{% extends 'newsletter/control_panel/control_base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="row">
+            <div class="col-sm-10">
+                <h1 class="page-header">Newsletter Search Results</h1>
+            </div>
+        </div>
+
+        <h2>{% if search_newsletter %}По запросу "{{ query }}" найдено {{ count_newsletter }} результатов. {% else %}По запросу "{{ query }}" ничего не найдено.{% endif %}</h2><br><br>
+
+        {% if search_newsletter %}
+        <div class="table-responsive table-hover">
+            <table class="table table-hover">
+                <thead>
+                    <th>id</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody>
+                    {% for newsletter in search_newsletter %}
+                    <tr>
+                        <td>{{ newsletter.id|safe }}</td>
+                        <td><a href="{% url 'newsletter:control_newsletter_detail' pk=newsletter.pk %}">{{ newsletter.subject|safe }}</a></td>
+                        <td>{{ newsletter.get_status_display }}</td>
+                        <td>{{ newsletter.created }}</td>
+                        <td>{{ newsletter.updated }}</td>
+                        <td><a href="{% url 'newsletter:control_newsletter_edit' pk=newsletter.pk %}"><button class="btn btn-warning">Edit</button></a></td>
+                        <td><a href="{% url 'newsletter:control_newsletter_delete' pk=newsletter.pk %}"><button class="btn btn-danger">Delete</button></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+            <!-- Пагинация -->
+        <div class="pagination-area">
+            <div class="row">
+                <div class="col-xs-5">
+                    <div class="pagination">
+                        <ul>
+                            {% bootstrap_pagination search_newsletter extra=request.GET.urlencode pages_to_show=3 %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

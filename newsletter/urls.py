@@ -6,7 +6,11 @@ from .views import (
     control_newsletter_detail,
     control_newsletter_edit,
     control_newsletter_delete,
+    control_newsletter_search,
+
     )
+
+app_name = 'newsletter'
 
 urlpatterns = [
     path('subscribe/', subscribe, name='subscribe'),
@@ -16,5 +20,6 @@ urlpatterns = [
     path('dashboard/detail/<int:pk>/', control_newsletter_detail, name='control_newsletter_detail'),
     path('dashboard/edit/<int:pk>/', control_newsletter_edit, name='control_newsletter_edit'),
     path('dashboard/delete/<int:pk>/', control_newsletter_delete, name='control_newsletter_delete'),
+    path('dashboard/search/', control_newsletter_search, name='control_newsletter_search'),
 
 ]

@@ -3,12 +3,32 @@
 
 {% block content %}
 
-    <h1 class="page-header">Dashboard</h1>
+    <h1 class="page-header">Delete Newsletter</h1>
 
     <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
+
+    <input type="button" value="Выделить все" onclick="check(this.form.users_email,1)">
+    <input type="button" value="Снять выделение" onclick="check(this.form.users_email,0)">
+    <br><br>
+
     <button class="btn btn-danger" type="submit">Delete</button>
     </form>
+
+    <!-- Выделить/Снять выделение чекбоксов -->
+    <script type="text/javascript">
+        function check(field, flag) {
+            if (flag == "1") {
+                for (i = 0; i < field.length; i++) {
+                    field[i].checked = true;
+                }
+            } else {
+                for (i = 0; i < field.length; i++) {
+                    field[i].checked = false;
+                }
+            }
+        }
+    </script>
 
 {% endblock %}

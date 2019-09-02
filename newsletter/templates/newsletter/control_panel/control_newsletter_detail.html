@@ -10,11 +10,12 @@
         <div class="page-header">
             <h1>{{ newsletter.subject }}</h1>
         </div>
-        {{ newsletter.body }}
+        {{ newsletter.body|safe }}
+        <br>
         <div class="col-sm-8 col-sm-offset-4">
-            <div class="col-sm-2"><a href="{% url 'control_newsletter_edit' pk=newsletter.pk %}"><button class="btn btn-warning">Edit</button></a></div>
-            <div class="col-sm-2"><a href="{% url 'control_newsletter_delete' pk=newsletter.pk %}"><button class="btn btn-danger">Delete</button></a></div>
-            <div class="col-sm-2"><a href="{% url 'control_newsletter' %}"><button class="btn btn-success">New Newsletter</button></a></div>
+            <div class="col-sm-2"><a href="{% url 'newsletter:control_newsletter_edit' pk=newsletter.pk %}"><button class="btn btn-warning">Edit</button></a></div>
+            <div class="col-sm-2"><a href="{% url 'newsletter:control_newsletter_delete' pk=newsletter.pk %}"><button class="btn btn-danger">Delete</button></a></div>
+            <div class="col-sm-2"><a href="{% url 'newsletter:control_newsletter' %}"><button class="btn btn-success">New Newsletter</button></a></div>
         </div>
     </div>
 

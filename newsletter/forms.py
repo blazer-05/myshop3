@@ -1,4 +1,6 @@
 from django import forms
+from django_summernote.widgets import SummernoteWidget
+
 from .models import NewsletterUser, Newsletter
 
 
@@ -28,5 +30,27 @@ class NewsletterCreationForm(forms.ModelForm):
         fields = ['subject', 'body', 'users_email', 'file', 'status']
 
         widgets = {
-            'users_email': forms.CheckboxSelectMultiple(attrs={'class': 'checkbox'})
+            #'users_email': forms.SelectMultiple(attrs={'size': 10, 'class': 'special'}),
+            'users_email': forms.CheckboxSelectMultiple(),
+            'body': SummernoteWidget(attrs={
+                'summernote': {
+                    'airMode': False,
+                    'width': '100%',
+                    'height': '500',
+                    # 'toolbar': [
+                    #     ['style', ['bold', 'italic', 'underline', 'clear']],
+                    #     ['font', ['strikethrough', 'superscript', 'subscript']],
+                    #     ['fontsize', ['fontsize']],
+                    #     ['color', ['color']],
+                    #     ['para', ['ul', 'ol', 'paragraph']],
+                    #     ['height', ['height']],
+                    #     ['misc', ['codeview']],
+                    # ],
+
+                },
+
+            }),
+
         }
+
+

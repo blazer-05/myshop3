@@ -3005,3 +3005,13 @@ blockquote {
     height: 40px;
     display: inline-block;
 }
+
+/* Мигающий текст новой новости, выводится в разделе новости из модели News - методом was_published_recently() */
+ .blink {
+  animation: blink 2s infinite; /* Параметры анимации */
+ }
+ @keyframes blink {
+  from { opacity: 1; /* Непрозрачный текст */ }
+  to { opacity: 0; /* Прозрачный текст */ }
+ }
+

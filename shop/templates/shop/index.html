@@ -177,6 +177,7 @@
                                                     <span class="postdate updated">{{ list.created }}</span>
                                                     <span class="view">Просмотры: {{ list.count }}</span>
                                                     <span class="comment">Комментарии: {{ list.comments.count }}</span>
+                                                    <span style="color: red" class="blink">{% if list.was_published_recently %}Новая статья{% endif %}</span>
                                                 </div>
 			                    				<p class="posts-short-brif" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:25|safe }}</p>
 			                    				<a href="{{ list.get_absolute_url }}" class="posts-read-more">Read more ...</a>

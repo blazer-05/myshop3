@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.decorators.http import require_http_methods
 
+from newsletter.models import NewsletterUser
 from profiles.forms import EditProfileForm
 from orders.models import Order
 from profiles.models import Profile
@@ -38,6 +39,10 @@ def user_profile(request):
     context['ip'] = ip
     context['prod_count'] = prod_count
     context['my_order_count'] = my_order_count
+
+    '''Относится к подписке на рассылку новостей из личного кабинета (шаблон - user_profiles.html
+    блок html кода id="menu1" - проверка по переменной{% if subscribe == True %}). Для переключателя'''
+    context['subscribe'] = NewsletterUser.objects.filter(email=request.user.email).exists()
 
     return render(request, 'profiles/user_profiles.html', context)
 
@@ -149,3 +154,16 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 password_change = login_required(CustomPasswordChangeView.as_view())
+
+
+@login_required
+def subscribe(request):
+    '''Подписка на рассылку новостей из личного кабинета (шаблон - user_profiles.html)'''
+    if request.method == 'POST':
+        need_to_subscribe = request.POST.get('need_to_subscribe')
+        if need_to_subscribe:
+            NewsletterUser.objects.get_or_create(email=request.user.email)
+        else:
+            NewsletterUser.objects.filter(email=request.user.email).delete()
+
+    return HttpResponse(status=200)

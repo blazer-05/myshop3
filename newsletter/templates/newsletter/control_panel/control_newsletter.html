@@ -3,13 +3,75 @@
 
 {% block content %}
 
-    <h1 class="page-header">Dashboard</h1>
+    <h1 class="page-header">Add Newsletter</h1>
 
-    <form method="post" enctype="multipart/form-data">
+    <form name="select_all" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         {% bootstrap_form form %}
-    <button class="btn btn-default" type="submit">Save</button>
+
+        <input type="button" value="Выделить все" onclick="check(this.form.users_email,1)">
+        <input type="button" value="Снять выделение" onclick="check(this.form.users_email,0)">
+        <br><br>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+
     </form>
+<br>
+    <!-- Выделить/Снять выделение чекбоксов -->
+    <script type="text/javascript">
+        function check(field, flag) {
+            if (flag == "1") {
+                for (i = 0; i < field.length; i++) {
+                    field[i].checked = true;
+                }
+            } else {
+                for (i = 0; i < field.length; i++) {
+                    field[i].checked = false;
+                }
+            }
+        }
+    </script>
+
+    <div class="progress">
+        <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+             aria-valuemax="100" style="width: 0%;">
+            0%
+        </div>
+    </div>
+
+
+    <hr>
+
+<div class="container pull-left">
+    <div class='row'>
+        <div class='col-md-12'>
+        {% if templates %}
+            <div class="panel-group" id="accordion">
+                {% for tpl in templates %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#{{ tpl.id }}">
+                                    {{ tpl.name }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="{{ tpl.id }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <textarea rows="30" cols="135" name="text">{{ tpl.text }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+            {% else %}
+            <p>Вы пока не добавили ни одного шаблона!</p>
+        {% endif %}
+    </div>
+</div>
+
+
 
 {% endblock %}

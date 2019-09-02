@@ -37,3 +37,19 @@ class Newsletter(models.Model):
 
     def __str__(self):
         return self.subject
+
+
+class Template(models.Model):
+    '''email шаблоны'''
+    name = models.CharField(max_length=250, verbose_name='Название')
+    text = models.TextField(blank=True, verbose_name='Шаблон')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
+
+    class Meta:
+        verbose_name = 'Шаблон'
+        verbose_name_plural = 'Шаблоны'
+
+    def __str__(self):
+        return self.name

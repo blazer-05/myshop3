@@ -5,9 +5,10 @@ from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Q
 
 from myshop3 import local_settings
-from .models import NewsletterUser, Newsletter
+from .models import NewsletterUser, Newsletter, Template
 from .forms import NewsletterUserSignUpForm, NewsletterCreationForm
 
 
@@ -70,7 +71,7 @@ def newsletter_unsubscribe(request):
     return render(request, 'newsletter/unsubscribe.html', context)
 
 
-@staff_member_required # этот декоратор закрывает доступ к странице всех кроме superuser
+@staff_member_required(login_url='https://google.com') # этот декоратор закрывает доступ к странице всех кроме superuser
 def control_newsletter(request):
     '''Рассылка'''
     form = NewsletterCreationForm(request.POST or None, request.FILES or None)
@@ -85,11 +86,15 @@ def control_newsletter(request):
             for email in newsletter.users_email.all():
                 # send_mail(subject=subject, from_email=from_email, recipient_list=[email.email], message=body, fail_silently=True)
                 mail = EmailMultiAlternatives(subject, body, from_email, [email.email])
-                mail.attach_file(instance.file.path)
+                if newsletter.file:
+                    mail.attach_file(instance.file.path)
+                mail.content_subtype = 'html'
                 mail.send(fail_silently=True)
 
     context = {
-        'form': form
+        'form': form,
+        'templates': Template.objects.filter(is_active=True),
+
     }
 
     return render(request, 'newsletter/control_panel/control_newsletter.html', context)
@@ -135,7 +140,7 @@ def control_newsletter_edit(request, pk):
                 for email in newsletter.email.all():
                     send_mail(subject=subject, from_email=from_email, recipient_list=[email], message=body,
                               fail_silently=True)
-            return redirect('control_newsletter_detail', pk=newsletter.pk)
+            return redirect('newsletter:control_newsletter_detail', pk=newsletter.pk)
 
     else:
         form = NewsletterCreationForm(instance=newsletter)
@@ -154,7 +159,7 @@ def control_newsletter_delete(request, pk):
         form = NewsletterCreationForm(request.POST, instance=newsletter)
         if form.is_valid():
             newsletter.delete()
-            return redirect('control_newsletter_list')
+            return redirect('newsletter:control_newsletter_list')
     else:
         form = NewsletterCreationForm(instance=newsletter)
 
@@ -163,3 +168,36 @@ def control_newsletter_delete(request, pk):
     }
 
     return render(request, 'newsletter/control_panel/control_newsletter_delete.html', context)
+
+
+def control_newsletter_search(request):
+    '''Поиск по рассылкам'''
+    query = request.GET.get('q')
+
+    '''Проверяем, если запрос был (http://localhost:8001/dashboard/search/) то выводим пустой кверисет'''
+    if query:
+        search_newsletter = Newsletter.objects.filter(
+            Q(id__icontains=query)|
+            Q(subject__icontains=query)|
+            Q(body__icontains=query)|
+            Q(status__icontains=query)|
+            Q(created__icontains=query)
+
+        )
+    else:
+        search_newsletter = Newsletter.objects.none()
+
+    count_newsletter = search_newsletter.count()
+
+    paginator = Paginator(search_newsletter, 10)
+    page = request.GET.get('page')
+    search_newsletter = paginator.get_page(page)
+
+    context = {
+        'search_newsletter': search_newsletter,
+        'count_newsletter': count_newsletter,
+        'query': query,
+
+    }
+
+    return render(request, 'newsletter/control_panel/control_newsletter_search.html', context)

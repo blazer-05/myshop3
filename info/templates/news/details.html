@@ -67,6 +67,7 @@
                         <span class="postdate updated">{{ newsdetails.created }}</span>
                         <span class="view">Просмотрели: {{ newsdetails.count }}</span>
                         <span class="comment">{{ all_comment }} комментарии</span>
+                        <span style="color: red" class="blink">{% if newsdetails.was_published_recently %}Новая статья{% endif %}</span>
                     </div>
                     <br>
                     <div class="single-post-image">
