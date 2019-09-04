@@ -7,7 +7,7 @@ from django.template.loader import get_template
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 
-from myshop3 import local_settings
+from myshop3 import local_settings, settings
 from .models import NewsletterUser, Newsletter, Template
 from .forms import NewsletterUserSignUpForm, NewsletterCreationForm
 
@@ -31,12 +31,17 @@ def subscribe(request):
         subject = 'Thank You For Joining Our Newsletter'
         from_email = local_settings.DEFAULT_FROM_EMAIL
         to_email = [email]
+        site = local_settings.SITES
         with open(local_settings.BASE_DIR + '/newsletter/templates/newsletter/user_email/sign_up_email.txt') as f:
             signup_message = f.read()
         messages_sub = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
         html_template = get_template('newsletter/user_email/sign_up_email.html').render()
         messages_sub.attach_alternative(html_template, 'text/html')
         messages_sub.send()
+
+        '''Письмо админу о подписке на рассылку'''
+        send_mail('Уважаемый админ сайта "{}" '.format(site),
+                  'Адрес эл.почты {} был подписан на новостную рассылку!'.format(to_email), from_email, [from_email])
 
     return JsonResponse({'message': message}, status=201)
 
@@ -54,12 +59,17 @@ def newsletter_unsubscribe(request):
             subject = 'You have unsubscribe'
             from_email = local_settings.DEFAULT_FROM_EMAIL
             to_email = [instance.email]
+            site = local_settings.SITES
             with open(local_settings.BASE_DIR + '/newsletter/templates/newsletter/user_email/unsubscribe_email.txt') as f:
                 signup_message = f.read()
             message_un = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
             html_template = get_template('newsletter/user_email/unsubscribe_email.html').render()
             message_un.attach_alternative(html_template, 'text/html')
             message_un.send()
+
+            '''Письмо админу об отписке на рассылку'''
+            send_mail('Уважаемый админ сайта "{}" '.format(site),
+                      'Адрес эл.почты {} был отписан от новостной рассылки.'.format(to_email), from_email, [from_email])
 
         else:
             messages.warning(request, 'Your email is not in the database')

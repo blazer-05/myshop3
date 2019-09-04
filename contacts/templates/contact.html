@@ -80,7 +80,7 @@
 						<!-- End Map area -->
 
                             <!-- Блок MAIL & WEBSITE, CONTACT, ADDRESS -->
-{#                    {% for adres in address %}#}
+                    {% for adres in address %}
                             <div class="row">
                                 <!-- Boxes de Acoes -->
                                 <div class="col-xs-12 col-sm-6 col-lg-4">
@@ -91,11 +91,11 @@
                                                 <h3 class="title">MAIL & WEBSITE</h3>
                                                 <p>
                                                     <i class="fa fa-envelope" aria-hidden="true"></i> &nbsp
-                                                    {{ address.email_one }}
+                                                    {{ adres.email_one }}
                                                     <br>
                                                     <br>
                                                     <i class="fa fa-globe" aria-hidden="true" style="margin-right: 5px;"></i> &nbsp
-                                                    {{ address.website }}
+                                                    {{ adres.website }}
                                                 </p>
 
                                             </div>
@@ -112,11 +112,11 @@
                                                 <h3 class="title">CONTACT</h3>
                                                 <p>
                                                     <i class="fa fa-mobile" aria-hidden="true"></i> &nbsp
-                                                    {{ address.phone_one }}
+                                                    {{ adres.phone_one }}
                                                     <br>
                                                     <br>
                                                     <i class="fa fa-mobile" aria-hidden="true"></i> &nbsp
-                                                    {{ address.phone_two }}
+                                                    {{ adres.phone_two }}
                                                 </p>
                                             </div>
                                         </div>
@@ -132,7 +132,7 @@
                                                 <h3 class="title">ADDRESS</h3>
                                                 <p>
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp
-                                                     {{ address.address }}
+                                                     {{ adres.address }}
                                                 </p>
                                             </div>
                                         </div>
@@ -141,7 +141,7 @@
                                 </div>
                                 <!-- /Boxes de Acoes -->
                             </div>
-{#                    {% endfor %}#}
+                    {% endfor %}
                             <!-- / Блок MAIL & WEBSITE, CONTACT, ADDRESS -->
 
 

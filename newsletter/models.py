@@ -6,6 +6,7 @@ class NewsletterUser(models.Model):
     '''Модель email подписки'''
     name = models.CharField(max_length=250, blank=True, verbose_name='ФИО')
     email = models.EmailField(verbose_name='email')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
 
     class Meta:

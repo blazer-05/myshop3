@@ -14,7 +14,7 @@ def contact(request):
     '''Обработка формы обратной связи и вывод карты расположения объекта.'''
     context = {}
     map_url = Maps.objects.filter(is_active=True)
-    address = Address.objects.get(id=1)
+    address = Address.objects.filter(is_active=True)
 
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -95,5 +95,6 @@ def backcall(request):
 
 
 def delivery(request):
+    '''Доставка'''
     delivery = Delivery.objects.filter(is_active=True)
     return render(request, 'delivery.html', {'delivery': delivery})

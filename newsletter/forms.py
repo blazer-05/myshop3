@@ -30,6 +30,9 @@ class NewsletterCreationForm(forms.ModelForm):
         fields = ['subject', 'body', 'users_email', 'file', 'status']
 
         widgets = {
+            'subject': forms.TextInput(attrs={'placeholder': 'Headline', 'class': 'form-control', 'required': True}),
+            'status': forms.Select(attrs={'class': 'form-control','required': True}),
+            'file': forms.FileInput(),
             #'users_email': forms.SelectMultiple(attrs={'size': 10, 'class': 'special'}),
             'users_email': forms.CheckboxSelectMultiple(),
             'body': SummernoteWidget(attrs={
