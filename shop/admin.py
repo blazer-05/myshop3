@@ -15,6 +15,7 @@ from shop.models import (
     Bestseller,
     SaleCategory,
     SaleProduct,
+    MiddlwareNotification,
     )
 
 # Функции фильтрации для массовой публикации/снятия с публикации новостей.
@@ -36,6 +37,7 @@ class AlbomInLine(admin.TabularInline):
     model = ProductAlbomImages
     readonly_fields = ['image_img']
     fields = ['image_img', 'name', 'image', 'parent', 'is_active'] # Порядок вывода объектов в карточке товара слева направо.
+    #raw_id_fields = ('product',)
     extra = 0 # Количество видимых полей для добавления картинки
 
 
@@ -50,6 +52,7 @@ class BrandAdmin(admin.ModelAdmin):
 class EntryInline(admin.TabularInline):
     model = Entry
     fields = ('attribute', 'value', 'is_active')
+    #raw_id_fields = ('attribute', 'value',)
     extra = 0 # Количество видимых полей для добавления атрибут/значения
 
 
@@ -75,6 +78,7 @@ class ProductAdmin(SummernoteModelAdmin):
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(MiddlwareNotification)
 
 
 # Класс модели блока SaleProduct
@@ -198,6 +202,9 @@ admin.site.register(
         'slug',
         'is_active',
     ),
+    # filter_horizontal = (
+    #     'attributes',
+    # ),
     readonly_fields = ['image_img', ], # Выводит в карточке товара картинку товара!
     prepopulated_fields = {'slug': ('name',)}, # Автозаполнение поля slug
     mptt_level_indent=20 # Эта настройка задает отступ субкатегории от родительской категории

@@ -1,0 +1,11 @@
+
+
+
+
+<div class="padding-v-xs" data-toggle="buttons">
+    <label class="btn btn-default btn-xs ico{% if widget.attrs.checked %} active{% endif %}">
+        <input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %} />
+        <span class="icon glyphicon glyphicon-ok"></span>
+    </label>
+    <span>{{ widget.label }}</span>
+</div>

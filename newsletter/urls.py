@@ -7,6 +7,7 @@ from .views import (
     control_newsletter_edit,
     control_newsletter_delete,
     control_newsletter_search,
+    control_newsletter_templates,
 
     )
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path('dashboard/edit/<int:pk>/', control_newsletter_edit, name='control_newsletter_edit'),
     path('dashboard/delete/<int:pk>/', control_newsletter_delete, name='control_newsletter_delete'),
     path('dashboard/search/', control_newsletter_search, name='control_newsletter_search'),
+    path('dashboard/templates/', control_newsletter_templates, name='control_newsletter_templates'),
 
 ]

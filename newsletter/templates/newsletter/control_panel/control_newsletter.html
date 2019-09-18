@@ -1,7 +1,9 @@
 {% extends 'newsletter/control_panel/control_base.html' %}
 {% load bootstrap3 %}
 
+
 {% block content %}
+
 
 <div class="container">
 
@@ -20,7 +22,16 @@
             <label for="exampleInputPassword1">Содержимое *</label>
             {{ form.body }}
         </div>
-
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         <div class="form-group">
             <label for="exampleInputEmail1">Email *</label>
             <ul style="list-style: none; margin-left: -40px;">
@@ -63,59 +74,6 @@
         }
     </script>
 
-{#    <div class="progress">#}
-{#        <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"#}
-{#             aria-valuemax="100" style="width: 0%;">#}
-{#            0%#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <script>#}
-{#        $(document).ready(function () {#}
-{##}
-{#            $('form').on('submit', function (event) {#}
-{##}
-{#                event.preventDefault();#}
-{##}
-{#                var formData = new FormData($('form')[0]);#}
-{##}
-{#                $.ajax({#}
-{#                    xhr: function () {#}
-{#                        var xhr = new window.XMLHttpRequest();#}
-{##}
-{#                        xhr.upload.addEventListener('progress', function (e) {#}
-{##}
-{#                            if (e.lengthComputable) {#}
-{##}
-{#                                console.log('Bytes Loaded: ' + e.loaded);#}
-{#                                console.log('Total Size: ' + e.total);#}
-{#                                console.log('Percentage Uploaded: ' + (e.loaded / e.total))#}
-{##}
-{#                                var percent = Math.round((e.loaded / e.total) * 100);#}
-{##}
-{#                                $('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');#}
-{##}
-{#                            }#}
-{##}
-{#                        });#}
-{##}
-{#                        return xhr;#}
-{#                    },#}
-{#                    type: 'POST',#}
-{#                    url: '/upload',#}
-{#                    data: formData,#}
-{#                    processData: false,#}
-{#                    contentType: false,#}
-{#                    success: function () {#}
-{#                        alert('File uploaded!');#}
-{#                    }#}
-{#                });#}
-{##}
-{#            });#}
-{##}
-{#        });#}
-{#    </script>#}
-
     <hr>
 
     <div class="container pull-left">
@@ -146,8 +104,6 @@
             {% endif %}
         </div>
     </div>
-
-
 </div>
 
 {% endblock %}

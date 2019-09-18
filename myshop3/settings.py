@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'profiles',
     'contacts',
     'newsletter',
+    'notifications',    # https://pypi.org/project/django-notifications-hq/#description
+    'smart_selects',    # https://github.com/digi604/django-smart-selects
 
 ]
 
@@ -270,6 +272,9 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+'''Для библиотеки Django Smart Selects'''
+USE_DJANGO_JQUERY = True
 
 
 # Подгружаем настройки из модуля local_settings.py.

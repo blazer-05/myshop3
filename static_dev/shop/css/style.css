@@ -3015,3 +3015,50 @@ blockquote {
   to { opacity: 0; /* Прозрачный текст */ }
  }
 
+
+/* Переопределен bootstrap.min.css:5 добавлен margin-bottom для иконки badge-нотификация в шапке сайта */
+.badge {
+
+  display:inline-block;
+  min-width:10px;
+  padding:3px 7px;
+  font-size:12px;
+  font-weight:700;
+  line-height:1;
+  color:#fff;
+  text-align:center;
+  white-space:nowrap;
+  vertical-align:middle;
+  background-color: #adadad;
+  border-radius:10px;
+  margin-bottom: 10px;
+
+}
+
+/* Стиль фильтров для шаблона фильтров (shop/widgets/checkbox_seleck.html и shop/widgets/checkbox_option.html)*/
+.collapsed-icon-toggle.collapsed .on-closed {
+  display: initial;
+}
+.collapsed-icon-toggle.collapsed .on-opened {
+  display: none;
+}
+.collapsed-icon-toggle .on-closed {
+  display: none;
+}
+.collapsed-icon-toggle .on-opened {
+  display: initial;
+}
+.scroll-v-250px {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+.padding-v-xs {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.btn.ico span.icon {
+  opacity: 0;
+}
+.btn.ico.active span.icon {
+  opacity: 1;
+}

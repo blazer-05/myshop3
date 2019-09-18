@@ -1,9 +1,11 @@
-from django.db.models import Q
+from django.db.models import Q, Prefetch
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from info.views import News, Review
-from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage
-
+from shop.forms import get_filters
+from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, Attribute, Value, MiddlwareNotification
+from notifications.models import Notification
 
 
 def index(request):
@@ -76,16 +78,24 @@ def shop(request):
 
 def shoplist(request, slug):
     '''Получаем и отображаем списком товары принадлежащие данной категории'''
-    context = {}
-    cart = request.cart
     category = Category.objects.get(slug=slug)
-    products = Product.objects.filter(category=category, is_active=True).with_rating().with_in_wishlist(request.user)
+    products = Product.objects.filter(category=category, is_active=True)
+
+    form_filters = get_filters(request, products)
+
+    products = form_filters.filter_queryset(products)
+    products = products.with_rating().with_in_wishlist(request.user)
+
     paginator = Paginator(products, 5)
     page = request.GET.get('page')
     products = paginator.get_page(page)
-    context['category'] = category
-    context['products'] = products
-    context['cart'] = cart
+
+    context = {
+        'filters': form_filters, # фильтр товаров
+        'products': products,
+        'category': category,
+        'cart': request.cart,
+    }
     return render(request, 'shop/shop-list.html', context)
 
 
@@ -100,6 +110,13 @@ def productdetails(request, product_slug):
     all_products = Product.objects.all().exclude(slug=product_slug).order_by('?').with_rating().with_in_wishlist(request.user)[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары) .with_rating() - рейтинг звезд
     products_from_this_category = Product.objects.filter(category=category).order_by('?').with_rating().with_in_wishlist(request.user)[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (товары из этой категории) .with_rating() - рейтинг звезд
     hotdeals = Product.objects.filter(akciya=True, timer=True)
+
+    '''check_for_subscribe - Своего рода фильтр, который смотрит 
+    есть ли уже нотификация созданая для этого пользователя, который ждет этот продукт.'''
+    check_for_subscribe = []
+    if check_for_subscribe:
+        check_for_subscribe = [notification.product for notification in MiddlwareNotification.objects.filter(
+            user_name=request.user, product=product)]
     #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
     context['cart'] = cart
     context['albom'] = albom
@@ -107,6 +124,7 @@ def productdetails(request, product_slug):
     context['category'] = category
     context['hotdeals'] = hotdeals
     context['all_products'] = all_products
+    context['check_for_subscribe'] = check_for_subscribe
     context['products_from_this_category'] = products_from_this_category
 
     #context['attribute_and_value'] = attribute_and_value
@@ -157,4 +175,24 @@ def search(request):
     }
 
     return render(request, 'shop/search.html', context)
+
+
+def notify_create(request):
+    '''Создание нотификации'''
+    product_slug = request.GET.get('product_slug')
+    MiddlwareNotification.objects.create(
+        user_name=request.user,
+        product=Product.objects.get(slug=product_slug)
+        )
+    return JsonResponse({
+        'created': 'Вы подписались на уведомления о поступлении. Как только товар появится, мы Вам сообщим.'
+    })
+
+
+def notify_delete(request):
+    '''Удаление нотификации'''
+    slug = request.GET.get('slug')
+    notification_on_delete = Notification.objects.get(recipient=request.user, description=slug)
+    notification_on_delete.delete()
+    return JsonResponse({'ok': 'ok'})
 

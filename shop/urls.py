@@ -2,7 +2,9 @@ from django.urls import path
 from .views import (index, catalog, catlist, catlinks,
                     shop, shoplist, productdetails,
                     modalproduct,compareproducts,
-                    products_by_brand, search
+                    products_by_brand, search,
+                    notify_create,
+                    notify_delete,
                     )
 
 
@@ -21,6 +23,8 @@ urlpatterns = [
     path('modal-product/<slug>/', modalproduct, name='modal-product'),
     path('compare-products/', compareproducts, name='compare-products'),
     path('search/', search, name='search'),
+    path('notify_create/', notify_create, name='notify_create'),
+    path('notify_delete/', notify_delete, name='notify_delete'),
 
 
 ]

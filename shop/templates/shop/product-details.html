@@ -168,7 +168,9 @@
                                                 <input type="hidden" name="product" value="{{ product.slug }}"/>
                                                 {% if product.stock == 0 %}
                                                     {% else %}
-                                                <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                    {% if product.is_active %}
+                                                        <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                    {% endif %}
                                                 {% endif %}
                                                 {% if request.user.is_authenticated %}
                                                     <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist toch-button toch-wishlist">wishlist
@@ -178,12 +180,28 @@
                                                     <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт" class="toch-button toch-wishlist">wishlist <i class="fa fa-heart-o"></i></a>
                                                 {% endif %}
 {#                                                <button type="submit" class="toch-button toch-wishlist">wishlist</button>#}
-                                                <button type="submit" class="toch-button toch-compare">Compare</button>
+                                                <button type="submit" class="toch-button toch-compare">Compare</button><br>
                                             </div>
                                         </div>
 										<hr />
 {#										<a href="#"><img src="{% static 'shop/img/icon/social.png' %}" alt="#" /></a>#}
 									</form>
+                                    <!-- notification -->
+                                        <p id="subscribed_for_notification"></p>
+                                        {% if not product.is_active and product in check_for_subscribe %}
+                                            <p>Вы подписались на уведомления о поступлении. Как только товар появится, мы Вам сообщим</p>
+                                        {% endif %}
+                                        {% if not product.is_active and product not in check_for_subscribe %}
+                                            <div class="user_subscribed">
+                                                <p class="lead">
+                                                    Товар отсутствует. Если Вы хотите получать уведомления о его
+                                                    поступлении, нажмите на кнопку</p>
+                                                <a href="#" class="subscribe" data-slug="{{ product.slug }}" title="Войдите на сайт">
+                                                    <button class="btn btn-info toch-button toch-add-cart">Уведомить</button>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    <!-- end notification -->
 								</div>
 							</div>
                         </div>
@@ -210,7 +228,7 @@
                                                     {% for entry in product.entry_set.active %}
                                                         <tbody style="border: none">
                                                             <tr>
-                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%">{{ entry.attribute }}</td>
+                                                                <td class="col-xs-6 dots" style="border: 0px; width: 60%"><b>{{ entry.attribute }}</b></td>
                                                                 <td class="col-xs-6" style="border: 0px; width: 60%">{{ entry.value }}</td>
                                                             </tr>
                                                         </tbody>

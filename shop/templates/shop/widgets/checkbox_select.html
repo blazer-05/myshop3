@@ -1,0 +1,37 @@
+<div{% if id %} id="{{ id }}"{% endif %}{% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %}>
+    {% for group, options, index in widget.optgroups %}
+        {% if group %}
+            <h4><a class="accordion-trigger" data-toggle="collapse" href="#div{{ widget.attrs.id }}{{ index }}">{{ group }}</a></h4>
+                <div id="div{{ widget.attrs.id }}{{ index }}" class="collapse in">
+                    <ul class="filter-menu" {% if id %} id="{{ id }}_{{ index }}"{% endif %}>
+        {% endif %}
+        {% for widget in options %}
+            <li>{% include widget.template_name %}</li>
+        {% endfor %}
+        {% if group %}
+                    </ul>
+                </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<hr class="line"/>
+
+
+{#{% for group, options, index in widget.optgroups %}#}
+{#    {% if group %}#}
+{#<label>{{ group }}</label>#}
+{#<a class="pull-right collapsed-icon-toggle" href="#coll-{{ widget.attrs.id }}{{ index }}" data-toggle="collapse">#}
+{#    <span class="glyphicon glyphicon-minus on-opened"></span>#}
+{#    <span class="glyphicon glyphicon-plus on-closed"></span>#}
+{#</a>#}
+{#<br/>#}
+{#<div id="coll-{{ widget.attrs.id }}{{ index }}" class="{% if options|length > 10 %}scroll-v-250px{% endif %} collapse in">#}
+{#    {% endif %}#}
+{#    {% for widget in options %}#}
+{#        {% include widget.template_name %}#}
+{#    {% endfor %}#}
+{#    {% if group %}#}
+{#</div>#}
+{#    {% endif %}#}
+{#{% endfor %}#}
+{#<hr class="line"/>#}

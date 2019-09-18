@@ -84,6 +84,8 @@ def newsletter_unsubscribe(request):
 @staff_member_required(login_url='https://google.com') # этот декоратор закрывает доступ к странице всех кроме superuser
 def control_newsletter(request):
     '''Рассылка'''
+    templates = Template.objects.filter(is_active=True)
+
     form = NewsletterCreationForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
@@ -93,6 +95,7 @@ def control_newsletter(request):
             subject = newsletter.subject
             body = newsletter.body
             from_email = local_settings.DEFAULT_FROM_EMAIL
+            messages.success(request, 'Your messages have been sent successfully.')
             for email in newsletter.users_email.all():
                 # send_mail(subject=subject, from_email=from_email, recipient_list=[email.email], message=body, fail_silently=True)
                 mail = EmailMultiAlternatives(subject, body, from_email, [email.email])
@@ -101,10 +104,12 @@ def control_newsletter(request):
                 mail.content_subtype = 'html'
                 mail.send(fail_silently=True)
 
+        else:
+            messages.warning(request, 'An error has occurred, please try sending a message later.')
+
     context = {
         'form': form,
-        'templates': Template.objects.filter(is_active=True),
-
+        'templates': templates,
     }
 
     return render(request, 'newsletter/control_panel/control_newsletter.html', context)
@@ -211,3 +216,18 @@ def control_newsletter_search(request):
     }
 
     return render(request, 'newsletter/control_panel/control_newsletter_search.html', context)
+
+
+def control_newsletter_templates(request):
+    '''Товарный шаблон для рассылки'''
+    templates = Template.objects.filter(is_active=True)
+    site_url = 'http://myshop3.sharelink.ru:8080'
+
+    context = {
+        'templates': templates,
+        'site_url': site_url,
+
+
+    }
+
+    return render(request, 'newsletter/control_panel/control_newsletter_templates.html', context)

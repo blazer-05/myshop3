@@ -1,14 +1,20 @@
 import mptt
 import random
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Avg, Q, Count, Exists, OuterRef, Value as ExpressionValue
+from django.db.models.signals import post_save
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils import timezone
 from decimal import Decimal
+
+from notifications.signals import notify
+
+from myshop3 import local_settings
 
 
 class Category(MPTTModel):
@@ -18,6 +24,7 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     description = models.TextField(blank=True, verbose_name='Описание')
     img = models.ImageField(upload_to='img_category/%y/%m/%d/', blank=True, verbose_name='Изображение категории')
+    attributes = models.ManyToManyField('Attribute', blank=True, verbose_name='Атрибуты товара')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
@@ -184,6 +191,26 @@ class Product(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.generate_vendor_code()
         super().save(force_insert, force_update, using, update_fields)
+
+
+def product_available_notification(sender, instance, *args, **kwargs):
+    '''Сигнал отвечающий за доставку нотификации'''
+    if instance.is_active:
+        await_for_notify = [notification for notification in MiddlwareNotification.objects.filter(
+            product=instance)]
+        for notification in await_for_notify:
+            notify.send(
+                instance,
+                recipient=[notification.user_name],
+                verb='Уважаемый {0}! {1}, который Вы ждете, поступил'.format(
+                    notification.user_name.username,
+                    instance.title),
+                description=instance.slug,
+                )
+            notification.delete()
+
+
+post_save.connect(product_available_notification, sender=Product)
 
 
 # Модель альбома с изображениями для товаров
@@ -381,5 +408,19 @@ class SaleProduct(MPTTModel):
     # @classmethod
     # def get_sale_product(self):
     #     return self.objects.filter(is_active=True) # Получаем все товары выбранные в админке
+
+
+class MiddlwareNotification(models.Model):
+    '''Нотификация о поступлении товара'''
+    user_name = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    is_notified = models.BooleanField(default=False, verbose_name='Нотификация')
+
+    class Meta:
+        verbose_name = 'Нотификация'
+        verbose_name_plural = 'Нотификации'
+
+    def __str__(self):
+        return 'Нотификация для пользователя "{0}" о поступлении товара "{1}"'.format(self.user_name.username, self.product.title)
 
 

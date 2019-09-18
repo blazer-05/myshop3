@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,9 +32,10 @@ urlpatterns = [
     path('captcha/', include('captcha.urls')),
     path('accounts/', include('profiles.accounts_urls')),
     path('accounts/', include('allauth.urls')),
-
     path('contact/', include('contacts.urls')),
     path('newsletter/', include('newsletter.urls')),
+    path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
+    path('chaining/', include('smart_selects.urls')),
 
 ]
 

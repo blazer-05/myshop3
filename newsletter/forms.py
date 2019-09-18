@@ -11,12 +11,6 @@ class NewsletterUserSignUpForm(forms.ModelForm):
         model = NewsletterUser
         fields = ['email']
 
-        # widgets = {
-        #     'name': forms.TextInput(attrs={'placeholder': 'Your Name', 'class': 'form-control', 'required': False}),
-        #     'email': forms.EmailInput(attrs={'placeholder': 'Please enter your email', 'class': 'form-control', 'required': True}),
-        #
-        # }
-
     def clean_email(self):
         email = self.cleaned_data.get('email')
         return email
@@ -39,7 +33,7 @@ class NewsletterCreationForm(forms.ModelForm):
                 'summernote': {
                     'airMode': False,
                     'width': '100%',
-                    'height': '500',
+                    'height': '800',
                     # 'toolbar': [
                     #     ['style', ['bold', 'italic', 'underline', 'clear']],
                     #     ['font', ['strikethrough', 'superscript', 'subscript']],

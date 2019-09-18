@@ -72,3 +72,49 @@ $(function ($) {
     });
   });
 });
+
+
+/*---------------------
+ price slider
+--------------------- */
+  $(function() {
+    let min_price_el = $("#id_min_price");
+    let max_price_el = $("#id_max_price");
+    let sliderRange = $( "#slider-range" );
+    let minValue = sliderRange.data('min');
+    let maxValue = sliderRange.data('max')
+
+    let updateRangeFields = function (minValue, maxValue) {
+      min_price_el.val(minValue);
+      max_price_el.val(maxValue);
+    };
+
+    let updateSlider = function (min_value, max_value) {
+      sliderRange.slider("option", "values", [ min_value, max_value ]);
+    };
+
+    let bindChangeEvents = function(el) {
+      el
+        .change(function () {
+          updateSlider(min_price_el.val(), max_price_el.val());
+        })
+        .keyup(function () {
+          updateSlider(min_price_el.val(), max_price_el.val());
+        });
+    };
+
+    sliderRange.slider({
+     range: true,
+     min: minValue,
+     max: maxValue,
+     values: [ min_price_el.val(), max_price_el.val() ],
+     slide: function( event, ui ) {
+       updateRangeFields(ui.values[0], ui.values[1])
+     }
+    });
+    updateRangeFields(min_price_el.val(), max_price_el.val());
+    bindChangeEvents(min_price_el);
+    bindChangeEvents(max_price_el);
+  });
+
+

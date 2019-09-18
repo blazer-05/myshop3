@@ -1,0 +1,629 @@
+{% load staticfiles %}
+{% load thumbnail %}
+{% load bootstrap3 %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+	<meta name="x-apple-disable-message-reformatting">
+	<title>TehnoStyle</title>
+
+
+	<style type="text/css">
+		html {
+			-webkit-text-size-adjust:none;
+			-ms-text-size-adjust:none;
+		}
+
+		@media only screen and (max-device-width:660px), only screen and (max-width:660px) {
+			.table660 {
+				width:100% !important;
+			}
+
+			.mob_100 {
+				width:100% !important;
+			}
+
+			.mob_center {
+				text-align:center !important;
+			}
+
+			.mob_center_bl {
+				float:none !important;
+				display:block !important;
+				margin:0 auto;
+			}
+
+			.mob_hidden {
+				display:none !important;
+			}
+		}
+
+		@media only screen and (max-width:660px) {
+			.table660 {
+				width:100% !important;
+			}
+
+			.mob_no_border {
+				border:none !important;
+			}
+		}
+
+		.mob_link a {
+			text-decoration:none;
+			color:#b1bac3;
+		}
+
+		.preheader {
+			display:none !important;
+		}
+	</style>
+	<style type="text/css">
+		@-ms-viewport {
+			width:device-width
+		}
+	</style>
+	<!--[if (gte mso 9)|(IE)]>
+	<style type="text/css">
+		.not_for_outlook {
+			mso-hide:all !important;
+			display:none !important;
+			font-size:0;
+			max-height:0;
+			line-height:0;
+			mso-hide:all;
+		}
+	</style>
+	<![endif]-->
+</head>
+
+<body style="padding:0px;margin:0px;">
+
+<div id="mailsub" class="notification" align="center" style="word-break:normal;-webkit-text-size-adjust:none; -ms-text-size-adjust: none;line-height: normal;">
+	<table width="660" border="0" cellspacing="0" cellpadding="0" style="line-height: normal;">
+		<tr>
+			<td align="center" bgcolor="#f8f8f8">
+				<table align="center" cellpadding="0" border="0" class="table660" style="border-collapse:collapse;">
+					<tr>
+						<td width="660" align="center" class="table660" style="padding:0;">
+							<table width="100%" cellpadding="0" border="0" style="border-collapse:collapse;">
+
+								<tr>
+									<td align="center" bgcolor="#ffffff" style="padding:0 0 50px;">
+
+										<table width="100%" cellpadding="0" border="0" style="border-collapse:collapse;">
+
+
+											<tr>
+												<td align="center" style="padding:15px 0 0;">
+													<table border="0" cellspacing="0" cellpadding="0" width="91%" style="max-width: 600px;">
+														<tr>
+															<td align="left">
+																<div style="line-height: 12px;">
+																	<span style="font-family:Arial, Helvetica, sans-serif; font-size: 12px; color: #bbbbbb; line-height: 12px;">Успейте заказать, пока товар есть в наличии</span>
+																</div>
+																<!-- padding -->
+																<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+															</td>
+															<td align="right">
+																<div style="line-height: 12px;">
+																	<a href="{{ site_url }}{% url 'newsletter:control_newsletter_templates' %}" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 12px; color: #99ccff; line-height: 12px; text-decoration: underline;">Веб-версия</a>
+																</div>
+																<!-- padding -->
+																<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+															</td>
+														</tr>
+													</table>
+													<!--[if !mso]><!-->
+													<div class="preheader" style="font-size:0px;color:transparent;opacity:0;">
+
+													</div>
+													<!--<![endif]-->
+												</td>
+											</tr>
+
+											<tr>
+												<td align="center" style="padding:0 0 30px;">
+													<table width="91%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; max-width: 600px">
+														<tr>
+															<td align="center" valign="top" style="font-size:0;">
+																<!--[if mso]><table align="center" cellpadding="0" border="0"><tr><td width="300" align="left" valign="top"><![endif]-->
+																<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																				<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																				<a class="mob_center_bl" href="#" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 11px; color: #0b2d75; line-height: 16px; text-transform: uppercase; text-decoration: underline; float: left"><img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/logo8.png' %}" width="290" height="55" alt="tehnostyle" border="0" style="display: inline;"></a>
+																			</td>
+																		</tr>
+																	</table>
+																</div><!--[if mso]></td><td width="300" align="right" valign="middle"><![endif]-->
+																<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" height="70" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="bottob" style="font-size: 14px; line-height: 18px;">
+																				<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																				<div style="line-height: 24px;">
+																					<a href="tel:+78007751111" class="mob_center_bl" style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 24px; color: #4295d1; font-weight: bold;line-height: 24px; float: right; text-decoration: none"><img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/truba.png' %}" border="0" style="display: inline" width="19" height="19" alt="">&nbsp;8<span style="color: #ffffff; font-size: 0px; line-height: 0px;">&zwnj;</span> 80<span style="color: #ffffff; font-size: 0px; line-height: 0px;">&zwnj;</span>0 775 11 1<span style="color: #ffffff; font-size: 0px; line-height: 0px;">&zwnj;</span>1</a>
+																				</div>
+																			</td>
+																		</tr>
+																	</table>
+																</div>
+																<!--[if mso]></td></tr></table><![endif]-->
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+
+											<tr>
+												<td align="center" style="padding:0;">
+													<table border="0" cellspacing="0" cellpadding="0" width="100%">
+														<tr>
+															<td align="center" bgcolor="#f47920" style="border-bottom-width: 3px; ">
+																<table border="0" cellspacing="0" cellpadding="0" width="91%" style="max-width: 600px">
+																	<tr>
+																		<td align="center" valign="top" style="font-size: 0px; line-height: 0px;">
+																			<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																					<tr>
+																						<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																							<!-- padding -->
+																							<div style="height: 5px; line-height: 5px; font-size: 4px;">&nbsp;</div>
+																							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																								<tr>
+																									<td align="center" valign="middle" height="28">
+																										<div style="line-height: 28px;">
+                                                                                                            <a href="http://myshop3.sharelink.ru:8080{% url 'shop:catalog' %}" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #ffffff; line-height: 28px; text-decoration: none; display: block">Каталог</a>
+																										</div>
+																									</td>
+																									<td align="center" valign="middle" height="28">
+																										<div style="line-height: 28px;">
+                                                                                                            <a href="http://myshop3.sharelink.ru:8080{% url 'contacts:about' %}" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #ffffff; line-height: 28px; text-decoration: none; display: block">О нас</a>
+																										</div>
+																									</td>
+																								</tr>
+																							</table>
+																							<!-- padding -->
+																							<div style="height: 5px; line-height: 5px; font-size: 4px;">&nbsp;</div>
+																						</td>
+																					</tr>
+																				</table>
+																			</div><!--[if (gte mso 9)|(IE)]></td><td valign="top" width="300"><![endif]-->
+																			<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																					<tr>
+																						<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																							<!-- padding -->
+																							<div style="height: 5px; line-height: 5px; font-size: 4px;">&nbsp;</div>
+																							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																								<tr>
+																									<td align="center" valign="middle" height="28">
+																										<div style="line-height: 28px;">
+																											<a href="http://myshop3.sharelink.ru:8080{% url 'contacts:delivery' %}" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #ffffff; line-height: 28px; text-decoration: none; display: block">Доставка</a>
+																										</div>
+																									</td>
+																									<td align="center" valign="middle" height="28">
+																										<div style="line-height: 28px;">
+																											<a href="http://myshop3.sharelink.ru:8080{% url 'contacts:contact' %}" target="_blank" style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #ffffff; line-height: 28px; text-decoration: none; display: block">Контакты</a>
+																										</div>
+																									</td>
+																								</tr>
+																							</table>
+																							<!-- padding -->
+																							<div style="height: 5px; line-height: 5px; font-size: 4px;">&nbsp;</div>
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+
+											<tr>
+												<td align="center" style="padding:0 0 20px;">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0">
+														<tr>
+															<td bgcolor="#ffffff" align="center">
+																<!-- padding -->
+																<div style="height: 30px; line-height: 30px; font-size: 8px;">&nbsp;</div>
+																<table width="91%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px">
+																	<tr>
+																		<td align="center">
+																			<!-- Title -->
+																			<div style="line-height: 30px;">
+																				<span style="font-family:Arial, Helvetica, sans-serif; font-size: 30px; color: #393939; line-height: 30px;"> Здравствуйте!	</span>
+																			</div>
+																			<!-- Title END-->
+
+																			<!-- padding -->
+																			<div style="height: 17px; line-height: 17px; font-size: 8px;">&nbsp;</div>
+
+																			<!-- Text -->
+																			<table width="91%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px">
+																				<tr>
+																					<td align="left">
+																						<div style="line-height: 22px;">
+																							<span style="font-family:Arial, Helvetica, sans-serif; font-size: 15px; color: #282828; line-height: 22px;">Вы интересовались нашими товарами. Мы всегда рады видеть вас среди наших покупателей.<br><br>
+</span>
+																						</div>
+																					</td>
+																				</tr>
+
+																			</table>
+																			<!-- Text END-->
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+                                            {% for tpl in templates %}
+											<tr>
+												<td align="center" style="padding:0;">
+													<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+														<tr>
+															<td align="center" style="font-size:0;">
+																<!--[if mso]><table align="center" cellpadding="0" border="0"><![endif]-->
+
+																<!--[if mso]><tr><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+
+                                                                {% comment %}{% for p in tpl.products.all reversed %} проход по списку в обратном направлении{% endcomment %}
+                                                                {% for p in tpl.products.all %}
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																				<!-- padding -->
+																				<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																				<table width="190" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																					<tr>
+																						<td align="center" style=" border-width: 1px; border-style: solid; border-color: #e8e8e8;">
+
+																							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																								<tr>
+																									<td align="center" height="180" valign="middle">
+																										<a href="{{ site_url }}{{ p.get_absolute_url }}" target="_blank">
+																											<img src="{{ site_url }}{{ p.images.url }}" alt="{{ p.title }}" border="0" width="160" height="160" style="display:block;width:auto;height:auto;max-width:160px !important;max-height:160px !important;"></a>
+																									</td>
+																								</tr>
+																								<tr>
+																									<td align="center">
+																										<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																											<tr>
+																												<td align="center" valign="top" height="100">
+																													<div style="line-height: 24px;">
+                                                                                                                        <a href="#" target="_blank" style="text-decoration: none">
+                                                                                                                            <span style="font-family:Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; line-height: 24px; text-decoration: none">
+
+																								                                {{ p.title|truncatechars:40 }}
+
+																							                                </span>
+                                                                                                                        </a>
+                                                                                                                    </div>
+																												</td>
+																											</tr>
+																										</table>
+																										<div style="line-height: 22px;">
+																											<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 22px; color: #0069b5; font-weight: bold;line-height: 22px; text-decoration: none">
+																												{{ p.price }}&nbsp;руб.
+                                                                                                            </span>
+																										</div>
+																										<!-- padding -->
+																										<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																										<div style="line-height: 20px;">
+																											<!--- <span style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #666666; line-height: 20px;">старая цена: <span style="text-decoration: line-through">490</span> <img src="https://images.mindbox.ru/campaigns/207179/804732/9.png" width="12" height="13" border="0" style="display: inline" alt="P"></span> --->
+																										</div>
+																										<div style="line-height: 20px;">
+																											<!---	<span style="font-family:Arial, Helvetica, sans-serif; font-size: 14px; color: #666666; line-height: 20px;">Цена в магазине: <span style="text-decoration: line-through">490</span> <img src="https://images.mindbox.ru/campaigns/207179/804732/9.png" width="12" height="13" border="0" style="display: inline" alt="P"></span> --->
+																										</div>
+																										<!-- padding -->
+																										<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																										<!-- button -->
+																										<table cellpadding="0" cellspacing="0" border="0" width="170" style="width: 170px !important; max-width: 170px; min-width: 170px;">
+																											<tr>
+																												<td align="center" valign="middle" height="50" bgcolor="#0069b5">
+																													<a href="{{ site_url }}{{ p.get_absolute_url }}" target="_blank" style="display: block; width: 100%; height: 50px; font-family: Arial, Helvetica, sans-serif; color: #ffffff; font-size: 16px; line-height: 50px; text-decoration: none; white-space: nowrap;">
+																														<span style="font-size: 16px; line-height: 50px; white-space: nowrap;">В корзину</span>
+																													</a>
+																												</td>
+																											</tr>
+																										</table>
+																										<!-- button END -->
+																										<!-- padding -->
+																										<div style="height: 20px; line-height: 20px; font-size: 8px;">&nbsp;</div>
+																									</td>
+																								</tr>
+																							</table>
+
+																						</td>
+																					</tr>
+																				</table>
+																			</td>
+																		</tr>
+																	</table>
+																</div>
+                                                                {% endfor %}
+
+
+
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+
+
+
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr> </tr>
+																	</table>
+																</div>
+
+
+
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+
+
+
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr> </tr>
+																	</table>
+																</div>
+
+
+
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]></tr><![endif]-->
+
+																<!--[if mso]><tr><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+
+
+
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr> </tr>
+																	</table>
+																</div>
+
+
+
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+
+
+
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr> </tr>
+																	</table>
+																</div>
+
+
+
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]><td width="200" valign="top"><![endif]-->
+
+																<!--[if mso]></td><![endif]-->
+
+																<!--[if mso]></tr><![endif]-->
+
+																<!--[if mso]></table><![endif]-->
+															</td>
+														</tr>
+													</table>&nbsp;
+												</td>
+											</tr>
+                                            {% endfor %}
+											<tr>
+												<td align="center" style="padding:0;">
+													<table width="91%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; max-width: 600px">
+														<tr>
+															<td align="center" valign="top" style="font-size: 0; line-height: 0;">
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																					<tr>
+																						<td align="left" width="48">
+																							<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/clock.png' %}" border="0" style="display: block" alt="">
+																						</td>
+																						<td align="left" valign="middle" height="36">
+																							<div style="line-height: 20px;">
+																								<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 13px; color: #393939; line-height: 20px;">Работаем 24/7</span>
+																							</div>
+																						</td>
+																					</tr>
+																				</table>
+																			</td>
+																		</tr>
+																	</table>
+																</div><!--[if (gte mso 9)|(IE)]></td><td valign="top" width="200"><![endif]-->
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																					<tr>
+																						<td align="left" width="48">
+																							<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/comp.png' %}" border="0" style="display: block" alt="">
+																						</td>
+																						<td align="left" valign="middle" height="36">
+																							<div style="line-height: 20px;">
+																								<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 13px; color: #393939; line-height: 20px;">Кредит онлайн</span>
+																							</div>
+																						</td>
+																					</tr>
+																				</table>
+																			</td>
+																		</tr>
+																	</table>
+																</div><!--[if (gte mso 9)|(IE)]></td><td valign="top" width="200"><![endif]-->
+																<div style="display: inline-block; vertical-align: top; width: 200px; font-size: 14px; line-height: 18px;">
+																	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																		<tr>
+																			<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																					<tr>
+																						<td align="left" width="48">
+																							<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/car.png' %}" border="0" style="display: block" alt="">
+																						</td>
+																						<td align="left" valign="middle" height="36">
+																							<div style="line-height: 20px;">
+																								<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 13px; color: #393939; line-height: 20px;">Доставка по всей России</span>
+																							</div>
+																						</td>
+																					</tr>
+																				</table>
+																			</td>
+																		</tr>
+																	</table>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+
+										</table>
+
+									</td>
+								</tr>
+
+								<tr>
+									<td align="center" bgcolor="#0060af" style="padding:0;">
+										<table width="100%" cellpadding="0" border="0" style="border-collapse:collapse;">
+											<tr>
+												<td align="center" style="padding:15px 0 30px;">
+													<table width="91%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; max-width: 600px">
+														<tr>
+															<td align="center" style="border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #4295d1;">
+																<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; max-width: 600px">
+																	<tr>
+																		<td align="center" valign="top" style="font-size: 0; line-height: 0;">
+																			<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																					<tr>
+																						<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																							<!-- padding -->
+																							<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																								<tr>
+																									<td align="left">
+																										<div class="mob_center" style="line-height: 20px;">
+																											<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 12px; color: #ffffff; line-height: 20px;">&copy;&nbsp;1998-2019. Компания ТЕХНОСТИЛЬ. <br>Все права защищены.</span>
+																										</div>
+																									</td>
+																								</tr>
+																							</table>
+																						</td>
+																					</tr>
+																				</table>
+																			</div><!--[if (gte mso 9)|(IE)]></td><td valign="top" width="300"><![endif]-->
+																			<div style="display: inline-block; vertical-align: top; width: 300px; font-size: 14px; line-height: 18px;">
+																				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;">
+																					<tr>
+																						<td align="center" valign="top" style="font-size: 14px; line-height: 18px;">
+																							<!-- padding -->
+																							<div style="height: 15px; line-height: 15px; font-size: 8px;">&nbsp;</div>
+																							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+																								<tr>
+																									<td align="left" valign="middle" height="30">
+																										<div style="line-height: 20px;">
+																											<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 12px; color: #ffffff; line-height: 20px;">Читать нас в соцсетях:</span>
+																										</div>
+																									</td>
+																									<td align="right">
+																										<table width="120" border="0" cellspacing="0" cellpadding="0">
+																											<tr>
+																												<td align="center">
+																													<a href="#" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 8px; font-weight: bold; color: #000000; text-decoration: none">
+																														<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/facebook.png' %}" border="0" style="display: inline" width="31" height="30" alt="fb">
+																													</a></td>
+																												<td align="center">
+																													<a href="#" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 8px; font-weight: bold; color: #000000; text-decoration: none">
+																														<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/vk.png' %}" border="0" style="display: inline" width="32" height="30" alt="vk">
+																													</a></td>
+																												<td align="center">
+																													<a href="#" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size: 8px; font-weight: bold; color: #000000; text-decoration: none">
+																														<img src="http://myshop3.sharelink.ru:8080{% static 'shop/img/youtube.png' %}" border="0" style="display: inline" width="31" height="30" alt="you">
+																													</a></td>
+																											</tr>
+																										</table>
+																									</td>
+																								</tr>
+																							</table>
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																		</td>
+																	</tr>
+																</table>
+																<!-- padding -->
+																<div style="height: 30px; line-height: 30px; font-size: 8px;">&nbsp;</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+
+											<tr>
+												<td align="center" style="padding:0 0 30px;">
+													<table width="91%" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse; max-width: 600px">
+														<tr>
+															<td align="left">
+																<div style="line-height: 18px;">
+																	<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 12px; color: #4295d1; line-height: 18px;">Вы&nbsp;получили данное письмо, потому что выразили согласие на&nbsp;получение информационных сообщений на&nbsp;сайте <a href="http://myshop3.sharelink.ru:8080" target="_blank" style="color: #4295d1; text-decoration: underline">tehnostyle<span style="color: #ffffff; font-size: 0px; line-height: 0px;">&zwnj;</span>.<span style="color: #ffffff; font-size: 0px; line-height: 0px;">&zwnj;</span>ru</a>. Если Вы&nbsp;не&nbsp;хотите больше получать информацию об&nbsp;акциях, распродажах, спецпредложениях или полезной информации, пожалуйста, нажмите <a href="http://myshop3.sharelink.ru:8080{% url 'newsletter:newsletter_unsubscribe' %}" target="_blank" style="color: #4295d1; text-decoration: underline">здесь</a>.</span>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+</body>
+</html>

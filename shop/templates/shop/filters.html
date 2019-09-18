@@ -2,67 +2,35 @@
 
 {#Этот шаблон обрабатывает функция filters() из модуля context_processors.py#}
 
-<!-- shop-filter start -->
-						<div class="shop-filter">
-							<div class="area-title">
-								<h3 class="title-group gfont-1">Filters Products</h3>
-							</div>
-							<h4 class="shop-price-title">Price</h4>
-							<div class="info_widget">
-								<div class="price_filter">
-									<div id="slider-range"></div>
-									<div class="price_slider_amount">
-										<input type="text" id="amount" name="price"  placeholder="Add Your Price" />
-										<input type="submit"  value="Filter"/>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- shop-filter start -->
-						<!-- filter-by start -->
-						<div class="accordion_one">
-							<h4><a class="accordion-trigger" data-toggle="collapse" href="#divone">Color</a></h4>
-							<div id="divone" class="collapse in">
-								<div class="filter-menu">
-									<ul>
-                                    {% for filter in filters %}
-										<li><a href="#">Black (2) {{ filter.title }}</a></li>
-										<li><a href="#">Blue (2)</a></li>
-										<li><a href="#">Brown (3)</a></li>
-										<li><a href="#">Green (3)</a></li>
-										<li><a href="#">Orange (2)</a></li>
-										<li><a href="#">Pink (2)</a></li>
-										<li><a href="#">Red (11)</a></li>
-										<li><a href="#">Yellow (3)</a></li>
-                                    {% endfor %}
-									</ul>
-								</div>
-							</div>
-							<h4><a class="accordion-trigger" data-toggle="collapse" href="#div2">manufacture</a></h4>
-							<div id="div2" class="collapse in">
-								<div class="filter-menu">
-									<ul>
-										<li><a href="#">Chanel (2)</a></li>
-										<li><a href="#">Christian Dior (2)</a></li>
-										<li><a href="#">Ermenegildo (2)</a></li>
-										<li><a href="#">Ferragamo (1)</a></li>
-										<li><a href="#">Hermes (2)</a></li>
-										<li><a href="#">Louis Vuitton (3)</a></li>
-										<li><a href="#">Prada (1)</a></li>
-									</ul>
-								</div>
-							</div>
-							<h4><a class="accordion-trigger" data-toggle="collapse" href="#div3">Size</a></h4>
-							<div id="div3" class="collapse in">
-								<div class="filter-menu">
-									<ul>
-										<li><a href="#">L (1)</a></li>
-										<li><a href="#">M (5)</a></li>
-										<li><a href="#">S (7)</a></li>
-										<li><a href="#">XL (5)</a></li>
-										<li><a href="#">XXL (6)</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<!-- filter-by end -->
+
+
+<form>
+    <div class="shop-filter">
+        <div class="area-title">
+            <h3 class="title-group gfont-1">Filters Products</h3>
+        </div>
+        <h4 class="shop-price-title">Price</h4>
+        <div class="info_widget">
+            <div class="price_filter">
+                <div id="slider-range" data-min="{{ filters.initial_min_price }}" data-max="{{ filters.initial_max_price }}"></div>
+                <div class="price_slider_amount">
+                    <ul>
+                        <p>{{ filters.min_price }}</p>
+                        <p>{{ filters.max_price }}</p>
+                    </ul>
+                    <input type="submit"  value="Filter"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="line"/>
+    <div class="accordion_one" >
+        {{ filters.brand }}
+        {{ filters.filter }}
+    </div>
+    <div class="">
+        <input type="submit" class="btn btn-info pull-left" style="background-color: #26ACCE;" value="Filter"/>
+        <a href="{{ request.path }}" class="btn btn-danger pull-right">Reset</a>
+    </div>
+</form>
+

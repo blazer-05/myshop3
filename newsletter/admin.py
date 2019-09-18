@@ -33,11 +33,14 @@ class NewsletterUserAdmin(admin.ModelAdmin):
     list_per_page = 15
     actions = [complete_post, incomplete_post]
 
+
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = ['subject', 'status', 'created', 'updated']
     search_fields = ['id', 'subject']
     list_filter = ['subject', 'status', 'created', 'updated']
+    filter_horizontal = ('users_email',)
+    date_hierarchy = 'created'
     list_per_page = 15
 
 
@@ -45,4 +48,6 @@ class NewsletterAdmin(admin.ModelAdmin):
 class TemplateAdmin(admin.ModelAdmin):
     list_display = ['name', 'is_active', 'created', 'updated']
     list_editable = ['is_active']
+    filter_horizontal = ('products',)
     actions = [complete_post, incomplete_post]
+
