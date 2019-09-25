@@ -55,6 +55,19 @@ class EntryInline(admin.TabularInline):
     #raw_id_fields = ('attribute', 'value',)
     extra = 0 # Количество видимых полей для добавления атрибут/значения
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        '''Этот метод переопределяет поле в модели Entry. Выводит в выподающем списке только те атрибуты, которые заданы
+        этой категории товара. В Category поле attributes. После того, как созданы атрибуты в модели Attribute заходим в модель Category
+        и назначаем каждой категории свои аттрибуты.'''
+        if db_field.name == "attribute":
+            product_id = request.resolver_match.kwargs.get('object_id')
+            product = Product.objects.filter(pk=product_id).first()
+            if product:
+                kwargs["queryset"] = Attribute.objects.filter(
+                    pk__in=Product.objects.get(pk=product_id).category.attributes.all()
+                )
+        return super(EntryInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 # Класс модели продукта
 class ProductAdmin(SummernoteModelAdmin):
@@ -202,9 +215,9 @@ admin.site.register(
         'slug',
         'is_active',
     ),
-    # filter_horizontal = (
-    #     'attributes',
-    # ),
+    filter_horizontal = (
+        'attributes',
+    ),
     readonly_fields = ['image_img', ], # Выводит в карточке товара картинку товара!
     prepopulated_fields = {'slug': ('name',)}, # Автозаполнение поля slug
     mptt_level_indent=20 # Эта настройка задает отступ субкатегории от родительской категории
@@ -252,7 +265,7 @@ admin.site.register(
     ),
     list_filter=(
         #'name',       # Вывод фильтра по категориям справа экрана
-        ('attribute', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
+        ('parent', TreeRelatedFieldListFilter), # Вывод фильтра по категориям справа экрана с потомками родителя
     ),
     list_editable = (
         'is_active',

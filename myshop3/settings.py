@@ -273,7 +273,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-'''Для библиотеки Django Smart Selects'''
+'''Для библиотеки Django Smart Selects, используется в модели Entry'''
 USE_DJANGO_JQUERY = True
 
 

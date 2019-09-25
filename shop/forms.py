@@ -7,8 +7,14 @@ from django.db.models.functions import Cast
 from shop.models import Brand, Value, Attribute
 
 
+'''Фильтр товаров'''
+
+
 class FilterCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
     template_name = 'shop/widgets/checkbox_select.html'
+
+    '''Для использования другого стиля фильтра товаров нужно расскомментировать эту option_template_name строку и 
+    в шаблоне checkbox_select.html закомментировать первый html код и расскоментировать второй html код'''
     #option_template_name = 'shop/widgets/checkbox_option.html'
 
 

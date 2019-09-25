@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from info.views import News, Review
 from shop.forms import get_filters
-from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, Attribute, Value, MiddlwareNotification
+from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, MiddlwareNotification
 from notifications.models import Notification
 
 
@@ -81,10 +81,15 @@ def shoplist(request, slug):
     category = Category.objects.get(slug=slug)
     products = Product.objects.filter(category=category, is_active=True)
 
+    '''Для фильтра товаров'''
     form_filters = get_filters(request, products)
-
     products = form_filters.filter_queryset(products)
     products = products.with_rating().with_in_wishlist(request.user)
+
+    '''Для нотификации'''
+    # check_for_subscribe = MiddlwareNotification.objects.filter(user_name=request.user.pk, product=products).exists()
+    # if products.is_active and request.user.is_authenticated:
+    #     Notification.objects.filter(recipient=request.user, description=slug).delete()
 
     paginator = Paginator(products, 5)
     page = request.GET.get('page')
@@ -95,6 +100,7 @@ def shoplist(request, slug):
         'products': products,
         'category': category,
         'cart': request.cart,
+        # 'check_for_subscribe': check_for_subscribe,
     }
     return render(request, 'shop/shop-list.html', context)
 
@@ -110,14 +116,17 @@ def productdetails(request, product_slug):
     all_products = Product.objects.all().exclude(slug=product_slug).order_by('?').with_rating().with_in_wishlist(request.user)[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (все товары) .with_rating() - рейтинг звезд
     products_from_this_category = Product.objects.filter(category=category).order_by('?').with_rating().with_in_wishlist(request.user)[:10] # Рандомный вывод 10тов.товаров на странице полного описания товара (товары из этой категории) .with_rating() - рейтинг звезд
     hotdeals = Product.objects.filter(akciya=True, timer=True)
+    #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
 
     '''check_for_subscribe - Своего рода фильтр, который смотрит 
     есть ли уже нотификация созданая для этого пользователя, который ждет этот продукт.'''
-    check_for_subscribe = []
-    if check_for_subscribe:
-        check_for_subscribe = [notification.product for notification in MiddlwareNotification.objects.filter(
-            user_name=request.user, product=product)]
-    #attribute_and_value = Entry.objects.filter(is_activ=True) # Атрибут и Значение, сейчас работает без вьюхи с models.py с переопределенного кверисета EntryQuerySet
+    check_for_subscribe = MiddlwareNotification.objects.filter(user_name=request.user.pk, product=product).exists()
+
+    '''Если продукт опубликова и пользователь авторизирован на сайте, то получаем нотификацию принадлежащую пользователю
+    и продукт этой нотификации и удаляем ее(счетчик на морде сайта обнуляется на 1 после перехода по ссылке из выпадающего списка.)'''
+    if product.is_active and request.user.is_authenticated:
+        Notification.objects.filter(recipient=request.user, description=product_slug).delete()
+
     context['cart'] = cart
     context['albom'] = albom
     context['product'] = product
@@ -189,10 +198,5 @@ def notify_create(request):
     })
 
 
-def notify_delete(request):
-    '''Удаление нотификации'''
-    slug = request.GET.get('slug')
-    notification_on_delete = Notification.objects.get(recipient=request.user, description=slug)
-    notification_on_delete.delete()
-    return JsonResponse({'ok': 'ok'})
+
 

@@ -6,15 +6,20 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.db.models import Avg, Q, Count, Exists, OuterRef, Value as ExpressionValue
 from django.db.models.signals import post_save
+
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe # Импорт функции для вывода в админке картинок.
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
+from django.core.mail import EmailMultiAlternatives
+from requests import request
+
+from myshop3 import local_settings
 from django.utils import timezone
 from decimal import Decimal
 
 from notifications.signals import notify
-
-from myshop3 import local_settings
+from smart_selects.db_fields import ChainedForeignKey
 
 
 class Category(MPTTModel):
@@ -193,12 +198,30 @@ class Product(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
 
+def email_send_notify_to_user(user, product):
+    '''Отправка пользователю уведомление на емейл о поступлении товара на который был подписан пользователь '''
+    subject = 'Уведомление о поступившем товаре'
+    from_email = local_settings.DEFAULT_FROM_EMAIL
+    body = 'Товар {}появился в продаже'.format(product.title)
+    to_email = user.email
+    notify_messages = EmailMultiAlternatives(subject=subject, body=body, from_email=from_email, to=[to_email])
+    context = {
+        'user': user,
+        'product': product,
+        'site_url': 'http://myshop3.sharelink.ru:8080',
+    }
+    user_message = render_to_string('shop/notification/notify.html', context)
+    notify_messages.attach_alternative(user_message, 'text/html')
+    notify_messages.send()
+
+
 def product_available_notification(sender, instance, *args, **kwargs):
     '''Сигнал отвечающий за доставку нотификации'''
-    if instance.is_active:
+    if instance.stock:
         await_for_notify = [notification for notification in MiddlwareNotification.objects.filter(
             product=instance)]
         for notification in await_for_notify:
+            email_send_notify_to_user(notification.user_name, instance) # вызов метода email_send_notify_to_user
             notify.send(
                 instance,
                 recipient=[notification.user_name],
@@ -298,7 +321,21 @@ class EntryQuerySet(models.QuerySet):
 class Entry(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Атрибут')
-    value = models.ForeignKey(Value, on_delete=models.CASCADE, verbose_name='Значение')
+
+    '''Это поле "value" используется внешней библиотекой Django Smart Selects 1.5.3 В админке к товару в модели Entry
+    в выпадающем списке "Значение" упорядочевает значения принадлежащие только тем атрибутам товара которые заданы для этой категории товара
+    в разделе "Категории".
+    Т.е. все другие значения для других товаров отфильтровываются автоматически и остаются только те которые принадлежат атрибутам данного товара.'''
+    value = ChainedForeignKey(
+        Value,
+        chained_field="attribute",
+        chained_model_field="attribute",
+        show_all=False,
+        auto_choose=True,
+        sort=True,
+        verbose_name='Значение',
+        on_delete=models.CASCADE
+    )
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     objects = EntryQuerySet.as_manager()
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
