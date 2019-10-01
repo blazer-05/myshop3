@@ -200,7 +200,7 @@ class Product(models.Model):
 
 def email_send_notify_to_user(user, product):
     '''Отправка пользователю уведомление на емейл о поступлении товара на который был подписан пользователь '''
-    subject = 'Уведомление о поступившем товаре'
+    subject = 'Уведомление о поступившем товаре "{}"'.format(product.title)
     from_email = local_settings.DEFAULT_FROM_EMAIL
     body = 'Товар {}появился в продаже'.format(product.title)
     to_email = user.email
@@ -268,6 +268,7 @@ class Attribute(MPTTModel):
     title = models.CharField(max_length=250, verbose_name='Атрибут')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
+    is_filter = models.BooleanField(default=False, verbose_name='Фильтр')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Отредактирован')
 

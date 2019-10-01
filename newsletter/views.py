@@ -1,13 +1,15 @@
 from django.http import HttpResponseForbidden, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
+from smtplib import SMTPDataError
 
-from myshop3 import local_settings, settings
+from myshop3 import settings
+from myshop3 import local_settings
 from .models import NewsletterUser, Newsletter, Template
 from .forms import NewsletterUserSignUpForm, NewsletterCreationForm
 
@@ -25,7 +27,6 @@ def subscribe(request):
     if NewsletterUser.objects.filter(email=email).exists():
         message = 'Your email already exists in our database'
     else:
-        form.save()
         message = 'Your email has been submitted to the database'
 
         subject = 'Thank You For Joining Our Newsletter'
@@ -37,7 +38,14 @@ def subscribe(request):
         messages_sub = EmailMultiAlternatives(subject=subject, body=signup_message, from_email=from_email, to=to_email)
         html_template = get_template('newsletter/user_email/sign_up_email.html').render()
         messages_sub.attach_alternative(html_template, 'text/html')
-        messages_sub.send()
+
+        '''Перехватываем ошибку при не верном email адресе. Если пользователь ввел несуществующий email адрес, то 
+        выводим ему предупреждение 'Enter a valid email address' '''
+        try:
+            messages_sub.send()
+            form.save()
+        except SMTPDataError:
+            return JsonResponse({'message': 'Enter a valid email address'}, status=400)
 
         '''Письмо админу о подписке на рассылку'''
         send_mail('Уважаемый админ сайта "{}" '.format(site),
@@ -71,8 +79,11 @@ def newsletter_unsubscribe(request):
             send_mail('Уважаемый админ сайта "{}" '.format(site),
                       'Адрес эл.почты {} был отписан от новостной рассылки.'.format(to_email), from_email, [from_email])
 
+            return HttpResponseRedirect(request.path_info)
+
         else:
             messages.warning(request, 'Your email is not in the database')
+            return HttpResponseRedirect(request.path_info)
 
     context = {
         'form': form,
@@ -103,6 +114,8 @@ def control_newsletter(request):
                     mail.attach_file(instance.file.path)
                 mail.content_subtype = 'html'
                 mail.send(fail_silently=True)
+
+            return HttpResponseRedirect(request.path_info)
 
         else:
             messages.warning(request, 'An error has occurred, please try sending a message later.')

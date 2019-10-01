@@ -41,6 +41,7 @@ class ProductFilter(forms.Form):
     @staticmethod
     def __get_filter_choices(products):
         attributes = Attribute.objects.filter(
+            is_filter=True,
             entry__product__in=products
         ).prefetch_related(
             Prefetch(

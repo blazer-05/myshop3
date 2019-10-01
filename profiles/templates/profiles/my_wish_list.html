@@ -128,7 +128,23 @@
                                             </td>
                                             <td class="text-right">
                                                 <div class="button-group" style="margin-top: 15px;">
-                                                    {% if product.stock == 0 %}
+                                                    {% if wl.stock == 0 %}
+                                                        <p id="subscribed_for_notification"></p>
+                                                        {% if check_for_subscribe %}
+                                                            <p>Вы подписались на уведомления о поступлении. Как только
+                                                                товар появится, мы Вам сообщим</p>
+                                                        {% else %}
+                                                            <div class="user_subscribed">
+                                                                <p class="">
+                                                                    Товар отсутствует.</p>
+                                                                <a href="#" class="subscribe"
+                                                                   data-slug="{{ wl.slug }}">
+                                                                    <button class="btn btn-info toch-button toch-add-cart" >
+                                                                        Уведомить
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        {% endif %}
                                                         {% else %}
                                                     <div class="product-button" style="display: inherit;">
                                                         <form class="product-button" onsubmit="return addToCart(event)">

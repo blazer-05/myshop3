@@ -56,7 +56,7 @@ class EntryInline(admin.TabularInline):
     extra = 0 # Количество видимых полей для добавления атрибут/значения
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        '''Этот метод переопределяет поле в модели Entry. Выводит в выподающем списке только те атрибуты, которые заданы
+        '''Этот метод переопределяет поле value в модели Entry. Выводит в выподающем списке только те атрибуты, которые заданы
         этой категории товара. В Category поле attributes. После того, как созданы атрибуты в модели Attribute заходим в модель Category
         и назначаем каждой категории свои аттрибуты.'''
         if db_field.name == "attribute":
@@ -233,6 +233,7 @@ admin.site.register(
         'indented_title',
         'title',
         'is_active',
+        'is_filter',
         # ...more fields if you feel like it...
     ),
     list_display_links=(
@@ -244,6 +245,7 @@ admin.site.register(
     ),
     list_editable = (
         'is_active',
+        'is_filter',
     ),
 )
 

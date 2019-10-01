@@ -29,7 +29,7 @@ function fill_notification_list(data) {
             //     message = message + " " + item.verb;
             // }
             if(typeof item.verb !== 'undefined'){
-                message = '<a href="http://192.168.1.5:8001/product-details/' + item.description + '" id="notification-active" data-slug="' + item.description + '">' + item.verb + '</a>';
+                message = '<a href="/product-details/' + item.description + '" id="notification-active" data-slug="' + item.description + '">' + item.verb + '</a>';
             }
             if(typeof item.target !== 'undefined'){
                 message = message + " " + item.target;
@@ -37,9 +37,11 @@ function fill_notification_list(data) {
             // if(typeof item.timestamp !== 'undefined'){
             //     message = message + " " + item.timestamp;
             // }
-            return '<li>' + message + '<hr>fsdf</li>';
+            return '<li>' + message + '<hr></li>';
         }).join('')
-
+            if(!messages) {
+                        messages = '<li>У вас нет уведомлений.</li>'
+                    }
         for (var i = 0; i < menus.length; i++){
             menus[i].innerHTML = messages;
         }

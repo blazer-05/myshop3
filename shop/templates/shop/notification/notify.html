@@ -252,7 +252,8 @@
 																				<tr>
 																					<td align="left">
 																						<div style="line-height: 22px;">
-																							<span style="font-family:Arial, Helvetica, sans-serif; font-size: 18px; color: #282828; line-height: 22px;">Вы подписывались на уведомление о поступлении этого товара. Товар поступил на склад и доступен к заказу!<br><br>
+                                                                                            <span style="font-family:Arial, Helvetica, sans-serif; font-size: 18px; color: #282828; line-height: 22px;">Вы подписывались на уведомление о поступлении этого товара. <h3 style="color: red;">"{{ product.title }}"</h3>
+                                                                                                Товар поступил на склад и доступен к заказу!<br><br>
 </span>
 																						</div>
 																					</td>
@@ -305,7 +306,7 @@
 																											<tr>
 																												<td align="center" valign="top" height="100">
 																													<div style="line-height: 24px;">
-                                                                                                                        <a href="#" target="_blank" style="text-decoration: none">
+                                                                                                                        <a href="{{ site_url }}{{ product.get_absolute_url }}" target="_blank" style="text-decoration: none">
                                                                                                                             <span style="font-family:Arial, Helvetica, sans-serif; font-size: 16px; color: #333333; line-height: 24px; text-decoration: none">
 
 																								                                {{ product.title|truncatechars:40 }}
