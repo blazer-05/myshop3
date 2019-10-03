@@ -1,6 +1,6 @@
 # Два контекстных процессора, которые выводят меню категории и фильтр сайта
 
-from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct
+from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct, PriceList
 from contacts.models import Address
 
 
@@ -50,3 +50,10 @@ def footer(request):
     '''Вывод в футер сайта адреса в шаблоне footer.html'''
     address = Address.objects.filter(is_active=True).first()
     return {'address': address}
+
+
+# def price_list(request):
+#     '''Прайс лист'''
+#     price = PriceList.objects.filter(is_active=True)
+#
+#     return {'price_list': price}

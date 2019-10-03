@@ -14,6 +14,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.core.mail import EmailMultiAlternatives
 from requests import request
 
+from myshop3.settings import site_url
 from myshop3 import local_settings
 from django.utils import timezone
 from decimal import Decimal
@@ -208,7 +209,7 @@ def email_send_notify_to_user(user, product):
     context = {
         'user': user,
         'product': product,
-        'site_url': 'http://myshop3.sharelink.ru:8080',
+        'site_url': site_url,
     }
     user_message = render_to_string('shop/notification/notify.html', context)
     notify_messages.attach_alternative(user_message, 'text/html')
@@ -462,3 +463,19 @@ class MiddlwareNotification(models.Model):
         return 'Нотификация для пользователя "{0}" о поступлении товара "{1}"'.format(self.user_name.username, self.product.title)
 
 
+class PriceList(models.Model):
+    '''Модель прайс листа'''
+    title = models.CharField(max_length=250, verbose_name='Заголовок')
+    file = models.FileField(upload_to='price_list/%y/%m/%d/', verbose_name='Файл')
+    count = models.PositiveIntegerField(default=0, verbose_name='Кол-во загрузок')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Изменен')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Прайс лист'
+        verbose_name_plural = 'Прайс листы'
+        ordering = ['-created']

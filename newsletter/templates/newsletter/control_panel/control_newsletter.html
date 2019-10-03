@@ -4,6 +4,21 @@
 
 {% block content %}
 
+<!-- Модальное окно в котором выводится код шаблона с товаром для вставки в поле "Содержимое" -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modalTemplatePreview">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <textarea id="id_template_preview" style="height: 500px; width: 100%"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="container">
 
@@ -20,6 +35,8 @@
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Содержимое *</label>
+            <!-- Кнопка вызова модального окна с товарным шаблоном -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTemplatePreview">Get template</button>
             {{ form.body }}
         </div>
         {% if messages %}
@@ -33,7 +50,7 @@
             {% endfor %}
         {% endif %}
         <div class="form-group">
-            <label for="exampleInputEmail1">Email *</label>
+            <label for="exampleInputEmail1">Email recipients *</label>
             <ul style="list-style: none; margin-left: -40px;">
                 {{ form.users_email|unordered_list }}
             </ul>
@@ -105,5 +122,22 @@
         </div>
     </div>
 </div>
+
+<!-- Скрипт расширяющий базовый шаблон control_base.html -->
+    {% block extra_js %}
+        {{ block.super }}
+        <script>
+            $(document).ready(function () {
+              $('#modalTemplatePreview').on('show.bs.modal', function (event) {
+                $.ajax({
+                    url: '/newsletter/dashboard/templates/',
+                  }).done(function (data) {
+                    $('#modalTemplatePreview #id_template_preview').val(data);
+                  });
+              });
+            })
+        </script>
+
+    {% endblock %}
 
 {% endblock %}

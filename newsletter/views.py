@@ -8,7 +8,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models import Q
 from smtplib import SMTPDataError
 
-from myshop3 import settings
+from myshop3.settings import site_url
 from myshop3 import local_settings
 from .models import NewsletterUser, Newsletter, Template
 from .forms import NewsletterUserSignUpForm, NewsletterCreationForm
@@ -39,7 +39,7 @@ def subscribe(request):
         html_template = get_template('newsletter/user_email/sign_up_email.html').render()
         messages_sub.attach_alternative(html_template, 'text/html')
 
-        '''Перехватываем ошибку при не верном email адресе. Если пользователь ввел несуществующий email адрес, то 
+        '''Перехватываем ошибку при неверном email адресе. Если пользователь ввел несуществующий email адрес, то 
         выводим ему предупреждение 'Enter a valid email address' '''
         try:
             messages_sub.send()
@@ -234,11 +234,10 @@ def control_newsletter_search(request):
 def control_newsletter_templates(request):
     '''Товарный шаблон для рассылки'''
     templates = Template.objects.filter(is_active=True)
-    site_url = 'http://myshop3.sharelink.ru:8080'
 
     context = {
         'templates': templates,
-        'site_url': site_url,
+        'site_url': site_url,  # Подгружаем урл сайта из settings.py
 
 
     }

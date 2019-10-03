@@ -48,7 +48,8 @@
                 <div class="col-xs-5">
                     <div class="pagination">
                         <ul>
-                            {% bootstrap_pagination search_newsletter extra=request.GET.urlencode pages_to_show=3 %}
+                            {% bootstrap_pagination search_newsletter extra=request.GET.urlencode pages_to_show=3 %} <br>
+                            <span>Showing 1 to {{ search_newsletter.number }} of ({{ search_newsletter.paginator.num_pages }} Pages)</span>
                         </ul>
                     </div>
                 </div>

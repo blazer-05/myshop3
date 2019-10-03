@@ -4,6 +4,8 @@ from .views import (index, catalog, catlist, catlinks,
                     modalproduct,compareproducts,
                     products_by_brand, search,
                     notify_create,
+                    price_list,
+
 
                     )
 
@@ -24,6 +26,8 @@ urlpatterns = [
     path('compare-products/', compareproducts, name='compare-products'),
     path('search/', search, name='search'),
     path('notify_create/', notify_create, name='notify_create'),
+    path('price/', price_list, name='price_list'),
+
 
 
 

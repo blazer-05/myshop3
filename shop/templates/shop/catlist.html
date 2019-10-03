@@ -35,7 +35,7 @@
                                         <div class="category-item-desktop" align="center">
                                             {% if child.img %}
                                                 <a href="{% url 'shop:shop-list' child.slug %}">
-                                                <img class="image" src="{{ MEDIA_URL }}{{ child.img.url }}" style="width: 200px; height: 165px" alt="">
+                                                <img class="image" src="{{ child.img.url }}" style="width: 200px; height: 165px" alt="">
                                                 </a>
                                             {% else %}
                                                 <p>Нет изображения</p>

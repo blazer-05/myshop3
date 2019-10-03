@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from info.views import News, Review
 from shop.forms import get_filters
-from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, MiddlwareNotification
+from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, MiddlwareNotification, PriceList
 from notifications.models import Notification
 
 
@@ -198,5 +198,12 @@ def notify_create(request):
     })
 
 
+def price_list(request):
+    '''Прайс лист'''
+    price = PriceList.objects.filter(is_active=True)
+    context = {
+        'price_list': price,
+    }
+    return render(request, 'shop/base.html', context)
 
 

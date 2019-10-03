@@ -124,7 +124,6 @@ def like(request):
         return HttpResponse(status=201)
 
 
-
 def dislike(request):
     '''Функция дизлайка'''
     pk = request.POST.get('pk')

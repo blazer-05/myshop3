@@ -16,6 +16,7 @@ from shop.models import (
     SaleCategory,
     SaleProduct,
     MiddlwareNotification,
+    PriceList,
     )
 
 # Функции фильтрации для массовой публикации/снятия с публикации новостей.
@@ -46,6 +47,11 @@ class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
     actions = [complete_post, incomplete_post]
+
+
+class PriceListAdmin(admin.ModelAdmin):
+    list_display = ['title', 'file', 'count', 'is_active', 'created', 'updated']
+    list_editable = ['is_active']
 
 
 # Класс модели Entry для вывода атрибута и значения
@@ -91,6 +97,7 @@ class ProductAdmin(SummernoteModelAdmin):
 
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
+admin.site.register(PriceList, PriceListAdmin)
 admin.site.register(MiddlwareNotification)
 
 

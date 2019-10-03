@@ -107,12 +107,19 @@
                             </li>
                         </ul>
                         <ul class="language">
-                            <li><a href="#"><img class="right-5" src="{% static 'shop/img/icon/xls.png' %}" alt="#" style="width: 16px; height: 11px;">Прайс лист<i class="fa fa-caret-down left-5"></i></a>
+                            <li><a href="#"><i class="fa fa-download" aria-hidden="true"></i> Прайс лист<i class="fa fa-caret-down left-5"></i></a>
                                 <ul>
                                     <li>
-                                        <a href="#">
-                                            <img class="right-5" src="{% static 'shop/img/icon/xls.png' %}" alt="#" style="width: 16px; height: 11px;">Скачать прайс в xls
-                                        </a>
+                                        {% for price in price_list %}
+                                            {% if price.is_active %}
+                                                <a href="{% url 'shop:price_list' %}">
+                                                    <img class="right-5" src="{% static 'shop/img/icon/xls.png' %}" alt="#" style="width: 16px; height: 11px;">Скачать прайс в xls &nbsp;
+                                                    Размер: {{ price.file.size|filesizeformat }} | Скачан: <span class="badge" style="margin-top: 7px;">{{ price.count }} </span>
+                                                </a>
+                                                {% else %}
+                                                <p>Прайс обновляется.</p>
+                                            {% endif %}
+                                        {% endfor %}
                                     </li>
 {#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}
 {#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}
@@ -120,7 +127,7 @@
                             </li>
                         </ul>
 
-                        <!-- End Currency -->
+                        <!-- End Currency   &nbsp; -->
                         {% if not request.user.is_authenticated %}
                         <p class="welcome-msg">Здравствуйте, (гость!)</p>
                             {% else %}
@@ -492,7 +499,8 @@
 
 <!-- Подключение скриптов нотификации -->
 <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
-{% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' fetch='10' %}
+{% register_notify_callbacks callbacks='fill_notification_list,fill_notification_badge' fetch='50' %}
+<!-- настройка fetch='50' из доки приложения, сколько будет отображаться уведомлений в выпадающем меню  -->
 
 <!-- аякс скрипт создания нотификации -->
 <script>

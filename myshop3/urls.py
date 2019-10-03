@@ -37,6 +37,7 @@ urlpatterns = [
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('chaining/', include('smart_selects.urls')),
 
+
 ]
 
 if settings.DEBUG:

@@ -92,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
                 'django.contrib.messages.context_processors.messages',
                 'shop.context_processors.menucategory', # Сквозной вывод бокового левого меню
                 'shop.context_processors.filters',      # Сквозной вывод бокового левого фильтра
@@ -100,6 +101,7 @@ TEMPLATES = [
                 'shop.context_processors.bestseller',   # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.sale',         # Сквозной вывод нижнего блока sale на главной
                 'shop.context_processors.footer',       # Сквозной вывод футера сайта на всех страницах
+                #'shop.context_processors.price_list',
                 'contacts.context_processors.privacy_policy', # Сквозной вывод политики конф. modal_privacy_policy.html
 
             ],
@@ -277,6 +279,9 @@ MESSAGE_TAGS = {
 '''Для библиотеки Django Smart Selects, используется в модели Entry'''
 USE_DJANGO_JQUERY = True
 
+'''Используется в методе email_send_notify_to_user приложение shop. И в методе control_newsletter_templates в приложении
+newsletter'''
+site_url = 'http://myshop3.sharelink.ru:8080'
 
 # Подгружаем настройки из модуля local_settings.py.
 try:
