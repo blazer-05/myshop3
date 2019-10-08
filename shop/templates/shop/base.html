@@ -277,7 +277,6 @@
                                 <li><a href="{% url 'news:newslist' %}">News</a></li>
                                 <li class="hot"><a href="shop.html">Bestseller Products</a></li>
                                 <li class="new"><a href="shop-list.html">New Products</a></li>
-                                <li><a href="shop.html">Special Products</a></li>
                                 <li><a href="#">Information</a>
                                     <ul>
                                         <li><a href="{% url 'contacts:about' %}">About Us</a></li>
@@ -286,11 +285,12 @@
                                         <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Privacy Policy</a></li>
                                     </ul>
                                 </li>
+                                <li><a href="{% url 'shop:compare-products' %}">Compare<span class="badge" style="margin-left: 5px;">0</span></a></li>
                                 {% if request.user.is_authenticated %}
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">
-                                            Уведомления {% live_notify_badge badge_class="badge" %}
+                                            Notifications {% live_notify_badge badge_class="badge" %}
                                         </a>
                                         {% live_notify_list %}
                                     </li>
