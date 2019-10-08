@@ -479,6 +479,3 @@ class PriceList(models.Model):
         verbose_name = 'Прайс лист'
         verbose_name_plural = 'Прайс листы'
         ordering = ['-created']
-
-    def get_absolute_url(self):
-        return reverse('shop:price_list_count', kwargs={'pk': self.file})

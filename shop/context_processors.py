@@ -1,6 +1,4 @@
 # Два контекстных процессора, которые выводят меню категории и фильтр сайта
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
 
 from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct, PriceList
 from contacts.models import Address
@@ -57,5 +55,4 @@ def footer(request):
 def price_list(request):
     '''Прайс лист'''
     price = PriceList.objects.filter(is_active=True).first()
-
     return {'price_list': price}

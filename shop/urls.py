@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import (index, catalog, catlist, catlinks,
                     shop, shoplist, productdetails,
                     modalproduct,compareproducts,

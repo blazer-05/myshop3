@@ -101,8 +101,7 @@ TEMPLATES = [
                 'shop.context_processors.bestseller',   # Сквозной вывод нижнего блока brend logo
                 'shop.context_processors.sale',         # Сквозной вывод нижнего блока sale на главной
                 'shop.context_processors.footer',       # Сквозной вывод футера сайта на всех страницах
-                'shop.context_processors.price_list',
-                #'shop.context_processors.price_list_count',
+                'shop.context_processors.price_list',   # Вывод ссылки на загрузку файла прайс-листа в base.html
                 'contacts.context_processors.privacy_policy', # Сквозной вывод политики конф. modal_privacy_policy.html
 
             ],
