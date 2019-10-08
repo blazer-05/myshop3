@@ -110,16 +110,14 @@
                             <li><a href="#"><i class="fa fa-download" aria-hidden="true"></i> Прайс лист<i class="fa fa-caret-down left-5"></i></a>
                                 <ul>
                                     <li>
-                                        {% for price in price_list %}
-                                            {% if price.is_active %}
-                                                <a href="{% url 'shop:price_list' %}">
+                                        {% if price_list %}
+                                                <a href="{% url 'shop:price_list_count' %}">
                                                     <img class="right-5" src="{% static 'shop/img/icon/xls.png' %}" alt="#" style="width: 16px; height: 11px;">Скачать прайс в xls &nbsp;
-                                                    Размер: {{ price.file.size|filesizeformat }} | Скачан: <span class="badge" style="margin-top: 7px;">{{ price.count }} </span>
+                                                    Размер: {{ price_list.file.size|filesizeformat }} | Скачан: <span class="badge" style="margin-top: 7px;">{{ price_list.counter }}</span> раз
                                                 </a>
-                                                {% else %}
-                                                <p>Прайс обновляется.</p>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% else %}
+                                            <ul>Прайс обновляется.</ul>
+                                        {% endif %}
                                     </li>
 {#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}
 {#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}

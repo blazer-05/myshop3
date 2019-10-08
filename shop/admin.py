@@ -50,7 +50,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 class PriceListAdmin(admin.ModelAdmin):
-    list_display = ['title', 'file', 'count', 'is_active', 'created', 'updated']
+    list_display = ['title', 'file', 'counter', 'is_active', 'created', 'updated']
     list_editable = ['is_active']
 
 

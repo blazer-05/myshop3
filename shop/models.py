@@ -467,7 +467,7 @@ class PriceList(models.Model):
     '''Модель прайс листа'''
     title = models.CharField(max_length=250, verbose_name='Заголовок')
     file = models.FileField(upload_to='price_list/%y/%m/%d/', verbose_name='Файл')
-    count = models.PositiveIntegerField(default=0, verbose_name='Кол-во загрузок')
+    counter = models.PositiveIntegerField(default=0, verbose_name='Кол-во загрузок')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
     updated = models.DateTimeField(auto_now=True, verbose_name='Изменен')
@@ -479,3 +479,6 @@ class PriceList(models.Model):
         verbose_name = 'Прайс лист'
         verbose_name_plural = 'Прайс листы'
         ordering = ['-created']
+
+    def get_absolute_url(self):
+        return reverse('shop:price_list_count', kwargs={'pk': self.file})

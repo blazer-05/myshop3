@@ -1,8 +1,9 @@
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, F
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from info.views import News, Review
+from myshop3.settings import MEDIA_URL
 from shop.forms import get_filters
 from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, MiddlwareNotification, PriceList
 from notifications.models import Notification
@@ -198,12 +199,11 @@ def notify_create(request):
     })
 
 
-def price_list(request):
-    '''Прайс лист'''
-    price = PriceList.objects.filter(is_active=True)
-    context = {
-        'price_list': price,
-    }
-    return render(request, 'shop/base.html', context)
+def price_list_count(request):
+    '''Счетчик клика по ссылке скачать прайс лист.'''
+    price = get_object_or_404(PriceList, is_active=True)
+    price.counter += 1
+    price.save()
+    return redirect(price.file.url)
 
 
