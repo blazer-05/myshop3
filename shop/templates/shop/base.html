@@ -111,10 +111,16 @@
                                 <ul>
                                     <li>
                                         {% if price_list %}
-                                                <a href="{% url 'shop:price_list_count' %}">
-                                                    <img class="right-5" src="{% static 'shop/img/icon/xls.png' %}" alt="#" style="width: 16px; height: 11px;">Скачать прайс в xls &nbsp;
-                                                    Размер: {{ price_list.file.size|filesizeformat }} | Скачан: <span class="badge" style="margin-top: 7px;">{{ price_list.counter }}</span> раз
+                                            {% for p in price_list %}
+                                                <a href="{% url 'shop:price_list_count' p.pk %}">
+                                                    <img class="right-5" src="{% static 'shop/img/icon/xls.png' %}"
+                                                         alt="#" style="width: 16px; height: 11px;">Скачать прайс в xls
+                                                    &nbsp;
+                                                    Размер: {{ p.file.size|filesizeformat }} | Скачан: <span
+                                                        class="badge" style="margin-top: 7px;">{{ p.counter }}</span>
+                                                    раз
                                                 </a>
+                                            {% endfor %}
                                         {% else %}
                                             <ul>Прайс обновляется.</ul>
                                         {% endif %}

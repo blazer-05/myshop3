@@ -1,5 +1,6 @@
+from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from info.views import News, Review
@@ -199,9 +200,20 @@ def notify_create(request):
     })
 
 
-def price_list_count(request):
+def price_list_count(request, pk):
     '''Счетчик клика по ссылке скачать прайс лист.'''
-    price = get_object_or_404(PriceList, is_active=True)
+
+    '''Если нужно вывести один прайс-лист то используем этот код без параметра pk!'''
+    # try:
+    #     price = get_object_or_404(PriceList, is_active=True)
+    # except MultipleObjectsReturned:
+    #     return HttpResponse('Вы выбрали более одного файла')
+    # price.counter += 1
+    # price.save()
+    # return redirect(price.file.url)
+
+    '''Еслинужно вывести все прайс-листы то используем этот код с параметром pk'''
+    price = PriceList.objects.get(pk=pk)
     price.counter += 1
     price.save()
     return redirect(price.file.url)

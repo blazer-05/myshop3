@@ -27,7 +27,7 @@ urlpatterns = [
     path('compare-products/', compareproducts, name='compare-products'),
     path('search/', search, name='search'),
     path('notify_create/', notify_create, name='notify_create'),
-    path('price/', price_list_count, name='price_list_count'),
+    path('price/<pk>/', price_list_count, name='price_list_count'),
 
 
 

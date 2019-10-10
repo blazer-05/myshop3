@@ -54,5 +54,9 @@ def footer(request):
 
 def price_list(request):
     '''Прайс лист'''
-    price = PriceList.objects.filter(is_active=True).first()
+
+    '''Если нужно вывести один прайс лист то используем кверисет с .first()
+    если все, то без .first()'''
+    #price = PriceList.objects.filter(is_active=True).first()
+    price = PriceList.objects.filter(is_active=True)
     return {'price_list': price}
