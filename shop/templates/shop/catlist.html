@@ -42,7 +42,8 @@
                                             {% endif %}
                                             <div class="image">
                                                 <h3><a href="{% url 'shop:shop-list' child.slug %}">{{ child.name }}</a></h3>
-                                                <p>Товаров: шт.</p>
+                                            <!-- Количество товаров в подкатегории. Метод product_items_count из модели Category -->
+                                                <p>Товаров: {{ child.product_items_count }} шт.</p>
                                             </div>
                                         </div>
                                     {% endfor %}

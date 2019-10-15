@@ -1,5 +1,6 @@
 from django.core.exceptions import MultipleObjectsReturned
 from django.db.models import Q
+from django.db.models import Count
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
@@ -88,11 +89,6 @@ def shoplist(request, slug):
     products = form_filters.filter_queryset(products)
     products = products.with_rating().with_in_wishlist(request.user)
 
-    '''Для нотификации'''
-    # check_for_subscribe = MiddlwareNotification.objects.filter(user_name=request.user.pk, product=products).exists()
-    # if products.is_active and request.user.is_authenticated:
-    #     Notification.objects.filter(recipient=request.user, description=slug).delete()
-
     paginator = Paginator(products, 5)
     page = request.GET.get('page')
     products = paginator.get_page(page)
@@ -102,7 +98,6 @@ def shoplist(request, slug):
         'products': products,
         'category': category,
         'cart': request.cart,
-        # 'check_for_subscribe': check_for_subscribe,
     }
     return render(request, 'shop/shop-list.html', context)
 

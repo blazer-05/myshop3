@@ -9,58 +9,64 @@
 
 
 <!-- CATEGORY-MENU-LIST START -->
-	                    <div class="left-category-menu hidden-sm hidden-xs">
-	                        <div class="left-product-cat">
-	                            <div class="category-heading">
-	                                <h2>categories</h2>
-	                            </div>
-	                            <div class="category-menu-list">
-	                                <ul class="root">
-                                         {% recursetree nodes %}
-	                                    <!-- Single menu start -->
-	                                    <li class="arrow-plus">
-											<a href="{% url 'shop:catlinks' node.slug %}">{{ node.name }}</a>
-											<!--  MEGA MENU START -->
-											{% if not node.is_leaf_node %}
-											<div class="cat-left-drop-menu">
-												{% for child in node.children.all %}
-												<div class="cat-left-drop-menu-left">
-													<a class="menu-item-heading" href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a>
-													<ul class="children">
-														{% recursetree child.children.all %}
-														<li><a href="{% url 'shop:shop-list' node.slug %}">{{ node.name }}</a></li>
-														{% endrecursetree %}
-													</ul>
-												</div>
-												{% endfor %}
-	                                        </div>
-                                            {% endif %}
-	                                        <!-- MEGA MENU END -->
-	                                    </li>
-	                                    <!-- Single menu end -->
-                                        {% endrecursetree %}
+<div class="left-category-menu hidden-sm hidden-xs">
+    <div class="left-product-cat">
+        <div class="category-heading">
+            <h2>categories</h2>
+        </div>
+        <div class="category-menu-list">
+            <ul class="root">
+                {% recursetree nodes %}
+                    <!-- Single menu start -->
+                    <li class="arrow-plus">
+                        <a href="{% url 'shop:catlinks' node.slug %}">{{ node.name }}</a>
+                        <!--  MEGA MENU START -->
+                        {% if not node.is_leaf_node %}
+                            <div class="cat-left-drop-menu">
+                                {% for child in node.children.all %}
+                                    <div class="cat-left-drop-menu-left">
+                                        <a class="menu-item-heading" href="{% url 'shop:catlist' child.slug %}">
+                                            {{ child.name }}&nbsp;({{ child.subcategory_items_count }})
+                                        </a>
+                                        <ul class="children">
+                                            {% recursetree child.children.all %}
+                                                <li>
+                                                    <a href="{% url 'shop:shop-list' node.slug %}">
+                                                        {{ node.name }}&nbsp;({{ node.product_items_count }})
+                                                    </a>
+                                                </li>
+                                            {% endrecursetree %}
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <!-- MEGA MENU END -->
+                    </li>
+                    <!-- Single menu end -->
+                {% endrecursetree %}
 
-	                                    <!-- MENU ACCORDION START -->
-	                                    <li class=" rx-child">
-	                                        <a href="shop.html">Каталог</a>
-	                                    </li>
-	                                    <li class=" rx-child">
-	                                        <a href="shop.html">Books</a>
-	                                    </li>
-	                                    <li class=" rx-parent">
-	                                        <a class="rx-default">
-	                                            More categories <span class="cat-thumb  fa fa-plus"></span>
-	                                        </a>
-	                                        <a class="rx-show">
-	                                            close menu <span class="cat-thumb  fa fa-minus"></span>
-	                                        </a>
-	                                    </li>
-	                                    <!-- MENU ACCORDION END -->
-	                                </ul>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <!-- END CATEGORY-MENU-LIST -->
+                <!-- MENU ACCORDION START -->
+                <li class=" rx-child">
+                    <a href="shop.html">Каталог</a>
+                </li>
+                <li class=" rx-child">
+                    <a href="shop.html">Books</a>
+                </li>
+                <li class=" rx-parent">
+                    <a class="rx-default">
+                        More categories <span class="cat-thumb  fa fa-plus"></span>
+                    </a>
+                    <a class="rx-show">
+                        close menu <span class="cat-thumb  fa fa-minus"></span>
+                    </a>
+                </li>
+                <!-- MENU ACCORDION END -->
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- END CATEGORY-MENU-LIST -->
 
 
 

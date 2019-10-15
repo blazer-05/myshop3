@@ -43,13 +43,23 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
-    # Возвращает ссылку на категорию в шаблоне главной страницы index {{ category.sortcategory.get_absolut_url }}
+    def subcategory_items_count(self):
+        '''На странице catlink вывод количества подкатегорий в родительской категории'''
+        ids = self.get_descendants(include_self=True).values_list('id')
+        return Category.objects.filter(parent_id__in=ids).count()
+
+    def product_items_count(self):
+        ''' На странице catlist вывод количества товаров в данной подкатегории '''
+        ids = self.get_descendants(include_self=True).values_list('id')
+        return Product.objects.filter(category__in=ids).count()
+
     def get_absolute_url(self):
+        '''Возвращает ссылку на категорию в шаблоне главной страницы index {{ category.sortcategory.get_absolut_url }}'''
         return reverse('shop:shop-list', kwargs={'slug': self.slug})
 
-    # Вывод картинок в админке!
-    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
     def image_img(self):
+        '''Вывод картинок в админке!
+        Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.'''
         if self.img:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.img.url))
         else:
@@ -162,6 +172,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
 
     # Вывод картинок в админке!
     # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.

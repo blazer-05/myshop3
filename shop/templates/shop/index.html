@@ -2,71 +2,178 @@
 {% load mptt_tags %}
 {% load i18n mptt_tags %}
 {% load thumbnail %}
+{% load easy_thumbnails_tags %}
 {% load staticfiles %}
 {% load banner %}
 
 {% block content %}
-		<!-- Category slider area start -->
-		<div class="category-slider-area">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-3">
-						{% include 'shop/menu-category.html' %} <!--Подгружаем код из файла shop/menu-category.html -->
-	                </div>
-	                <div class="col-md-9">
 
-                		<!-- slider -->
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel"><!-- style="width: 100%; height: 28em" -->
-                              <!-- Indicators -->
-                              <ol class="carousel-indicators">
-{#                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>#}
-{#                                <li data-target="#myCarousel" data-slide-to="1"></li>#}
-{#                                <li data-target="#myCarousel" data-slide-to="2"></li>#}
-                              </ol>
-                              <div class="carousel-inner" role="listbox">
-                         {% for slider in slider_product %}
+<!-- Стиль для слайдера товаров. В shop-script.js так де код для слайдера -->
+<style>
+
+#custom_carousel .item  .top {
+    {#overflow:hidden;#}
+    {#max-height:500px;#}
+    {#margin-bottom:15px;#}
+}
+#custom_carousel .item {
+
+    color:#000;
+    background-color:#fff;
+    padding:20px 0;
+    overflow:hidden
+}
+#custom_carousel .item img{
+width:100%;
+height:auto
+}
+
+#custom_carousel .izq
+{
+  position:absolute;
+  left: -25px;
+  top:40%;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 30px;
+}
+/* Next button  */
+#custom_carousel .der
+{
+  position:absolute;
+  right: -25px !important;
+  top:40%;
+  left:inherit;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 30px;
+}
+#custom_carousel .controls{
+
+    overflow:hidden;
+    padding:0;
+    margin:0;
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    background:#fff;
+    border:0;
+}
+#custom_carousel .controls .nav{
+
+    padding:0;
+    margin:0;
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    background:#fff;
+    width: auto;
+    border: 0;
+}
+#custom_carousel .controls li {
+    transition: all .5s ease;
+    display: inline-block;
+    max-width: 100px;
+    height: 90px;
+    opacity:.5;
+}
+#custom_carousel .controls li a{
+    padding:0;
+}
+#custom_carousel .controls li img{
+width:100%;
+height:auto
+}
+
+#custom_carousel .controls li.active {
+    background-color:#fff;
+    opacity:1;
+}
+#custom_carousel .controls a small {
+    overflow:hidden;
+    display:block;
+    font-size:10px;
+    margin-top:5px;
+    font-weight:bold
+}
+
+</style>
+
+    <!-- Category slider area start -->
+    <div class="category-slider-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    {% include 'shop/menu-category.html' %} <!--Подгружаем код из файла shop/menu-category.html -->
+                </div>
+                <div class="col-md-9">
+                    <!-- slider -->
+                    <div id="custom_carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                        <!-- Wrapper for slides -->
+                        {% for slider in slider_product %}
                             {% if forloop.first %}
-                                <div class="item active" align="center" style="width: 100%; height: 25em">
-                                    <a href="{{ slider.get_absolute_url }}">
-                                  <img class="first-slide" src="{{ slider.images|thumbnail_url:'slider' }}"  alt="First slide"><!-- style="width: 200px; height: 300px" -->
-                                 </a>
-                                  <div class="container">
-                                    <div class="carousel-caption">
-                                        <a href="{{ slider.get_absolute_url }}">
-                                            <h2>{{ slider.title }}</h2>
-                                        </a>
-{#                                      <p>{{ slider.descriptions|safe }}</p>#}
-{#                                      <p><a class="btn btn-lg btn-primary" href="{{ slider.get_absolute_url }}" role="button">Learn more</a></p>#}
+                                <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="top col-md-6 col-xs-12" style="width: 300px; height: 250px;">
+                                                <a href="{{ slider.get_absolute_url }}">
+                                                    <img src="{{ slider.images|thumbnail_url:'slider' }}"
+                                                         class="img-responsive">
+                                                </a>
+                                            </div>
+                                            <br>
+                                            <div class=" col-md-6 col-xs-12">
+                                                <a href="{{ slider.get_absolute_url }}">
+                                                    <h2>{{ slider.title }}</h2>
+                                                </a>
+                                                <p class="pull-right">{{ slider.descriptions|truncatewords:25|safe }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
-                                {% else %}
-                                <div class="item" align="center" style="width: 100%; height: 25em">
-                                <a href="{{ slider.get_absolute_url }}">
-                                  <img class="second-slide" src="{{ slider.images|thumbnail_url:'slider' }}" alt="Second slide">
-                                  </a>
-                                    <div class="container">
-                                    <div class="carousel-caption">
-                                        <a href="{{ slider.get_absolute_url }}">
-                                            <h2>{{ slider.title }}</h2>
-                                        </a>
-{#                                      <p>{{ slider.descriptions|safe }}</p>#}
-{#                                      <p><a class="btn btn-lg btn-primary" href="{{ slider.get_absolute_url }}" role="button">Learn more</a></p>#}
+                            {% else %}
+                                <div class="item">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="top col-md-6 col-xs-12" style="width: 300px; height: 250px;">
+                                                <a href="{{ slider.get_absolute_url }}">
+                                                    <img src="{{ slider.images|thumbnail_url:'slider' }}"
+                                                         class="img-responsive">
+                                                </a>
+                                            </div>
+                                            <br>
+                                            <div class=" col-md-6 col-xs-12">
+                                                <a href="{{ slider.get_absolute_url }}">
+                                                    <h2>{{ slider.title }}</h2>
+                                                </a>
+                                                <p class="pull-right">{{ slider.descriptions|truncatewords:25|safe }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
                                 </div>
                             {% endif %}
                         {% endfor %}
-                              </div>
-                              <a class="left carousel-control" href="#myCarousel" data-slide="prev"></a>
-                              <a class="right carousel-control" href="#myCarousel" data-slide="next"></a>
-                            </div>
-						<!-- slider end-->
-	                </div>
-	            </div>
-			</div>
-		</div>
-		<!-- Category slider area End -->		
+                        <!-- End Item -->
+                        </div>
+                        <a data-slide="prev" href="#custom_carousel" class="izq carousel-control">‹</a>
+                        <a data-slide="next" href="#custom_carousel" class="der carousel-control">›</a>
+                    </div>
+                    <!-- slider end-->
+                </div>
+            </div>
+        </div>
+    </div>
+		<!-- Category slider area End -->
+
 		<!-- START PAGE-CONTENT -->
 		<section class="page-content">
 			<div class="container">

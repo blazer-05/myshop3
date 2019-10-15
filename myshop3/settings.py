@@ -177,7 +177,7 @@ STATICFILES_DIRS = (
 # Настройки миниатюр для изображений https://pypi.org/project/easy-thumbnails/
 THUMBNAIL_ALIASES = {
     '': {
-        'slider': {'size': (500, 200), 'quality': 99},                    # index.html
+        'slider': {'size': (300, 250), 'corp':True, 'quality': 99},       # index.html
         'index': {'size': (200, 150), 'corp':True, 'quality': 99},        # index.html
         'akciya': {'size': (200, 150), 'corp':True, 'quality': 99},       # index.html
         'shop': {'size': (200, 150), 'corp':True, 'quality': 99},         # shop.html
