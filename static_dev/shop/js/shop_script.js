@@ -75,7 +75,7 @@ $(function ($) {
 
 
 /*---------------------
- price slider
+ price slider - относится к фильтрам товаров.
 --------------------- */
   $(function() {
     let min_price_el = $("#id_min_price");
@@ -118,30 +118,17 @@ $(function ($) {
   });
 
 
-//Слайдер на главной странице
-$(document).ready(function(ev){
-    var items = $(".nav li").length;
-    var leftRight=0;
-    if(items>5){
-        leftRight=(items-5)*50*-1;
-    }
-    $('#custom_carousel').on('slide.bs.carousel', function (evt) {
-
-
-      $('#custom_carousel .controls li.active').removeClass('active');
-      $('#custom_carousel .controls li:eq('+$(evt.relatedTarget).index()+')').addClass('active');
-    })
-    $('.nav').draggable({
-        axis: "x",
-         stop: function() {
-            var ml = parseInt($(this).css('left'));
-            if(ml>0)
-            $(this).animate({left:"0px"});
-                if(ml<leftRight)
-                    $(this).animate({left:leftRight+"px"});
-
-        }
-
-    });
+$('.compare').click(function() {
+  let pk = $(this).data('product');
+  let compare = Cookies.get('compare');
+  if (compare === undefined)
+    compare = '';
+  let compare_list = compare.split(',');
+  let index = compare_list.indexOf(pk);
+  if (index > -1) {
+    compare_list.splice(index, 1);
+  } else {
+    compare_list.push(pk);
+  }
+  Cookies.set('compare', compare_list.join(','))
 });
-

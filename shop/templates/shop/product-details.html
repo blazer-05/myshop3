@@ -312,6 +312,8 @@
 										<div class="active-product-carosel">
 
                                             {% for pftc in products_from_this_category %}
+                                                {% if pftc == product %}<!-- Не выводим просматриваемый продукт в этом блоке -->
+                                                    {% else %}
 											<!-- Start Single-Product -->
 											<div class="col-xs-12">
 												<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
@@ -381,6 +383,7 @@
 												</div>
 											</div>
 											<!-- End Single-Product -->
+                                                {% endif %}
                                             {% endfor %}
 
 										</div>

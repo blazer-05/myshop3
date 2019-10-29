@@ -147,6 +147,10 @@ def modalproduct(request, slug):
 
 def compareproducts(request):
     '''Сравнение товаров'''
+    # product = get_object_or_404(Product, pk=pk)
+    # context = {
+    #     'product': product,
+    # }
     return render(request, 'shop/compare.html')
 
 
