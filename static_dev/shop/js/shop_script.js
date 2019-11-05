@@ -118,17 +118,41 @@ $(function ($) {
   });
 
 
-$('.compare').click(function() {
-  let pk = $(this).data('product');
+// Запись в куку id товара
+$('.compare, .toch-compare').click(function(e) {
+  e.preventDefault();
+  let pk = '' + $(this).data('product');
   let compare = Cookies.get('compare');
   if (compare === undefined)
     compare = '';
-  let compare_list = compare.split(',');
+  let compare_list = compare === '' ? [] : compare.split(':');
   let index = compare_list.indexOf(pk);
   if (index > -1) {
     compare_list.splice(index, 1);
   } else {
     compare_list.push(pk);
   }
-  Cookies.set('compare', compare_list.join(','))
+  Cookies.set('compare', compare_list.join(':'));
+  compareBadgeUpdate()
 });
+
+// Количество добавленого товара в шаблоне base.html
+function compareBadgeUpdate() {
+  let compare = Cookies.get('compare');
+  let count = compare === undefined ? 0 : compare.split(':').length;
+  $('.compare-badge').text(count);
+}
+compareBadgeUpdate();
+
+
+$(function () {
+  $('#prod_compare').popover({
+    trigger: 'focus',
+    fallbackPlacement: [],
+  })
+});
+
+
+
+
+

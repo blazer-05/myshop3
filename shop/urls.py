@@ -24,6 +24,7 @@ urlpatterns = [
     path('shop-list/<slug>', shoplist, name='shop-list'),
     path('product-details/<str:product_slug>', productdetails, name='product-details'),
     path('modal-product/<slug>/', modalproduct, name='modal-product'),
+    path('compare-products/<category_slug>/', compareproducts, name='compare-products-by-category'),
     path('compare-products/', compareproducts, name='compare-products'),
     path('search/', search, name='search'),
     path('notify_create/', notify_create, name='notify_create'),

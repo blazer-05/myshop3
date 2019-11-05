@@ -10,6 +10,8 @@ from shop.forms import get_filters
 from shop.models import Category, Product, ProductAlbomImages, CategoryIndexPage, MiddlwareNotification, PriceList
 from notifications.models import Notification
 
+from shop.services import get_categories_by_cookie, get_products_by_cookie, get_attributes, serialize_products
+
 
 def index(request):
     '''Вывод на главной стр. корзины, акции, главного слайдера, новостей и категорий товаров'''
@@ -145,13 +147,21 @@ def modalproduct(request, slug):
     return render(request, 'shop/modal-product.html', context)
 
 
-def compareproducts(request):
+def compareproducts(request, category_slug=None):
     '''Сравнение товаров'''
-    # product = get_object_or_404(Product, pk=pk)
-    # context = {
-    #     'product': product,
-    # }
-    return render(request, 'shop/compare.html')
+    request.COOKIES.get('compare', '')
+    categories = get_categories_by_cookie(request)
+    products = get_products_by_cookie(request, category_slug)
+    items = products.count()
+
+    attributes = get_attributes(products)
+    context = {
+        'categories': categories,
+        'products': serialize_products(products),
+        'attributes': list(attributes),
+        'items': items,
+    }
+    return render(request, 'shop/compare.html', context=context)
 
 
 def search(request):

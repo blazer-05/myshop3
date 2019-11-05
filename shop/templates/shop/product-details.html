@@ -179,8 +179,10 @@
                                                 {% else %}
                                                     <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт" class="toch-button toch-wishlist">wishlist <i class="fa fa-heart-o"></i></a>
                                                 {% endif %}
-{#                                                <button type="submit" class="toch-button toch-wishlist">wishlist</button>#}
-                                                <button type="submit" class="toch-button toch-compare">Compare</button><br>
+                                                <button id="prod_compare" type="submit" class="toch-button toch-compare" data-product="{{ product.pk }}" data-placement="top" data-content="Добавлено">
+                                                    Compare
+                                                </button>
+                                                <br>
                                             </div>
                                         </div>
 										<hr />
