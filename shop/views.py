@@ -152,15 +152,18 @@ def compareproducts(request, category_slug=None):
     request.COOKIES.get('compare', '')
     categories = get_categories_by_cookie(request)
     products = get_products_by_cookie(request, category_slug)
-    items = products.count()
 
     attributes = get_attributes(products)
     context = {
         'categories': categories,
         'products': serialize_products(products),
         'attributes': list(attributes),
-        'items': items,
     }
+
+    if not category_slug and categories.count() > 1:
+        category_slug = categories.first().slug
+        return redirect('shop:compare-products-by-category', category_slug=category_slug)
+
     return render(request, 'shop/compare.html', context=context)
 
 

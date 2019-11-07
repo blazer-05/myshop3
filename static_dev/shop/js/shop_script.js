@@ -128,29 +128,56 @@ $('.compare, .toch-compare').click(function(e) {
   let compare_list = compare === '' ? [] : compare.split(':');
   let index = compare_list.indexOf(pk);
   if (index > -1) {
-    compare_list.splice(index, 1);
-  } else {
-    compare_list.push(pk);
-  }
+      compare_list.splice(index, 1);
+      $(this).removeClass('in-compare')
+    } else {
+      compare_list.push(pk);
+      $(this).addClass('in-compare')
+    }
   Cookies.set('compare', compare_list.join(':'));
   compareBadgeUpdate()
 });
 
+//Подсветка кнопки compare добавленных для сравнения товаров
+$('.compare, .toch-compare').each(function(){
+  let pk = '' + $(this).data('product');
+  let compare = Cookies.get('compare');
+  if (compare === undefined)
+    compare = '';
+  let compare_list = compare === '' ? [] : compare.split(':');
+  if(compare_list.indexOf(pk) > -1)
+    $(this).addClass('in-compare')
+});
+
+
+// Удаление товаров из compare (шаблон compare.html)
+$('#compare_delete_product').on('click', function () {
+  var r = confirm("Удалить все товары из сравнения?");
+  if (r) {
+    Cookies.set('compare', '');
+    window.location.reload()
+  }
+});
+
+
 // Количество добавленого товара в шаблоне base.html
 function compareBadgeUpdate() {
   let compare = Cookies.get('compare');
-  let count = compare === undefined ? 0 : compare.split(':').length;
+  if (compare === undefined)
+    compare = '';
+  let count = compare === '' ? 0 : compare.split(':').length;
   $('.compare-badge').text(count);
 }
 compareBadgeUpdate();
 
 
-$(function () {
-  $('#prod_compare').popover({
-    trigger: 'focus',
-    fallbackPlacement: [],
-  })
-});
+//На кнопке compare срабатывает по клику подсказка "Добавлено"
+// $(function () {
+//   $('#prod_compare').popover({
+//     trigger: 'focus',
+//     fallbackPlacement: [],
+//   })
+// });
 
 
 

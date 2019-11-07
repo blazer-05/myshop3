@@ -191,6 +191,7 @@ THUMBNAIL_ALIASES = {
         'bestsellers': {'size': (100, 100), 'corp':True, 'quality': 99},  # bestseller.html
         'sale': {'size': (100, 100), 'corp':True, 'quality': 99},         # sale.html
         'news': {'size': (190, 130), 'corp':True, 'quality': 99},         # news/list.html
+        'compare': {'size': (229, 149), 'corp':True, 'quality': 99},      # shop/compare.html
         #'index_news': {'size': (270, 93), 'corp':True, 'quality': 99},   # index.html
     }
 }

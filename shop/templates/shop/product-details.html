@@ -13,7 +13,10 @@
     Купить {{ product.title }} в интернет магазине Tehnostyle. Характеристики, цена на {{ category.name }} {{ product.title }}
 {% endblock %}
 
+
+
 {% block content %}
+
 		<!-- START PAGE-CONTENT -->
 		<section class="page-content">
 			<div class="container">
@@ -179,7 +182,7 @@
                                                 {% else %}
                                                     <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт" class="toch-button toch-wishlist">wishlist <i class="fa fa-heart-o"></i></a>
                                                 {% endif %}
-                                                <button id="prod_compare" type="submit" class="toch-button toch-compare" data-product="{{ product.pk }}" data-placement="top" data-content="Добавлено">
+                                                <button type="submit" class="toch-button toch-compare" data-product="{{ product.pk }}">
                                                     Compare
                                                 </button>
                                                 <br>

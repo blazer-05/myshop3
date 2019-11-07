@@ -5,8 +5,6 @@
 
 
 
-
-
 {% block content %}
 
 <div class="container">
@@ -18,7 +16,7 @@
             <div class="actions">
                 <a href="#0" class="reset">Reset</a>
                 <a href="#0" class="filter">Filter</a>
-                <button class="btn btn-danger" style="width: 100px; height: 38.2px; margin-left: 15px; margin-top: -3px;">
+                <button class="btn btn-danger" id="compare_delete_product" style="width: 100px; height: 38.2px; margin-left: 15px; margin-top: -3px;">
                     Delete
                 </button>
             </div>
@@ -29,7 +27,7 @@
                 {% url 'shop:compare-products-by-category' category.slug as cat_url %}
                 <li class="{% if cat_url == request.path %}active{% endif %}">
                     <a href="{{ cat_url }}">{{ category.name }}</a>
-                <span class="badge" style="margin-left: 5px;">{{ item }}</span>
+                <span class="badge" style="margin-left: 5px;">{{ category.product_count }}</span>
                 </li>
             {% endfor %}
         </ul>
@@ -51,8 +49,10 @@
                     {% for product in products %}<li class="product">
                         <div class="top-info">
                             <div class="check"></div>
-                            <img src="{{ product.image_url }}" alt="product image" style="width: 240px; height: 180px;">
-                            <h3>{{ product.title }}</h3>
+                            <a href="{{ product.get_url }}">
+                                <img src="{{ product.image_url }}" alt="product image" style="display: block; margin: auto;">
+                                <h3>{{ product.title }}</h3>
+                            </a>
                         </div> <!-- .top-info -->
 
                         <ul class="cd-features-list">

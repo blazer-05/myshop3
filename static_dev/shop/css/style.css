@@ -3006,6 +3006,13 @@ blockquote {
     display: inline-block;
 }
 
+/* Стиль подсветки кнопки Compare при добавлении товара в сравнение */
+.in-compare {
+    background-color: #e95668 !important;
+    color: #ffffff !important;
+}
+
+
 /* Мигающий текст новой новости, выводится в разделе новости из модели News - методом was_published_recently() */
  .blink {
   animation: blink 2s infinite; /* Параметры анимации */

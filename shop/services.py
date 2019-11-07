@@ -1,3 +1,5 @@
+from django.db.models import Count
+from easy_thumbnails.files import get_thumbnailer
 from shop.models import Product, Category, Attribute
 
 
@@ -7,7 +9,11 @@ def get_product_pks_from_cookie(request):
 
 def get_categories_by_cookie(request):
     product_pks = get_product_pks_from_cookie(request)
-    return Category.objects.filter(product__in=product_pks).distinct
+    return Category.objects.filter(
+        product__in=product_pks
+    ).annotate(
+        product_count=Count('product')
+    ).distinct()
 
 
 def get_products_by_cookie(request, category_slug):
@@ -28,7 +34,8 @@ def serialize_products(products):
         data = {
             'title': product.title,
             'price': product.price,
-            'image_url': product.images and product.images.url,
+            'get_url': product.get_absolute_url,
+            'image_url': product.images and product.images.url and get_thumbnailer(product.images)['compare'].url,
             'rating': product.rating,
             'attributes': {
                 key: value for key, value in product.entry_set.values_list('attribute', 'value__value')
