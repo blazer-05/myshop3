@@ -59,20 +59,20 @@
             };
 
             redirect_timer = () => {
-              let seconds = 5;
-              change_seconds(seconds);
-              setInterval(
-                () => {
-                  seconds--;
-                  change_seconds(seconds);
-                  if (seconds <= 0) {
-                    location.replace("/");
-                  }
-                }, 1000);
+                let seconds = 5;
+                change_seconds(seconds);
+                let interval = setInterval(
+                    () => {
+                        seconds--;
+                        change_seconds(seconds);
+                        if (seconds <= 0) {
+                            clearInterval(interval);
+                            location.replace("/")
+                        }
+                    }, 1000);
             };
 
             redirect_timer();
-            clearInterval(seconds);
 
         </script>
 

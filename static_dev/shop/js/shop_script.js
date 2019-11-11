@@ -171,13 +171,7 @@ function compareBadgeUpdate() {
 compareBadgeUpdate();
 
 
-//На кнопке compare срабатывает по клику подсказка "Добавлено"
-// $(function () {
-//   $('#prod_compare').popover({
-//     trigger: 'focus',
-//     fallbackPlacement: [],
-//   })
-// });
+
 
 
 
