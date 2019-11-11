@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (index, catalog, catlist, catlinks,
-                    shop, shoplist, productdetails,
+                    shoplist, productdetails,
                     modalproduct, compareproducts,
                     products_by_brand, search,
                     notify_create,
@@ -20,7 +20,7 @@ urlpatterns = [
     path('catalog/', catalog, name='catalog'),
     path('catalog/catlist/<slug>', catlist, name='catlist'),
     path('catlinks/<slug>', catlinks, name='catlinks'),
-    path('shop/', shop, name='shop'),
+    #path('shop/', shop, name='shop'),
     path('shop-list/<slug>', shoplist, name='shop-list'),
     path('product-details/<str:product_slug>', productdetails, name='product-details'),
     path('modal-product/<slug>/', modalproduct, name='modal-product'),

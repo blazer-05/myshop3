@@ -33,7 +33,7 @@
 						</div>
 						<!-- END PRODUCT-BANNER -->
                         <h1>Your order is accepted</h1>
-                        <h3>Automatic transition to the catalog page in <span id="id_seconds">5</span> seconds.</h3>
+                        <h3>Automatic transition to the catalog page in <span id="id_seconds"></span> seconds.</h3>
 						<div class="Wishlist-area">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel_default">
@@ -56,7 +56,7 @@
             /*Изменить текущий адрес страницы через 3 секунды (3000 миллисекунд)*/
             change_seconds = (seconds) => {
               document.getElementById('id_seconds').innerText = seconds;
-            }
+            };
 
             redirect_timer = () => {
               let seconds = 5;
@@ -66,12 +66,14 @@
                   seconds--;
                   change_seconds(seconds);
                   if (seconds <= 0) {
-                    location.replace("/")
+                    location.replace("/");
                   }
                 }, 1000);
-            }
+            };
 
-            redirect_timer()
+            redirect_timer();
+            clearInterval(seconds);
 
         </script>
+
 {% endblock content %}

@@ -67,18 +67,17 @@ def catlist(request, slug):
     context['category_list'] = category_list
     return render(request, 'shop/catlist.html', context)
 
-
-def shop(request):
-    '''Все товары списком без сортировки по категориям'''
-    context = {}
-    cart = request.cart
-    products = Product.objects.filter(is_active=True).with_rating().with_in_wishlist(request.user)
-    paginator = Paginator(products, 10)
-    page = request.GET.get('page')
-    products = paginator.get_page(page)
-    context['products'] = products
-    context['cart'] = cart
-    return render(request, 'shop/shop.html', context)
+# def shop(request):
+#     '''Все товары списком без сортировки по категориям'''
+#     context = {}
+#     cart = request.cart
+#     products = Product.objects.filter(is_active=True).with_rating().with_in_wishlist(request.user)
+#     paginator = Paginator(products, 10)
+#     page = request.GET.get('page')
+#     products = paginator.get_page(page)
+#     context['products'] = products
+#     context['cart'] = cart
+#     return render(request, 'shop/shop.html', context)
 
 
 def shoplist(request, slug):

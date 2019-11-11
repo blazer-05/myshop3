@@ -14,6 +14,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 
 class Banners(models.Model):
+    '''Модель баннеров'''
     title = models.CharField(max_length=150, verbose_name='Название баннера')
     description = models.TextField(blank=True, verbose_name='Описание баннера')
     images = models.ImageField(upload_to='img_banners/%y/%m/%d/', verbose_name='Изображение баннера')
@@ -47,6 +48,7 @@ class NewsQuerySet(models.QuerySet):
 
 
 class News(models.Model):
+    '''Модель новостей'''
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     slug = models.SlugField(max_length=200, verbose_name='Транслит')
     metakeywords = models.CharField(max_length=200, verbose_name='Ключевые слова', blank=True)

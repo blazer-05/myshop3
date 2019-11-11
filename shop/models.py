@@ -173,10 +173,9 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-
-    # Вывод картинок в админке!
-    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
     def image_img(self):
+        '''Вывод картинок в админке!
+        Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки'''
         if self.images:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.images.url))
         else:
@@ -248,8 +247,8 @@ def product_available_notification(sender, instance, *args, **kwargs):
 post_save.connect(product_available_notification, sender=Product)
 
 
-# Модель альбома с изображениями для товаров
 class ProductAlbomImages(MPTTModel):
+    '''Модель альбома с изображениями для товаров'''
     name = models.CharField(max_length=200, verbose_name='Название')
     product = models.ForeignKey(Product, blank=True, null=True, related_name='image', on_delete=models.CASCADE, verbose_name='Продукт')
     image = models.ImageField(upload_to='product-albom-images/%y/%m/%d/', blank=True, verbose_name='Загрузить картинку')
@@ -265,8 +264,8 @@ class ProductAlbomImages(MPTTModel):
     def __str__(self):
         return self.name
 
-    # Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.
     def image_img(self):
+        '''Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.'''
         if self.image:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.image.url))
         else:
@@ -275,8 +274,8 @@ class ProductAlbomImages(MPTTModel):
     image_img.allow_tags = True
 
 
-# Модель атрибута товара
 class Attribute(MPTTModel):
+    '''Модель атрибута товара'''
     title = models.CharField(max_length=250, verbose_name='Атрибут')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
@@ -298,8 +297,8 @@ class Attribute(MPTTModel):
 mptt.register(Attribute, order_insertion_by=['title'])
 
 
-# Модель значения товара связанная с моделью атрибута
 class Value(MPTTModel):
+    '''Модель значения товара связанная с моделью атрибута'''
     attribute = models.ForeignKey(Attribute, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Атрибут')
     value = models.CharField(max_length=250, blank=True, verbose_name='Значение')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE) # editable=False (Скрыл поле parent в админке)
@@ -330,8 +329,8 @@ class EntryQuerySet(models.QuerySet):
         return self.filter(is_active=True)
 
 
-# Модель связанная с продуктом, атрибутом и значением. Выводится под товаром.
 class Entry(models.Model):
+    '''Модель связанная с продуктом, атрибутом и значением. Выводится под товаром.'''
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE, verbose_name='Атрибут')
 
@@ -358,8 +357,9 @@ class Entry(models.Model):
         return '{} - {}'.format(self.attribute.title, self.value.value)
 
 
-# Модель и метод для вывода на главной всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:10]).
 class CategoryIndexPage(MPTTModel):
+    '''Модель и метод для вывода на главной всех товаров принадлежайших
+    каждый своей категории в рандомном порядке (.order_by('?')[:10]).'''
     sortcategory = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Вывод категорий на главной странице')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     brands = models.ManyToManyField(Brand, blank=True, verbose_name='Сортировать по брендам')
@@ -387,8 +387,9 @@ class CategoryIndexPage(MPTTModel):
     '''
 
 
-# Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших каждый своей категории в рандомном порядке (.order_by('?')[:4]).
 class Bestseller(MPTTModel):
+    '''Модель и метод для вывода на главной в блоке bestseller всех товаров принадлежайших
+    каждый своей категории в рандомном порядке (.order_by('?')[:4]).'''
     bestseller = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
@@ -411,8 +412,8 @@ class Bestseller(MPTTModel):
         return bestseller_categories
 
 
-# Модель и метод вывода на главной товаров по категориям в блоке распродажа
 class SaleCategory(MPTTModel):
+    '''Модель и метод вывода на главной товаров по категориям в блоке распродажа'''
     sale_category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Выберите категорию')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
@@ -435,8 +436,8 @@ class SaleCategory(MPTTModel):
         return sale_categories
 
 
-# Модель и метод вывода на главной товаров по штучно в блоке распродажа
 class SaleProduct(MPTTModel):
+    '''Модель и метод вывода на главной товаров по штучно в блоке распродажа'''
     sale_product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Выберите товар')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
