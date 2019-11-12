@@ -7,9 +7,11 @@ from orders.models import Order
 
 
 def order_create(request):
+    '''Создание заказа'''
+    '''До else отрабатывает для не авторизованного пользователя, после else для авторизованного'''
     cart = request.cart
     if request.method == 'POST':
-        form = OrderForm(request.POST or None) # принимаает пост запрос или ничего.
+        form = OrderForm(request.POST or None)
         if form.is_valid():
             full_name = form.cleaned_data['full_name']
             phone = form.cleaned_data['phone']
@@ -54,15 +56,22 @@ def order_create(request):
             message = render_to_string('orders/admin_email.html', context, request)
             #email = EmailMessage('Поступил новый заказ: №' + str(order.id) + ' ' + full_name, message, 'blazer-05@mail.ru', recepients)
             if request.user.is_authenticated:
-                email = EmailMessage('Поступил новый заказ. {} от пользователя "{}" '.format(order, request.user), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+                email = EmailMessage('Поступил новый заказ. {} от пользователя "{}" '.format(order, request.user),
+                                     message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             else:
-                email = EmailMessage('Поступил новый заказ. {} от анонимного пользователя "{}" '.format(order, full_name), message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+                email = EmailMessage('Поступил новый заказ. {} от анонимного пользователя "{}" '.format(order, full_name),
+                                     message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             email.content_subtype = 'html'
             email.send()
 
             '''Отправляем письмо пользователю'''
             user_message = render_to_string('orders/user_order_email.html', context, request)
-            user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru', user_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+            if request.user.is_authenticated:
+                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru',
+                                          to=[request.user.email])
+            else:
+                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru',
+                                          user_recepients)
             user_email.content_subtype = 'html'
             user_email.send()
 
@@ -70,7 +79,17 @@ def order_create(request):
 
             return HttpResponseRedirect('thanks')
     else:
-        form = OrderForm()
+        '''Если пользователь авторизован, то инициализируем-заполняем форму значениями из профиля пользователя,
+        чтобы в админке в заказе было указано от кого поступил заказ.'''
+        initial = {}
+        user = request.user
+        if user.is_authenticated:
+            profile = user.profile
+            initial['full_name'] = '{} {}'.format(profile.last_name, profile.first_name)
+            initial['phone'] = profile.phone
+            initial['email'] = user.email
+
+        form = OrderForm(initial=initial)
 
     return render(request, 'orders/orders.html', {'form': form, 'cart': cart})
 

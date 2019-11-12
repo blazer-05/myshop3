@@ -93,17 +93,22 @@
                                                     {% csrf_token %}
                                                     <div class="col-sm-13">
 {#                                                    {% bootstrap_form form layout='inline' %}#}
-                                                        {% if not request.user.is_authenticated %}
-                                                            {% bootstrap_field form.full_name show_label=False %}
-                                                            {% bootstrap_field form.phone show_label=False %}
-                                                            {% bootstrap_field form.email show_label=False %}
-                                                        {% endif %}
+                                                        {% bootstrap_field form.full_name show_label=False %}
+                                                        {% bootstrap_field form.phone show_label=False %}
+                                                        {% bootstrap_field form.email show_label=False %}
                                                         {% bootstrap_field form.buying_type show_label=False %}
                                                         {% bootstrap_field form.address show_label=False %}
                                                         {% bootstrap_field form.delivery_date show_label=False %}
                                                         {% bootstrap_field form.comment show_label=False %}
                                                     <input type="submit" class="btn btn-primary pull-right" value="Create">
                                                     </div>
+                                                    {% if not request.user.is_authenticated %}
+                                                        <p class="pull-left">*
+                                                            <span style="color: red;">
+                                                                Отмеченные поля обязательны к заполнению.
+                                                            </span>
+                                                        </p>
+                                                    {% endif %}
                                                 </form>
 
                                             <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
@@ -141,7 +146,7 @@
                         {% else %}
                            <div class="shopping-checkout">
                                 <h2 class="entry-title">Your basket is empty</h2>
-                                <a href="{% url 'shop:shop' %}" class="btn btn-success pull-left">Continue
+                                <a href="{% url 'shop:catalog' %}" class="btn btn-success pull-left">Continue
                                     Shopping</a>
                             </div>
                     {% endif %}
