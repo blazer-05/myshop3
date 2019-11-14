@@ -1,9 +1,11 @@
 #from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
+from myshop3.local_settings import DEFAULT_FROM_EMAIL
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from orders.forms import OrderForm
 from orders.models import Order
+from django.http import Http404
 
 
 def order_create(request):
@@ -20,8 +22,9 @@ def order_create(request):
             delivery_date = form.cleaned_data['delivery_date']
             address = form.cleaned_data['address']
             comment = form.cleaned_data['comment']
-            recepients = ['blazer-05@mail.ru']
-            user_recepients = [email]
+            recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет заказ от пользователя
+            admin_recepients = ['atari1971@mail.ru'] # второй емейл админа (дубль), на него придет заказ от пользователя
+            user_recepients = [email] # емейл пользователя, на него придет его заказ
             cart = request.cart
             order = Order.objects.create(
                 #user=request.user,
@@ -57,20 +60,20 @@ def order_create(request):
             #email = EmailMessage('Поступил новый заказ: №' + str(order.id) + ' ' + full_name, message, 'blazer-05@mail.ru', recepients)
             if request.user.is_authenticated:
                 email = EmailMessage('Поступил новый заказ. {} от пользователя "{}" '.format(order, request.user),
-                                     message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+                                     message, DEFAULT_FROM_EMAIL, recepients, admin_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             else:
                 email = EmailMessage('Поступил новый заказ. {} от анонимного пользователя "{}" '.format(order, full_name),
-                                     message, 'blazer-05@mail.ru', recepients) #'blazer-05@mail.ru' - это адрес отправителя!
+                                     message, DEFAULT_FROM_EMAIL, recepients, admin_recepients) #'blazer-05@mail.ru' - это адрес отправителя!
             email.content_subtype = 'html'
             email.send()
 
             '''Отправляем письмо пользователю'''
             user_message = render_to_string('orders/user_order_email.html', context, request)
             if request.user.is_authenticated:
-                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru',
+                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, DEFAULT_FROM_EMAIL,
                                           to=[request.user.email])
             else:
-                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, 'blazer-05@mail.ru',
+                user_email = EmailMessage('Спасибо за Ваш заказ. {}'.format(order), user_message, DEFAULT_FROM_EMAIL,
                                           user_recepients)
             user_email.content_subtype = 'html'
             user_email.send()
@@ -80,7 +83,7 @@ def order_create(request):
             return HttpResponseRedirect('thanks')
     else:
         '''Если пользователь авторизован, то инициализируем-заполняем форму значениями из профиля пользователя,
-        чтобы в админке в заказе было указано от кого поступил заказ.'''
+        чтобы в админке в заказе было указано от какого авторизованного пользователя поступил заказ.'''
         initial = {}
         user = request.user
         if user.is_authenticated:
@@ -92,4 +95,8 @@ def order_create(request):
         form = OrderForm(initial=initial)
 
     return render(request, 'orders/orders.html', {'form': form, 'cart': cart})
+
+
+def thanks(request):
+    return render(request, 'orders/thanks.html')
 

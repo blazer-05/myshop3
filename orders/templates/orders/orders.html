@@ -115,25 +115,25 @@
                                             <!-- Скрипт скрывающие поле "адрес" в форме -->
                                             <script>
                                                 $(document).ready(function(){
-                                                    $('#id_address').css('display', 'none')
-                                                    $('.help-block').css('display', 'none')
-                                                    $('#id_delivery_date_day').css('display', 'none')
-                                                    $('#id_delivery_date_month').css('display', 'none')
-                                                    $('#id_delivery_date_year').css('display', 'none')
+                                                    $('#id_address').css('display', 'none');
+                                                    $('.help-block').css('display', 'none');
+                                                    $('#id_delivery_date_day').css('display', 'none');
+                                                    $('#id_delivery_date_month').css('display', 'none');
+                                                    $('#id_delivery_date_year').css('display', 'none');
                                                     $('#id_buying_type').on('click', function(){
-                                                        buying_type = $(this).val()
+                                                        buying_type = $(this).val();
                                                         if(buying_type == 'delivery'){
-                                                            $('#id_address').css('display', 'block')
-                                                            $('.help-block').css('display', 'block')
-                                                            $('#id_delivery_date_day').css('display', 'block')
-                                                            $('#id_delivery_date_month').css('display', 'block')
-                                                            $('#id_delivery_date_year').css('display', 'block')
+                                                            $('#id_address').css('display', 'block');
+                                                            $('.help-block').css('display', 'block');
+                                                            $('#id_delivery_date_day').css('display', 'block');
+                                                            $('#id_delivery_date_month').css('display', 'block');
+                                                            $('#id_delivery_date_year').css('display', 'block');
                                                         }else{
-                                                            $('#id_address').css('display', 'none')
-                                                            $('.help-block').css('display', 'none')
-                                                            $('#id_delivery_date_day').css('display', 'none')
-                                                            $('#id_delivery_date_month').css('display', 'none')
-                                                            $('#id_delivery_date_year').css('display', 'none')
+                                                            $('#id_address').css('display', 'none');
+                                                            $('.help-block').css('display', 'none');
+                                                            $('#id_delivery_date_day').css('display', 'none');
+                                                            $('#id_delivery_date_month').css('display', 'none');
+                                                            $('#id_delivery_date_year').css('display', 'none');
                                                         }
                                                     })
                                                 })

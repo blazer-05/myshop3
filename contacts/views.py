@@ -23,7 +23,8 @@ def contact(request):
             phone = form.cleaned_data['phone']
             email = form.cleaned_data['email']
             text = form.cleaned_data['text']
-            recepients = [DEFAULT_FROM_EMAIL]
+            recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
+            admin_recepients = ['blazer-05@ukr.net'] # второй емейл админа (дубль), на него придет сообщение от пользователя
             contact = form.save(commit=False)
             contact.save()
 
@@ -36,7 +37,7 @@ def contact(request):
             }
 
             message = render_to_string('admin_contact_email.html', context, request)
-            email = EmailMessage('Поступило новое сообщение с сайта №{} от "{}" ' .format(contact.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
+            email = EmailMessage('Поступило новое сообщение с сайта №{} от "{}" ' .format(contact.id, full_name), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
             email.content_subtype = 'html'
             email.send()
             messages.success(request, 'Ваше сообщение успешно отправлено!')
@@ -70,7 +71,7 @@ def backcall(request):
             full_name = form.cleaned_data['full_name']
             phone = form.cleaned_data['phone']
             text = form.cleaned_data['text']
-            recepients = [DEFAULT_FROM_EMAIL]
+            recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
             backcall = form.save(commit=False)
             backcall.save()
 
