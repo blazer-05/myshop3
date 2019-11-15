@@ -63,16 +63,45 @@
                         </form>
                     </fieldset>
                     <br>
-                        {% if messages %}
-                            {% for message in messages %}
-                              <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
                                 {{ message }}
-                              </div>
-                            {% endfor %}
-                        {% endif %}
+                                <h4>
+                                    Automatic transition to the main page in <span id="id_seconds"></span> seconds.
+                                </h4>
+
+                                <script type="text/javascript">
+
+                                    /*Изменить текущий адрес страницы через 3 секунды (3000 миллисекунд)*/
+                                    change_seconds = (seconds) => {
+                                        document.getElementById('id_seconds').innerText = seconds;
+                                    };
+
+                                    redirect_timer = () => {
+                                        let seconds = 10;
+                                        change_seconds(seconds);
+                                        let interval = setInterval(
+                                            () => {
+                                                seconds--;
+                                                change_seconds(seconds);
+                                                if (seconds <= 0) {
+                                                    clearInterval(interval);
+                                                    location.replace("/")
+                                                }
+                                            }, 1000);
+                                    };
+
+                                    redirect_timer();
+
+                                </script>
+
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <!-- End Contact-Message -->
 

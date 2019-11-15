@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.generic import TemplateView
+
 from info.views import (newslist,
                         newsdetails,
                         create_review,
@@ -21,6 +23,7 @@ urlpatterns = [
 
     path('like-review/', like_review, name='like_review'),
     path('dislike-review/', dislike_review, name='dislike_review'),
+
 
 ]
 

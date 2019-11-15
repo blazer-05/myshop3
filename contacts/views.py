@@ -7,7 +7,7 @@ from contacts.models import Contacts, Maps, About, Address, Delivery
 from contacts.forms import ContactForm, BackcallForm
 
 # Подгружаем настройки из модуля local_settings.py.
-from myshop3.local_settings import DEFAULT_FROM_EMAIL
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
 
 
 def contact(request):
@@ -24,7 +24,7 @@ def contact(request):
             email = form.cleaned_data['email']
             text = form.cleaned_data['text']
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-            admin_recepients = ['blazer-05@ukr.net'] # второй емейл админа (дубль), на него придет сообщение от пользователя
+            admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
             contact = form.save(commit=False)
             contact.save()
 
@@ -72,6 +72,7 @@ def backcall(request):
             phone = form.cleaned_data['phone']
             text = form.cleaned_data['text']
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
+            admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
             backcall = form.save(commit=False)
             backcall.save()
 
@@ -83,7 +84,7 @@ def backcall(request):
             }
 
             message = render_to_string('admin_backall_email.html', context, request)
-            email = EmailMessage('Поступил заказ обратного звонка №{} от "{}" '.format(backcall.id, full_name), message, DEFAULT_FROM_EMAIL, recepients)
+            email = EmailMessage('Поступил заказ обратного звонка №{} от "{}" '.format(backcall.id, full_name), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
             email.content_subtype = 'html'
             email.send()
             messages.success(request, 'Ваше сообщение успешно отправлено!')

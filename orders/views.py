@@ -1,6 +1,6 @@
 #from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect
-from myshop3.local_settings import DEFAULT_FROM_EMAIL
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from orders.forms import OrderForm
@@ -23,7 +23,7 @@ def order_create(request):
             address = form.cleaned_data['address']
             comment = form.cleaned_data['comment']
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет заказ от пользователя
-            admin_recepients = ['atari1971@mail.ru'] # второй емейл админа (дубль), на него придет заказ от пользователя
+            admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет заказ от пользователя
             user_recepients = [email] # емейл пользователя, на него придет его заказ
             cart = request.cart
             order = Order.objects.create(

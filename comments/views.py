@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
 
 from comments.forms import CommentFormCaptcha, CommentForm, EditComment
 from comments.models import Comment
@@ -32,7 +33,8 @@ def create_comment(request):
         email = form.cleaned_data['email']
         text = form.cleaned_data['text']
 
-        recepients = ['blazer-05@mail.ru']
+        recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
+        admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
 
         comment = form.save(commit=False)
         '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
@@ -44,7 +46,7 @@ def create_comment(request):
         context = {'user': user, 'user_name': user_name, 'email': email, 'text': text, 'comment': comment}
 
         message = render_to_string('admin_comment_email.html', context, request)
-        email = EmailMessage('Поступил новый комментарий к статье "{}"'.format(comment.content_object), message, 'blazer-05@mail.ru', recepients)
+        email = EmailMessage('Поступил новый комментарий №{} к статье/товару "{}"'.format(comment.id, comment.content_object), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
         email.content_subtype = 'html'
         email.send()
         messages.success(request, 'Ваш коментарий успешно отправлен, после проверки модератором он будет опубликован.')
@@ -65,7 +67,8 @@ def edit_comment(request, pk):
             user = form.cleaned_data['user']
             text = form.cleaned_data['text']
 
-            recepients = ['blazer-05@mail.ru']
+            recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
+            admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
 
             instance = form.save(commit=False)
             instance.user = request.user if request.user.is_authenticated else None
@@ -73,7 +76,7 @@ def edit_comment(request, pk):
 
             context = {'user': user, 'text': text, 'instance': instance, 'comment': comment}
             message = render_to_string('admin_edit_comment_email.html', context, request)
-            email = EmailMessage('Комментарий №"{}" к статье "{}" был отредактирован'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
+            email = EmailMessage('Комментарий №"{}" к статье "{}" был отредактирован'.format(comment.id, comment.content_object), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
             email.content_subtype = 'html'
             email.send()
 
@@ -92,10 +95,12 @@ def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
     comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
 
-    recepients = ['blazer-05@mail.ru']
+    recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
+    admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
+
     context = {'comment': comment, 'comm_news': comm_news, 'delete_date': datetime.now()}
     message = render_to_string('admin_delete_comment_email.html', context, request)
-    email = EmailMessage('Комментарий №"{}" к статье "{}" был удален'.format(comment.id, comment.content_object), message, 'blazer-05@mail.ru', recepients)
+    email = EmailMessage('Комментарий №"{}" к статье "{}" был удален'.format(comment.id, comment.content_object), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
     email.content_subtype = 'html'
     email.send()
 
