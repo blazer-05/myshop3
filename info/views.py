@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
 
 from info.forms import ReviewForm, ReviewFormCaptcha, EditReviewForm
 from info.models import News, Review
@@ -80,7 +81,8 @@ def create_review(request):
         rating = form.cleaned_data['rating']
         period = form.cleaned_data['period']
 
-        recepients = ['blazer-05@mail.ru']
+        recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
+        admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
 
         review = form.save(commit=False)
         '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
@@ -94,7 +96,7 @@ def create_review(request):
                    'comment': comment, 'video': video, 'rating': rating, 'period': period, 'review': review}
 
         message = render_to_string('review/admin_review_email.html', context, request)
-        email = EmailMessage('Поступил новый отзыв к товару "{}"'.format(review.product), message, 'blazer-05@mail.ru', recepients)
+        email = EmailMessage('Поступил новый отзыв №{} к товару "{}"'.format(review.id, review.product), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
         email.content_subtype = 'html'
         email.send()
         messages.success(request, 'Ваш отзыв успешно отправлен, после проверки модератором он будет опубликован.')
@@ -123,7 +125,8 @@ def edit_review(request, pk):
             rating = form.cleaned_data['rating']
             period = form.cleaned_data['period']
 
-            recepients = ['blazer-05@mail.ru']
+            recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
+            admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
 
             review = form.save(commit=False)
             '''Было review.user = request.user при добавлении комментария анонимом сайт падал
@@ -138,7 +141,7 @@ def edit_review(request, pk):
 
             message = render_to_string('review/admin_edit_review_email.html', context, request)
             email = EmailMessage('Отзыв №"{}" к статье "{}" был отредактирован'.format(review.id, review.product), message,
-                                 'blazer-05@mail.ru', recepients)
+                                 DEFAULT_FROM_EMAIL, recepients, admin_recepients)
             email.content_subtype = 'html'
             email.send()
             messages.success(request, 'Ваш отзыв успешно отредактирован.')
@@ -155,10 +158,12 @@ def delete_review(request, pk):
     review = get_object_or_404(Review, pk=pk, user=request.user)# user=request.user - передаем юзера т.е. юзер может удалить только свои комментарии и ни какие другие. в противном случае ошибка 404
     rev_prod = review.product # получаем комментарии связанные с новостью
 
-    recepients = ['blazer-05@mail.ru']
+    recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
+    admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
+
     context = {'review': review, 'rev_prod': rev_prod, 'delete_date': datetime.now()}
     message = render_to_string('review/admin_delete_review_email.html', context, request)
-    email = EmailMessage('Отзыв №"{}" к статье "{}" был удален'.format(review.id, review.product), message, 'blazer-05@mail.ru', recepients)
+    email = EmailMessage('Отзыв №"{}" к статье "{}" был удален'.format(review.id, review.product), message, DEFAULT_FROM_EMAIL, recepients, admin_recepients)
     email.content_subtype = 'html'
     email.send()
 
