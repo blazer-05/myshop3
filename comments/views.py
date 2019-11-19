@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.http import Http404, HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
-from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DOUBLE_ADMIN_EMAIL
 
 from comments.forms import CommentFormCaptcha, CommentForm, EditComment
 from comments.models import Comment
@@ -34,7 +34,7 @@ def create_comment(request):
         text = form.cleaned_data['text']
 
         recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-        admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
+        admin_recepients = [DOUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
 
         comment = form.save(commit=False)
         '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
@@ -68,7 +68,7 @@ def edit_comment(request, pk):
             text = form.cleaned_data['text']
 
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-            admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
+            admin_recepients = [DOUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
 
             instance = form.save(commit=False)
             instance.user = request.user if request.user.is_authenticated else None
@@ -96,7 +96,7 @@ def delete_comment(request, pk):
     comm_news = comment.content_object # comment.news получаем комментарии связанные с новостью
 
     recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-    admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
+    admin_recepients = [DOUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
 
     context = {'comment': comment, 'comm_news': comm_news, 'delete_date': datetime.now()}
     message = render_to_string('admin_delete_comment_email.html', context, request)

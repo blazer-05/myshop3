@@ -7,7 +7,7 @@ from contacts.models import Contacts, Maps, About, Address, Delivery
 from contacts.forms import ContactForm, BackcallForm
 
 # Подгружаем настройки из модуля local_settings.py.
-from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DOUBLE_ADMIN_EMAIL
 
 
 def contact(request):
@@ -24,7 +24,7 @@ def contact(request):
             email = form.cleaned_data['email']
             text = form.cleaned_data['text']
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-            admin_recepients = [DUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
+            admin_recepients = [DOUBLE_ADMIN_EMAIL] # второй емейл админа (дубль), на него придет сообщение от пользователя
             contact = form.save(commit=False)
             contact.save()
 
@@ -72,7 +72,7 @@ def backcall(request):
             phone = form.cleaned_data['phone']
             text = form.cleaned_data['text']
             recepients = [DEFAULT_FROM_EMAIL] # емейл админа, на него придет сообщение от пользователя
-            admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
+            admin_recepients = [DOUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
             backcall = form.save(commit=False)
             backcall.save()
 

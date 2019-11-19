@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
-from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
+from myshop3.local_settings import DEFAULT_FROM_EMAIL, DOUBLE_ADMIN_EMAIL
 
 from info.forms import ReviewForm, ReviewFormCaptcha, EditReviewForm
 from info.models import News, Review
@@ -82,7 +82,7 @@ def create_review(request):
         period = form.cleaned_data['period']
 
         recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
-        admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
+        admin_recepients = [DOUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
 
         review = form.save(commit=False)
         '''Было comment.user = request.user при добавлении комментария анонимом сайт падал
@@ -126,7 +126,7 @@ def edit_review(request, pk):
             period = form.cleaned_data['period']
 
             recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
-            admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
+            admin_recepients = [DOUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
 
             review = form.save(commit=False)
             '''Было review.user = request.user при добавлении комментария анонимом сайт падал
@@ -159,7 +159,7 @@ def delete_review(request, pk):
     rev_prod = review.product # получаем комментарии связанные с новостью
 
     recepients = [DEFAULT_FROM_EMAIL]  # емейл админа, на него придет сообщение от пользователя
-    admin_recepients = [DUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
+    admin_recepients = [DOUBLE_ADMIN_EMAIL]  # второй емейл админа (дубль), на него придет сообщение от пользователя
 
     context = {'review': review, 'rev_prod': rev_prod, 'delete_date': datetime.now()}
     message = render_to_string('review/admin_delete_review_email.html', context, request)

@@ -99,6 +99,7 @@ def shoplist(request, slug):
         'products': products,
         'category': category,
         'cart': request.cart,
+
     }
     return render(request, 'shop/shop-list.html', context)
 
