@@ -1,5 +1,9 @@
 #from django.contrib.auth.decorators import login_required
+from urllib.parse import urlparse
+
 from django.shortcuts import render, HttpResponseRedirect
+from django.urls import resolve, reverse
+
 from myshop3.local_settings import DEFAULT_FROM_EMAIL, DUBLE_ADMIN_EMAIL
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
@@ -98,5 +102,10 @@ def order_create(request):
 
 
 def thanks(request):
-    return render(request, 'orders/thanks.html')
-
+    '''Страница thanks'''
+    '''Проверяем урл с которого пришел пользователь должен быть равен урлу создания заказа. Тогда страница thanks 
+    не будет доступна всем, только тем кто сделал заказ.'''
+    referer = request.META.get('HTTP_REFERER')
+    if urlparse(referer).path == reverse('order:create_orders'):
+        return render(request, 'orders/thanks.html')
+    raise Http404()
