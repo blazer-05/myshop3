@@ -58,29 +58,15 @@
 											</li>
 										</ul>
 
-										<div class="sort">
-											<label>Sort By:</label>
-											<select>
-												<option value="#">Default</option>
-												<option value="#">Name (A - Z)</option>
-												<option value="#">Name (Z - A)</option>
-												<option value="#">Price (Low > High)</option>
-												<option value="#">Price (High > Low)</option>
-												<option value="#">Rating (Highest)</option>
-												<option value="#">Rating (Lowest)</option>
-												<option value="#">Model (Z - A))</option>
-												<option value="#">Model (A - Z)</option>
-											</select>
-										</div>
-										<div class="limit">
-											<label>Show:</label>
-											<select name="display-quantity">
-												<option value="2">2</option>
-												<option value="3">3</option>
-												<option value="4">4</option>
-											</select>
-										</div>
-									</div>
+                                        <div class="sort">
+                                            <label>Sort By:</label>
+                                            {{ filters.sort }}
+                                        </div>
+                                        <div class="limit">
+                                            <label>Show:</label>
+                                            {{ filters.limit }}
+                                        </div>
+                                    </div>
 
 									<!-- End Product-Menu -->
 									<div class="clear"></div>
@@ -181,13 +167,15 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-                                                                    {% bootstrap_pagination products pages_to_show=3 extra=request.GET.urlencode %}
+                                                                    <!-- Закрыта пагинация страниц т.к. выводится пагинация сортировкой из forms.py переменная limit  -->
+{#                                                                    {% bootstrap_pagination products pages_to_show=3 extra=request.GET.urlencode %}#}
 																</ul>
 														    </div>
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to {{ products.number }} of ({{ products.paginator.num_pages }} Pages)</span>
+                                                                <!-- Закрыта пагинация страниц т.к. выводится пагинация сортировкой из forms.py переменная limit  -->
+{#																<span>Showing 1 to {{ products.number }} of ({{ products.paginator.num_pages }} Pages)</span>#}
 															</div>
 														</div>
 													</div>
@@ -264,7 +252,7 @@
                                                                             {% else %}
                                                                             <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                         {% endif %}
-																		<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+																		<a href="#" data-toggle="tooltip" title="Compare" class="compare" data-product="{{ product.id }}"><i class="fa fa-signal"></i></a>
 																		<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}"><i class="fa fa-search-plus"></i></a>
 																	</div>
 																</div>
@@ -284,13 +272,13 @@
 														<div class="col-xs-5">
 															<div class="pagination">
 																<ul>
-                                                                    {% bootstrap_pagination products pages_to_show=3 extra=request.GET.urlencode %}
+{#                                                                    {% bootstrap_pagination products pages_to_show=3 extra=request.GET.urlencode %}#}
 																</ul>
 														    </div>
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to {{ products.number }} of ({{ products.paginator.num_pages }} Pages)</span>
+{#																<span>Showing 1 to {{ products.number }} of ({{ products.paginator.num_pages }} Pages)</span>#}
 															</div>
 														</div>
 													</div>

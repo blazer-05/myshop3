@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect
-from contacts.models import Contacts, Maps, About, Address, Delivery
+from contacts.models import Contacts, Maps, About, Address, Delivery, HeaderWidgetInfo
 from contacts.forms import ContactForm, BackcallForm
 
 # Подгружаем настройки из модуля local_settings.py.

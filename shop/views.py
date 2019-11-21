@@ -89,10 +89,8 @@ def shoplist(request, slug):
     form_filters = get_filters(request, products)
     products = form_filters.filter_queryset(products)
     products = products.with_rating().with_in_wishlist(request.user)
-
-    paginator = Paginator(products, 5)
-    page = request.GET.get('page')
-    products = paginator.get_page(page)
+    products = form_filters.sort_queryset(products)
+    products = form_filters.paginate_queryset(products, request)
 
     context = {
         'filters': form_filters, # фильтр товаров

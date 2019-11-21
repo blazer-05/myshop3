@@ -1,10 +1,22 @@
 from collections import defaultdict
+from urllib.parse import urlencode
 
 from django import forms
+from django.core.paginator import Paginator
 from django.db.models import Prefetch, Q, Min, Max, IntegerField
 from django.db.models.functions import Cast
 
 from shop.models import Brand, Value, Attribute
+
+
+def dict_to_query_string(data):
+    query_pairs = []
+    for key, value in data.items():
+        if isinstance(value, list):
+            query_pairs.extend([(key, val) for val in value])
+        else:
+            query_pairs.append((key, value))
+    return urlencode(query_pairs)
 
 
 '''Фильтр товаров'''
@@ -23,6 +35,27 @@ class ProductFilter(forms.Form):
     max_price = forms.IntegerField(required=False, widget=forms.NumberInput(attrs={'class': 'form-control'}))
     brand = forms.MultipleChoiceField(choices=[], required=False, widget=FilterCheckboxSelectMultiple())
     filter = forms.MultipleChoiceField(choices=[], required=False, widget=FilterCheckboxSelectMultiple())
+    sort = forms.ChoiceField(choices=(
+        ('', 'Default'),
+        ('title', 'Name (A - Z)'),
+        ('-title', 'Name (Z - A)'),
+        ('price', 'Price(Low > High)'),
+        ('-price', 'Price(Low < High)'),
+        ('-rating', 'Rating(Highest)'),
+        ('rating', 'Rating(Lowest)'),
+    ), required=False)
+    limit = forms.ChoiceField(choices=(
+        (8, 8), (16, 16), (24, 24), (40, 40), (80, 80), (100, 100)
+    ), required=False)
+
+    default_limit = 8
+
+    map_lookups = {
+        'brand': 'brand__in',
+        'min_price': 'price__gte',
+        'max_price': 'price__lte',
+        'filter': 'entry__value__in'
+    }
 
     def __init__(self, products, initial_min_price, initial_max_price, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,6 +91,10 @@ class ProductFilter(forms.Form):
             ))
         return choices
 
+    @property
+    def query_string(self):
+        return dict_to_query_string(self.data)
+
     def filter_queryset(self, queryset):
         if not self.is_valid():
             return queryset.none()
@@ -86,12 +123,37 @@ class ProductFilter(forms.Form):
 
         return queryset
 
+    def sort_queryset(self, queryset):
+        if not self.is_valid():
+            return queryset.none()
+
+        sort = self.cleaned_data.get('sort')
+
+        if sort:
+            return queryset.order_by(sort)
+        return queryset
+
+    def paginate_queryset(self, queryset, request):
+        if not self.is_valid():
+            queryset = queryset.none()
+
+        limit = self.cleaned_data.get('limit', self.default_limit)
+
+        paginator = Paginator(queryset, limit)
+        page = request.GET.get('page')
+        return paginator.get_page(page)
+
 
 def get_filters(request, products):
     initial = products.aggregate(
         min_price=Cast(Min('price'), output_field=IntegerField()),
         max_price=Cast(Max('price'), output_field=IntegerField())
     )
+    initial.update({
+        'sort': '',
+        'limit': ProductFilter.default_limit,
+    })
+
     initial_min_price = initial.get('min_price')
     initial_max_price = initial.get('max_price')
     form_data = {

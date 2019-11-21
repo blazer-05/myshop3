@@ -48,7 +48,7 @@ def brendlogo(request):
 
 def footer(request):
     '''Вывод в футер сайта адреса в шаблоне footer.html'''
-    address = Address.objects.filter(is_active=True).first()
+    address = Address.objects.filter(is_active=True)
     return {'address': address}
 
 

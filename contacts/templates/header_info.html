@@ -1,0 +1,21 @@
+{% load staticfiles %}
+
+            <div class="support-client hidden-xs">
+                <div class="row">
+                    <!-- Start Single-Support -->
+                    {% for widget in widgets %}
+                    <div class="col-md-3 hidden-sm">
+                        <div class="single-support">
+                            <div class="support-content">
+                                <i class="fa fa-clock-o"></i>
+                                <div class="support-text">
+                                    <h1 class="zero gfont-1" style="font-family: 'Roboto', sans-serif;">{{ widget.title }}</h1>
+                                    <p>{{ widget.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!-- End Single-Support -->
+                </div>
+            </div>

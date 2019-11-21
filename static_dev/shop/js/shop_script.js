@@ -171,7 +171,13 @@ function compareBadgeUpdate() {
 compareBadgeUpdate();
 
 
-
+// Фильтрация по выводу количества товаров в шаблоне shop-list.html (show) и сортировка по (Sort By)
+$('.product-filter select').on('change', function(){
+  let name = $(this).attr('name');
+  let form = $('#filter_form');
+  form.find('select[name='+name+']').val($(this).val());
+  form.submit()
+});
 
 
 

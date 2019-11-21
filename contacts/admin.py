@@ -1,5 +1,5 @@
 from django.contrib import admin
-from contacts.models import Contacts, Maps, About, Address, PrivacyPolicy, Backcall, Delivery
+from contacts.models import Contacts, Maps, About, Address, PrivacyPolicy, Backcall, Delivery, HeaderWidgetInfo
 from django_summernote.admin import SummernoteModelAdmin
 
 
@@ -68,3 +68,8 @@ class DeliveryAdmin(SummernoteModelAdmin):
     list_display = ['title', 'is_active', 'created', 'update']
     list_editable = ['is_active']
     actions = [complete_post, incomplete_post]
+
+
+@admin.register(HeaderWidgetInfo)
+class HeaderWidgetInfoAdmin(admin.ModelAdmin):
+    list_display = ['title', 'text']

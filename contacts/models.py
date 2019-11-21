@@ -122,3 +122,16 @@ class Backcall(models.Model):
 
     def __str__(self):
         return self.full_name
+
+
+class HeaderWidgetInfo(models.Model):
+    '''Виджеты (working time, Free shipping, Money back 100%, Phone:) '''
+    title = models.CharField(max_length=50, verbose_name='Заголовок')
+    text = models.CharField(max_length=50, verbose_name='Текст')
+
+    class Meta:
+        verbose_name = 'Виджет'
+        verbose_name_plural = 'Виджеты'
+
+    def __str__(self):
+        return '{} {}'.format(self.title, self.text)

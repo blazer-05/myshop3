@@ -4,7 +4,7 @@
 
 
 
-<form>
+<form id="filter_form">
     <div class="shop-filter">
         <div class="area-title">
             <h3 class="title-group gfont-1">Filters Products</h3>
@@ -28,9 +28,15 @@
         {{ filters.brand }}
         {{ filters.filter }}
     </div>
+    <div style="display: none">
+        {{ filters.sort }}
+        {{ filters.limit }}
+    </div>
     <div class="">
-        <input type="submit" class="btn btn-info pull-left" style="background-color: #26ACCE;" value="Filter"/>
-        <a href="{{ request.path }}" class="btn btn-danger pull-right">Reset</a>
+        <input type="submit" class="btn btn-info pull-right" style="background-color: #26ACCE;" value="Filter"/>
+        <a href="{{ request.path }}" class="btn btn-danger pull-left">Reset</a>
     </div>
 </form>
+
+
 

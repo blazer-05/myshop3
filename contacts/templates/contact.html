@@ -109,7 +109,7 @@
                                         <div class="icon">
                                             <div class="image"><i class="fa fa-mobile" aria-hidden="true"></i></div>
                                             <div class="info">
-                                                <h3 class="title">CONTACT</h3>
+                                                <h3 class="title">PHONE</h3>
                                                 <p>
                                                     <i class="fa fa-mobile" aria-hidden="true"></i> &nbsp
                                                     {{ adres.phone_one }}
@@ -133,6 +133,9 @@
                                                 <p>
                                                     <i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp
                                                      {{ adres.address }}
+                                                    <br>
+                                                    <br>
+                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp Mon- Sun: 8.00 - 18.00
                                                 </p>
                                             </div>
                                         </div>
@@ -228,32 +231,6 @@
 					</div>
 				</div>
 			</div>
-
-
-		<!-- Google Map js -->
-{#        <script src="https://maps.googleapis.com/maps/api/js"></script>#}
-{##}
-{#		<script>#}
-{#			function initialize() {#}
-{#				var mapOptions = {#}
-{#					zoom: 5,#}
-{#					scrollwheel: false,#}
-{#					center: new google.maps.LatLng(40.7058316, -74.2581978)#}
-{#				};#}
-{##}
-{#				var map = new google.maps.Map(document.getElementById('googleMap'),#}
-{#					mapOptions);#}
-{##}
-{#				var marker = new google.maps.Marker({#}
-{#					position: map.getCenter(),#}
-{#					animation:google.maps.Animation.BOUNCE,#}
-{#					icon: 'img/map-marker.png',#}
-{#					map: map#}
-{#				});#}
-{#			}#}
-{##}
-{#			google.maps.event.addDomListener(window, 'load', initialize);#}
-{#		</script>#}
 
         </section>
 {% endblock content %}

@@ -48,18 +48,23 @@
                         <h5>Contacts</h5>
                     </div>
                     <nav>
-                        <ul class="footer-content box-information">
-                            <li>
-                                <i class="fa fa-home"></i><span>{{ address.address }}</span>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope-o"></i><p><a href="mailto:blazer-05@mail.ru">{{ address.email_one }}</a></p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone"></i>
-                                <span>{{ address.phone_one }}</span> <br> <span> {{ address.phone_two }}</span>
-                            </li>
-                        </ul>
+                        {% for adres in address %}
+                            <ul class="footer-content box-information">
+                                <li>
+                                    <i class="fa fa-home"></i><span>{{ adres.address }}</span>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope-o"></i>
+                                    <p><a href="mailto:blazer-05@mail.ru">{{ adres.email_one }}</a></p>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone"></i>
+                                    <span>{{ adres.phone_one }}</span> <br> <span> {{ adres.phone_two }}</span>
+                                </li>
+                            </ul>
+                            {% empty %}
+                            <p>Нет добавленных контактов</p>
+                        {% endfor %}
                     </nav>
                 </div>
             </div>
