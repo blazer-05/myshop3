@@ -134,4 +134,4 @@ class HeaderWidgetInfo(models.Model):
         verbose_name_plural = 'Виджеты'
 
     def __str__(self):
-        return '{} {}'.format(self.title, self.text)
+        return '{} - {}'.format(self.title, self.text)

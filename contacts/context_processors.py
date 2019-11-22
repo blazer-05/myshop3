@@ -1,4 +1,4 @@
-from contacts.models import PrivacyPolicy, HeaderWidgetInfo
+from contacts.models import PrivacyPolicy
 
 
 def privacy_policy(request):
@@ -7,7 +7,3 @@ def privacy_policy(request):
     return {'privacy_policy': privacy_policy}
 
 
-def header_widget_info(request):
-    '''Виджеты (working time, Free shipping, Money back 100%, Phone:)'''
-    widgets = HeaderWidgetInfo.objects.all()
-    return {'widgets': widgets}

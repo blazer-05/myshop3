@@ -103,7 +103,6 @@ TEMPLATES = [
                 'shop.context_processors.footer',       # Сквозной вывод футера сайта на всех страницах
                 'shop.context_processors.price_list',   # Вывод ссылки на загрузку файла прайс-листа в base.html
                 'contacts.context_processors.privacy_policy', # Сквозной вывод политики конф. modal_privacy_policy.html
-                'contacts.context_processors.header_widget_info', # Сквозной вывод виджетов (working time, Free shipping, Money back 100%, Phone:)
 
             ],
         },

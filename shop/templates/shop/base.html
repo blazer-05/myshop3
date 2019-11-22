@@ -3,6 +3,7 @@
 {% load i18n mptt_tags %}
 {% load thumbnail %}
 {% load notifications_tags %}
+{% load widgets %}
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -180,7 +181,7 @@
     <div class="header-middle">
         <div class="container">
             <!-- Start Support-Client -->
-            {% include 'header_info.html' %}
+            {% header_widget_info %}<!-- Вывод виджетов из темплейттега contacts/templatetags/widgets.py -->
             <!-- End Support-Client -->
             <!-- Start logo & Search Box -->
             <div class="row">
