@@ -126,15 +126,18 @@
                                             <ul>Прайс обновляется.</ul>
                                         {% endif %}
                                     </li>
-{#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}
-{#                                    <li><a href="#"><img class="right-5" src="{% static 'shop/img/flags/gb.png' %}" alt="#">English</a></li>#}
                                 </ul>
                             </li>
                         </ul>
-
+                        <ul class="currency">
+                            <li>
+                                <a href="#" style="margin-right: -9px;">Курс: $</a>
+                                <span style="color: red;">65.15</span>&nbsp;&nbsp;
+                            </li>
+                        </ul>
                         <!-- End Currency   &nbsp; -->
                         {% if not request.user.is_authenticated %}
-                        <p class="welcome-msg">Здравствуйте, (гость!)</p>
+                        <p class="welcome-msg" >Здравствуйте, (гость!)</p>
                             {% else %}
                             <p class="welcome-msg">Здравствуйте, ({{ request.user }}!)</p>
                         {% endif %}
