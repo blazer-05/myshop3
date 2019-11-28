@@ -14,9 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+import debug_toolbar
 import notifications.urls
 
 urlpatterns = [
@@ -36,10 +38,11 @@ urlpatterns = [
     path('newsletter/', include('newsletter.urls')),
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('chaining/', include('smart_selects.urls')),
-
+    url(r'^__debug__/', include(debug_toolbar.urls)), # Использует debug_toolbar
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

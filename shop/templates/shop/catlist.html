@@ -29,26 +29,30 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-8">
-                            {% recursetree category_list %}
-                                {% if not node.is_leaf_node %}
-                                    {% for child in node.children.all %}
-                                        <div class="category-item-desktop" align="center">
-                                            {% if child.img %}
-                                                <a href="{% url 'shop:shop-list' child.slug %}">
-                                                <img class="image" src="{{ child.img.url }}" style="width: 200px; height: 165px" alt="">
-                                                </a>
-                                            {% else %}
-                                                <p>Нет изображения</p>
-                                            {% endif %}
-                                            <div class="image">
-                                                <h3><a href="{% url 'shop:shop-list' child.slug %}">{{ child.name }}</a></h3>
-                                            <!-- Количество товаров в подкатегории. Метод product_items_count из модели Category -->
-                                                <p>Товаров: {{ child.product_items_count }} шт.</p>
+                        <!-- Переменные все определены в  shop/context_processors метод get_menu_categories -->
+                            {% for node in nodes %}
+                                {% for node_child in node.children %}
+                                    {% for child in node_child.children %}
+                                        {% if node_child.id == thiscat.id %}
+                                            <div class="category-item-desktop">
+                                                {% if child.img %}
+                                                    <a href="{{ child.url }}">
+                                                        <img class="image" src="{{ child.img }}"
+                                                             style="width: 200px; height: 150px" alt="">
+                                                    </a>
+                                                {% else %}
+                                                    <p>Нет изображения</p>
+                                                {% endif %}
+                                                <div class="image">
+                                                    <h3><a href="{{ child.url }}">{{ child.name }}</a></h3>
+                                                    <!-- Количество товаров в подкатегории. Метод product_items_count из модели Category -->
+                                                    <p>Товаров: {{ child.product_items_count }} шт.</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        {% endif %}
                                     {% endfor %}
-                                {% endif %}
-                            {% endrecursetree %}
+                                {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

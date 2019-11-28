@@ -27,40 +27,40 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-8">
-                        {% recursetree categories %}
+                        {% for node in nodes %}
                             <!-- блок аккордеон -->
                             <div class="accordion">
                                 <section class="accordion_item">
                                     <h3 class="title_block"><strong>{{ node.name }}</strong></h3>
                                     {% if not node.is_leaf_node %}
-                                        {% for child in node.children.all %}
+                                        {% for child in node.children %}
                                             <div class="info"><hr>
                                                 <ul>
                                                     <li class="info_item">
-                                                        <a href="{% url 'shop:catlist' child.slug %}">
+                                                        <a href="{{ child.url }}">
                                                             <u>{{ child.name }}</u>&nbsp;
                                         <!-- Количество подкатегорий. Метод category_items_count из модели Category -->
                                                             ({{ child.subcategory_items_count }})
                                                         </a>
                                                     </li>
                                                 </ul>
-                                                {% recursetree child.children.all %}
+                                                {% for child in child.children %}
                                                     <ul>
                                                         <li class="info">
-                                                            <a href="{% url 'shop:shop-list' node.slug %}">
+                                                            <a href="{{ child.url }}">
                                 <!-- Количество товаров в подкатегории. Метод product_items_count из модели Category -->
-                                                                {{ node.name }}&nbsp;({{ node.product_items_count }})
+                                                                {{ child.name }}&nbsp;({{ child.product_items_count }})
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                {% endrecursetree %}
+                                                {% endfor %}
                                             </div>
                                         {% endfor %}
                                     {% endif %}
                                 </section>
                             </div>
                             <!-- конец блока аккордеон -->
-                        {% endrecursetree %}
+                        {% endfor %}
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
                         <script type="text/javascript">
                             !function (i) {

@@ -1,15 +1,57 @@
 # Два контекстных процессора, которые выводят меню категории и фильтр сайта
+from django.db.models import Count, Q
+from django.urls import reverse
 
 from shop.models import Category, Brand, Product, Bestseller, SaleCategory, SaleProduct, PriceList
 from contacts.models import Address
+from easy_thumbnails.files import get_thumbnailer
+
+
+def get_menu_categories():
+    tmp = {}
+    categories = list(Category.objects.filter(
+        is_active=True
+    ).annotate(
+        product_items_count=Count('product', filter=Q(is_active=True)),
+        subcategory_items_count=Count('children', filter=Q(is_active=True)),
+    ))
+    for category in categories:
+        if category.level == 0:
+            url = reverse('shop:catlinks', args=(category.slug,))
+        elif category.level == 1:
+            url = reverse('shop:catlist', args=(category.slug,))
+        else:
+            url = reverse('shop:shop-list', args=(category.slug,))
+
+        tmp[category.id] = {
+            'id': category.id,
+            'url': url,
+            'name': category.name,
+            'product_items_count': category.product_items_count,
+            'subcategory_items_count': category.subcategory_items_count,
+            'img': category.img and category.img.url,
+            'children': None
+        }
+
+        if category.parent_id:
+            if not tmp[category.parent_id]['children']:
+                tmp[category.parent_id]['children'] = []
+            tmp[category.parent_id]['children'].append(
+                tmp[category.id]
+            )
+            tmp[category.parent_id]['product_items_count'] += tmp[category.id]['product_items_count']
+        else:
+            yield tmp[category.id]
 
 
 def menucategory(request):
     '''Вывод главного блока меню на всех страницах.'''
     context = {}
-    nodes = Category.objects.filter(is_active=True)
     product = Product.objects.filter(is_active=True)
-    context['nodes'] = nodes
+    menu_categories = list(get_menu_categories())
+    context['nodes'] = menu_categories
+    context['nodes_main'] = menu_categories[:5]
+    context['nodes_second'] = menu_categories[5:]
     context['product'] = product
     return context
 

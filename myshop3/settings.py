@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'shop',
     'cart',
     'orders',
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware', # Относится к настройке оповещения о битых ссылках
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # Использует debug_toolbar
     'cart.middleware.CartMiddleware',
 ]
 
@@ -283,6 +285,9 @@ USE_DJANGO_JQUERY = True
 '''Используется в методе email_send_notify_to_user приложение shop. И в методе control_newsletter_templates в приложении
 newsletter'''
 site_url = 'http://myshop3.sharelink.ru:8080'
+
+# Использует debug_toolbar
+INTERNAL_IPS = ['192.168.1.5']
 
 # Подгружаем настройки из модуля local_settings.py.
 try:

@@ -29,26 +29,28 @@
                 <div class="">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-8">
-                            {% recursetree category_list %}
-                                {% if not node.is_leaf_node %}
-                                    {% for child in node.children.all %}
+                        <!-- Переменные все определены в  shop/context_processors метод get_menu_categories -->
+                            {% for node in nodes %}
+                                {% for child in node.children %}
+                                    {% if node.id == thiscat.id %}
                                         <div class="category-item-desktop">
                                             {% if child.img %}
-                                                <a href="{% url 'shop:catlist' child.slug %}">
-                                                <img class="image" src="{{ child.img.url }}" style="width: 200px; height: 150px" alt="">
+                                                <a href="{{ child.url }}">
+                                                    <img class="image" src="{{ child.img }}"
+                                                         style="width: 200px; height: 150px" alt="">
                                                 </a>
                                             {% else %}
                                                 <p>Нет изображения</p>
                                             {% endif %}
                                             <div class="image">
-                                                <h3><a href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a></h3>
-                                        <!-- Количество подкатегорий. Метод category_items_count из модели Category -->
+                                                <h3><a href="{{ child.url }}">{{ child.name }}</a></h3>
+                                                <!-- Количество товаров в подкатегории. Метод product_items_count из модели Category -->
                                                 <p>Подкатегорий: &nbsp;{{ child.subcategory_items_count }}</p>
                                             </div>
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endrecursetree %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

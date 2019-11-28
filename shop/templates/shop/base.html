@@ -154,20 +154,9 @@
                             {% if not request.user.is_authenticated %}
                                 <li><a href="{% url 'account_login' %}" title="sign in"><i class="fa fa-lock"></i> Login</a></li>
                                 <li><a href="{% url 'account_signup' %}" title="sign up"><i class="fa fa-sign-in"></i> Sign Up</a></li>
-{#                                <li>Здравствуйте, (гость!)</li>#}
                             {% else %}
-{#                                <li class="qwert">#}
-{#                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#                                        Уведомления {% live_notify_badge badge_class="badge" %}#}
-{#                                    </a>#}  
-{#                                    <ul class="dropdown-menu" role="menu" style="margin-left: 70.5%;" id="notifications-list">#}
-{#                                        {% live_notify_list %}#}
-{#                                    </ul>#}
-{#                                </li>#}
                                 <li><a href="{% url 'user_profile' %}"><i class="fa fa-user"></i> My Account</a></li>
-                                <li><a href="{% url 'my_wish_list' %}"><i class="fa fa-heart"></i> Wish List (0)</a></li>
                                 <li><a href="{% url 'account_logout' %}"><i class="fa fa-unlock"></i> Logout</a></li>
-{#                                <li>Здравствуйте, ({{ request.user }})</li>#}
                                 {% if request.user.is_superuser %}
                                 <li><a href="/admin/" target="_blank"><i class="fa fa-gear"></i>Админка</a></li>
                                 {% endif %}
@@ -199,15 +188,15 @@
                             <div class="search-container">
                                 <select onChange="if(this.selectedIndex!=0) self.location=this.options[this.selectedIndex].value">
                                     <option class="all-cate">All Categories</option>
-                                    {% recursetree nodes %}
+                                    {% for node in nodes %}
                                     <optgroup  class="cate-item-head" label="{{ node.name }}">
-                                        {% for child in node.children.all %}
-                                        <option class="cate-item-title" value="{% url 'shop:catlist' child.slug %}">
+                                        {% for child in node.children %}
+                                        <option class="cate-item-title" value="{{ child.url }}">
                                             {{ child.name }}
                                         </option>
                                         {% endfor %}
                                     </optgroup>
-                                    {% endrecursetree %}
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="header-search">
@@ -273,15 +262,15 @@
                     <nav id="mobile-menu">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            {% recursetree nodes %}
+                            {% for node in nodes %}
                             <li><a href="#">{{ node.name }}</a>
                                 <ul>
-                                    {% for child in node.children.all %}
-                                    <li><a href="{% url 'shop:catlist' child.slug %}">{{ child.name }}</a></li>
+                                    {% for child in node.children %}
+                                    <li><a href="{{ child.url }}">{{ child.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
-                            {% endrecursetree %}
+                            {% endfor %}
                             <li><a href="{% url 'contacts:contact' %}">Contact Us</a></li>
                         </ul>
                     </nav>
@@ -315,13 +304,13 @@
         <div class="row">
             <div class="active-brand-logo">
                 {% for brand in brends %}
-                {% if brand.image %}
-                <div class="col-md-2">
-                    <div class="single-brand-logo"> <!-- style="width: 200px; height: 82px" -->
-                        <a href="#"><img src="{{ brand.image|thumbnail_url:'brandlogo' }}" alt=""></a>
-                    </div>
-                </div>
-                {% endif %}
+                    {% if brand.image %}
+                        <div class="col-md-2">
+                            <div class="single-brand-logo"> <!-- style="width: 200px; height: 82px" -->
+                                <a href="#"><img src="{{ brand.image|thumbnail_url:'brandlogo' }}" alt=""></a>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

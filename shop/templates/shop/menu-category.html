@@ -16,26 +16,26 @@
         </div>
         <div class="category-menu-list">
             <ul class="root">
-                {% recursetree nodes %}
+                {% for node in nodes_main %}
                     <!-- Single menu start -->
                     <li class="arrow-plus">
-                        <a href="{% url 'shop:catlinks' node.slug %}">{{ node.name }}</a>
+                        <a href="{{ node.url }}">{{ node.name }}</a>
                         <!--  MEGA MENU START -->
                         {% if not node.is_leaf_node %}
                             <div class="cat-left-drop-menu">
-                                {% for child in node.children.all %}
+                                {% for child in node.children %}
                                     <div class="cat-left-drop-menu-left">
-                                        <a class="menu-item-heading" href="{% url 'shop:catlist' child.slug %}">
-                                            {{ child.name }}&nbsp;({{ child.subcategory_items_count }})
+                                        <a class="menu-item-heading" href="{{ child.url }}">
+                                            {{ child.name }} ({{ child.subcategory_items_count }})
                                         </a>
                                         <ul class="children">
-                                            {% recursetree child.children.all %}
+                                            {% for child in child.children %}
                                                 <li>
-                                                    <a href="{% url 'shop:shop-list' node.slug %}">
-                                                        {{ node.name }}&nbsp;({{ node.product_items_count }})
+                                                    <a href="{{ child.url }}">
+                                                        {{ child.name }}&nbsp;({{ child.product_items_count }})
                                                     </a>
                                                 </li>
-                                            {% endrecursetree %}
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 {% endfor %}
@@ -44,15 +44,36 @@
                         <!-- MEGA MENU END -->
                     </li>
                     <!-- Single menu end -->
-                {% endrecursetree %}
+                {% endfor %}
 
                 <!-- MENU ACCORDION START -->
-                <li class=" rx-child">
-                    <a href="shop.html">Каталог</a>
-                </li>
-                <li class=" rx-child">
-                    <a href="shop.html">Books</a>
-                </li>
+                {% for node in nodes_second %}
+                    <!-- Single menu start -->
+                    <li class="arrow-plus rx-child">
+                        <a href="{{ node.url }}">{{ node.name }}</a>
+                        <!--  MEGA MENU START -->
+                            <div class="cat-left-drop-menu">
+                                {% for child in node.children %}
+                                    <div class="cat-left-drop-menu-left">
+                                        <a class="menu-item-heading" href="{{ child.url }}">
+                                            {{ child.name }}
+                                        </a>
+                                        <ul class="children">
+                                            {% for child in child.children %}
+                                                <li>
+                                                    <a href="{{ url }}">
+                                                        {{ child.name }}&nbsp;({{ child.product_items_count }})
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        <!-- MEGA MENU END -->
+                    </li>
+                    <!-- Single menu end -->
+                {% endfor %}
                 <li class=" rx-parent">
                     <a class="rx-default">
                         More categories <span class="cat-thumb  fa fa-plus"></span>
