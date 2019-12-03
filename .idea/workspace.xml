@@ -3,7 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="715e7c5c-5cee-4cfb-96f6-26e274e088cf" name="Default Changelist" comment="Доработки в шаблонах приложения Shop">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/979c7e15-49c5-43ad-bcd4-a2a0229ff7eb.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/979c7e15-49c5-43ad-bcd4-a2a0229ff7eb/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/blazer.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/myshop3.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -605,14 +617,8 @@
       <workItem from="1575267563331" duration="6442000" />
       <workItem from="1575277715159" duration="14583000" />
       <workItem from="1575353587113" duration="8740000" />
-      <workItem from="1575364243520" duration="324000" />
-    </task>
-    <task id="LOCAL-00053" summary="Доработки в приложениии Profiles">
-      <created>1558615225905</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1558615225906</updated>
+      <workItem from="1575364243520" duration="712000" />
+      <workItem from="1575365068067" duration="316000" />
     </task>
     <task id="LOCAL-00054" summary="Доработки в приложениии Profiles">
       <created>1559043327692</created>
@@ -950,7 +956,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575362003203</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="Доработки в шаблонах приложения Shop">
+      <created>1575364600377</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1575364600383</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1029,10 +1042,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Доработки в шаблонах приложения Shop" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="556" y="319" width="1215" height="837" key="CommitChangelistDialog2" timestamp="1575362963945">
+    <state x="556" y="319" width="1215" height="837" key="CommitChangelistDialog2" timestamp="1575365251135">
       <screen x="0" y="0" width="3840" height="1474" />
     </state>
-    <state x="556" y="319" width="1215" height="837" key="CommitChangelistDialog2/0.0.3840.1474@0.0.3840.1474" timestamp="1575362963945" />
+    <state x="556" y="319" width="1215" height="837" key="CommitChangelistDialog2/0.0.3840.1474@0.0.3840.1474" timestamp="1575365251135" />
     <state width="2272" height="509" key="GridCell.Tab.0.bottom" timestamp="1575358185483">
       <screen x="0" y="0" width="3840" height="1474" />
     </state>
@@ -1053,14 +1066,14 @@
       <screen x="0" y="0" width="3840" height="1474" />
     </state>
     <state x="640" y="372" width="1293" height="732" key="SettingsEditor/0.0.3840.1474@0.0.3840.1474" timestamp="1575364567793" />
-    <state x="761" y="471" width="806" height="533" key="Vcs.Push.Dialog.v2" timestamp="1575362018547">
+    <state x="761" y="471" width="806" height="533" key="Vcs.Push.Dialog.v2" timestamp="1575364606621">
       <screen x="0" y="0" width="3840" height="1474" />
     </state>
-    <state x="761" y="471" width="806" height="533" key="Vcs.Push.Dialog.v2/0.0.3840.1474@0.0.3840.1474" timestamp="1575362018547" />
-    <state x="1556" y="564" key="com.intellij.ide.util.TipDialog" timestamp="1575364245475">
+    <state x="761" y="471" width="806" height="533" key="Vcs.Push.Dialog.v2/0.0.3840.1474@0.0.3840.1474" timestamp="1575364606621" />
+    <state x="1556" y="564" key="com.intellij.ide.util.TipDialog" timestamp="1575365080912">
       <screen x="0" y="0" width="3840" height="1474" />
     </state>
-    <state x="1556" y="564" key="com.intellij.ide.util.TipDialog/0.0.3840.1474@0.0.3840.1474" timestamp="1575364245475" />
+    <state x="1556" y="564" key="com.intellij.ide.util.TipDialog/0.0.3840.1474@0.0.3840.1474" timestamp="1575365080912" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
