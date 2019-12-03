@@ -116,7 +116,9 @@ backup/
 media/
 static/
 deployment/
-
-
-
-
+Будет удалено media/django-summernote/
+Будет удалено media/img_banners/18/12/28/
+Будет удалено media/price_list/19/10/02/
+Будет удалено media/price_list/19/10/03/
+Будет удалено media/review/19/04/09/
+Будет удалено media/review/19/04/10/
