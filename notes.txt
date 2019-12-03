@@ -1,0 +1,88 @@
+Знак доллара - &#36;
+Знак рубля   - &#8381; или &#x20BD;
+---------------------------------------------------------------
+{{ post.body|truncatewords:30|linebreaks }}
+Фильтр шаблона
+truncatewords - обрезает значение до числа указанных слов
+linebreaks - Заменяет переносы строки аналогами из HTML; один перенос строки будет заменен на br/,
+новая строка с предыдущей пустой строкой оборачиваются в тег p.
+----------------------------------------------------------------
+class="pull-rigth" - выравневание объекта справа
+class="pull-left"  - выравнивание объекта слева
+----------------------------------------------------------------
+https://mdbootstrap.com/content/tables/
+https://mdbootstrap.com/content/bootstrap-table-responsive/
+
+----------------------------------------------------------------
+метод locals() - Выводит словарь(Лучше такое не использовать, см. в примере в модуле contet_processors.py, там выведенны данные напрямую в словарь! )
+----------------------------------------------------------------
+
+В проекте myshop3 скрипт "Полета товара в корзину" внедрен в функции function addToCart(e) в файле static/shop/js/cart.js
+В строке 172 указан класс .jq-product-wrapper, чтоб картинки улетали в корзину нужно в шаблонах, где
+будет применяться этот скрипт указать этот класс например(шаблон index.html <div class="single-product jq-product-wrapper">)
+в этом див блоке находится внутри картинка и кнопка заказа в форме на которой висит селектор (onsubmit="return addToCart(event)).
+
+Если будут другие страницы с добавлением товара в корзину, то нужно делать согласно этого описания!
+
+Полная версия скрипта.
+<!-- Скрипт полета товара в корзину -->
+
+<script>
+    $('.add_to_cart').on('click', function(){ // Класс кнопки купить add_to_cart
+    var that = $(this).closest('.row').find('img'); // Класс row - это обертка нашей карточки товара, внутри которой есть и сама кнопка купить и картинка, которая полетит в корзину.
+    var bascket = $(".top-cart"); // Класс top-cart из base.html - это класс rорзины, туда и полетит изображение при клике по кнопке.
+    var w = that.width();
+    that.clone()
+        .css({'width' : w,
+        'position' : 'absolute',
+        'z-index' : '9999',
+        top: that.offset().top,
+        left:that.offset().left})
+        .appendTo("body")
+        .animate({opacity: 0.05,
+            left: bascket.offset()['left'],
+            top: bascket.offset()['top'],
+            width: 50}, 1000, function() {
+                $(this).remove();
+            });
+});
+</script>
+
+-----------------------------------------------------------------
+<!-- Скрипт таймера акции. jsкод скрипта в статике shop/js/etimer.js подключен в base.html -->
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery(".eTimer").each(function( index ) {
+        var etDate = $( this ).attr('data-etDate')
+        $( this ).eTimer({etType: 0, etDate: etDate, etTitleText: "До окончания акции осталось:", etTitleSize: 16, etShowSign: 1, etSep: " ", etFontFamily: "Roboto", etTextColor: "#0d0505", etPaddingTB: 0, etPaddingLR: 0, etBackground: "white", etBorderSize: 0, etBorderRadius: 0, etBorderColor: "white", etShadow: " 0px 0px 10px 0px white", etLastUnit: 4, etNumberFontFamily: "Impact", etNumberSize: 24, etNumberColor: "white", etNumberPaddingTB: 0, etNumberPaddingLR: 5, etNumberBackground: "#ED7987", etNumberBorderSize: 0, etNumberBorderRadius: 0, etNumberBorderColor: "white", etNumberShadow: "inset 0px 0px 10px 0px rgba(0, 0, 0, 0.5)"
+        });
+    });
+});
+</script>
+
+-----------------------------------------------------------------
+Основные команды по гиту
+
+Есть несколько основных команд
+git init - для инициализации репозитория, но в основном репозитории сейчас создаются в github или подобном вебинтерфейсе, по этому это не столь важно
+git clone - нужен чтобы клонировать данные из удаленного репозитория
+git add - для добавления измененного файла в некий индекс
+git commit - чтобы зафиксировать изменения в индексе
+git push - чтобы эти изменения отправить в удаленный репозиторий
+git pull - чтобы из удаленного репозитория обновить локальный
+
+Когда я что-то хочу добавить в репозиторий то делаю
+git add
+git commit -m 'Commit Message'
+git push
+-----------------------------------------------------------------
+Если нужно в шаблон корзины вывести дополнительно к примеру артикул товара, то переменную vendor_code нужно сначала зарегистрировать в
+файле cart/views.py в модели CartInfoTemplateView добавить в словарь 'vendor_code': cartproduct.product.vendor_code, тогда будет работать.
+
+Так же и с остальными переменными!
+--------------------------------------------------------------------
+
+
+
+

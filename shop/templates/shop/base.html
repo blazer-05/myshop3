@@ -4,6 +4,7 @@
 {% load thumbnail %}
 {% load notifications_tags %}
 {% load widgets %}
+{% load exchange_rates %}
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -129,12 +130,7 @@
                                 </ul>
                             </li>
                         </ul>
-                        <ul class="currency">
-                            <li>
-                                <a href="#" style="margin-right: -9px;">Курс: $</a>
-                                <span style="color: red;">65.15</span>&nbsp;&nbsp;
-                            </li>
-                        </ul>
+                        {% store_exchange_rates %}
                         <!-- End Currency   &nbsp; -->
                         {% if not request.user.is_authenticated %}
                         <p class="welcome-msg" >Здравствуйте, (гость!)</p>

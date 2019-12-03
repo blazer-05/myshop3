@@ -286,10 +286,10 @@ USE_DJANGO_JQUERY = True
 newsletter'''
 site_url = 'http://myshop3.sharelink.ru:8080'
 
-# Использует debug_toolbar
+'''Использует debug_toolbar'''
 INTERNAL_IPS = ['192.168.1.5']
 
-# Подгружаем настройки из модуля local_settings.py.
+''' Подгружаем настройки из модуля local_settings.py. '''
 try:
     from.local_settings import *
 except ImportError:
