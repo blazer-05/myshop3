@@ -3,6 +3,7 @@
 {% load i18n mptt_tags %}
 {% load thumbnail %}
 
+
 {#Этот шаблон обрабатывает функция bestseller() из модуля context_processors.py#}
 
 <!-- START SMALL-PRODUCT-AREA -->
@@ -39,7 +40,7 @@
                                                     </div>
                                                         {% else %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.price}}</span>
+                                                        <span class="price">${{ best.price }}</span>
                                                     </div>
                                                     {% endif %}
                                                 {% endif %}
@@ -81,7 +82,7 @@
                                                     </div>
                                                         {% else %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.price}}</span>
+                                                        <span class="price">${{ best.price }}</span>
                                                     </div>
                                                     {% endif %}
                                                 {% endif %}

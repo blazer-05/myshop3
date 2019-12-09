@@ -4,7 +4,7 @@
 {% load thumbnail %}
 {% load notifications_tags %}
 {% load widgets %}
-{% load exchange_rates %}
+
 <!doctype html>
 <html class="no-js" lang="">
 <head>
@@ -130,7 +130,12 @@
                                 </ul>
                             </li>
                         </ul>
-                        {% store_exchange_rates %}
+                        <ul class="currency">
+                            <li>
+                                <a href="#" style="margin-right: -9px;">Курс: $ </a>
+                                <span style="color: red;">65.15</span>&nbsp;&nbsp;
+                            </li>
+                        </ul>
                         <!-- End Currency   &nbsp; -->
                         {% if not request.user.is_authenticated %}
                         <p class="welcome-msg" >Здравствуйте, (гость!)</p>
@@ -175,7 +180,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-12">
                     <div class="logo">
-                        <a href="/" title="TechnoStyle"><img src="{% static 'shop/img/logo.png' %}" alt="Malias"></a>
+                        <a href="/" title="TechnoStyle"><img src="{% static 'shop/img/logo10.png' %}" alt="Malias" style="margin-top: -20px;"></a>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-12">

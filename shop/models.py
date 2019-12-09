@@ -492,29 +492,3 @@ class PriceList(models.Model):
         verbose_name = 'Прайс лист'
         verbose_name_plural = 'Прайс листы'
         ordering = ['-created']
-
-
-class ExchangeRates(models.Model):
-    '''Курс валют'''
-    name = models.CharField(max_length=50, verbose_name='Валюта')
-    sign = models.CharField(max_length=20, verbose_name='Знак')
-    abbreviation = models.CharField(max_length=20, verbose_name='Сокращение')
-    course = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, verbose_name='Курс')
-    is_default = models.BooleanField(default=True, verbose_name='Основная валюта')
-    is_active = models.BooleanField(default=False, verbose_name='Модерация')
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан')
-    updated = models.DateTimeField(auto_now=True, verbose_name='Обновлен')
-
-    class Meta:
-        verbose_name = 'Валюта'
-        verbose_name_plural = 'Валюты'
-        ordering = ['id']
-
-    def __str__(self):
-        return self.name
-
-    @classmethod
-    def default_currency(cls):
-        '''Получаем и возвращаем валюту по умолчанию'''
-        default = cls.objects.get(is_default=True).first()
-        return default

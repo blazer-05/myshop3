@@ -17,7 +17,7 @@ from shop.models import (
     SaleProduct,
     MiddlwareNotification,
     PriceList,
-    ExchangeRates,
+
     )
 
 # Функции фильтрации для массовой публикации/снятия с публикации новостей.
@@ -96,17 +96,11 @@ class ProductAdmin(SummernoteModelAdmin):
     actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
 
 
-class ExchangeRatesAdmin(admin.ModelAdmin):
-    '''Курсы валют'''
-    list_display = ['name', 'sign', 'abbreviation', 'course', 'is_default', 'is_active', 'created', 'updated']
-    #list_editable = ['is_default', 'is_active']
-
-
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(PriceList, PriceListAdmin)
 admin.site.register(MiddlwareNotification)
-admin.site.register(ExchangeRates, ExchangeRatesAdmin)
+
 
 
 # Класс модели блока SaleProduct

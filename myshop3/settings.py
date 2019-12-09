@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'notifications',    # https://pypi.org/project/django-notifications-hq/#description
     'smart_selects',    # https://github.com/digi604/django-smart-selects
 
+
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.common.BrokenLinkEmailsMiddleware', # Относится к настройке оповещения о битых ссылках
     'debug_toolbar.middleware.DebugToolbarMiddleware', # Использует debug_toolbar
     'cart.middleware.CartMiddleware',
+
 ]
 
 ROOT_URLCONF = 'myshop3.urls'
@@ -287,7 +289,7 @@ newsletter'''
 site_url = 'http://myshop3.sharelink.ru:8080'
 
 '''Использует debug_toolbar'''
-INTERNAL_IPS = ['192.168.1.5']
+#INTERNAL_IPS = ['192.168.1.5']
 
 ''' Подгружаем настройки из модуля local_settings.py. '''
 try:

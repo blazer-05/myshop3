@@ -380,7 +380,7 @@
                                                                     {% else %}
                                                                     <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                 {% endif %}
-                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                <a href="#" data-toggle="tooltip" title="Compare" class="compare" data-product="{{ pftc.id }}"><i class="fa fa-signal"></i></a>
                                                                 <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
                                                             </div>
                                                         </div>
@@ -480,7 +480,7 @@
                                                                             {% else %}
                                                                             <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                         {% endif %}
-                                                                        <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                        <a href="#" data-toggle="tooltip" title="Compare" class="compare" data-product="{{ allp.id }}"><i class="fa fa-signal"></i></a>
                                                                         <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal"><i class="fa fa-search-plus"></i></a>
                                                                     </div>
                                                                 </div>
