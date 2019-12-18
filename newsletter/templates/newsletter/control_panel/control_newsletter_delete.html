@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <h1 class="page-header">Delete Newsletter</h1>
+    <h1 class="page-header">Удаление рассылки</h1>
 
     <form method="post">
         {% csrf_token %}
@@ -13,7 +13,7 @@
     <input type="button" value="Снять выделение" onclick="check(this.form.users_email,0)">
     <br><br>
 
-    <button class="btn btn-danger" type="submit">Delete</button>
+    <button class="btn btn-danger" type="submit">Удалить</button>
     </form>
 
     <!-- Выделить/Снять выделение чекбоксов -->

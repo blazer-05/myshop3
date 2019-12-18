@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="form_name">Rating *</label>
+                                            <label for="form_name">Рейтинг *</label>
 {#                                            {{ form.errors }}#}
                                             {{ form.product }}<!-- Скрытое поле product в forms.py в виджете-->
                                             {{ form.rating }}
@@ -60,7 +60,7 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="form_name">Nickname *</label>
+                                    <label for="form_name">Ваш никнейм или ФИО *</label>
                                       {{ form.user_name }}
                 {#                    <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your nickname *" required="required" data-error="Nickname is required.">#}
                                     <div class="help-block with-errors"></div>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="form_email">Email</label>
+                                    <label for="form_email">Ваш E-mail</label>
                                       {{ form.email }}
                 {#                    <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email" >#}
                                     <div class="help-block with-errors"></div>
@@ -79,7 +79,7 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="form_city">City</label>
+                                    <label for="form_city">Город</label>
                                       {{ form.city }}
                 {#                    <input id="form_city" type="city" name="city" class="form-control" placeholder="Please enter your city " >#}
                                     <div class="help-block with-errors"></div>
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="exampleSelect1">Period of use *</label>
+                                    <label for="exampleSelect1">Период использования *</label>
                                       {{ form.period }}
                 {#                      {% bootstrap_form form exclude='user,user_name,email,city,image,video,merits,limitations,comment' %}#}
                 {#                    <select class="form-control" id="exampleSelect1" placeholder="Period of use *" required="required" >#}
@@ -104,7 +104,7 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="form_merits">Merits *</label>
+                                    <label for="form_merits">Достоинства *</label>
                                       {{ form.merits }}
                 {#                    <textarea id="form_merits" name="merits" class="form-control" placeholder="Merits *" rows="4" required data-error="Please,leave us a message."></textarea>#}
                                     <div class="help-block with-errors"></div>
@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="form_limitations">Limitations *</label>
+                                    <label for="form_limitations">Недостатки *</label>
                                       {{ form.limitations }}
                 {#                    <textarea id="form_limitations" name="limitations" class="form-control" placeholder="Limitations *" rows="2" required data-error="Please,leave us a message."></textarea>#}
                                     <div class="help-block with-errors"></div>
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="form_comment">Comment *</label>
+                                    <label for="form_comment">Комментарий *</label>
                                       {{ form.comment }}
                 {#                    <textarea id="form_comment" name="comment" class="form-control" placeholder="Comment *" rows="2" required data-error="Please,leave us a message."></textarea>#}
                                     <div class="help-block with-errors"></div>
@@ -128,7 +128,7 @@
                                 </div>
                                  <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="form_video">link to video</label>
+                                    <label for="form_video">Ссылка на видео</label>
                                       {{ form.video }}
                 {#                    <input id="form_video" name="video" class="form-control" placeholder="link to video" rows="2" >#}
                                     <div class="help-block with-errors"></div>
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="col-md-12">
                                   <div class="form-group">
-                                    <label for="form_uploading">Textbox for uploading an image</label>
+                                    <label for="form_uploading">Загрузить изображение</label>
                                       <div class="container-fluid">
                                         <div class="row">
                 {#                            {{ form.image }}#}
@@ -166,9 +166,9 @@
                                 {% endif %}
                                   <br>
                                 <div class="col-md-12">
-                                  <input type="submit" class="btn btn-warning" value="Edit" style="margin-top: 10px; border-radius: 4px;">
+                                  <input type="submit" class="btn btn-warning" value="Изменить" style="margin-top: 10px; border-radius: 4px;">
 
-                                  <button class="btn btn-danger btn pull-right" style="margin-top: 15px; border-radius: 4px;" id="close">close</button>
+                                  <button class="btn btn-danger btn pull-right" style="margin-top: 15px; border-radius: 4px;" id="close">Отменить</button>
 
                                 </div>
 

@@ -16,8 +16,8 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="/">Home</a></li>
-                            <li class="active"><a href="{% url 'news:newslist' %}">News list</a></li>
+							<li><a href="/">Главная</a></li>
+                            <li class="active"><a href="{% url 'news:newslist' %}">Список новостей</a></li>
 						</ul>
 					</div>
 				</div>
@@ -40,7 +40,7 @@
 									<!-- Start Product-Menu -->
 									<div class="product-menu">
 										<div class="product-title">
-											<h3 class="title-group-3 gfont-1">News</h3>
+											<h3 class="title-group-3 gfont-1">Новости</h3>
 										</div>
 									</div>
 									<!-- End Product-Menu -->
@@ -69,8 +69,8 @@
                                                                 </div>
                                                                 <div class="col-md-9 col-sm-8 col-xs-12">
                                                                     <div class="product-description" style="font-size: 15px">
-                                                                        <h5><a href="{{ list.get_absolute_url }}">{{ list.title }}</a></h5>
-                                                                        <div class="post-info" style="font-size: .8em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
+                                                                        <h5><a href="{{ list.get_absolute_url }}" style="font-size: 27px; font-weight: 100;">{{ list.title }}</a></h5>
+                                                                        <div class="post-info" style="font-size: .8em; padding-bottom: 1px; margin-top: 0px; margin-left: 1px;">
                                                                             <span class="vcard author">
                                                                             <span class="fn">{{ list.user }}</span></span>
                                                                             <span class="postdate updated">{{ list.created }}</span>
@@ -79,7 +79,7 @@
                                                                             <span style="color: red" class="blink">{% if list.was_published_recently %}Новая статья{% endif %}</span>
                                                                         </div>
                                                                         <p class="description" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:25|safe }}</p>
-                                                                        <p><a href="{{ list.get_absolute_url }}">Read more ...</a></p>
+                                                                        <p><a href="{{ list.get_absolute_url }}">Далее ...</a></p>
                                                                         <div class="container-fluid">
                                                                         </div>
                                                                     </div>
@@ -105,7 +105,7 @@
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to {{ news_list.number }} of ({{ news_list.paginator.num_pages }} Pages)</span>
+																<span>Показано с 1 по {{ news_list.number }} из ({{ news_list.paginator.num_pages }} Страниц)</span>
 															</div>
 														</div>
 													</div>

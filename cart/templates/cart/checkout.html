@@ -27,9 +27,9 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="/">Home</a></li>
-							<li><a href="{% url 'cart:cart' %}">Shopping Cart</a></li>
-							<li class="active"><a href="{% url 'cart:checkout' %}">Checkout</a></li>
+							<li><a href="/">Главная</a></li>
+							<li><a href="{% url 'cart:cart' %}">Корзина</a></li>
+							<li class="active"><a href="{% url 'cart:checkout' %}">Проверить</a></li>
 						</ul>
 					</div>
 				</div>
@@ -52,7 +52,11 @@
                                 {% if request.cart.cartproduct_set.all %}
 								<div class="col-md-12">
 									<div class="cart-title">
-										<h2 class="entry-title">Checkout</h2>
+                                        {% if request.user.is_authenticated %}
+										<h2>Проверьте Ваш заказ</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
+                                            {% else %}
+                                            <h2>Варианты оформления заказа</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
+                                        {% endif %}
 									</div>
 									<!-- Accordion start -->
 									<div class="panel-group" id="accordion">
@@ -61,7 +65,9 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Checkout Options  <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options" style="font-weight: inherit;">
+                                                        Варианты оформления заказа  <i class="fa fa-caret-down"></i>
+                                                    </a>
 												</h4>
 											</div>
 											<div id="checkout-options" class="collapse in">
@@ -69,30 +75,30 @@
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
                                                             <div class="checkout-collapse">
-                                                                <h3 class="title-group-3 gfont-1">New Customer</h3>
-                                                                <p>Checkout Options</p>
+                                                                <h3 class="title-group-3 gfont-1">Новый клиен</h3>
+                                                                <p>Оформление</p>
                                                                 <a href="{% url 'account_signup' %}">
-                                                                    <button class="btn btn-primary">Register Account
+                                                                    <button class="btn btn-primary">Регистрация
                                                                     </button>
                                                                 </a>
                                                                     <br><br>
-                                                                <p>By creating an account you will be able to shop
-                                                                    faster, be up to date on an order's status, and keep
-                                                                    track of the orders you have previously made.</p>
+                                                                <p>Создав аккаунт, вы сможете делать покупки
+                                                                     быстрее, будете в курсе статуса заказа, сохраняйте
+                                                                     и отслеживайте Ваши заказы, которые вы сделали ранее.</p>
                                                                 <br><br>
                                                                 <a href="{% url 'order:create_orders' %}">
-                                                                    <button class="btn btn-primary">Guest Checkout
+                                                                    <button class="btn btn-primary">Я гость
                                                                     </button>
                                                                 </a>
                                                                     <br><br>
-                                                                <p>Order as guest</p>
+                                                                <p>Продолжить как гость</p>
                                                             </div>
 														</div>
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
-																<h3 class="title-group-3 gfont-1">Returning Customer</h3>
-																<p>I am a returning customer</p>
-                                                                <a href="{% url 'account_login' %}"><button class="btn btn-primary">Authorization</button></a>
+																<h3 class="title-group-3 gfont-1">Я ваш клиент</h3>
+																<p>Я постоянный ваш клиент</p>
+                                                                <a href="{% url 'account_login' %}"><button class="btn btn-primary">Авторизоваться</button></a>
 															</div>
 														</div>
 													</div>
@@ -106,7 +112,9 @@
                                             <div class="panel panel_default">
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
-                                                        <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 2: Confirm Order <i class="fa fa-caret-down"></i> </a>
+                                                        <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm" style="font-weight: inherit;">
+                                                            Подтверждение заказа <i class="fa fa-caret-down"></i>
+                                                        </a>
                                                     </h4>
                                                 </div>
                                                 <div id="checkout-confirm" class="collapse in">
@@ -115,11 +123,11 @@
                                                             <table class="table table-bordered table-hover bmw">
                                                                 <thead>
                                                                     <tr>
-                                                                        <td class="text-center">Images</td>
-                                                                        <td class="text-left">Product Name</td>
-                                                                        <td class="text-center">Quantity</td>
-                                                                        <td class="text-right">Unit Price</td>
-                                                                        <td class="text-right">Total</td>
+                                                                        <td class="text-center">Изображение</td>
+                                                                        <td class="text-left">Наименование</td>
+                                                                        <td class="text-center">Количество</td>
+                                                                        <td class="text-right">Цена</td>
+                                                                        <td class="text-right">Всего</td>
                                                                     </tr>
                                                                 </thead>
                                                                 {% for item in request.cart.cartproduct_set.all %}
@@ -128,7 +136,7 @@
                                                                         <td class="text-center">
                                                                             <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
                                                                         </td>
-                                                                        <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
+                                                                        <td class="text-left">{{ item.product.title }}<br><br><small>Артикул: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
                                                                         <td class="text-center">{{ item.quantity }}</td>
                                                                         <td class="text-right">&#8381; {{ item.product.price }}</td>
                                                                         <td class="text-right">&#8381; {{ item.discount_price }}</td>
@@ -138,13 +146,13 @@
                                                                 <tfoot>
                                                                     <tr>
                                                                         <td class="text-right" colspan="4">
-                                                                            <strong>Total:</strong>
+                                                                            <strong>Всего:</strong>
                                                                         </td>
-                                                                        <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                                                                        <td class="text-right">&#8381; {{ request.cart.discount_price }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td class="text-right" colspan="4">
-                                                                            <strong>Total amount:</strong>
+                                                                            <strong>Количество:</strong>
                                                                         </td>
                                                                         <td class="text-right">{{ request.cart.count_products }} шт.</td>
                                                                     </tr>
@@ -153,19 +161,18 @@
                                                         </div>
                                                         <div class="buttons pull-right">
                                                             {% if request.user.is_authenticated %}
-                                                                <a href="{% url 'order:create_orders' %}"><input type="button" class="btn btn-primary" value="Confirm Order" /></a>
+                                                                <a href="{% url 'order:create_orders' %}"><input type="button" class="btn btn-primary" value="Далее" /></a>
                                                             {% endif %}
                                                         </div>
                                                         <div class="buttons pull-left">
-                                                            <a href="{% url 'cart:cart' %}"><input type="button" class="btn btn-success" value="Return To Cart" /></a>
+                                                            <a href="{% url 'cart:cart' %}"><input type="button" class="btn btn-success" value="Назад в корзину" /></a>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 {% else %}
                                                 <div class="shopping-checkout">
-                                                    <h2 class="entry-title">Your basket is empty</h2>
-                                                    <a href="{% url 'shop:catalog' %}" class="btn btn-success pull-left">Continue
-                                                        Shopping</a>
+                                                    <h2>Ваша корзина пуста</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
+                                                    <a href="{% url 'shop:catalog' %}" class="btn btn-success pull-left">Продолжить покупки</a>
                                                 </div>
                                             </div>
 										<!-- End Checkout-Confirm -->

@@ -7,9 +7,9 @@
 <form id="filter_form">
     <div class="shop-filter">
         <div class="area-title">
-            <h3 class="title-group gfont-1">Filters Products</h3>
+            <h3 class="title-group gfont-1" style="font-weight: inherit;">Фильтр товаров</h3>
         </div>
-        <h4 class="shop-price-title">Price</h4>
+        <h4 class="shop-price-title">Цена</h4>
         <div class="info_widget">
             <div class="price_filter">
                 <div id="slider-range" data-min="{{ filters.initial_min_price }}" data-max="{{ filters.initial_max_price }}"></div>
@@ -18,7 +18,7 @@
                         <p>{{ filters.min_price }}</p>
                         <p>{{ filters.max_price }}</p>
                     </ul>
-                    <input type="submit"  value="Filter"/>
+                    <input type="submit"  value="Фильтр"/>
                 </div>
             </div>
         </div>
@@ -33,8 +33,8 @@
         {{ filters.limit }}
     </div>
     <div class="">
-        <input type="submit" class="btn btn-info pull-right" style="background-color: #26ACCE;" value="Filter"/>
-        <a href="{{ request.path }}" class="btn btn-danger pull-left">Reset</a>
+        <input type="submit" class="btn btn-info pull-right" style="background-color: #26ACCE;" value="Фильтр"/>
+        <a href="{{ request.path }}" class="btn btn-danger pull-left">Сброс</a>
     </div>
 </form>
 

@@ -9,43 +9,43 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <div class="footer-title">
-                        <h5>My Account</h5>
+                        <h5 style="font-weight: initial;">Мой аккаунт</h5>
                     </div>
                     <nav>
                         <ul class="footer-content">
-                            <li><a href="{% url 'user_profile' %}">My Account</a></li>
-                            <li><a href="{% url 'my_orders' %}">Order History</a></li>
-                            <li><a href="{% url 'my_wish_list' %}">Wish List</a></li>
+                            <li><a href="{% url 'user_profile' %}">Мой аккаунт</a></li>
+                            <li><a href="{% url 'my_orders' %}">Мои заказы</a></li>
+                            <li><a href="{% url 'my_wish_list' %}">Избранное</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <div class="footer-title">
-                        <h5>Customer Service</h5>
+                        <h5 style="font-weight: initial;">Пользователям</h5>
                     </div>
                     <nav>
                         <ul class="footer-content">
-                            <li><a href="{% url 'contacts:contact' %}">Contact Us</a></li>
-                            <li><a href="{% url 'contacts:about' %}">About Us</a></li>
-                            <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Privacy Policy</a></li>
+                            <li><a href="{% url 'contacts:contact' %}">Контакты</a></li>
+                            <li><a href="{% url 'contacts:about' %}">О нас</a></li>
+                            <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">Политика</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-xs-12 hidden-sm col-md-3">
                     <div class="footer-title">
-                        <h5>Payment & Shipping</h5>
+                        <h5 style="font-weight: initial;">Оплата и доставка</h5>
                     </div>
                     <nav>
                         <ul class="footer-content">
-                            <li><a href="#">Brands</a></li>
-                            <li><a href="#">Affiliates</a></li>
-                            <li><a href="{% url 'contacts:delivery' %}">Delivery Information</a></li>
+                            <li><a href="#">Бренды</a></li>
+                            <li><a href="#">Партнеры</a></li>
+                            <li><a href="{% url 'contacts:delivery' %}">Доставка</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3">
                     <div class="footer-title">
-                        <h5>Contacts</h5>
+                        <h5 style="font-weight: initial;">Контакты</h5>
                     </div>
                     <nav>
                         {% for adres in address %}
@@ -77,7 +77,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="copyright">
-                        <p>Copyright &copy; <a href="http://tehnopoint.pp.ua/" target="_blank"> technostyle.pp.ua </a> All rights reserved.</p>
+                        <p>Copyright &copy; <a href="http://tehnopoint.pp.ua/" target="_blank"> technostyle.pp.ua </a> Все права защищены.</p>
                         <div class="payment">
                             <a href="#"><img src="{% static 'shop/img/payment.png' %}" alt="Payment"></a>
                         </div>

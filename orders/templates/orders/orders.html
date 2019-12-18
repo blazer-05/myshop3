@@ -18,8 +18,9 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="/">Home</a></li>
-							<li class="active"><a href="{% url 'order:create_orders' %}">Create order</a></li>
+							<li><a href="/">Главная</a></li>
+                            <li><a href="{% url 'cart:checkout' %}">Проверить</a></li>
+							<li class="active"><a href="{% url 'order:create_orders' %}">Оформление заказа</a></li>
 						</ul>
 					</div>
 				</div>
@@ -33,6 +34,9 @@
 							<div class="row">
                                 {% center_big_banner %} <!-- Большой баннер 870×216 -->
 							</div>
+                            <div class="cart-title">
+                                <h2>Оформление заказа</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
+                            </div>
 						</div>
 						<!-- END PRODUCT-BANNER -->
                     {% if request.cart.cartproduct_set.all %}
@@ -41,7 +45,9 @@
                                 <div class="panel panel_default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Create Order <i class="fa fa-caret-down"></i> </a>
+                                            <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm" style="font-weight: inherit;">
+                                                Оформление заказа <i class="fa fa-caret-down"></i>
+                                            </a>
                                         </h4>
                                     </div>
                                     <div id="checkout-confirm" class="collapse in">
@@ -51,11 +57,11 @@
                                                 <table class="table table-bordered table-hover bmw">
                                                     <thead>
                                                         <tr>
-                                                            <td class="text-center">Images</td>
-                                                            <td class="text-left">Product Name</td>
-                                                            <td class="text-center">Quantity</td>
-                                                            <td class="text-right">Unit Price</td>
-                                                            <td class="text-right">Total</td>
+                                                            <td class="text-center">Изображение</td>
+                                                            <td class="text-left">Наименование</td>
+                                                            <td class="text-center">Количество</td>
+                                                            <td class="text-right">Цена</td>
+                                                            <td class="text-right">Всего</td>
                                                         </tr>
                                                     </thead>
                                                     {% for item in request.cart.cartproduct_set.all %}
@@ -64,7 +70,7 @@
                                                             <td class="text-center">
                                                                 <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
                                                             </td>
-                                                            <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
+                                                            <td class="text-left">{{ item.product.title }}<br><br><small>Артикул: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
                                                             <td class="text-center">{{ item.quantity }}</td>
                                                             <td class="text-right">&#8381; {{ item.product.price }}</td>
                                                             <td class="text-right">&#8381; {{ item.discount_price }}</td>
@@ -74,41 +80,48 @@
                                                     <tfoot>
                                                         <tr>
                                                             <td class="text-right" colspan="4">
-                                                                <strong>Total:</strong>
+                                                                <strong>Всего:</strong>
                                                             </td>
-                                                            <td class="text-right"><strong>&#8381; {{ request.cart.discount_price }}</strong></td>
+                                                            <td class="text-right">&#8381; {{ request.cart.discount_price }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="text-right" colspan="4">
-                                                                <strong>Total amount:</strong>
+                                                                <strong>Количество:</strong>
                                                             </td>
                                                             <td class="text-right">{{ request.cart.count_products }} шт.</td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
                                             </div>
-
-                                            <h2>Create order</h2>
+                                            {% if not request.user.is_authenticated %}
+                                            <h2>Заполните форму</h2>
+                                                {% else %}
+                                                <h2>Проверьте ваши данные</h2>
+                                            {% endif %}
                                                 <form action="{% url 'order:create_orders' %}" method="post">
                                                     {% csrf_token %}
                                                     <div class="col-sm-13">
 {#                                                    {% bootstrap_form form layout='inline' %}#}
+                                                        <sup>*</sup> {% bootstrap_label 'ФИО' %}
                                                         {% bootstrap_field form.full_name show_label=False %}
+                                                        <sup>*</sup> {% bootstrap_label 'Телефон' %}
                                                         {% bootstrap_field form.phone show_label=False %}
+                                                        <sup>*</sup> {% bootstrap_label 'E-mail' %}
                                                         {% bootstrap_field form.email show_label=False %}
                                                         {% bootstrap_field form.buying_type show_label=False %}
                                                         {% bootstrap_field form.address show_label=False %}
                                                         {% bootstrap_field form.delivery_date show_label=False %}
                                                         {% bootstrap_field form.comment show_label=False %}
-                                                    <input type="submit" class="btn btn-primary pull-right" value="Create">
-                                                    </div>
-                                                    {% if not request.user.is_authenticated %}
-                                                        <p class="pull-left">*
-                                                            <span style="color: red;">
-                                                                Отмеченные поля обязательны к заполнению.
+
+                                                        {% if not request.user.is_authenticated %}
+                                                            <p class="pull-left">
+                                                            <span>
+                                                                Поля отмеченные <sup>*</sup> обязательны к заполнению!
                                                             </span>
-                                                        </p>
-                                                    {% endif %}
+                                                            </p>
+                                                        {% endif %}
+                                                    <input type="submit" class="btn btn-primary pull-right" value="Отправить">
+                                                    </div>
                                                 </form>
 
                                             <script src="{% static 'shop/js/jquery-1.11.3.min.js' %}"></script>
@@ -145,9 +158,8 @@
 						</div>
                         {% else %}
                            <div class="shopping-checkout">
-                                <h2 class="entry-title">Your basket is empty</h2>
-                                <a href="{% url 'shop:catalog' %}" class="btn btn-success pull-left">Continue
-                                    Shopping</a>
+                                <h2>Ваша корзина пуста</h2><!-- Для английского шрифта указаьть class="entry-title" -->
+                                <a href="{% url 'shop:catalog' %}" class="btn btn-success pull-left">Продолжить покупки</a>
                             </div>
                     {% endif %}
 					</div>

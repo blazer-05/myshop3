@@ -128,6 +128,7 @@ class HeaderWidgetInfo(models.Model):
     '''Виджеты (working time, Free shipping, Money back 100%, Phone:) '''
     title = models.CharField(max_length=50, verbose_name='Заголовок')
     text = models.CharField(max_length=50, verbose_name='Текст')
+    is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
         verbose_name = 'Виджет'

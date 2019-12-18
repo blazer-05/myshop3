@@ -17,7 +17,7 @@
                     <!-- Comments -->
 
                     <div class="post-coments" style="width: 100%;">
-                        <h4>Comments ({{ all_comment }} )</h4>
+                        <h4>Комментарии ({{ all_comment }} )</h4>
                         {% for com in comments %}
                         <ul class="post-comments">
                             <li>
@@ -59,11 +59,11 @@
                                             <!-- Проверям если пользователь добавил комментарий, то выводим ему кнопки редактирования/удаления комментария -->
                                             {% if com.user == request.user %}
                                                 <a href="{% url 'comments:edit_comment' pk=com.pk %}" title="Edit" style="margin-right: 5px;">
-                                                    <button type="button" class="btn btn-warning btn-xs label">Edit</button>
+                                                    <button type="button" class="btn btn-warning btn-xs label">Изменить</button>
                                                 </a>
 
                                                 <a href="{% url 'comments:delete_comment' pk=com.pk %}" id="delete" title="Delete">
-                                                    <button type="button" class="btn btn-danger btn-xs label">Delete</button>
+                                                    <button type="button" class="btn btn-danger btn-xs label">Удалить</button>
                                                 </a>
                                             {% endif %}
                                         {% endif %}
@@ -112,14 +112,14 @@
                                 </div>
                                 <div class="col-xs-7">
                                     <div class="product-result">
-                                        <span>Showing 1 to {{ comments.number }} of ({{ comments.paginator.num_pages }} Pages)</span>
+                                        <span>Показано с 1 по {{ comments.number }} из ({{ comments.paginator.num_pages }} Страниц)</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Форма добавление нового комментария -->
-                        <h4>Leave a Comment</h4>
+                        <h4>Оставить комментарий</h4>
                         <div class="comment-form-wrapper" style="width: 85%;">
                             <form action="{% url 'comments:create_comment' %}" method="post" onsubmit="submit_comment_form(event)">
                             <!-- onsubmit="submit_comment_form(event)" индентификатор для js скрипта в файле scripts.js-->
@@ -132,27 +132,28 @@
                                 <!-- Проверка, если пользователь аноним то показывает форму с капчей, иначе форма без капчи с одним полем text -->
                                 {% if not request.user.is_authenticated %}
                                 <div class="form-group">
-                                    <label for="comment-name"><i class="glyphicon glyphicon-user"></i> <b>Your name*</b></label>
+                                    <label for="comment-name"><i class="glyphicon glyphicon-user"></i> ФИО <sup>*</sup></label>
                                     {{ form.user_name }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> <b>Your Email</b></label>
+                                    <label for="comment-email"><i class="glyphicon glyphicon-envelope"></i> Ваш E-mail</label>
                                     {{ form.email }}
                                 </div>
                                 <div class="form-group">
-                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> Сообщение <sup>*</sup></label>
                                     {{ form.text }}
                                 </div>
                                     {% else %}
                                 <div class="form-group">
-                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> <b>Your Message*</b></label>
+                                    <label for="comment-message"><i class="glyphicon glyphicon-comment"></i> Сообщение <sup>*</sup></label>
                                     {{ form.text }}
                                 </div>
                                 {% endif %}
 
+
                                 <!-- Вывод капчи и лейбла -->
                                 <div class="col-lg-12">
-                                    <label for="id_captcha">{{ form.captcha.label }}</label>
+                                    <label for="id_captcha">{{ form.captcha.label }}{% if not request.user.is_authenticated %}<sup>*</sup>{% endif %}</label>
                                 </div>
                                 <div class="col-lg-12">
                                         {{ form.captcha }}
@@ -162,11 +163,14 @@
                                         <button class='captcha-refresh'>
                                             <img src="{% static 'info/news/icon/reload.png' %}" alt="reload">
                                         </button>
+                                <br><br>
+                                <span>Поля отмеченные <sup>*</sup>обязательны к заполнению!</span>
                                     {% endif %}
+
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit"/>
+                                    <input type="submit" class="btn btn-primary btn-sm pull-right" value="Отправить"/>
                                 </div>
                                 <div class="clearfix"></div>
                             </form>

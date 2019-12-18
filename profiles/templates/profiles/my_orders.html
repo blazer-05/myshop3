@@ -37,15 +37,15 @@
             <div class="row" style="width: 93.4%; margin-left: auto; margin-right: auto;">
                 <div class="col-md-12">
                     <ul class="page-menu">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="{% url 'user_profile' %}">My Account</a></li>
-                        <li class="active"><a href="{% url 'my_orders' %}">My Orders</a></li>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="{% url 'user_profile' %}">Мой аккаунт</a></li>
+                        <li class="active"><a href="{% url 'my_orders' %}">Мои заказы</a></li>
                     </ul>
                 </div>
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto; text-align: center;" >
-                <h3>My Orders ({{ my_order_count }})</h3>
+                <h3>Мои заказы ({{ my_order_count }})</h3>
             </div>
 
 
@@ -75,7 +75,7 @@
 
                             <div class="row">
                                 <div class="col-xs-6 col-sm-4">Заказ № {{ i.id }}</div>
-                                <div class="col-xs-6 col-sm-4">Date: {{ i.date }}</div>
+                                <div class="col-xs-6 col-sm-4">Дата: {{ i.date }}</div>
                                 <!-- Optional: clear the XS cols if their content doesn't match in height -->
         {#                        <div class="clearfix visible-xs"></div>#}
         {#                        <div class="col-xs-6 col-sm-4">.</div>#}
@@ -88,7 +88,7 @@
                                 <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" title="delete" ><span
                                         class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li style="align:justify;"><a href="{% url 'delete_my_orders' pk=i.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Delete</a>
+                                    <li style="align:justify;"><a href="{% url 'delete_my_orders' pk=i.pk %}" id="delete_my_orders"><span class="icon-cog"></span> Удалить</a>
                                     </li>
                                     {#                                <li style="align:justify;"><a href="#"><span class="icon-log-out"></span>Sign#}
                                     {#                                    Out</a></li>#}
@@ -99,11 +99,11 @@
                             <table class="table table-bordered table-hover bmw">
                                 <thead>
                                 <tr>
-                                    <td class="text-center">Images</td>
-                                    <td class="text-left">Product Name</td>
-                                    <td class="text-center">Quantity</td>
-                                    <td class="text-right">Unit Price</td>
-                                    <td class="text-right">Total</td>
+                                    <td class="text-center">Изображение</td>
+                                    <td class="text-left">Наименование</td>
+                                    <td class="text-center">Количество</td>
+                                    <td class="text-right">Цена</td>
+                                    <td class="text-right">Всего</td>
                                 </tr>
                                 </thead>
                                 {% for item in i.cart.cartproduct_set.all %}
@@ -114,7 +114,7 @@
                                                  alt="{{ item.product.title }}"/>
                                         </td>
                                         <td class="text-left">{{ item.product.title|truncatechars:22 }}<br><br>
-                                            <small>Vendor code: <span class="text-stock">{{ item.product.vendor_code }}</span>
+                                            <small>Артикул: <span class="text-stock">{{ item.product.vendor_code }}</span>
                                             </small>
                                         </td>
                                         <td class="text-center">{{ item.quantity }}</td>
@@ -137,13 +137,13 @@
                                 <tfoot>
                                 <tr>
                                     <td class="text-right" colspan="4">
-                                        <strong>Total:</strong>
+                                        <strong>Всего:</strong>
                                     </td>
-                                    <td class="text-right"><strong>&#8381; {{ i.cart.discount_price }}</strong></td>
+                                    <td class="text-right">&#8381; {{ i.cart.discount_price }}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-right" colspan="4">
-                                        <strong>Total amount:</strong>
+                                        <strong>Количество:</strong>
                                     </td>
                                     <td class="text-right">{{ i.cart.count_products }} шт.</td>
                                 </tr>
@@ -168,7 +168,7 @@
                         </div>
                         <div class="col-xs-7">
                             <div class="product-result">
-                                <span>Showing 1 to {{ my_order.number }} of ({{ my_order.paginator.num_pages }} Pages)</span>
+                                <span>Показано с 1 по {{ my_order.number }} из ({{ my_order.paginator.num_pages }} Страниц)</span>
                             </div>
                         </div>
                     </div>

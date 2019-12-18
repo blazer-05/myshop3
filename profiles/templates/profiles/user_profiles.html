@@ -110,8 +110,8 @@ color: #999;
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="/">Home</a></li>
-							<li class="active"><a href="{% url 'user_profile' %}">My Account</a></li>
+							<li><a href="/">Главная</a></li>
+							<li class="active"><a href="{% url 'user_profile' %}">Мой аккаунт</a></li>
 						</ul>
 					</div>
 				</div>
@@ -147,22 +147,22 @@ color: #999;
 
                                         <h5 style="width:100%"></h5>
                                         <br>
-                                        <h4 style="width:100%" class="media-heading">Welcome {{ request.user }}</h4>
+                                        <h4 style="width:100%" class="media-heading">Добро пожаловать {{ request.user }}</h4>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="well pro_left_ii" style="background: #fff;">
                                 <ul class="nav nav-tabs  nav-stacked">
-                                    <li class="active"><a data-toggle="tab" href="#info">MY INFO</a></li>
-                                    <li><a data-toggle="tab" href="#menu1">NEWSLETTER</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#info">Моя информация</a></li>
+                                    <li><a data-toggle="tab" href="#menu1">Рассылка</a></li>
 {#                                    <li><a data-toggle="tab" href="#my_orders">my_orders</a></li>#}
-                                    <li><a href="{% url 'my_orders' %}">MY ORDERS <span class="badge">{{ my_order_count }}</span></a></li>
-                                    <li><a href="{% url 'my_wish_list' %}">MY WISH LIST <span class="badge">{{ prod_count }}</span></a></li>
+                                    <li><a href="{% url 'my_orders' %}">Мои заказы <span class="badge">{{ my_order_count }}</span></a></li>
+                                    <li><a href="{% url 'my_wish_list' %}">Избранное <span class="badge">{{ prod_count }}</span></a></li>
 {#                                    <li><a data-toggle="tab" href="#menu2">SETTINGS</a></li>#}
-                                    <li><a href="{% url 'user_profile_edit' %}">EDIT PROFILE</a></li>
-                                    <li><a href="{% url 'account_change_password' %}">CHANGE PASSWORD</a></li>
-                                    <li><a href="{% url 'account_logout' %}">LOGOUT</a></li>
+                                    <li><a href="{% url 'user_profile_edit' %}">Редактировать профиль</a></li>
+                                    <li><a href="{% url 'account_change_password' %}">Смена пароля</a></li>
+                                    <li><a href="{% url 'account_logout' %}">Выйти</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -170,13 +170,13 @@ color: #999;
                             <div class="tab-content">
                                 <div id="info" class="tab-pane fade in active">
                                     <div class="well" style="background:#fff;">
-                                        <h4>My Info</h4>
+                                        <h4>Моя информация</h4>
                                         <hr>
 
                                         <h4>{{ request.user }}</h4>
-                                        <small><cite title="San Francisco, USA">San Francisco, USA <i
-                                                class="glyphicon glyphicon-map-marker">
-                                        </i></cite></small>
+{#                                        <small><cite title="San Francisco, USA">San Francisco, USA <i#}
+{#                                                class="glyphicon glyphicon-map-marker">#}
+{#                                        </i></cite></small>#}
                                         <p>
 
                                             <i class="glyphicon glyphicon-user"></i>{{ user.profile.first_name }} {{ user.profile.last_name }}
@@ -193,7 +193,7 @@ color: #999;
                                         <!-- Split button -->
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-primary">
-                                                Social
+                                                Соцсети
                                             </button>
                                             <button type="button" class="btn btn-primary dropdown-toggle"
                                                     data-toggle="dropdown">
@@ -275,7 +275,7 @@ color: #999;
                             <!-- Подписка/Отписка на рассылку сообщений (вьюха subscribe в приложении profile)-->
                                 <div id="menu1" class="tab-pane fade">
                                     <div class="well" style="background:#fff;">
-                                        <h4>SUBSCRIBE</h4>
+                                        <h4>Подписаться</h4>
                                         <hr>
                                             <div class="row">
                                                 <div class="col-xs-12 ">
@@ -283,7 +283,7 @@ color: #999;
                                                         <!-- Default panel contents -->
                                                         <ul class="list-group">
                                                             <li class="list-group-item">
-                                                                Subscribe to Email Newsletter
+                                                                Подписаться на Email рассылку
                                                                 <div class="TriSea-technologies-Switch pull-right">
                                                                     {% if subscribe == True %}
                                                                     <!-- Если subscribe == True то выведем инпут с checked, если нет, то без -->
@@ -298,8 +298,8 @@ color: #999;
                                                     </div>
                                                     {% if request.user.is_superuser %}
                                                         <a href="{% url 'newsletter:control_newsletter' %}" target="_blank">
-                                                            <button type="button" class="btn btn-success">Add
-                                                                Newsletter
+                                                            <button type="button" class="btn btn-success">Добавить
+                                                                рассылку
                                                             </button>
                                                         </a>
                                                     {% endif %}

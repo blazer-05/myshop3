@@ -36,15 +36,15 @@
             <div class="row" style="width: 93.4%; margin-left: auto; margin-right: auto;">
                 <div class="col-md-12">
                     <ul class="page-menu">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="{% url 'user_profile' %}">My Account</a></li>
-                        <li class="active"><a href="{% url 'my_wish_list' %}">My Wish List</a></li>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="{% url 'user_profile' %}">Мой аккаунт</a></li>
+                        <li class="active"><a href="{% url 'my_wish_list' %}">Избранное</a></li>
                     </ul>
                 </div>
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto; text-align: center;" >
-                <h3>My Wish List ({{ prod_count }})</h3>
+                <h3>Избранное ({{ prod_count }})</h3>
             </div>
 
             <div style="width: 95%; margin-left: auto; margin-right: auto;">
@@ -98,10 +98,10 @@
                             <table class="table table-bordered table-hover bmw">
                                 <thead>
                                 <tr>
-                                    <td class="text-center">Images</td>
-                                    <td class="text-left">Product Name</td>
-                                    <td class="text-right">Unit Price</td>
-                                    <td class="text-right">Action</td>
+                                    <td class="text-center">Изображение</td>
+                                    <td class="text-left">Наименование</td>
+                                    <td class="text-right">Цена</td>
+                                    <td class="text-right">Действие</td>
                                 </tr>
                                 </thead>
                                     <tbody>
@@ -111,7 +111,7 @@
                                                      alt="{{ wl.title }}"/>
                                             </td>
                                             <td class="text-left">{{ wl.title|truncatechars:30 }}<br><br>
-                                                <small>Vendor code: <span class="text-stock">{{ wl.vendor_code }}</span>
+                                                <small>Артикул: <span class="text-stock">{{ wl.vendor_code }}</span>
                                                 </small>
                                             </td>
                                             <td class="text-right">&#8381;
@@ -149,13 +149,13 @@
                                                     <div class="product-button" style="display: inherit;">
                                                         <form class="product-button" onsubmit="return addToCart(event)">
                                                             <input type="hidden" name="product" value="{{ wl.slug }}">
-                                                            <button type="submit" data-toggle="tooltip" title="Add Cart" style="width: 37px; height: 34px; border-radius: 4px; padding: 0px; padding-bottom: 2px;">
+                                                            <button type="submit" data-toggle="tooltip" title="В корзину" style="width: 37px; height: 34px; border-radius: 4px; padding: 0px; padding-bottom: 2px;">
                                                                 <i class="fa fa-shopping-cart"></i>
                                                             </button>
                                                         </form>
                                                     </div>
                                                     {% endif %}
-                                                    <a href="{% url 'delete_my_wish_list' pk=wl.pk %}" id="delete_my_orders" class="btn btn-danger" data-toggle="tooltip" title="Remove">
+                                                    <a href="{% url 'delete_my_wish_list' pk=wl.pk %}" id="delete_my_orders" class="btn btn-danger" data-toggle="tooltip" title="Удалить">
                                                         <i class="fa fa-times"></i>
                                                     </a>
                                                 </div>
@@ -183,7 +183,7 @@
                     </div>
                     <div class="col-xs-7">
                         <div class="product-result">
-                            <span>Showing 1 to {{ wish_list.number }} of ({{ wish_list.paginator.num_pages }} Pages)</span>
+                            <span>Показано с 1 по {{ wish_list.number }} из ({{ wish_list.paginator.num_pages }} Страниц)</span>
                         </div>
                     </div>
                 </div>

@@ -321,10 +321,10 @@
 																										<div style="line-height: 22px;">
 																											<span style="font-family:Arial, Helvetica, Tahoma, sans-serif; font-size: 22px; color: #0069b5; font-weight: bold;line-height: 22px; text-decoration: none">
 																												{% if p.discount %}
-                                                                                                                    <span class="current-price">${{ p.get_sale }}</span>
+                                                                                                                    <span class="current-price">&#8381;{{ p.get_sale }}</span>
 
                                                                                                                 {% else %}
-                                                                                                                    <span class="current-price">${{ p.price }}</span>
+                                                                                                                    <span class="current-price">&#8381;{{ p.price }}</span>
                                                                                                                 {% endif %}
                                                                                                             </span>
 																										</div>

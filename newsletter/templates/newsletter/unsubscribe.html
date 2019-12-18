@@ -35,8 +35,8 @@
 
         <div class="tab-content custom-tab-content" align="center">
             <div class="subscribe-panel">
-                <h1>Unsubscribe</h1>
-                <p>To unsubscribe, insert your email in the field and click the unsubscribe button.</p>
+                <h1>Отписаться от рассылки</h1>
+                <p>Чтобы отменить подписку, введите свой адрес электронной почты в поле и нажмите кнопку отписаться.</p>
 
                 <form method="post">
                     {% csrf_token %}
@@ -47,12 +47,12 @@
                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"
                                                                aria-hidden="true"></i></span>
                             <input type="email" class="form-control input-lg" name="email" id="id_email"
-                                   placeholder="Enter your Email"/>
+                                   placeholder="Введите Ваш Email"/>
                         </div>
                     </div>
                     <div class="col-md-4"></div>
                     <br/><br/><br/>
-                    <button class="btn btn-warning btn-lg">Unsubscribe</button>
+                    <button class="btn btn-warning btn-lg">Отписаться</button>
                 </form>
                 <div class="row" style="width: 450px;">
                     {% if messages %}
@@ -62,7 +62,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 {{ message }}
-                            <h3>Automatic transition to the main page in <span id="id_seconds"></span> seconds.</h3>
+                            <h3>Автоматический переход на главную страницу через <span id="id_seconds"></span> секунд.</h3>
                             </div>
                         {% endfor %}
                     {% endif %}

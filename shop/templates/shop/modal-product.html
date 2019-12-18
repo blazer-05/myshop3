@@ -16,17 +16,17 @@
                                 <hr />
                                 {% if modal_product.discount %}
                                 <div class="s-price-box">
-                                    <span class="price">${{ modal_product.get_sale }}</span>
-                                    <span class="old-price">${{ modal_product.price }}</span>
+                                    <span class="price">&#8381;{{ modal_product.get_sale }}</span>
+                                    <span class="old-price">&#8381;{{ modal_product.price }}</span>
                                 </div>
                                     {% else %}
                                     <div class="price-box">
-                                        <span class="price">${{ modal_product.price}}</span>
+                                        <span class="price">&#8381;{{ modal_product.price}}</span>
                                     </div>
                                 {% endif %}
                                 <hr />
                             </div>
-                            <a href="{{ modal_product.get_absolute_url }}" class="see-all">See all features</a>
+                            <a href="{{ modal_product.get_absolute_url }}" class="see-all">Посмотреть полностью</a>
                             <div class="quick-add-to-cart">
                                 <form class="product-quantity" onsubmit="return addToCart(event)">
                                         <div style="display: inline-block; width: 110px">
@@ -45,7 +45,7 @@
                                                 <input type="hidden" name="product" value="{{ modal_product.slug }}"/>
                                                 {% if product.stock == 0 %}
                                                     {% else %}
-                                                <button type="submit" class="toch-button toch-add-cart">Add to Cart</button>
+                                                <button type="submit" class="toch-button toch-add-cart">В корзину</button>
                                                 {% endif %}
                                             </div>
                                         </div>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="social-sharing">
                                 <div class="widget widget_socialsharing_widget">
-                                    <h3 class="widget-title-modal">Share this product</h3>
+                                    <h3 class="widget-title-modal">Поделитесь этим продуктом</h3>
                                     <ul class="social-icons">
                                         <li><a target="_blank" title="Facebook" href="#" class="facebook social-icon"><i class="fa fa-facebook"></i></a></li>
                                         <li><a target="_blank" title="Twitter" href="#" class="twitter social-icon"><i class="fa fa-twitter"></i></a></li>

@@ -17,7 +17,7 @@ class ReviewForm(forms.ModelForm):
             'limitations': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your limitations', 'class': 'form-control', 'required': True}),
             'comment': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your comment', 'class': 'form-control', 'required': True}),
             #'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
-            'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
+            'video': forms.URLInput(attrs={'placeholder': 'Ссылка на видео', 'class': 'form-control', 'required': False}),
             'period': forms.Select(attrs={'class': 'form-control','required': True}),
             'product': forms.HiddenInput()
 
@@ -26,7 +26,7 @@ class ReviewForm(forms.ModelForm):
 
 class ReviewFormCaptcha(forms.ModelForm):
     '''Форма создания отзыва с капчей'''
-    captcha = CaptchaField(label='Are you an human? ', )
+    captcha = CaptchaField(label='Введите проверочный код ', )
 
     class Meta:
         model = Review
@@ -41,7 +41,7 @@ class ReviewFormCaptcha(forms.ModelForm):
             'limitations': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your limitations', 'class': 'form-control', 'required': True}),
             'comment': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your comment', 'class': 'form-control', 'required': True}),
             #'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
-            'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
+            'video': forms.URLInput(attrs={'placeholder': 'Ссылка на видео', 'class': 'form-control', 'required': False}),
             'period': forms.Select(attrs={'class': 'form-control','required': True}),
             'product': forms.HiddenInput()
 
@@ -62,7 +62,7 @@ class EditReviewForm(forms.ModelForm):
             'limitations': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your limitations', 'class': 'form-control', 'required': True}),
             'comment': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Please enter your comment', 'class': 'form-control', 'required': True}),
             #'image': forms.FileInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
-            'video': forms.URLInput(attrs={'placeholder': 'Please enter your city', 'class': 'form-control', 'required': False}),
+            'video': forms.URLInput(attrs={'placeholder': 'Ссылка на видео', 'class': 'form-control', 'required': False}),
             'period': forms.Select(attrs={'class': 'form-control','required': True}),
             'product': forms.HiddenInput()
 

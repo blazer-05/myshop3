@@ -19,7 +19,7 @@ def dict_to_query_string(data):
     return urlencode(query_pairs)
 
 
-'''Фильтр товаров'''
+'''Фильтр товаров + сортировка вывода на странице shop-list'''
 
 
 class FilterCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
@@ -36,13 +36,13 @@ class ProductFilter(forms.Form):
     brand = forms.MultipleChoiceField(choices=[], required=False, widget=FilterCheckboxSelectMultiple())
     filter = forms.MultipleChoiceField(choices=[], required=False, widget=FilterCheckboxSelectMultiple())
     sort = forms.ChoiceField(choices=(
-        ('', 'Default'),
-        ('title', 'Name (A - Z)'),
-        ('-title', 'Name (Z - A)'),
-        ('price', 'Price(Low > High)'),
-        ('-price', 'Price(Low < High)'),
-        ('-rating', 'Rating(Highest)'),
-        ('rating', 'Rating(Lowest)'),
+        ('', 'По умолчанию'),
+        ('title', 'Наименование от (А до Я)'),
+        ('-title', 'Наименование от (Я до А)'),
+        ('price', 'Цена по возрастанию'),
+        ('-price', 'Цена по убыванию'),
+        ('-rating', 'Рейтинг по убыванию'),
+        ('rating', 'Рейтинг по возрастанию'),
     ), required=False)
     limit = forms.ChoiceField(choices=(
         (8, 8), (16, 16), (24, 24), (40, 40), (80, 80), (100, 100)

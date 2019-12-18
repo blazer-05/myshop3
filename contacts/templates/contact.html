@@ -57,8 +57,8 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="/">Home</a></li>
-							<li class="active"><a href="{% url 'contacts:contact' %}">Contact Us</a></li>
+							<li><a href="/">Главная</a></li>
+							<li class="active"><a href="{% url 'contacts:contact' %}">Контакты</a></li>
 						</ul>
 					</div>
 				</div>
@@ -135,7 +135,7 @@
                                                      {{ adres.address }}
                                                     <br>
                                                     <br>
-                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp Mon- Sun: 8.00 - 18.00
+                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> &nbsp Пон- Суб: 9.00 - 17.00
                                                 </p>
                                             </div>
                                         </div>
@@ -164,10 +164,10 @@
 							<fieldset>
 								<form method="post" action="{% url 'contacts:contact' %}">
                                     {% csrf_token %}
-									<legend>Contact Form</legend>
+									<legend>Форма обратной связи</legend>
 									<div class="form-group form-horizontal">
 										<div class="row">
-											<label class="col-sm-2 control-label"><sup>*</sup>Your Name</label>
+											<label class="col-sm-2 control-label"><sup>*</sup>ФИО</label>
 											<div class="col-sm-10">
 												{{ form.full_name }}
 											</div>
@@ -175,7 +175,7 @@
 									</div>
 									<div class="form-group form-horizontal">
 										<div class="row">
-											<label class="col-sm-2 control-label"><sup>*</sup>Your Phone</label>
+											<label class="col-sm-2 control-label"><sup>*</sup>Телефон</label>
 											<div class="col-sm-10">
 												{{ form.phone }}
 											</div>
@@ -183,7 +183,7 @@
 									</div>
 									<div class="form-group form-horizontal">
 										<div class="row">
-											<label class="col-sm-2 control-label"><sup>*</sup>E-Mail Address</label>
+											<label class="col-sm-2 control-label"><sup>*</sup>E-Mail</label>
 											<div class="col-sm-10">
 												{{ form.email }}
 											</div>
@@ -191,18 +191,18 @@
 									</div>
 									<div class="form-group form-horizontal">
 										<div class="row">
-											<label class="col-sm-2 control-label"><sup>*</sup>Enquiry</label>
+											<label class="col-sm-2 control-label"><sup>*</sup>Сообщение</label>
 											<div class="col-sm-10">
 												{{ form.text }}
 											</div>
 										</div>
 									</div>
                                     <div class="row">
-                                        <label class="col-sm-12 control-label"><sup>*</sup>Fields marked with an asterisk are required!</label>
+                                        <label class="col-sm-12 control-label"><sup>*</sup>Поля, отмеченные звездочкой, являются обязательными!</label>
                                     </div>
                                     <div class="col-md-12">
                                       <div class="form-group pull-right">
-                                        <label for="id_captcha">Captcha {{ form.captcha.label }}
+                                        <label for="id_captcha">Captcha: {{ form.captcha.label }}<sup>*</sup>
                                             <span style="color: red; display: inherit;">{{ form.captcha.errors }}</span>
                                         </label>
                                           <div class="container-fluid">
@@ -219,10 +219,10 @@
                                     <div class="pull-right">
                                         <input id="checkbox" type="checkbox" name="checkbox" onchange="document.getElementById('submit').disabled = !this.checked;" />
                                             <label for="form">
-                                                I have read and agree to the
+                                                Я прочитал и согласен с нашей
                                             </label>
-                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><b>Privacy Policy</b></a><!-- Модальное окно в шаблоне modal_privacy_policy.html -->
-                                        <input class="btn btn-primary" type="submit" disabled="disabled" name="submit" id="submit" value="Submit" style="margin-left: 5px;">
+                                        <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg">политикой</a><!-- Модальное окно в шаблоне modal_privacy_policy.html -->
+                                        <input class="btn btn-primary" type="submit" disabled="disabled" name="submit" id="submit" value="Отправить" style="margin-left: 5px;">
                                     </div>
 								</form>
 							</fieldset>

@@ -267,11 +267,11 @@ width:auto!important;
                         <table class="table table-bordered table-hover bmw">
                         <thead>
                             <tr>
-                                <td class="text-center">Images</td>
-                                <td class="text-left">Product Name</td>
-                                <td class="text-center">Quantity</td>
-                                <td class="text-right">Unit Price</td>
-                                <td class="text-right">Total</td>
+                                <td class="text-center">Изображение</td>
+                                <td class="text-left">Наименование</td>
+                                <td class="text-center">Количество</td>
+                                <td class="text-right">Цена</td>
+                                <td class="text-right">Всего</td>
                             </tr>
                         </thead>
                             {% for item in request.cart.cartproduct_set.all %}
@@ -280,7 +280,7 @@ width:auto!important;
                                 <td class="text-center">
                                     <img class="img-thumbnail" src="http://myshop3.sharelink.ru:8080/{{ item.product.images.url }}" alt="{{ item.product.title }}" style="width: 70px;" height="90">
                                 </td>
-                                <td class="text-left">{{ item.product.title }}<br><br><small>Vendor code: <span style="color: #26acce"><b>{{ item.product.vendor_code }}</b></span></small></td>
+                                <td class="text-left">{{ item.product.title }}<br><br><small>Артикул: <span style="color: #26acce"><b>{{ item.product.vendor_code }}</b></span></small></td>
                                 <td class="text-center">{{ item.quantity }}</td>
                                 <td class="text-right">₽ {{ item.product.price }}</td>
                                 <td class="text-right">₽ {{ item.discount_price }}</td>
@@ -290,13 +290,13 @@ width:auto!important;
                         <tfoot>
                             <tr>
                                 <td class="text-right" colspan="4">
-                                    <strong>Total:</strong>
+                                    <strong>Всего:</strong>
                                 </td>
-                                <td class="text-right"><strong>₽ {{ request.cart.discount_price }}</strong></td>
+                                <td class="text-right">₽ {{ request.cart.discount_price }}</td>
                             </tr>
                             <tr>
                                 <td class="text-right" colspan="4">
-                                    <strong>Total amount:</strong>
+                                    <strong>Количество:</strong>
                                 </td>
                                 <td class="text-right">{{ request.cart.count_products }} шт.</td>
                             </tr>

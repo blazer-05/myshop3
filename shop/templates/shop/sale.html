@@ -13,10 +13,10 @@
 									<div class="product-menu">
 										<ul role="tablist">
                                             {% if sale_categories %}
-										    <li role="presentation" class=" active"><a href="#display-4-1" role="tab" data-toggle="tab">Sales by category</a></li>
+										    <li role="presentation" class=" active"><a href="#display-4-1" role="tab" data-toggle="tab" style="font-weight: initial;">Распродажа по категориям</a></li>
                                             {% endif %}
                                             {% if sale_product %}
-										    <li role="presentation"><a href="#display-4-2" role="tab" data-toggle="tab">Sales by product</a></li>
+										    <li role="presentation"><a href="#display-4-2" role="tab" data-toggle="tab" style="font-weight: initial;">Распродажа по товару</a></li>
                                             {% endif %}
 {#										    <li role="presentation"><a href="#display-4-3"  role="tab" data-toggle="tab">Random</a></li>#}
 										</ul>
@@ -51,12 +51,12 @@
                                                                         {% else %}
                                                                             {% if sale.discount %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.get_sale }}</span>
-                                                                                <span class="old-price">${{ sale.price }}</span>
+                                                                                <span class="price">&#8381;{{ sale.get_sale }}</span>
+                                                                                <span class="old-price">&#8381;{{ sale.price }}</span>
                                                                             </div>
                                                                                 {% else %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.price}}</span>
+                                                                                <span class="price">&#8381;{{ sale.price}}</span>
                                                                             </div>
                                                                             {% endif %}
                                                                     {% endif %}
@@ -67,7 +67,7 @@
                                                                         {% endfor %}
 																	</span>
                                                                     <div class="">
-                                                                    <span>Vendor code: <span class="text-stock">{{ sale.vendor_code }}</span></span>
+                                                                    <span>Артикул: <span class="text-stock">{{ sale.vendor_code }}</span></span>
                                                                     </div>
 																	<div class="product-action">
                                                                         <div class="button-group">
@@ -76,17 +76,17 @@
                                                                             <div class="product-button-2">
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
                                                                                     <input type="hidden" name="product" value="{{ sale.slug }}">
-                                                                                    <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
+                                                                                    <button type="submit" data-toggle="tooltip" title="В корзину" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
                                                                                         <i class="fa fa-shopping-cart"></i>
                                                                                     </button>
                                                                                     {% if request.user.is_authenticated %}
-                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="В избранное">
                                                                                             <i class="fa {% if sale.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
                                                                                         </a>
                                                                                         {% else %}
                                                                                         <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                                     {% endif %}
-                                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                                <a href="#" data-toggle="tooltip" title="В сравнение" class="compare" data-product="{{ sale.id }}"><i class="fa fa-signal"></i></a>
                                                                                 </form>
                                                                             </div>
                                                                             {% endif %}
@@ -124,12 +124,12 @@
                                                                         {% else %}
                                                                             {% if sale.discount %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.get_sale }}</span>
-                                                                                <span class="old-price">${{ sale.price }}</span>
+                                                                                <span class="price">&#8381;{{ sale.get_sale }}</span>
+                                                                                <span class="old-price">&#8381;{{ sale.price }}</span>
                                                                             </div>
                                                                                 {% else %}
                                                                             <div class="price-box">
-                                                                                <span class="price">${{ sale.price}}</span>
+                                                                                <span class="price">&#8381;{{ sale.price}}</span>
                                                                             </div>
                                                                             {% endif %}
                                                                     {% endif %}
@@ -140,7 +140,7 @@
                                                                         {% endfor %}
 																	</span>
                                                                     <div class="">
-                                                                    <span>Vendor code: <span class="text-stock">{{ sale.vendor_code }}</span></span>
+                                                                    <span>Артикул: <span class="text-stock">{{ sale.vendor_code }}</span></span>
                                                                     </div>
 																	<div class="product-action">
                                                                         <div class="button-group">
@@ -149,17 +149,17 @@
                                                                             <div class="product-button-2">
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
                                                                                     <input type="hidden" name="product" value="{{ sale.slug }}">
-                                                                                    <button type="submit" data-toggle="tooltip" title="Add Cart" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
+                                                                                    <button type="submit" data-toggle="tooltip" title="В корзину" style="height: 30px; line-height: 30px; padding: 0px; text-align: center; width: 30px; display: inline-block;">
                                                                                         <i class="fa fa-shopping-cart"></i>
                                                                                     </button>
                                                                                     {% if request.user.is_authenticated %}
-                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                                        <a href="{% url 'my_wish_list_add' sale.id %}" class="add_to_wishlist" data-toggle="tooltip" title="В избранное">
                                                                                             <i class="fa {% if sale.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
                                                                                         </a>
                                                                                         {% else %}
                                                                                         <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                                     {% endif %}
-                                                                                <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
+                                                                                <a href="#" data-toggle="tooltip" title="В сравнение" class="compare" data-product="{{ sale.id }}"><i class="fa fa-signal"></i></a>
                                                                                 </form>
                                                                             </div>
                                                                             {% endif %}

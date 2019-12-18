@@ -12,14 +12,14 @@
 <div class="left-category-menu hidden-sm hidden-xs">
     <div class="left-product-cat">
         <div class="category-heading">
-            <h2>categories</h2>
+            <h2 style="font-weight: initial;">Категории</h2>
         </div>
         <div class="category-menu-list">
             <ul class="root">
                 {% for node in nodes_main %}
                     <!-- Single menu start -->
                     <li class="arrow-plus">
-                        <a href="{{ node.url }}">{{ node.name }}</a>
+                        <a href="{{ node.url }}" style="font-weight: lighter;">{{ node.name }}</a>
                         <!--  MEGA MENU START -->
                         {% if not node.is_leaf_node %}
                             <div class="cat-left-drop-menu">
@@ -50,7 +50,7 @@
                 {% for node in nodes_second %}
                     <!-- Single menu start -->
                     <li class="arrow-plus rx-child">
-                        <a href="{{ node.url }}">{{ node.name }}</a>
+                        <a href="{{ node.url }}" style="font-weight: lighter;">{{ node.name }}</a>
                         <!--  MEGA MENU START -->
                             <div class="cat-left-drop-menu">
                                 {% for child in node.children %}
@@ -75,11 +75,11 @@
                     <!-- Single menu end -->
                 {% endfor %}
                 <li class=" rx-parent">
-                    <a class="rx-default">
-                        More categories <span class="cat-thumb  fa fa-plus"></span>
+                    <a class="rx-default" style="font-weight: lighter;">
+                        Остальные <span class="cat-thumb  fa fa-plus"></span>
                     </a>
-                    <a class="rx-show">
-                        close menu <span class="cat-thumb  fa fa-minus"></span>
+                    <a class="rx-show" style="font-weight: lighter;">
+                        Закрыть <span class="cat-thumb  fa fa-minus"></span>
                     </a>
                 </li>
                 <!-- MENU ACCORDION END -->

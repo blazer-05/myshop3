@@ -19,8 +19,8 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="page-menu">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="{% url 'news:newslist' %}">News list</a></li>
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="{% url 'news:newslist' %}">Список новостей</a></li>
                     <li class="active"><a href="{% url 'news:newsdetails' newsdetails.slug %}">{{ newsdetails.title }}</a></li>
                 </ul>
             </div>
@@ -61,7 +61,7 @@
                     <div class="single-post-title">
                         <h2>{{ newsdetails.title }}</h2>
                     </div>
-                    <div class="post-info" style="font-size: .9em; padding-bottom: 1px; margin-top: -8px; margin-left: 1px;">
+                    <div class="post-info" style="font-size: .9em; padding-bottom: 1px; margin-top: 0px; margin-left: 1px;">
                         <span class="vcard author">
                         <span class="fn">{{ newsdetails.user }}</span></span>
                         <span class="postdate updated">{{ newsdetails.created }}</span>
@@ -76,6 +76,11 @@
                     <br>
                     <div class="single-post-content" style="font-size: 14px; text-align: justify">
                         {{ newsdetails.text|safe }}
+                    </div>
+                    <div style="text-align: center">
+                        {% if newsdetails.video %}
+                            <iframe width="560" height="315" src="{{ newsdetails.video }}" allowfullscreen></iframe>
+                        {% endif %}
                     </div>
                     <br>
 

@@ -5,8 +5,8 @@ function renderCartTemplate(data) {
     '            <a href="/cart/">' +
     '                <span class="cart-icon"><i class="fa fa-shopping-cart"></i></span>' +
     '                <span class="cart-total">' +
-    '                <span class="cart-title">Shopping cart</span>' +
-    '                <span class="cart-item" id="cart_count">' + data.count + ' item(s)- </span>' +
+    '                <span class="cart-title">Корзина</span>' +
+    '                <span class="cart-item" id="cart_count">' + data.count + ' товар- </span>' +
     '                <span class="top-cart-price cart-total-price">&#8381;' + data.discount_price +'</span>' +
     '                </span>' +
     '            </a>' +
@@ -39,14 +39,14 @@ function renderCartTemplate(data) {
     '            <div class="clear"></div>' +
     '            <div class="cart-inner-bottom">' +
     '                <span class="total">' +
-    '                    TOTAL:' +
+    '                    Всего:' +
     '                    <span class="amount cart-total-price">&#8381;' + data.discount_price + '</span>' +
     '                </span>';
     if(products.length) {
         tmpl = tmpl +
         '                <span class="cart-button-top">' +
-        '                    <a href="/cart/">View cart</a>' +
-        '                    <a href="/cart/checkout/">Checkout</a>' +
+        '                    <a href="/cart/">В корзину</a>' +
+        '                    <a href="/cart/checkout/">Далее</a>' +
         '                </span>';
     }
     tmpl = tmpl +
@@ -62,7 +62,7 @@ function renderCartTableTemplate(data) {
     var products = data.products;
     if(products.length == 0) {
           document.getElementById('btn-checkout').style.display = "none";
-          return '<h3 class="text-left"><strong>Your basket is empty</strong></h3>';
+          return '<h2 class="text-left">Ваша корзина пуста</h2>';
         }
 
     var tmpl = '' +
@@ -70,11 +70,11 @@ function renderCartTableTemplate(data) {
       '    <table class="table table-bordered table-hover bmw">' +
       '        <thead>' +
       '            <tr>' +
-      '                <td class="text-center">Image</td>' +
-      '                <td class="text-left">Product Name</td>' +
-      '                <td class="text-center">Quantity</td>' +
-      '                <td class="text-right">Unit Price</td>' +
-      '                <td class="text-right">Total</td>' +
+      '                <td class="text-center">Изображение</td>' +
+      '                <td class="text-left">Наименование</td>' +
+      '                <td class="text-center">Количество</td>' +
+      '                <td class="text-right">Цена</td>' +
+      '                <td class="text-right">Всего</td>' +
       '            </tr>' +
       '        </thead>';
 
@@ -90,7 +90,7 @@ function renderCartTableTemplate(data) {
           '                </td>' +
           '                <td class="text-left">' +
           '                    <a href="' + product.url + '">' + product.title + '</a>' + '<br><br>' +
-          '                    <small>Vendor code: <span class="text-stock">' + product.vendor_code + '</span></small>' +
+          '                    <small>Артикул: <span class="text-stock">' + product.vendor_code + '</span></small>' +
           '                </td>' +
           '                <td class="text-center">' +
           '                    <form class="product-quantity" onsubmit="return changeCart(event)">' +
@@ -133,16 +133,16 @@ function renderCartTableTemplate(data) {
       '            <tbody>' +
       '                <tr>' +
       '                    <td class="text-right">' +
-      '                        <strong>Total:</strong>' +
+      '                        <strong>Всего:</strong>' +
       '                    </td>' +
       '                    <td class="text-right cart-total-price">' +
-      '                        <strong>&#8381; ' + data.discount_price + ' </strong>' +
+      '                        &#8381; ' + data.discount_price + ' ' +
       (data.full_price === data.discount_price ? '' : '<br><strike>&#8381; ' + data.full_price) + ' </strike>' +
       '                    </td>' +
       '                </tr>' +
       '                <tr>' +
       '                    <td class="text-right">' +
-      '                        <strong>Total amount:</strong>' +
+      '                        <strong>Количество:</strong>' +
       '                    </td>' +
       '                     <td class="text-right">' + data.count_products + ' шт.</td>' +
       '                </tr>' +

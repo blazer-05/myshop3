@@ -72,4 +72,5 @@ class DeliveryAdmin(SummernoteModelAdmin):
 
 @admin.register(HeaderWidgetInfo)
 class HeaderWidgetInfoAdmin(admin.ModelAdmin):
-    list_display = ['title', 'text']
+    list_display = ['title', 'text', 'is_active']
+    list_editable = ['is_active']

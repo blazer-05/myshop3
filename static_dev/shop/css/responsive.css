@@ -217,9 +217,9 @@ p.welcome-msg, .support-client {
   margin-bottom: 0;
 }
 .mean-container .mean-bar::after {
-  content: "CATEGORIES";
+  content: "КАТЕГОРИИ";
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .mean-container .mean-nav ul li a {
   color: #444;

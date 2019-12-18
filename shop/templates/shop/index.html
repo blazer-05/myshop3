@@ -185,7 +185,7 @@ height:auto
 	            			<div class="row">
 								<div class="col-md-12">
 									<div class="area-title">
-										<h3 class="title-group border-red gfont-1">Hot Deals</h3>
+										<h3 class="title-group border-red gfont-1" style="font-weight: inherit;">Горячие предложения</h3>
 									</div>
 								</div>
 							</div>
@@ -227,12 +227,12 @@ height:auto
                                                 </span>
                                                 {% if hd.discount %}
 			                    				<div class="price-box">
-			                    					<span class="price gfont-2">${{ hd.get_sale }}</span>
-			                    					<span class="old-price gfont-2">${{ hd.price }}</span>
+			                    					<span class="price gfont-2">&#8381;{{ hd.get_sale }}</span>
+			                    					<span class="old-price gfont-2">&#8381;{{ hd.price }}</span>
 			                    				</div>
                                                     {% else %}
 			                    				<div class="price-box">
-			                    					<span class="price gfont-2">${{ hd.price }}</span>
+			                    					<span class="price gfont-2">&#8381;{{ hd.price }}</span>
 			                    				</div>
                                                 {% endif %}
 			                    			</div>
@@ -261,8 +261,8 @@ height:auto
 	                    <div class="shop-blog-area sidebar">
 	                    	<div class="row">
 	                    		<div class="col-md-12">
-	                    			<h3 class="title-group border-red gfont-1">
-                                        <a href="{% url 'news:newslist' %}">NEWS</a>
+	                    			<h3 class="title-group border-red gfont-1" style="font-weight: inherit;">
+                                        <a href="{% url 'news:newslist' %}">Новости</a>
                                     </h3>
 	                    		</div>
 	                    	</div>
@@ -288,7 +288,7 @@ height:auto
                                                     <span style="color: red" class="blink">{% if list.was_published_recently %}Новая статья{% endif %}</span>
                                                 </div>
 			                    				<p class="posts-short-brif" style="font-size: 14px; text-align: justify">{{ list.text|truncatewords:25|safe }}</p>
-			                    				<a href="{{ list.get_absolute_url }}" class="posts-read-more">Read more ...</a>
+			                    				<a href="{{ list.get_absolute_url }}" class="posts-read-more">Далее ...</a>
 			                    			</div>
 			                    		</div>
 		                    		</div>
@@ -323,7 +323,7 @@ height:auto
 								<div class="col-xs-12 col-md-12">
 									<div class="product-menu  border-red">
                                             <div class="product-title">
-                                                <h3 class="title-group-2 gfont-1">
+                                                <h3 class="title-group-2 gfont-1" style="font-weight: initial;">
                                                     <a href="{{ category.sortcategory.get_absolute_url }}">
                                                         {{ category }}
                                                     </a>

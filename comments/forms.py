@@ -47,7 +47,7 @@ class CommentForm(forms.ModelForm):
 
 class CommentFormCaptcha(forms.ModelForm):
     '''Форма комментариев к статьям с капчей для не авторизованных пользователей'''
-    captcha = CaptchaField(label='Are you an human? ',)
+    captcha = CaptchaField(label='Введите проверочный код ',)
 
     class Meta:
         model = Comment

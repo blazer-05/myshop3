@@ -12,7 +12,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="area-title">
-										<h3 class="title-group gfont-1">Bestseller</h3>
+										<h3 class="title-group gfont-1" style="font-weight: inherit;">Бестселлеры</h3>
 									</div>
 								</div>
 							</div>
@@ -35,12 +35,12 @@
                                                     {% else %}
                                                     {% if best.discount %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.get_sale }}</span>
-                                                        <span class="old-price">${{ best.price }}</span>
+                                                        <span class="price">&#8381;{{ best.get_sale }}</span>
+                                                        <span class="old-price">&#8381;{{ best.price }}</span>
                                                     </div>
                                                         {% else %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.price }}</span>
+                                                        <span class="price">&#8381;{{ best.price }}</span>
                                                     </div>
                                                     {% endif %}
                                                 {% endif %}
@@ -77,12 +77,12 @@
                                                     {% else %}
                                                     {% if best.discount %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.get_sale }}</span>
-                                                        <span class="old-price">${{ best.price }}</span>
+                                                        <span class="price">&#8381;{{ best.get_sale }}</span>
+                                                        <span class="old-price">&#8381;{{ best.price }}</span>
                                                     </div>
                                                         {% else %}
                                                     <div class="price-box">
-                                                        <span class="price">${{ best.price }}</span>
+                                                        <span class="price">&#8381;{{ best.price }}</span>
                                                     </div>
                                                     {% endif %}
                                                 {% endif %}

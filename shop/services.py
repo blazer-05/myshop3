@@ -2,6 +2,8 @@ from django.db.models import Count
 from easy_thumbnails.files import get_thumbnailer
 from shop.models import Product, Category, Attribute
 
+'''Для сравнения товаров - Compare'''
+
 
 def get_product_pks_from_cookie(request):
     return list(filter(bool, request.COOKIES.get('compare', '').split(':')))

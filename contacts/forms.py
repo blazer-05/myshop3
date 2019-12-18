@@ -5,7 +5,7 @@ from contacts.models import Contacts, Backcall
 
 class ContactForm(forms.ModelForm):
     '''Форма обратной связи с капчей'''
-    captcha = CaptchaField(label='Are you an human? ', )
+    captcha = CaptchaField(label='Введите проверочный код ', )
 
     class Meta:
         model = Contacts
@@ -22,7 +22,7 @@ class ContactForm(forms.ModelForm):
 
 class BackcallForm(forms.ModelForm):
     '''Форма обратного звонка с капчей'''
-    captcha = CaptchaField(label='Are you an human? ', )
+    captcha = CaptchaField(label='Введите проверочный код ', )
 
     class Meta:
         model = Backcall

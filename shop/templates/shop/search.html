@@ -39,32 +39,6 @@
 												<a href="#display-1-2" role="tab" data-toggle="tab" title="Grid"><i class="icon fa fa-th-large"></i></a>
 											</li>
 										</ul>
-
-										<div class="sort">
-											<label>Sort By:</label>
-											<select>
-												<option value="#">Default</option>
-												<option value="#">Name (A - Z)</option>
-												<option value="#">Name (Z - A)</option>
-												<option value="#">Price (Low > High)</option>
-												<option value="#">Rating (Highest)</option>
-												<option value="#">Rating (Lowest)</option>
-												<option value="#">Name (A - Z)</option>
-												<option value="#">Model (Z - A))</option>
-												<option value="#">Model (A - Z)</option>
-											</select>
-										</div>
-										<div class="limit">
-											<label>Show:</label>
-											<select>
-												<option value="#">8</option>
-												<option value="#">16)</option>
-												<option value="#">24</option>
-												<option value="#">40</option>
-												<option value="#">80</option>
-												<option value="#">100</option>
-											</select>
-										</div>
 									</div>
 
 									<!-- End Product-Menu -->
@@ -110,12 +84,12 @@
                                                                             {% else %}
                                                                                 {% if product.discount %}
                                                                                 <div class="price-box">
-                                                                                    <span class="price">${{ product.get_sale }}</span>
-                                                                                    <span class="old-price">${{ product.price }}</span>
+                                                                                    <span class="price">&#8381;{{ product.get_sale }}</span>
+                                                                                    <span class="old-price">&#8381;{{ product.price }}</span>
                                                                                 </div>
                                                                                     {% else %}
                                                                                 <div class="price-box">
-                                                                                    <span class="price">${{ product.price}}</span>
+                                                                                    <span class="price">&#8381;{{ product.price}}</span>
                                                                                 </div>
                                                                                 {% endif %}
                                                                         {% endif %}
@@ -125,7 +99,7 @@
                                                                             <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>
                                                                             {% endfor %}
                                                                         </span><br><br>
-                                                                        <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
+                                                                        <span>Артикул: <span class="text-stock">{{ product.vendor_code }}</span></span>
                                                                         <p class="description">{{ product.descriptions|truncatewords:25|safe }}</p>
                                                                         <div class="product-action">
                                                                             <div class="button-group">
@@ -133,19 +107,19 @@
                                                                                     {% else %}
                                                                                 <form class="product-button" onsubmit="return addToCart(event)">
                                                                                     <input type="hidden" name="product" value="{{ product.slug }}">
-                                                                                    <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                                    <button type="submit"><i class="fa fa-shopping-cart"></i> В корзину</button>
                                                                                 </form>
                                                                                 {% endif %}
                                                                                 <div class="product-button-2">
                                                                                     {% if request.user.is_authenticated %}
-                                                                                        <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                                        <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist" data-toggle="tooltip" title="В избранное">
                                                                                             <i class="fa {% if product.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
                                                                                         </a>
                                                                                         {% else %}
                                                                                         <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                                     {% endif %}
-                                                                                    <a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-                                                                                    <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}" title="Quickview"><i class="fa fa-search-plus"></i></a>
+                                                                                    <a href="#" data-toggle="tooltip" title="В сравнение" class="compare" data-product="{{ product.id }}"><i class="fa fa-signal"></i></a>
+                                                                                    <a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}" title="Быстрый заказ"><i class="fa fa-search-plus"></i></a>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -172,7 +146,7 @@
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to {{ search_product.number }} of ({{ search_product.paginator.num_pages }} Pages)</span>
+																<span>Показано с 1 по {{ search_product.number }} из ({{ search_product.paginator.num_pages }} Страницы)</span>
 															</div>
 														</div>
 													</div>
@@ -213,12 +187,12 @@
                                                                     {% else %}
                                                                         {% if product.discount %}
                                                                         <div class="price-box">
-                                                                            <span class="price">${{ product.get_sale }}</span>
-                                                                            <span class="old-price">${{ product.price }}</span>
+                                                                            <span class="price">&#8381;{{ product.get_sale }}</span>
+                                                                            <span class="old-price">&#8381;{{ product.price }}</span>
                                                                         </div>
                                                                             {% else %}
                                                                         <div class="price-box">
-                                                                            <span class="price">${{ product.price}}</span>
+                                                                            <span class="price">&#8381;{{ product.price}}</span>
                                                                         </div>
                                                                         {% endif %}
                                                                 {% endif %}
@@ -228,7 +202,7 @@
                                                                     <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>
                                                                     {% endfor %}
                                                                 </span><br><br>
-                                                                <span>Vendor code: <span class="text-stock">{{ product.vendor_code }}</span></span>
+                                                                <span>Артикул: <span class="text-stock">{{ product.vendor_code }}</span></span>
 															</div>
 															<div class="product-action">
 																<div class="button-group">
@@ -237,20 +211,20 @@
                                                                             {% else %}
                                                                         <form class="product-button" onsubmit="return addToCart(event)">
                                                                             <input type="hidden" name="product" value="{{ product.slug }}">
-                                                                            <button type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                                                            <button type="submit"><i class="fa fa-shopping-cart"></i> В корзину</button>
                                                                         </form>
                                                                         {% endif %}
 																	</div>
 																	<div class="product-button-2">
                                                                         {% if request.user.is_authenticated %}
-                                                                            <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist" data-toggle="tooltip" title="Add to Wishlist">
+                                                                            <a href="{% url 'my_wish_list_add' product.id %}" class="add_to_wishlist" data-toggle="tooltip" title="В избранное">
                                                                                 <i class="fa {% if product.in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
                                                                             </a>
                                                                             {% else %}
                                                                             <a href="{% url 'account_login' %}" data-toggle="tooltip" title="Войдите на сайт"><i class="fa fa-heart-o"></i></a>
                                                                         {% endif %}
-																		<a href="#" data-toggle="tooltip" title="Compare"><i class="fa fa-signal"></i></a>
-																		<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}"><i class="fa fa-search-plus"></i></a>
+																		<a href="#" data-toggle="tooltip" title="В сравнение" class="compare" data-product="{{ product.id }}"><i class="fa fa-signal"></i></a>
+																		<a href="#" class="modal-view" data-toggle="modal" data-target="#productModal" data-url="{% url 'shop:modal-product' product.slug %}" title="Быстрый заказ"><i class="fa fa-search-plus"></i></a>
 																	</div>
 																</div>
 															</div>
@@ -275,7 +249,7 @@
 														</div>
 														<div class="col-xs-7">
 															<div class="product-result">
-																<span>Showing 1 to {{ search_product.number }} of ({{ search_product.paginator.num_pages }} Pages)</span>
+																<span>Показано с 1 по {{ search_product.number }} из ({{ search_product.paginator.num_pages }} Страниц)</span>
 															</div>
 														</div>
 													</div>

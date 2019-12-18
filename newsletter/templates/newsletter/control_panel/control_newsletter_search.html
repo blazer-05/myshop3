@@ -8,7 +8,7 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="row">
             <div class="col-sm-10">
-                <h1 class="page-header">Newsletter Search Results</h1>
+                <h1 class="page-header">Результат поиска по рассылкам</h1>
             </div>
         </div>
 
@@ -19,12 +19,12 @@
             <table class="table table-hover">
                 <thead>
                     <th>id</th>
-                    <th>Subject</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Updated</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Тема</th>
+                    <th>Статус</th>
+                    <th>Создана</th>
+                    <th>Обновлена</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
                 </thead>
                 <tbody>
                     {% for newsletter in search_newsletter %}
@@ -34,8 +34,8 @@
                         <td>{{ newsletter.get_status_display }}</td>
                         <td>{{ newsletter.created }}</td>
                         <td>{{ newsletter.updated }}</td>
-                        <td><a href="{% url 'newsletter:control_newsletter_edit' pk=newsletter.pk %}"><button class="btn btn-warning">Edit</button></a></td>
-                        <td><a href="{% url 'newsletter:control_newsletter_delete' pk=newsletter.pk %}"><button class="btn btn-danger">Delete</button></a></td>
+                        <td><a href="{% url 'newsletter:control_newsletter_edit' pk=newsletter.pk %}"><button class="btn btn-warning">Редактировать</button></a></td>
+                        <td><a href="{% url 'newsletter:control_newsletter_delete' pk=newsletter.pk %}"><button class="btn btn-danger">Удалить</button></a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -49,7 +49,7 @@
                     <div class="pagination">
                         <ul>
                             {% bootstrap_pagination search_newsletter extra=request.GET.urlencode pages_to_show=3 %} <br>
-                            <span>Showing 1 to {{ search_newsletter.number }} of ({{ search_newsletter.paginator.num_pages }} Pages)</span>
+                            <span>Показано с 1 по {{ search_newsletter.number }} из ({{ search_newsletter.paginator.num_pages }} Страниц)</span>
                         </ul>
                     </div>
                 </div>

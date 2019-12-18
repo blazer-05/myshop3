@@ -11,13 +11,13 @@
 {% if categories or products %}
     <section class="cd-products-comparison-table">
         <header>
-            <h2>Compare Products</h2>
+            <h2>Сравнение товаров</h2>
 
             <div class="actions">
-                <a href="#0" class="reset">Reset</a>
-                <a href="#0" class="filter">Filter</a>
+                <a href="#0" class="reset">Сброс</a>
+                <a href="#0" class="filter">Фильтр</a>
                 <button class="btn btn-danger" id="compare_delete_product" style="width: 100px; height: 38.2px; margin-left: 15px; margin-top: -3px;">
-                    Delete
+                    Удалить
                 </button>
             </div>
         </header>
@@ -34,10 +34,10 @@
 
         <div class="cd-products-table">
             <div class="features">
-                <div class="top-info">Models</div>
+                <div class="top-info">Модель</div>
                 <ul class="cd-features-list">
-                    <li>Price</li>
-                    <li>Customer Rating</li>
+                    <li>Цена</li>
+                    <li>Рейтинг</li>
                     {% for attr in attributes %}
                     <li>{{ attr.title }}</li>
                     {% endfor %}
@@ -56,7 +56,7 @@
                         </div> <!-- .top-info -->
 
                         <ul class="cd-features-list">
-                            <li>{{ product.price }}</li>
+                            <li>&#8381;{{ product.price }}</li>
                             <li><span class="rating">
                                 {% for x in '12345' %}
                                     <i class="fa fa-star{% if forloop.counter <= product.rating %}{% else %}-o{% endif %}" ></i>

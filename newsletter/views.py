@@ -21,15 +21,15 @@ def subscribe(request):
 
     form = NewsletterUserSignUpForm(request.POST)
     if not form.is_valid():
-        return JsonResponse({'message': 'Enter a valid email address'}, status=400)
+        return JsonResponse({'message': 'Введите действительный адрес электронной почты'}, status=400)
 
     email = form.cleaned_data.get('email')
     if NewsletterUser.objects.filter(email=email).exists():
-        message = 'Your email already exists in our database'
+        message = 'Ваш электронный адрес уже существует в нашей базе данных'
     else:
-        message = 'Your email has been submitted to the database'
+        message = 'Ваш адрес электронной почты был добавлен в нашу базу данных'
 
-        subject = 'Thank You For Joining Our Newsletter'
+        subject = 'Спасибо за подписку на нашу рассылку'
         from_email = local_settings.DEFAULT_FROM_EMAIL
         to_email = [email]
         site = local_settings.SITES
@@ -45,7 +45,7 @@ def subscribe(request):
             messages_sub.send()
             form.save()
         except SMTPDataError:
-            return JsonResponse({'message': 'Enter a valid email address'}, status=400)
+            return JsonResponse({'message': 'Введите действительный адрес электронной почты'}, status=400)
 
         '''Письмо админу о подписке на рассылку'''
         send_mail('Уважаемый админ сайта "{}" '.format(site),
@@ -62,9 +62,9 @@ def newsletter_unsubscribe(request):
         instance = form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             NewsletterUser.objects.filter(email=instance.email).delete()
-            messages.success(request, 'Your email has been removed')
+            messages.success(request, 'Ваш адрес электронной почты был удален')
 
-            subject = 'You have unsubscribe'
+            subject = 'Вы отписались от рассылки'
             from_email = local_settings.DEFAULT_FROM_EMAIL
             to_email = [instance.email]
             site = local_settings.SITES
