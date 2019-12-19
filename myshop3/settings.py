@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'notifications',    # https://pypi.org/project/django-notifications-hq/#description
     'smart_selects',    # https://github.com/digi604/django-smart-selects
 
+    'cml',
 
 ]
 
@@ -290,6 +291,10 @@ site_url = 'http://myshop3.sharelink.ru:8080'
 
 '''Использует debug_toolbar'''
 #INTERNAL_IPS = ['192.168.1.5']
+
+
+CML_PROJECT_PIPELINES = 'myshop3.cml_pipelines'
+
 
 ''' Подгружаем настройки из модуля local_settings.py. '''
 try:

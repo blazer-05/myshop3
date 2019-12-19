@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 import debug_toolbar
 import notifications.urls
 
@@ -39,6 +39,9 @@ urlpatterns = [
     path('inbox/notifications/', include(notifications.urls, namespace='notifications')),
     path('chaining/', include('smart_selects.urls')),
     url(r'^__debug__/', include(debug_toolbar.urls)), # Использует debug_toolbar
+
+    re_path(r'^cml/', include('cml.urls')),
+
 
 ]
 
