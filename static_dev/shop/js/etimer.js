@@ -85,14 +85,27 @@
         element.append('<style type="text/css">.' + elClass + ' {display: inline-block; line-height: normal; font-family: ' + config.etFontFamily + '; color: ' + config.etTextColor + '; padding: ' + config.etPaddingTB + 'px ' + config.etPaddingLR + 'px; background: ' + config.etBackground + '; border: ' + config.etBorderSize + 'px solid ' + config.etBorderColor + '; -webkit-border-radius: ' + config.etBorderRadius + 'px; -moz-border-radius: ' + config.etBorderRadius + 'px; border-radius: ' + config.etBorderRadius + 'px; -webkit-box-shadow: ' + config.etShadow + '; -moz-box-shadow: ' + config.etShadow + '; box-shadow: ' + config.etShadow + ';} .' + elClass + ' .etTitle {margin-bottom: 10px; font-size: ' + config.etTitleSize + 'px;} .' + elClass + ' .etUnit {display: inline-block;} .' + elClass + ' .etUnit .etNumber {display: inline-block; margin: 1px; text-align: center; font-family: ' + config.etNumberFontFamily + '; font-size: ' + config.etNumberSize + 'px; color: ' + config.etNumberColor + '; padding: ' + config.etNumberPaddingTB + 'px ' + config.etNumberPaddingLR + 'px; background: ' + config.etNumberBackground + '; border: ' + config.etNumberBorderSize + 'px solid ' + config.etNumberBorderColor + '; -webkit-border-radius: ' + config.etNumberBorderRadius + 'px; -moz-border-radius: ' + config.etNumberBorderRadius + 'px; border-radius: ' + config.etNumberBorderRadius + 'px; -webkit-box-shadow: ' + config.etNumberShadow + '; -moz-box-shadow: ' + config.etNumberShadow + '; box-shadow: ' + config.etNumberShadow + ';} .' + elClass + ' .etUnit .etSign {text-align: center; font-size: ' + (+config.etNumberSize / 2.5) + 'px;} .' + elClass + ' .etSep {display: inline-block; vertical-align: top; font-size: ' + config.etNumberSize + 'px; padding: ' + (+config.etNumberPaddingTB + +config.etNumberBorderSize) + 'px 5px;} .' + elClass + ' .etSep:last-of-type {display: none;}</style>').append('<style type="text/css">.' + elClass + ' .etUnit .etNumber {width: ' + $('.etNumber:visible').eq(0).css('width') + ';}</style>');
       };
 
-      element.tick = function() {
-        var timeLeft = Math.floor((date - new Date()) / 1000),
-          unit;
-        if (timeLeft < 0) {
+
+      // element.tick = function() {
+      //   var timeLeft = Math.floor((date - new Date()) / 1000),
+      //     unit;
+      //   if (timeLeft < 0) {
+      //         clearInterval(element.data('interval'));
+      //         const contact= '<a href="/contact/">';
+      //         element.find('.etTitle').html(`К сожалению для этого товара акция закончилась, обращайтесь к ${contact}менеджеру!` ).nextAll(':not(style)').remove()
+      //   }
+
+        element.tick = function () {
+          var isTimeOver = window.localStorage.getItem('isTimeOver');
+          var timeLeft = isTimeOver ? -1 : Math.floor((date - new Date()) / 1000),
+              unit;
+          if (timeLeft < 0) {
               clearInterval(element.data('interval'));
-              const contact= '<a href="/contact/">';
-              element.find('.etTitle').html(`К сожалению для этого товара акция закончилась, обращайтесь к ${contact}менеджеру!` ).nextAll(':not(style)').remove()
-        }
+              window.localStorage.setItem('isTimeOver', true);
+              const contact = '<a href="/contact/">';
+              element.find('.etTitle').html(`К сожалению для этого товара акция закончилась, обращайтесь к ${contact} менеджеру!`).nextAll(':not(style)').remove()
+          }
+
 
         else {
           $.each(units.en, function(i) {

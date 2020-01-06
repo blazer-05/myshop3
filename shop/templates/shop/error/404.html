@@ -1,0 +1,25 @@
+{% extends 'shop/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %} | Ошибка 404 {% endblock %}
+
+{% block content %}
+
+
+        <div class="container">
+            <div style="text-align: center">
+
+                <h3>Ошибка 404 </h3><br>
+                <h3>Запрашиваемая страница не найдена</h3><br>
+                <h3>Возможно, неправильно указан путь в адресной строке или страница была удалена.</h3><br>
+                <div class="aligncenter"><a href="/"><button class="btn btn-info">На главную</button></a></div>
+
+                <div class="wrapper margin-bot">
+
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}

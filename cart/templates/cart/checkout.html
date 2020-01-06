@@ -55,7 +55,7 @@
                                         {% if request.user.is_authenticated %}
 										<h2>Проверьте Ваш заказ</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
                                             {% else %}
-                                            <h2>Варианты оформления заказа</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
+                                            <h2>Вариант оформления заказа</h2><!-- Для английского шрифта указаьть class="entry-title"  -->
                                         {% endif %}
 									</div>
 									<!-- Accordion start -->
@@ -66,7 +66,7 @@
 											<div class="panel-heading">
 												<h4 class="panel-title">
 													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options" style="font-weight: inherit;">
-                                                        Варианты оформления заказа  <i class="fa fa-caret-down"></i>
+                                                        Вариант оформления заказа  <i class="fa fa-caret-down"></i>
                                                     </a>
 												</h4>
 											</div>
@@ -76,7 +76,7 @@
 														<div class="col-md-6 col-xs-12">
                                                             <div class="checkout-collapse">
                                                                 <h3 class="title-group-3 gfont-1">Новый клиен</h3>
-                                                                <p>Оформление</p>
+                                                                <p>Регистрация нового клиента</p>
                                                                 <a href="{% url 'account_signup' %}">
                                                                     <button class="btn btn-primary">Регистрация
                                                                     </button>
@@ -97,7 +97,7 @@
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
 																<h3 class="title-group-3 gfont-1">Я ваш клиент</h3>
-																<p>Я постоянный ваш клиент</p>
+																<p>Я постоянный клиент</p>
                                                                 <a href="{% url 'account_login' %}"><button class="btn btn-primary">Авторизоваться</button></a>
 															</div>
 														</div>
@@ -113,7 +113,7 @@
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm" style="font-weight: inherit;">
-                                                            Подтверждение заказа <i class="fa fa-caret-down"></i>
+                                                            Ваш заказ <i class="fa fa-caret-down"></i>
                                                         </a>
                                                     </h4>
                                                 </div>

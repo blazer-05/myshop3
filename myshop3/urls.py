@@ -17,9 +17,15 @@ from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.shortcuts import render
 from django.urls import path, include, re_path
 import debug_toolbar
 import notifications.urls
+
+
+def robots(request):
+    return render(request, 'shop/robots.txt', content_type='text/plain')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,8 +48,11 @@ urlpatterns = [
 
     re_path(r'^cml/', include('cml.urls')),
 
+    path('robots.txt', robots, name='robots'),
+
 
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

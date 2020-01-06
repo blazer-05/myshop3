@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'notifications',    # https://pypi.org/project/django-notifications-hq/#description
     'smart_selects',    # https://github.com/digi604/django-smart-selects
 
-    'cml',
+    'cml',              # https://github.com/ArtemiusUA/django-cml
 
 ]
 
@@ -84,7 +84,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'shop/templates'),
+                 os.path.join(BASE_DIR, 'shop/templates/shop'),
+                 os.path.join(BASE_DIR, 'shop/templates/shop/error'),
                  os.path.join(BASE_DIR, 'profiles/templates/allauth'),
                  os.path.join(BASE_DIR, 'info/templates'),
                  os.path.join(BASE_DIR, 'contacts/templates'),
@@ -182,7 +183,7 @@ STATICFILES_DIRS = (
 # Настройки миниатюр для изображений https://pypi.org/project/easy-thumbnails/
 THUMBNAIL_ALIASES = {
     '': {
-        'slider': {'size': (300, 250), 'corp':True, 'quality': 99},       # index.html
+        'slider': {'size': (300, 300), 'corp':False, 'quality': 99},      # index.html
         'index': {'size': (200, 150), 'corp':True, 'quality': 99},        # index.html
         'akciya': {'size': (200, 150), 'corp':True, 'quality': 99},       # index.html
         'shop': {'size': (200, 150), 'corp':True, 'quality': 99},         # shop.html
@@ -292,7 +293,7 @@ site_url = 'http://myshop3.sharelink.ru:8080'
 '''Использует debug_toolbar'''
 #INTERNAL_IPS = ['192.168.1.5']
 
-
+'''Синхронизация с 1с, библиотека django-cml, файл cml-pipelines.py'''
 CML_PROJECT_PIPELINES = 'myshop3.cml_pipelines'
 
 

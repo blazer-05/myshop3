@@ -6,7 +6,7 @@ function renderCartTemplate(data) {
     '                <span class="cart-icon"><i class="fa fa-shopping-cart"></i></span>' +
     '                <span class="cart-total">' +
     '                <span class="cart-title">Корзина</span>' +
-    '                <span class="cart-item" id="cart_count">' + data.count + ' товар- </span>' +
+    '                <span class="cart-item" id="cart_count">' + data.count + ' шт- </span>' +
     '                <span class="top-cart-price cart-total-price">&#8381;' + data.discount_price +'</span>' +
     '                </span>' +
     '            </a>' +
