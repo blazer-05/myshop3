@@ -153,15 +153,15 @@ class Product(models.Model):
     descriptions = models.TextField(blank=True, verbose_name='Описание')
     descriptions_two = models.TextField(blank=True, verbose_name='Доп.описание', editable=False) # Скрыл это поле в админке атрибутом editable=False
     images = models.ImageField(upload_to='img_product/%y/%m/%d/', blank=True, verbose_name='Изображение товара')
-    price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, verbose_name='Цена')
+    price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True, verbose_name='Цена')
     discount = models.IntegerField(default=0, verbose_name='Скидка')
     new = models.BooleanField(default=False, verbose_name='Новый товар')
     akciya = models.BooleanField(default=False, verbose_name='Акция')
     akciya_text = models.TextField(blank=True, verbose_name='Описание')
     timer = models.BooleanField(default=False, verbose_name='Таймер')
     timer_before = models.DateTimeField(null=True, blank=True, verbose_name='Дата таймера')
-    stock = models.PositiveIntegerField(blank=True, verbose_name='Количество')
-    vendor_code = models.IntegerField(default=0, blank=True, verbose_name='Артикул товара')
+    stock = models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество')
+    vendor_code = models.IntegerField(default=0, blank=True, null=True, verbose_name='Артикул товара')
     id_cml = models.UUIDField(blank=True, null=True, verbose_name='Выгрузка')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
