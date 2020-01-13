@@ -86,7 +86,14 @@
       };
 
 
-
+      // element.tick = function() {
+      //   var timeLeft = Math.floor((date - new Date()) / 1000),
+      //     unit;
+      //   if (timeLeft < 0) {
+      //         clearInterval(element.data('interval'));
+      //         const contact= '<a href="/contact/">';
+      //         element.find('.etTitle').html(`К сожалению для этого товара акция закончилась, обращайтесь к ${contact}менеджеру!` ).nextAll(':not(style)').remove()
+      //   }
 
         element.tick = function () {
           var isTimeOver = window.localStorage.getItem('isTimeOver');

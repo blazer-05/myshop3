@@ -20,6 +20,9 @@
                         <h4>Комментарии ({{ all_comment }} )</h4>
                         {% for com in comments %}
                         <ul class="post-comments">
+                            <div class="pull-right">
+                                <span>Комментарий №</span><span style="color: #0094D9;"> <u>{{ com.id }}</u></span>
+                            </div>
                             <li>
                                 <div class="comment-wrapper">
                                     {% if com.user.profile.avatar %}
@@ -40,7 +43,7 @@
 
                                     <!-- Comment Controls -->
                                     <div class="comment-actions" >
-                                        <span class="comment-date">{{ com.created }}</span>
+                                        <span class="comment-date">{{ com.created}}</span>
 
                                         <span data-toggle="tooltip" data-original-title="Vote Up" class="show-tooltip" onclick="like(this)" data-comment-id="{{ com.id }}">
                                             <i class="glyphicon glyphicon-thumbs-up"></i>
