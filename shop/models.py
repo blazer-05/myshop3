@@ -23,6 +23,8 @@ from decimal import Decimal
 from notifications.signals import notify
 from smart_selects.db_fields import ChainedForeignKey
 
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
 
 class Category(MPTTModel):
     '''Категории'''
@@ -62,10 +64,11 @@ class Category(MPTTModel):
     def image_img(self):
         '''Вывод картинок в админке!
         Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки.'''
+        no_image = static('shop/img/no-image-70x70.png')  # Заглушка если нет основного изображения у категории
         if self.img:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.img.url))
         else:
-            return '(Нет изображения)'
+            return mark_safe(u'<img src="{0}" width="100"/>'.format(no_image))
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
@@ -96,10 +99,11 @@ class Brand(models.Model):
         return self.name
 
     def image_img(self):
+        no_image = static('shop/img/no-image-70x70.png')  # Заглушка если нет основного изображения у товара
         if self.image:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.image.url))
         else:
-            return '(Нет изображения)'
+            return mark_safe(u'<img src="{0}" width="100"/>'.format(no_image))
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
@@ -180,10 +184,11 @@ class Product(models.Model):
     def image_img(self):
         '''Вывод картинок в админке!
         Обязательно сделать импорт функции mark_safe() иначе вместо картинки будет выводить html код картинки'''
+        no_image = static('shop/img/no-image-70x70.png') # Заглушка если нет основного изображения у товара
         if self.images:
             return mark_safe(u'<a href="{0}" target="_blank"><img src="{0}" width="100"/></a>'.format(self.images.url))
         else:
-            return '(Нет изображения)'
+            return mark_safe(u'<img src="{0}" width="100"/>'.format(no_image))
     image_img.short_description = 'Картинка'
     image_img.allow_tags = True
 
@@ -197,7 +202,8 @@ class Product(models.Model):
 
     def need_timer(self):
         '''Таймер для акции'''
-        return self.timer and self.timer_before and timezone.now() < self.timer_before
+        #return self.timer and self.timer_before and timezone.now() < self.timer_before
+        return self.timer and self.timer_before
 
     def generate_vendor_code(self, numbers=5):
         '''Переопределен метод save() для генерации случайных чисел для поля vendor_code (Артикул товара),
@@ -370,11 +376,13 @@ class CategoryIndexPage(MPTTModel):
     sortcategory = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Вывод категорий на главной странице')
     parent = TreeForeignKey('self', blank=True, null=True, verbose_name='Родительская категория', related_name='children', on_delete=models.CASCADE, editable=False)  # editable=False (Скрыл поле parent в админке)
     brands = models.ManyToManyField(Brand, blank=True, verbose_name='Сортировать по брендам')
+    sort = models.PositiveIntegerField(default=0, blank=True, verbose_name='Позиция блока')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
 
     class Meta:
         verbose_name = 'Вывод из категории на главной'
         verbose_name_plural = 'Вывод из категорий на главной'
+        #ordering = ['sort']
 
     def __str__(self):
         return '{}'.format(self.sortcategory)
@@ -382,6 +390,7 @@ class CategoryIndexPage(MPTTModel):
     @classmethod
     def get_index_categories(cls, user):
         index_categories = {}
+        #categorys = CategoryIndexPage.objects.filter(is_active=True).order_by('-sort')
         for category in cls.objects.filter(is_active=True):
             cat_descendants = category.sortcategory.get_descendants(include_self=True)
             index_categories.update(

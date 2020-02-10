@@ -41,7 +41,11 @@
 															<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
 																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.get_absolute_url }}">
+                                                                        {% if sale.images %}
 																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="{{ sale.title }}" title="{{ sale.title }}">
+                                                                            {% else %}
+                                                                            <img src="{% static 'shop/img/no-image-small.png' %}">
+                                                                        {% endif %}
 																	</a>
 																</div>
 																<div class="product-description">
@@ -114,7 +118,11 @@
 															<div class="single-product jq-product-wrapper"> <!-- jq-product-wrapper - класс полета товара в корзину! -->
 																<div class="product-img" style="width: 105px; height: 160px" align="center">
 																	<a href="{{ sale.get_absolute_url }}">
+                                                                        {% if sale.images %}
 																		<img class="primary-img" src="{{ sale.images|thumbnail_url:'sale' }}" alt="{{ sale.sale_product.title }}" title="{{ sale.sale_product.title }}">
+                                                                            {% else %}
+                                                                            <img src="{% static 'shop/img/no-image-small.png' %}">
+                                                                        {% endif %}
 																	</a>
 																</div>
 																<div class="product-description">

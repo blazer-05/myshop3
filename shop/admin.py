@@ -90,7 +90,7 @@ class ProductAdmin(SummernoteModelAdmin):
                    'updated',
 
                    )
-    search_fields = ['title', 'vendor_code']
+    search_fields = ['title', 'vendor_code', 'category__name']
     list_editable = ['slug', 'is_active', 'stock',]
     list_per_page = 10  # Вывод количества новостей в админке
     actions = [complete_post, incomplete_post] # Методы complete_post, incomplete_post для массового снятия/публикации товаров.
@@ -164,12 +164,14 @@ admin.site.register(
     list_display = (
         'tree_actions',
         'indented_title',
-        #'sortcategory',
+        'sort',
         'is_active',
     ),
     list_editable = (
         'is_active',
-    )
+        'sort',
+    ),
+    actions=[complete_post, incomplete_post]
 )
 
 

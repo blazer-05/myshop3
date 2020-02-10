@@ -4,7 +4,6 @@ django-allauth==0.39.1
 django-appconf==1.0.2
 django-bootstrap3==11.0.0
 django-cleanup==2.1.0
-django-cml==0.4.0
 django-debug-toolbar==2.1
 django-js-asset==1.1.0
 django-model-utils==3.1.2

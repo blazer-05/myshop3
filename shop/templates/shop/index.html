@@ -126,8 +126,12 @@ height:auto
                                         <div class="row">
                                             <div class="top col-md-6 col-xs-12" style="width: 300px; height: 300px;">
                                                 <a href="{{ slider.get_absolute_url }}">
+                                                    {% if slider.images %}
                                                     <img src="{{ slider.images|thumbnail_url:'slider' }}"
                                                          class="img-responsive">
+                                                        {% else %}
+                                                        <img src="{% static 'shop/img/no-image.PNG' %}">
+                                                    {% endif %}
                                                 </a>
                                             </div>
                                             <br>
@@ -146,8 +150,12 @@ height:auto
                                         <div class="row">
                                             <div class="top col-md-6 col-xs-12" style="width: 300px; height: 300px;">
                                                 <a href="{{ slider.get_absolute_url }}">
+                                                    {% if slider.images %}
                                                     <img src="{{ slider.images|thumbnail_url:'slider' }}"
                                                          class="img-responsive">
+                                                        {% else %}
+                                                        <img src="{% static 'shop/img/no-image.PNG' %}">
+                                                    {% endif %}
                                                 </a>
                                             </div>
                                             <br>
@@ -196,7 +204,13 @@ height:auto
 		                    		<div class="col-xs-12">
 			                    		<div class="single-hot-deals">
 			                    			<div class="hot-deals-photo">
+                                                {% if hd.images %}
 			                    				<a href="{{ hd.get_absolute_url }}"><img src="{{ hd.images|thumbnail_url:'akciya' }}" alt="Product" ></a>
+                                                {% else %}
+                                                    <a href="{{ hd.get_absolute_url }}">
+                                                        <img src="{% static 'shop/img/no-image-small.png' %}" style="padding: 10px;">
+                                                    </a>
+                                                {% endif %}
 			                    			</div><br>
 			                    			<div class="count-down">
                                                 {% if hd.need_timer %}

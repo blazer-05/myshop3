@@ -68,7 +68,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <td class="text-center">
+                                                                {% if item.product.images %}
                                                                 <img class="img-thumbnail" src="{{ item.product.images|thumbnail_url:'cart' }}" alt="{{ item.product.title }}" />
+                                                                {% else %}
+                                                                    <img class="img-thumbnail"
+                                                                         src="{% static 'shop/img/no-image-70x70.png' %}"/>
+                                                                {% endif %}
                                                             </td>
                                                             <td class="text-left">{{ item.product.title }}<br><br><small>Артикул: <span class="text-stock">{{ item.product.vendor_code }}</span></small></td>
                                                             <td class="text-center">{{ item.quantity }}</td>

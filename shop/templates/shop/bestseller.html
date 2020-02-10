@@ -25,7 +25,11 @@
 										<div class="single-product">
 											<div class="product-img" style="width: 100px; height: 100px" align="center">
 												<a href="{{ best.get_absolute_url }}">
+                                                    {% if best.images %}
 													<img class="primary-img" src="{{ best.images|thumbnail_url:'bestsellers' }}" alt="{{ best.title }}" title="{{ best.title }}">
+                                                    {% else %}
+                                                        <img src="{% static 'shop/img/no-image-small.png' %}" style="padding: 5px;">
+                                                    {% endif %}
 												</a>
 											</div>
 											<div class="product-description">
@@ -67,7 +71,11 @@
 										<div class="single-product">
 											<div class="product-img" style="width: 100px; height: 100px" align="center">
 												<a href="{{ best.get_absolute_url }}">
+                                                    {% if best.images %}
 													<img class="primary-img" src="{{ best.images|thumbnail_url:'bestsellers' }}" alt="{{ best.title }}" title="{{ best.title }}">
+                                                    {% else %}
+                                                        <img src="{% static 'shop/img/no-image-small.png' %}" style="padding: 5px;">
+                                                    {% endif %}
 												</a>
 											</div>
 											<div class="product-description">

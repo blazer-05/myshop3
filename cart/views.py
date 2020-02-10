@@ -4,6 +4,8 @@ from django.views.generic import TemplateView, FormView
 from easy_thumbnails.alias import aliases
 from easy_thumbnails.files import get_thumbnailer
 
+from django.contrib.staticfiles.templatetags.staticfiles import static
+
 from cart.forms import CartAddProductForm, CartChangeProductForm, CartRemoveProductForm
 
 
@@ -14,8 +16,9 @@ class CartTemplateView(TemplateView):
 class CartInfoTemplateView(View):
     def get(self, request, *args, **kwargs):
         def get_thumb(field, alias=None):
+            url = static('shop/img/no-image-70x70.png') # Если картинки нет, отобразить заглушку в корзине.
             if not field:
-                return
+                return url
 
             if not alias:
                 return field.url

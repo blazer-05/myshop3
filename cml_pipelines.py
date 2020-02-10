@@ -8,9 +8,9 @@ To activate your pipelines add the following to your settings.py:
     CML_PROJECT_PIPELINES = 'myshop3.cml_pipelines'
 """
 
-import decimal
-from cml.items import Order, OrderItem
-import orders.models as prod
+from django.core.files import File
+from pytils.translit import slugify
+from shop.models import Category, Product, Brand, Attribute, Value, Entry
 
 
 class GroupPipeline(object):
@@ -21,7 +21,21 @@ class GroupPipeline(object):
     groups
     """
     def process_item(self, item):
-        pass
+        self.recursive_create(item)
+
+    @classmethod
+    def recursive_create(cls, item, parent=None):
+        Category.objects.filter(name=item.name).update(id_cml=item.id)
+        category, _ = Category.objects.update_or_create(
+            id_cml=item.id,
+            defaults={
+                'name': item.name,
+                'slug': slugify(item.name),
+                'parent': parent,
+            }
+        )
+        for child_group in item.groups:
+            cls.recursive_create(child_group, category)
 
 
 class PropertyPipeline(object):
@@ -33,7 +47,12 @@ class PropertyPipeline(object):
     for_products
     """
     def process_item(self, item):
-        pass
+        Attribute.objects.get_or_create(
+            id_cml=item.id,
+            defaults={
+                'title': item.name
+            }
+        )
 
 
 class PropertyVariantPipeline(object):
@@ -44,7 +63,13 @@ class PropertyVariantPipeline(object):
     property_id
     """
     def process_item(self, item):
-        pass
+        Value.objects.get_or_create(
+            id_cml=item.id,
+            defaults={
+                'value': item.value,
+                'attribute': Attribute.objects.get(id_cml=item.property_id)
+            }
+        )
 
 
 class SkuPipeline(object):
@@ -69,11 +94,30 @@ class TaxPipeline(object):
         pass
 
 
+class BrandPipeline(object):
+    """
+    Item fields:
+    id
+    name
+    """
+    def process_item(self, item):
+        Brand.objects.filter(name=item.name).update(id_cml=item.id)
+        Brand.objects.update_or_create(
+            id_cml=item.id,
+            defaults={
+                'name': item.name,
+                'slug': slugify(item.name),
+            }
+        )
+
+
 class ProductPipeline(object):
     """
     Item fields:
     id
     name
+    description
+    brand_id
     sku_id
     group_ids
     properties
@@ -82,7 +126,35 @@ class ProductPipeline(object):
     additional_fields
     """
     def process_item(self, item):
-        pass
+        obj, _ = Product.objects.update_or_create(
+            id_cml=item.id,
+            defaults={
+                'title': item.name,
+                'slug': slugify(item.name),
+                'descriptions': item.description,
+                'brand': Brand.objects.filter(id_cml=item.brand_id).first(),
+                'category': Category.objects.filter(id_cml__in=item.group_ids).first(),
+            }
+        )
+        for attr_id_cml, value_id_cml in item.properties:
+            Entry.objects.get_or_create(
+                product=obj,
+                attribute=Attribute.objects.get(id_cml=attr_id_cml),
+                value=Value.objects.get(id_cml=value_id_cml),
+            )
+            category = Category.objects.filter(id_cml__in=item.group_ids).first()
+            category.attributes.add(
+                Attribute.objects.get(id_cml=attr_id_cml)
+            )
+        if item.image_path:
+            import os
+            with open(item.image_path, 'rb') as f:
+                file_name = os.path.basename(item.image_path)
+                image = File(f)
+                obj.images.save(file_name, image)
+                obj.save()
+
+        print(obj.pk)
 
 
 class PriceTypePipeline(object):
@@ -107,7 +179,11 @@ class OfferPipeline(object):
     prices
     """
     def process_item(self, item):
-        pass
+        Product.objects.filter(
+            title=item.name
+        ).update(
+            price=item.prices[0].price_for_sku
+        )
 
 
 class OrderPipeline(object):

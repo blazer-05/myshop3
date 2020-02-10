@@ -98,8 +98,11 @@
                                                                     </div>
                                                                     <div class="product-img" align="center" style="width: 190px; height: 151px">
                                                                         <a href="{{ product.get_absolute_url }}">
+                                                                            {% if product.images %}
                                                                             <img class="primary-img" src="{{ product.images|thumbnail_url:'shop-list' }}" alt="Product">
-    {#																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'shop-list' }}" alt="Product">#}
+                                                                                {% else %}
+                                                                                <img src="{% static 'shop/img/no-image-small.png' %}" style="width: 180px; height: 140px; margin-top: 4px;">
+                                                                            {% endif %}
                                                                         </a>
                                                                     </div>
                                                                 </div>

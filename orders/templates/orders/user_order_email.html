@@ -252,7 +252,7 @@ width:auto!important;
                         <b>Пользователь:</b> {{ user }}<br>
             {% endif %}
             <b>Тип заказа:</b> {{ order.get_buying_type_display }} <br>
-            <b>Комментарий:</b> {{ comment }} <br>
+            <b>Комментарий:</b> {% if comment %}{{ comment }}<br>{% else %}нет<br>{% endif %}
             <b>Дата создания заказа:</b> {{ order.date }} <br>
             {% if buying_type == 'delivery' %}
             <b>Дата доставки:</b> {{ delivery_date }} <br>
@@ -278,7 +278,12 @@ width:auto!important;
                         <tbody>
                             <tr>
                                 <td class="text-center">
+                                    {% if item.product.images %}
                                     <img class="img-thumbnail" src="http://myshop3.sharelink.ru/{{ item.product.images.url }}" alt="{{ item.product.title }}" style="width: 70px;" height="90">
+                                    {% else %}
+                                        <img class="img-thumbnail"
+                                             src="http://myshop3.sharelink.ru/static/shop/img/no-image-70x70.png"/>
+                                    {% endif %}
                                 </td>
                                 <td class="text-left">{{ item.product.title }}<br><br><small>Артикул: <span style="color: #26acce"><b>{{ item.product.vendor_code }}</b></span></small></td>
                                 <td class="text-center">{{ item.quantity }}</td>
