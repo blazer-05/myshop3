@@ -122,6 +122,7 @@ class Offer(BaseItem):
         self.name = u''
         self.sku_id = u''
         self.prices = []
+        self.quantity = 0
 
 
 class Client(BaseItem):

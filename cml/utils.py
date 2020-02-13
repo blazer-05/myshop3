@@ -201,6 +201,7 @@ class ImportManager(object):
             offer_item = Offer(offer_element)
             offer_item.id = self._get_cleaned_text(offer_element.find(u'Ид'))
             offer_item.name = self._get_cleaned_text(offer_element.find(u'Наименование'))
+            offer_item.quantity = self._get_cleaned_text(offer_element.find(u'Количество'))
 
             sku_element = offer_element.find(u'БазоваяЕдиница')
             if sku_element is not None:

@@ -182,7 +182,9 @@ class OfferPipeline(object):
         Product.objects.filter(
             title=item.name
         ).update(
-            price=item.prices[0].price_for_sku
+            price=item.prices[0].price_for_sku,
+            stock=item.quantity,
+
         )
 
 

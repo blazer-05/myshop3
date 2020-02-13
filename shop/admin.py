@@ -258,6 +258,7 @@ admin.site.register(
         'is_active',
         'is_filter',
     ),
+    #list_per_page = 30
 )
 
 # Модель Значения в виде категорий
@@ -283,5 +284,6 @@ admin.site.register(
     list_editable = (
         'is_active',
     ),
+    #list_per_page = 20
 )
 

@@ -165,7 +165,7 @@ class Product(models.Model):
     timer = models.BooleanField(default=False, verbose_name='Таймер')
     timer_before = models.DateTimeField(null=True, blank=True, verbose_name='Дата таймера')
     stock = models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество')
-    vendor_code = models.IntegerField(default=0, blank=True, null=True, verbose_name='Артикул товара')
+    vendor_code = models.CharField(max_length=100, default=0, blank=True, null=True, verbose_name='Артикул')
     id_cml = models.UUIDField(blank=True, null=True, verbose_name='Выгрузка')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
