@@ -764,7 +764,7 @@ p.welcome-msg {
   padding: 0 15px;
   position: relative;
   text-decoration: none;
-  text-transform: capitalize;
+  text-transform: none;
 }
 .left-category-menu-2 .category-menu-list a {
   line-height: 41px;

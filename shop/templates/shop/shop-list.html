@@ -20,7 +20,7 @@
 						<ul class="page-menu">
 							<li><a href="/">Главная</a></li>
                             <li><a href="{% url 'shop:catalog' %}">Каталог</a></li>
-							<li><a href="{% url 'shop:catlist' category.parent.slug %}">Основные</a></li>
+							<li><a href="{% url 'shop:catlist' category.parent.slug %}">{{ category.parent.name }}</a></li>
 							<li class="active"><a href="">{{ category.name }}</a></li>
 						</ul>
 					</div>
@@ -130,6 +130,7 @@
                                                                             {% endfor %}
                                                                         </span><br><br>
                                                                         <span>Артикул: <span class="text-stock">{{ product.vendor_code }}</span></span>
+                                                                        <br><br>
                                                                         <p class="description">{{ product.descriptions|truncatewords:25|safe }}</p>
                                                                         <div class="product-action">
                                                                             <div class="button-group">
@@ -211,7 +212,7 @@
                                                                     <img class="primary-img" src="{{ product.images|thumbnail_url:'shop-list' }}" alt="Product">
 {#																		<img class="secondary-img" src="{{ prod.images|thumbnail_url:'shop-list' }}" alt="Product">#}
                                                                 </a>
-                                                            </div>
+                                                            </div><br>
 															<div class="product-description">
 																<h5><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h5>
                                                                 {% if product.stock == 0 %}

@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import mptt
 import random
 from django.conf import settings
@@ -165,7 +167,7 @@ class Product(models.Model):
     timer = models.BooleanField(default=False, verbose_name='Таймер')
     timer_before = models.DateTimeField(null=True, blank=True, verbose_name='Дата таймера')
     stock = models.PositiveIntegerField(blank=True, null=True, verbose_name='Количество')
-    vendor_code = models.CharField(max_length=100, default=0, blank=True, null=True, verbose_name='Артикул')
+    vendor_code = models.CharField(max_length=100, blank=True, null=True, verbose_name='Артикул')
     id_cml = models.UUIDField(blank=True, null=True, verbose_name='Выгрузка')
     is_active = models.BooleanField(default=True, verbose_name='Модерация')
     comments = GenericRelation('comments.comment')  # Обратная обобщенная связь на модель Comment
@@ -382,16 +384,14 @@ class CategoryIndexPage(MPTTModel):
     class Meta:
         verbose_name = 'Вывод из категории на главной'
         verbose_name_plural = 'Вывод из категорий на главной'
-        #ordering = ['sort']
-
+  
     def __str__(self):
         return '{}'.format(self.sortcategory)
 
     @classmethod
     def get_index_categories(cls, user):
-        index_categories = {}
-        #categorys = CategoryIndexPage.objects.filter(is_active=True).order_by('-sort')
-        for category in cls.objects.filter(is_active=True):
+        index_categories = OrderedDict()
+        for category in cls.objects.filter(is_active=True).order_by('sort'):
             cat_descendants = category.sortcategory.get_descendants(include_self=True)
             index_categories.update(
                 {category: Product.objects.filter(category__in=cat_descendants, is_active=True).order_by('?').with_rating().with_in_wishlist(user)[:10]}

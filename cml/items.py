@@ -80,6 +80,7 @@ class Product(BaseItem):
     def __init__(self, *args, **kwargs):
         super(Product, self).__init__(*args, **kwargs)
         self.id = u''
+        self.vendor_code = u''
         self.name = u''
         self.description = u''
         self.brand_id = u''
@@ -165,3 +166,4 @@ class Order(BaseItem):
         self.comment = u''
         self.items = []
         self.additional_fields = []
+

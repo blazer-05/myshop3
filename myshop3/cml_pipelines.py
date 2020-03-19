@@ -10,6 +10,8 @@ To activate your pipelines add the following to your settings.py:
 
 from django.core.files import File
 from pytils.translit import slugify
+
+from cml.items import BaseItem
 from shop.models import Category, Product, Brand, Attribute, Value, Entry
 
 
@@ -129,6 +131,7 @@ class ProductPipeline(object):
         obj, _ = Product.objects.update_or_create(
             id_cml=item.id,
             defaults={
+                'vendor_code': item.vendor_code,
                 'title': item.name,
                 'slug': slugify(item.name),
                 'descriptions': item.description,
@@ -183,8 +186,7 @@ class OfferPipeline(object):
             title=item.name
         ).update(
             price=item.prices[0].price_for_sku,
-            stock=item.quantity,
-
+            stock=item.quantity
         )
 
 

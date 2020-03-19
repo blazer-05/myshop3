@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'smart_selects',    # https://github.com/digi604/django-smart-selects
 
     'cml',              # https://github.com/ArtemiusUA/django-cml
+    'import_export',    # https://django-import-export.readthedocs.io/en/latest/installation.html
 
 ]
 

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
 from mptt.admin import DraggableMPTTAdmin
 from mptt.admin import TreeRelatedFieldListFilter
+from import_export.admin import ImportExportModelAdmin
 
 from shop.models import (
     Category,
@@ -48,6 +49,7 @@ class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'image_img', 'slug', 'description', 'is_active', 'created', 'updated']
     readonly_fields = ['image_img', ] # Выводит в карточке товара картинку товара!
     actions = [complete_post, incomplete_post]
+    list_per_page = 20
 
 
 class PriceListAdmin(admin.ModelAdmin):
@@ -77,7 +79,7 @@ class EntryInline(admin.TabularInline):
 
 
 # Класс модели продукта
-class ProductAdmin(SummernoteModelAdmin):
+class ProductAdmin(SummernoteModelAdmin, ImportExportModelAdmin):
     inlines = [EntryInline, AlbomInLine] # Привязываем модель EntryInline в админке к товару.
     prepopulated_fields = {'slug': ('title',)}
     list_display = ['title', 'vendor_code', 'category', 'brand', 'slug', 'image_img', 'price', 'stock', 'is_active', 'created', 'updated']

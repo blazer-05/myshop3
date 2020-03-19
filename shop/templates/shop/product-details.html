@@ -25,7 +25,7 @@
 						<ul class="page-menu">
 							<li><a href="/">Главная</a></li>
                             <li><a href="{% url 'shop:catalog' %}">Каталог</a></li>
-                            <li><a href="{% url 'shop:catlist' product.category.parent.slug %}">Основные</a></li>
+                            <li><a href="{% url 'shop:catlist' product.category.parent.slug %}">{{ product.category.parent.name }}</a></li>
 							<li><a href="{% url 'shop:shop-list' product.category.slug %}">{{ product.category }}</a></li>
 							<li class="active"><a href="">{{ product.title }}</a></li>
 						</ul>

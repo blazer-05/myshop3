@@ -116,6 +116,7 @@ class ImportManager(object):
         for product_element in current_element.findall(u'Товары/Товар'):
             product_item = Product(product_element)
             product_item.id = self._get_cleaned_text(product_element.find(u'Ид'))
+            product_item.vendor_code = self._get_cleaned_text(product_element.find(u'Артикул'))
             product_item.name = self._get_cleaned_text(product_element.find(u'Наименование'))
             product_item.description = self._get_cleaned_text(product_element.find(u'Описание'))
 
