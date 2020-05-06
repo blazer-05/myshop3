@@ -348,7 +348,7 @@ p.welcome-msg, .support-client {
   padding: 5px 0;
 }
 .limit {
-  display: none;
+  display: block;
 }
 .product-img a {
    text-align: center;

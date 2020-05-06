@@ -7,12 +7,14 @@ import/export purposes.
 To activate your pipelines add the following to your settings.py:
     CML_PROJECT_PIPELINES = 'myshop3.cml_pipelines'
 """
+from decimal import Decimal
 
 from django.core.files import File
 from pytils.translit import slugify
 
-from cml.items import BaseItem
+from cml.items import BaseItem, Order, Client, OrderItem
 from shop.models import Category, Product, Brand, Attribute, Value, Entry
+from orders.models import Order as ShopOrder
 
 
 class GroupPipeline(object):
@@ -211,7 +213,40 @@ class OrderPipeline(object):
         pass
 
     def yield_item(self):
-        pass
+        for shop_order in ShopOrder.objects.all():
+            order = Order()
+            order.id = shop_order.pk
+            order.number = shop_order.pk
+            order.date = shop_order.date.date()
+            order.operation = u'Заказ товара'
+            order.role = u'Продавец'
+            order.sum = shop_order.total
+            order.client = Client()
+            if shop_order.user:
+                order.client.id = shop_order.user.pk
+                order.client.name = '{} {}'.format(shop_order.user.profile.last_name,
+                                                   shop_order.user.profile.first_name)
+                order.client.full_name = order.client.name
+                order.client.first_name = shop_order.user.profile.first_name
+                order.client.last_name = shop_order.user.profile.last_name
+                order.client.address = shop_order.address or shop_order.user.profile.city
+            else:
+                order.client.name = shop_order.full_name
+                order.client.full_name = order.client.name
+                order.client.address = shop_order.address
+            order.time = shop_order.date.time()
+            order.comment = shop_order.comment
+            for product_cart in shop_order.cart.cartproduct_set.all():
+                order_item = OrderItem()
+                order_item.id = product_cart.product.id_cml
+                order_item.name = product_cart.product.title
+                order_item.price = Decimal(product_cart.product.price * product_cart.product.get_sale()).quantize(
+                    Decimal('0.01'))
+                order_item.quant = product_cart.quantity
+                order_item.sum = Decimal(order_item.price * order_item.quant).quantize(Decimal('0.01'))
+                order.items.append(order_item)
+            order.additional_fields = []
+            yield order
 
     def flush(self):
         pass

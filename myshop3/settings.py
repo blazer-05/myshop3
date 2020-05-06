@@ -194,7 +194,7 @@ THUMBNAIL_ALIASES = {
         'pftc': {'size': (200, 150), 'corp':True, 'quality': 99},         # product-details.html
         'allp': {'size': (200, 150), 'corp':True, 'quality': 99},         # product-details.html
         'cart': {'size': (70, 90), 'corp':True, 'quality': 99},           # cart.html
-        'brandlogo': {'size': (200, 82), 'corp':True, 'quality': 99},     # base.html
+        'brandlogo': {'size': (100, 100), 'corp':True, 'quality': 99},     # base.html
         'bestsellers': {'size': (100, 100), 'corp':True, 'quality': 99},  # bestseller.html
         'sale': {'size': (100, 100), 'corp':True, 'quality': 99},         # sale.html
         'news': {'size': (190, 130), 'corp':True, 'quality': 99},         # news/list.html
@@ -303,3 +303,7 @@ try:
     from.local_settings import *
 except ImportError:
     pass
+
+
+DEFAULT_FROM_EMAIL = ''
+DOUBLE_ADMIN_EMAIL = ''
