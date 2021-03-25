@@ -30,7 +30,7 @@ pkg-resources==0.0.0
 python3-openid==3.1.0
 pytils==0.3
 pytz==2018.5
-PyYAML==5.3
+PyYAML==5.4
 requests==2.6.0
 requests-oauthlib==1.2.0
 six==1.13.0
